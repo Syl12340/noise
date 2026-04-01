@@ -97,14 +97,14 @@ page {
   border-radius: 16rpx;
 }
 .btn--primary {
-  background:  #11c71a;
+  background: var(--ecnu-primary);
   color: white;
   margin-top: 100px;
 }
 .btn--ghost {
   background: transparent;
-  color: #4facfe;
-  border: 2rpx solid #4facfe;
+  color: var(--ecnu-primary);
+  border: 2rpx solid var(--ecnu-primary);
 }
 .btn--plain {
   background: #f5f5f5;

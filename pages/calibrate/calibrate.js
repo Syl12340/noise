@@ -2,7 +2,7 @@
 const recorderManager = wx.getRecorderManager();
 
 const { calculateRMS, calculateDb } = require('../../utils/audio-math');
-const { LIMITS, CANVAS_CONFIG } = require('../../utils/constants');
+const { LIMITS, CANVAS_CONFIG, THEME_COLORS } = require('../../utils/constants');
 const dataModel = require('../../utils/data-model');
 
 let canvasf, ctxf, dpr;
@@ -25,7 +25,7 @@ const scaleY = CANVAS_CONFIG.CALIBRATE.SCALE_Y;
 // ================= Canvas 渲染引擎 (极致性能优化版) =================
 function mesh(ctx, mtX, ltX, thresholdLine) {
   // 1. 批量绘制基础网格 (合并路径)
-  ctx.strokeStyle = 'rgba(100, 150, 180, 0.3)';
+  ctx.strokeStyle = THEME_COLORS.GRID;
   ctx.lineWidth = 0.2;
   ctx.setLineDash([]);
   
@@ -40,7 +40,7 @@ function mesh(ctx, mtX, ltX, thresholdLine) {
   // 2. 绘制独立的瞬时边界高亮线
   if (thresholdLine) {
     ctx.beginPath();
-    ctx.strokeStyle = '#A41F35'; // 警戒红
+    ctx.strokeStyle = THEME_COLORS.PRIMARY;
     ctx.lineWidth = 0.5;
     ctx.setLineDash([5, 3]);
     const targetY = thresholdLine * scaleY;
@@ -52,7 +52,7 @@ function mesh(ctx, mtX, ltX, thresholdLine) {
 }
 
 function mark(ctx, thresholdLine) {
-  ctx.fillStyle = '#90a4ae';
+  ctx.fillStyle = THEME_COLORS.NEUTRAL;
   ctx.font = '10px Arial';
   
   ctx.textAlign = 'left';
@@ -64,7 +64,7 @@ function mark(ctx, thresholdLine) {
     ctx.fillText(`${db}`, globalSize - 5, -y - 3);
   }
   if (thresholdLine) {
-    ctx.fillStyle = '#A41F35';
+    ctx.fillStyle = THEME_COLORS.PRIMARY;
     ctx.fillText(`${thresholdLine}`, globalSize - 5, -(thresholdLine * scaleY) - 3);
   }
 }
@@ -91,7 +91,7 @@ function draw(ctx, currentTime) {
     let currentDB = dBArray[t];
     let previousDB = dBArray[t-1];
     
-    ctx.strokeStyle = currentDB >= instantLimit ? '#A41F35' : '#4fc3f7';
+    ctx.strokeStyle = currentDB >= instantLimit ? THEME_COLORS.PRIMARY : THEME_COLORS.SAFE_ASSIST;
     
     let startX = (t - 1) * scaleX - xOffset;
     let endX = t * scaleX - xOffset;

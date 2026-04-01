@@ -1,4 +1,32 @@
 /**app.wxss**/
+page {
+  --ecnu-bg-white: #FFFFFF;
+  --ecnu-primary: #A41F35;
+  --ecnu-warn: #FFB819;
+  --ecnu-light-blue: #40B4E5;
+  --ecnu-safe: #40B4E5;
+  --ecnu-dark-gray: #555759;
+  --ecnu-dark: #555759;
+
+  --ecnu-primary-rgb: 164, 31, 53;
+  --ecnu-warn-rgb: 255, 184, 25;
+  --ecnu-light-blue-rgb: 64, 180, 229;
+
+  --alpha-85: 0.85;
+  --alpha-70: 0.70;
+  --alpha-60: 0.60;
+  --alpha-55: 0.55;
+  --alpha-40: 0.40;
+  --alpha-25: 0.25;
+  --alpha-10: 0.10;
+
+  --bg-safe: rgba(64, 180, 229, 0.15);
+  --bg-warn: rgba(255, 184, 25, 0.15);
+  --bg-medium: rgba(255, 152, 0, 0.15);
+  --bg-high: rgba(164, 31, 53, 0.15);
+  --bg-extreme: rgba(0, 0, 0, 0.85);
+}
+
 .container {
   height: 100%;
   display: flex;

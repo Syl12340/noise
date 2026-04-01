@@ -3,6 +3,7 @@ const app = getApp();
 const server = app.globalData.server;
 const APILogin = "/api/auth/login";
 const serverAPILogin = server + APILogin;
+const { THEME_COLORS } = require('../../utils/constants');
 
 Page({
   data: {
@@ -30,7 +31,7 @@ Page({
       content: '请登录后查看',
       showCancel: false,       // 只有一个“确定”按钮
       confirmText: '知道了',
-      confirmColor: '#4facfe'
+      confirmColor: THEME_COLORS.PRIMARY
     });
     }else{
       wx.navigateTo({
@@ -55,7 +56,7 @@ Page({
         content: '正在测试中',
         showCancel: false,       // 只有一个“确定”按钮
         confirmText: '知道了',
-        confirmColor: '#4facfe'
+        confirmColor: THEME_COLORS.PRIMARY
       });
     }catch(e){
       console.log(e);
@@ -64,7 +65,7 @@ Page({
         content: '登录状态异常',
         showCancel: false,       // 只有一个“确定”按钮
         confirmText: '知道了',
-        confirmColor: '#4facfe'
+        confirmColor: THEME_COLORS.PRIMARY
       });
     }
   },
@@ -78,7 +79,7 @@ Page({
       content: '您已登录',
       showCancel: false,       // 只有一个“确定”按钮
       confirmText: '知道了',
-      confirmColor: '#4facfe'
+      confirmColor: THEME_COLORS.PRIMARY
     });
   }else{
     wx.login({
@@ -142,7 +143,7 @@ Page({
       content: str,
       showCancel: false,       // 只有一个“确定”按钮
       confirmText: '知道了',
-      confirmColor: '#4facfe'
+      confirmColor: THEME_COLORS.PRIMARY
     });
   },
 

@@ -7,7 +7,7 @@
 
 const recorderManager = wx.getRecorderManager();
 const { calculateRMS, calculateDb } = require('../../../utils/audio-math');
-const { LIMITS } = require('../../../utils/constants');
+const { LIMITS, THEME_COLORS } = require('../../../utils/constants');
 const dataModel = require('../../../utils/data-model');
 let audioCtx;
 
@@ -39,7 +39,7 @@ Page({
     
     // --- 新增：专门用于大字提示的 UI 状态 ---
     statusText: '等待开始...\n请将麦克风靠近声级计',
-    statusColor: '#333333',
+    statusColor: THEME_COLORS.DARK_GRAY,
     isCalibratingUI: false // 处于校准流程中时，为 true (可用于隐藏 Canvas)
   },
   isPageActive: false,
@@ -179,7 +179,7 @@ Page({
         // 倒数标红，提示退后
         this.setData({
           statusText: `准备中：${countdown} 秒\n请松开手机，后退并保持绝对安静！`,
-          statusColor: '#FF0000' // 红色警告
+          statusColor: THEME_COLORS.PRIMARY
         });
         countdown--;
         setTimeout(showCountdown, 1000);
@@ -199,7 +199,7 @@ Page({
     // 录制标绿
     this.setData({
       statusText: `正在采集中 (5秒)...\n请勿发出任何声响`,
-      statusColor: '#FF66BB' 
+      statusColor: THEME_COLORS.WARN
     });
 
     setTimeout(() => {
@@ -213,7 +213,7 @@ Page({
     if (calibSamples === 0) {
       this.setData({
         statusText: '采样失败',
-        statusColor: '#e64340',
+        statusColor: THEME_COLORS.PRIMARY,
         isCalibratingUI: false
       });
       return;
@@ -230,7 +230,7 @@ Page({
     this.setData({
       newOffset: calibrationOffset.toFixed(2),
       statusText: `校准完成！\nLeq dBFS: ${leqDbfs.toFixed(2)}\n计算偏移量: ${calibrationOffset.toFixed(2)} dB`,
-      statusColor: '#11FF11',
+      statusColor: THEME_COLORS.SAFE_ASSIST,
       isCalibratingUI: false
     });
     this.stopNoiseMonitoring();

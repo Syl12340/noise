@@ -4,6 +4,7 @@ const app = getApp();
 const server = app.globalData.server;
 const APISetProfile = "/api/user/setMyProfile";
 const serverAPISetProfile = server + APISetProfile;
+const { THEME_COLORS } = require('../../utils/constants');
 Page({
 
   data: {
@@ -70,7 +71,7 @@ Page({
       content: '修改头像昵称功能正在测试中',
       showCancel: false,       // 只有一个“确定”按钮
       confirmText: '知道了',
-      confirmColor: '#4facfe'
+      confirmColor: THEME_COLORS.PRIMARY
     });
     //wx.navigateBack();
   }

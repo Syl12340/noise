@@ -1,6 +1,22 @@
 const RISK_THRESHOLDS = {
-  SAFE_MAX: 85,
-  MEDIUM_MAX: 105,
+  SAFE_MAX: 80,
+  ATTENTION_MAX: 85,
+  MEDIUM_MAX: 94,
+  HIGH_MAX: 105,
+};
+
+const RISK_LEVEL_KEYS = {
+  SAFE: 'safe',
+  ATTENTION: 'attention',
+  MEDIUM: 'medium',
+  HIGH: 'high',
+  EXTREME: 'extreme',
+};
+
+const RISK_LIMIT_RANGE = {
+  ATTENTION_MAX: { min: 75, max: 90 },
+  MEDIUM_MAX: { min: 80, max: 100 },
+  HIGH_MAX: { min: 90, max: 120 },
 };
 
 const CNE_FORMULA = {
@@ -46,12 +62,27 @@ const APP_CONFIG = {
   },
 };
 
+const THEME_COLORS = {
+  PRIMARY: '#A41F35',
+  WARN: '#FFB819',
+  SAFE_ASSIST: '#40B4E5',
+  DARK_GRAY: '#555759',
+  GRID: 'rgba(100, 150, 180, 0.3)',
+  NEUTRAL: '#90a4ae',
+  SAFE_BG: 'rgba(64, 180, 229, 0.25)',
+  WARN_BG: 'rgba(255, 184, 25, 0.25)',
+  HIGH_BG: '#A41F35',
+};
+
 module.exports = {
   RISK_THRESHOLDS,
+  RISK_LEVEL_KEYS,
+  RISK_LIMIT_RANGE,
   CNE_FORMULA,
   STORAGE_DEFAULTS,
   OFFSET_IMPORT_RANGE,
   LIMITS,
   CANVAS_CONFIG,
   APP_CONFIG,
+  THEME_COLORS,
 };

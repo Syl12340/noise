@@ -86,7 +86,7 @@ page {
   font-weight: bold;
   text-align: center;
   line-height: 60rpx;
-  color: #A41F35; /* 华师大红强调色 */
+  color: var(--ecnu-primary);
   border: none;
   transition: all 0.2s;
 }
@@ -114,7 +114,7 @@ page {
 .slider__value {
   font-size: 30rpx;
   font-weight: 600;
-  color: #A41F35;
+  color: var(--ecnu-primary);
   min-width: 60rpx;
   text-align: right;
 }
@@ -148,15 +148,15 @@ page {
 }
 
 .btn--primary {
-  background: #A41F35; /* 华师大红 */
+  background: var(--ecnu-primary);
   color: #FFFFFF;
-  box-shadow: 0 10rpx 20rpx rgba(164, 31, 53, 0.25); /* 红色按钮的同色系弥散发光 */
+  box-shadow: 0 10rpx 20rpx rgba(var(--ecnu-primary-rgb), var(--alpha-25));
 }
 
 .btn--ghost {
   background: transparent;
-  color: #A41F35;
-  border: 2rpx solid #A41F35;
+  color: var(--ecnu-primary);
+  border: 2rpx solid var(--ecnu-primary);
 }
 
 .btn--plain {
@@ -165,4 +165,102 @@ page {
   color: #888888;
   font-size: 28rpx;
   padding: 20rpx 0;
+}
+
+.risk-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.03);
+  margin-bottom: 20rpx;
+}
+
+.risk-card__title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #555;
+  padding: 20rpx 26rpx 12rpx;
+}
+
+.risk-enable-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 24rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.risk-enable-item--last {
+  border-bottom: none;
+  padding-bottom: 20rpx;
+}
+
+.risk-enable-left {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.risk-enable-text {
+  font-size: 30rpx;
+  color: #3f3f3f;
+}
+
+.risk-limit-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18rpx 24rpx;
+  border-top: 1rpx solid #f6f6f6;
+}
+
+.risk-limit-item--last {
+  padding-bottom: 22rpx;
+}
+
+.risk-limit-item--disabled {
+  opacity: 0.45;
+}
+
+.risk-limit-label {
+  font-size: 32rpx;
+  color: #333;
+}
+
+.risk-limit-right {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.risk-limit-input {
+  width: 170rpx;
+  height: 64rpx;
+  border-radius: 12rpx;
+  border: 1rpx solid #ececec;
+  background: #f8f8fa;
+  text-align: center;
+  font-size: 34rpx;
+  color: #4d4d4d;
+  font-variant-numeric: tabular-nums;
+}
+
+.risk-limit-input--fixed {
+  color: #6a6a6a;
+}
+
+.risk-limit-unit {
+  font-size: 24rpx;
+  color: #8f8f8f;
+}
+
+.risk-note {
+  padding: 6rpx 4rpx 0;
+}
+
+.risk-note__text {
+  display: block;
+  font-size: 24rpx;
+  color: #8a8a8a;
+  line-height: 1.6;
 }

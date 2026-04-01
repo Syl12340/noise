@@ -41,6 +41,76 @@
       </view>
     </view>
 
+    <view class="group">
+      <view class="group__title">风险阶段划分（CNE）</view>
+
+      <view class="risk-card">
+        <view class="risk-card__title">分段启用</view>
+        <checkbox-group bindchange="onRiskEnabledChange">
+          <view class="risk-enable-item">
+            <view class="risk-enable-left">
+              <checkbox checked="{{true}}" disabled="{{true}}" color="#A41F35" />
+              <text class="risk-enable-text">启用“需要注意”分段（固定）</text>
+            </view>
+          </view>
+
+          <view class="risk-enable-item">
+            <view class="risk-enable-left">
+              <checkbox value="medium" checked="{{riskConfig.enabled.medium}}" color="#A41F35" />
+              <text class="risk-enable-text">启用“中风险”分段</text>
+            </view>
+          </view>
+
+          <view class="risk-enable-item risk-enable-item--last">
+            <view class="risk-enable-left">
+              <checkbox value="high" checked="{{riskConfig.enabled.high}}" color="#A41F35" />
+              <text class="risk-enable-text">启用“高风险”分段</text>
+            </view>
+          </view>
+        </checkbox-group>
+      </view>
+
+      <view class="risk-card">
+        <view class="risk-card__title">分段上限设置</view>
+
+        <view class="risk-limit-item">
+          <text class="risk-limit-label">安全上限</text>
+          <view class="risk-limit-right">
+            <input class="risk-limit-input risk-limit-input--fixed" type="digit" value="{{riskConfig.safeMax}}" disabled="{{true}}" />
+            <text class="risk-limit-unit">dB(A)</text>
+          </view>
+        </view>
+
+        <view class="risk-limit-item">
+          <text class="risk-limit-label">需要注意上限</text>
+          <view class="risk-limit-right">
+            <input class="risk-limit-input" type="digit" data-key="attentionMax" value="{{riskConfig.limits.attentionMax}}" bindblur="onRiskLimitInput" />
+            <text class="risk-limit-unit">dB(A)</text>
+          </view>
+        </view>
+
+        <view class="risk-limit-item {{!riskConfig.enabled.medium ? 'risk-limit-item--disabled' : ''}}">
+          <text class="risk-limit-label">中风险上限</text>
+          <view class="risk-limit-right">
+            <input class="risk-limit-input" type="digit" data-key="mediumMax" value="{{riskConfig.limits.mediumMax}}" bindblur="onRiskLimitInput" disabled="{{!riskConfig.enabled.medium}}" />
+            <text class="risk-limit-unit">dB(A)</text>
+          </view>
+        </view>
+
+        <view class="risk-limit-item risk-limit-item--last {{!riskConfig.enabled.high ? 'risk-limit-item--disabled' : ''}}">
+          <text class="risk-limit-label">高风险上限</text>
+          <view class="risk-limit-right">
+            <input class="risk-limit-input" type="digit" data-key="highMax" value="{{riskConfig.limits.highMax}}" bindblur="onRiskLimitInput" disabled="{{!riskConfig.enabled.high}}" />
+            <text class="risk-limit-unit">dB(A)</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="risk-note">
+        <text decode="{{true}}" class="risk-note__text">风险档位：≤安全上限、&lt;注意上限、&lt;中风险上限、&lt;高风险上限、≥高风险上限；“需要注意”分段为固定锚点，关闭中间分段后将自动并入更高风险档。</text>
+      </view>
+    </view>
+
     <!-- 提醒与权限 -->
     <view class="group">
       <view class="group__title">提醒与权限</view>

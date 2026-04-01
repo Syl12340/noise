@@ -4,29 +4,62 @@
  * 明天实验室验证时，请务必将专业声级计设置为 Z档 或 Flat档 (非A计权档位)！
  */
 
+// P2 改进：配置 DEBUG 日志开关
+const DEBUG = false; // 设为 true 以启用详细日志
+
 const app = getApp();
 const recorderManager = wx.getRecorderManager();
 const {
   calculateRMS,
   calculateDb,
   calculateShortCNE,
-  evaluateRisk,
   AWeightingFilter,
 } = require('../../utils/audio-math');
-const { LIMITS, CANVAS_CONFIG } = require('../../utils/constants');
+const { LIMITS, CANVAS_CONFIG, THEME_COLORS, RISK_THRESHOLDS } = require('../../utils/constants');
+const { buildRiskLevels } = require('../../utils/risk-config');
 const dataModel = require('../../utils/data-model');
 const resultManager = require('../../utils/result-manager');
 let audioCtx, canvasf, ctxf, dpr;
 
-// --- 全局状态变量 ---
-let startDate, offset, dBArray, time, cne, threat, expectedExposure, noiseAlarmLevel;
+/**
+ * === 全局状态变量（监测生命周期内持久化） ===
+ * - startDate: 监测开始时间戳
+ * - offset: 麦克风硬件偏移量（通过校准获得）
+ * - dBArray: 每秒的 Z 计权声压级数组（用于波形图渲染）
+ * - time: 当前已监测的总秒数（每秒递增 1）
+ * - cne: 当前累积噪声能量值
+ * - threat: 当前风险等级文本（安全/需要注意/中风险/高风险/高危）
+ * - expectedExposure: 预期暴露时长（秒）
+ * - noiseAlarmLevel: 触发报警的 CNE 阈值
+ * - riskConfig: 完整的5级风险配置模型（包含阈值、启禁用状态等）
+ * - location: 录音时的位置信息（若用户授权）
+ * - allowAlarm: 是否启用报警（开关）
+ * - isAlarming: 当前是否在展示报警弹框（防止重复弹框）
+ * - hasAlerted: 本次监测是否已发过一次报警（确保仅弹一次）
+ */
+let startDate, offset, dBArray, time, cne, threat, expectedExposure, noiseAlarmLevel, riskConfig;
 let location, allowAlarm = true, isAlarming = false, hasAlerted = false;
 
-// --- 实例化一个全局滤波器对象 ---
-// 注意：滤波器实例必须在录音生命周期内保持全局唯一，因为它的延迟线（状态寄存器 z1, z2）需要跨帧记忆上一秒的声音
+/**
+ * A 计权滤波器实例
+ * 【关键】：必须在整个监测周期内保持唯一一个实例
+ * 因为滤波器内部为 IIR 结构，有状态寄存器 (z1, z2, z3) 需要跨帧记忆
+ * 若每帧重建实例，则状态丢失，滤波器输出错误
+ */
 let aFilter = new AWeightingFilter();
 
-// --- 新增：高性能计算专用的全局累加变量 (解决 O(n) 卡死问题) ---
+/**
+ * === 高性能帧处理变量（避免 O(n) 频繁重算） ===
+ * - timeTerm: 预期暴露时长的时间项（= 10×log10(exposureSeconds)）
+ * - frameCount: 已收到的音频帧总数
+ * - lastFrameTimestamp: 上一帧到达时的时间戳（毫秒）
+ * - elapsedMsAccumulator: 帧间隔累积时间（毫秒），达 1000ms 时输出一个秒级数据点
+ * - totalEnergySum: CNE 计算中的能量累计器（单位：10^(dB/10)）
+ * - globalMaxDB、globalMinDB: 用于K-Factor估算的全局最大/最小值
+ * - instantLimit: 示波器的瞬时边界线阈值（通常为 80dB）
+ * - mainRecorderListenerBound: 标志录音监听器是否已注册（防止重复注册）
+ * - activeMainPage: 当前激活的 main 页面实例引用（用于正确的 setData 上下文）
+ */
 let timeTerm = 0;
 let frameCount = 0;
 let lastFrameTimestamp = 0;
@@ -35,6 +68,7 @@ let totalEnergySum = 0;
 let globalMaxDB = -Infinity;
 let globalMinDB = Infinity;
 let instantLimit = LIMITS.INSTANT_DB_LIMIT_DEFAULT;
+let currentRiskLevels = [];
 let mainRecorderListenerBound = false;
 let activeMainPage = null;
 
@@ -42,49 +76,68 @@ const globalSize = CANVAS_CONFIG.MONITOR.GLOBAL_SIZE;
 const scaleX = CANVAS_CONFIG.MONITOR.SCALE_X;
 const scaleY = CANVAS_CONFIG.MONITOR.SCALE_Y;
 
-function recordArray(currentTime, dBSPL){
-  // 修复初始点未定义导致 Canvas 报错的问题
+/**
+ * 将声压级数据点存入波形数组，用于 Canvas 渲染
+ * @param {number} currentTime - 当前秒数索引
+ * @param {number} dBSPL - Z 计权声压级（dB SPL）
+ * 【注】第一个数据点会被补到 index 0（虽然 time 从 1 开始）
+ */
+function recordArray(currentTime, dBSPL) {
   if (currentTime === 1) {
-    dBArray[0] = dBSPL; 
+    dBArray[0] = dBSPL;
   }
   dBArray[currentTime] = dBSPL;
 }
 
+/**
+ * === Canvas 绘制函数组（极致性能优化）===
+ * 采用单一 beginPath/stroke 递推绘制网格与阈值线，最小化状态变更
+ */
 
-// ================= Canvas 渲染函数 (极致性能优化版) =================
-
-function mesh(ctx, mtX, ltX, thresholdLine) {
+/**
+ * 绘制背景网格和瞬时阈值线
+ * @param {CanvasContext} ctx - Canvas 2D 上下文
+ * @param {number} leftBoundary - 左边界 X 坐标
+ * @param {number} rightBoundary - 右边界 X 坐标
+ * @param {number} thresholdLine - 瞬时边界线（dB），可选
+ */
+function mesh(ctx, leftBoundary, rightBoundary, thresholdLine) {
   // --- 1. 批量绘制基础网格 (合并路径，极省性能) ---
-  ctx.strokeStyle = 'rgba(100, 150, 180, 0.3)';
+  ctx.strokeStyle = THEME_COLORS.GRID;
   ctx.lineWidth = 0.2;
   ctx.setLineDash([]);
   
   ctx.beginPath(); // 开启唯一主路径
   for (let db = 0; db <= 130; db += 10) {
     const y = db * scaleY;
-    ctx.moveTo(mtX, -y);
-    ctx.lineTo(ltX, -y);
+    ctx.moveTo(leftBoundary, -y);
+    ctx.lineTo(rightBoundary, -y);
   }
   ctx.stroke(); // 循环外一次性渲染所有基础网格！
 
   // --- 2. 绘制独立的瞬时边界高亮线 ---
   if (thresholdLine !== undefined && thresholdLine !== null) {
     ctx.beginPath();
-    ctx.strokeStyle = '#A41F35'; // 华师大红/警戒红
+    ctx.strokeStyle = THEME_COLORS.PRIMARY;
     ctx.lineWidth = 0.35; 
     ctx.setLineDash([5, 3]); 
     
     const targetY = thresholdLine * scaleY;
-    ctx.moveTo(mtX, -targetY);
-    ctx.lineTo(ltX, -targetY);
+    ctx.moveTo(leftBoundary, -targetY);
+    ctx.lineTo(rightBoundary, -targetY);
     ctx.stroke();
     
     ctx.setLineDash([]); // 重置虚线配置
   }
 }
 
+/**
+ * 绘制坐标轴标签与刻度
+ * @param {CanvasContext} ctx - Canvas 2D 上下文
+ * @param {number} thresholdLine - 瞬时阈值线，用于在右侧标注其 dB 值
+ */
 function mark(ctx, thresholdLine) {
-  ctx.fillStyle = '#90a4ae';
+  ctx.fillStyle = THEME_COLORS.NEUTRAL;
   ctx.font = '10px Arial';
   
   ctx.textAlign = 'left';
@@ -98,14 +151,20 @@ function mark(ctx, thresholdLine) {
 
   // --- 额外绘制红色的瞬时边界数值 ---
   if (thresholdLine !== undefined && thresholdLine !== null) {
-    ctx.fillStyle = '#A41F35'; 
+    ctx.fillStyle = THEME_COLORS.PRIMARY;
     ctx.font = '10px Arial';
     const targetY = thresholdLine * scaleY;
     ctx.fillText(`${thresholdLine}`, globalSize - 5, -targetY - 3); 
   }
 }
 
-function draw(ctx, currentTime) { 
+/**
+ * 绘制完整的波形与图形框架
+ * 步骤：清空 → 绘网格 → 绘刻度 → 计算裁剪窗口 → 逐段绘波形
+ * @param {CanvasContext} ctx - Canvas 2D 上下文
+ * @param {number} currentTime - 当前已统计的秒数
+ */
+function draw(ctx, currentTime) {
   // 1. 基于当前坐标系精确清空绘图区域
   ctx.clearRect(0, -globalSize, globalSize, globalSize);
   
@@ -127,10 +186,10 @@ function draw(ctx, currentTime) {
     let currentDB = dBArray[t];
     let previousDB = dBArray[t-1];
     
-    // 动态确定当前线段颜色
-    let targetColor = '#4fc3f7';
-    if (currentDB >= 105) targetColor = '#f44336';
-    else if (currentDB >= 85) targetColor = '#ff9800';
+    // 动态确定当前线段颜色 - 使用 RISK_THRESHOLDS 常量替代硬编码值
+    let targetColor = THEME_COLORS.SAFE_ASSIST;
+    if (currentDB >= RISK_THRESHOLDS.HIGH_MAX) targetColor = THEME_COLORS.PRIMARY;
+    else if (currentDB >= RISK_THRESHOLDS.ATTENTION_MAX) targetColor = THEME_COLORS.WARN;
 
     let startX = (t - 1) * scaleX - xOffset;
     let endX = t * scaleX - xOffset;
@@ -156,6 +215,31 @@ function initCanvasFront(query){
       ctxf.scale(dpr, dpr);
       ctxf.translate(0, globalSize);
   });
+}
+
+/**
+ * 基于当前配置好的风险层级动态判断风险
+ * @param {number} cneValue - 当前 CNE 值
+ * @returns {{text: string, bgClass: string}}
+ */
+function evaluateRisk(cneValue) {
+  if (!Number.isFinite(cneValue)) {
+    return { text: '安全', bgClass: 'detail-safe' };
+  }
+
+  const levels = (Array.isArray(currentRiskLevels) && currentRiskLevels.length > 0)
+    ? currentRiskLevels
+    : buildRiskLevels(riskConfig);
+
+  for (let i = 0; i < levels.length; i++) {
+    const level = levels[i];
+    if (cneValue < level.upper) {
+      return { text: level.text, bgClass: level.bgClass };
+    }
+  }
+
+  const lastLevel = levels[levels.length - 1];
+  return { text: lastLevel.text, bgClass: lastLevel.bgClass };
 }
 
 // ================= 页面主逻辑 =================
@@ -211,6 +295,8 @@ Page({
       offset = dataModel.getOffset();
       expectedExposure = dataModel.getExpectedExposureSeconds();
       noiseAlarmLevel = dataModel.getNoiseAlarmLevel();
+      riskConfig = dataModel.getRiskConfig();
+      currentRiskLevels = buildRiskLevels(riskConfig);
       allowAlarm = dataModel.getAlarmEnabled();
       isAlarming = false;
       hasAlerted = false;
@@ -228,6 +314,10 @@ Page({
       totalEnergySum = 0;
       globalMaxDB = -Infinity;
       globalMinDB = Infinity;
+
+      if (DEBUG) {
+        console.log('[initMonitor] currentRiskLevels:', currentRiskLevels);
+      }
   
       console.log(`[initMonitor] offset:${offset}, expectedExposure:${expectedExposure}, noiseAlarmLevel:${noiseAlarmLevel}, allowAlarm:${allowAlarm}`);
     } catch(e) {
@@ -429,10 +519,7 @@ doVibrate(count, interval = 600) {
               // 注意：这里不要重置 hasAlerted，确保本次监测期间只弹一次
             }
           });
-          for(let i = 0; i < 5; i++)
-          {
-             page.doVibrate(5, 500);
-          }
+          page.doVibrate(5, 500);
         }
       }
       });

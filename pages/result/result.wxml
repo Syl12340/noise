@@ -20,8 +20,8 @@
         bindtap="handleCardTap"
         bind:longpress="handleCardLongPress"
       >
-        <!-- 动态风险色带 -->
-        <view class="risk-bar {{item.threat === '安全' ? 'bg-safe' : (item.threat === '中风险' ? 'bg-medium' : 'bg-high')}}"></view>
+        <!-- 动态风险色带（5级映射：安全/需要注意/中风险/高风险/高危） -->
+        <view class="risk-bar {{(item.threat === '安全' && 'bg-safe') || (item.threat === '需要注意' && 'bg-attention') || (item.threat === '中风险' && 'bg-medium') || (item.threat === '高风险' && 'bg-high') || 'bg-extreme'}}" ></view>
 
         <view class="card-content">
           <!-- 核心信息区 (始终显示) -->
@@ -31,7 +31,7 @@
               <text class="card-date">{{item.date}}</text>
             </view>
             <view class="header-right">
-              <text class="cne-val {{item.threat === '安全' ? 'text-safe' : (item.threat === '中风险' ? 'text-medium' : 'text-high')}}">{{item.cne}}</text>
+              <text class="cne-val {{(item.threat === '安全' && 'text-safe') || (item.threat === '需要注意' && 'text-attention') || (item.threat === '中风险' && 'text-medium') || (item.threat === '高风险' && 'text-high') || 'text-extreme'}}">{{item.cne}}</text>
               <text class="cne-unit">CNE</text>
             </view>
           </view>
