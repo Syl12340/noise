@@ -1,5 +1,5 @@
 /* pages/pilot/pilot.wxss */
-/* pages/pilot/pilot.wxss */
+
 page {
   background: #f5f7fa; /* 与 Index 一致的浅灰底色 */
   padding-bottom: constant(safe-area-inset-bottom);

@@ -1,1 +1,31 @@
-/* pages/advanced-calibrate/calibrate/calibrate.wxss */
+
+.btn {
+  width: 100%; 
+  padding: 20rpx;
+  font-size: 34rpx;
+  font-weight: bold;
+  border-radius: 100rpx; /* 大胶囊按钮 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn--primary {
+  background-color: var(--ecnu-primary);
+  color: var(--ecnu-bg-white);
+  box-shadow: 0 10rpx 20rpx rgba(var(--ecnu-primary-rgb), var(--alpha-25));
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: var(--ecnu-primary);
+  border: 2rpx solid var(--ecnu-primary);
+}
+
+.btn--plain {
+  /* “清除本地缓存”等次要操作按钮 */
+  background-color: transparent;
+  color: var(--ecnu-dark-gray);
+  font-size: 28rpx;
+  padding: 20rpx 0;
+}

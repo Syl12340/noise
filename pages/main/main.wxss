@@ -28,45 +28,44 @@ page {
   border: 1rpx solid rgba(0,0,0,0.05);
 }
 
+.detail-init {
+  background: #FFFFFF;
+}
+
 /* 状态颜色：安全 */
 .detail-safe {
-  border-bottom: 12rpx solid var(--ecnu-safe);
   background-color: var(--bg-safe) !important;
 }
-.detail-safe .status-pill { background: rgba(var(--ecnu-light-blue-rgb), var(--alpha-25)); }
-.detail-safe .status-text { color: var(--ecnu-safe); }
+.detail-safe .status-pill { background: var(--bg-safe); }
+.detail-safe .status-text { color: var(--ecnu-dark); }
 
 /* 状态颜色：需要注意 */
 .detail-attention {
-  border-bottom: 12rpx solid var(--ecnu-warn);
   background-color: var(--bg-warn) !important;
 }
-.detail-attention .status-pill { background: rgba(var(--ecnu-warn-rgb), var(--alpha-25)); }
+.detail-attention .status-pill { background: var(--bg-warn); }
 .detail-attention .status-text { color: var(--ecnu-dark); }
 
 /* 状态颜色：中风险 */
 .detail-medium {
-  border-bottom: 12rpx solid #FF9800;
   background-color: var(--bg-medium) !important;
 }
-.detail-medium .status-pill { background: rgba(255, 152, 0, var(--alpha-25)); }
+.detail-medium .status-pill { background: var(--bg-medium); }
 .detail-medium .status-text { color: var(--ecnu-dark); }
 
-/* 状态颜色：高风险（文字反白） */
+/* 状态颜色：高风险 */
 .detail-high {
-  border-bottom: 12rpx solid var(--ecnu-primary);
   background-color: var(--bg-high) !important;
 }
 .detail-high .db-num, 
 .detail-high .db-unit, 
 .detail-high .tag-text,
-.detail-high .stats-label { color: var(--ecnu-primary) !important; }
-.detail-high .status-pill { background: rgba(var(--ecnu-primary-rgb), var(--alpha-25)); }
-.detail-high .status-text { color: var(--ecnu-primary); }
-.detail-high .dot { background: var(--ecnu-primary) !important; box-shadow: none; }
+.detail-high .stats-label { color: #FFFFFF !important; }
+.detail-high .status-pill { background: var(--bg-high-soft); }
+.detail-high .status-text { color: #FFFFFF !important; }
+.detail-high .dot { background: #FFFFFF !important; box-shadow: none; }
 
 .detail-extreme {
-  border-bottom: 12rpx solid #000000;
   background-color: var(--bg-extreme) !important;
   color: #FFFFFF !important;
 }
@@ -74,7 +73,7 @@ page {
 .detail-extreme .db-unit,
 .detail-extreme .tag-text,
 .detail-extreme .stats-label { color: #FFFFFF !important; }
-.detail-extreme .status-pill { background: rgba(255, 255, 255, 0.2); }
+.detail-extreme .status-pill { background: var(--bg-extreme-soft); }
 .detail-extreme .status-text { color: #FFFFFF; }
 .detail-extreme .dot { background: #FFFFFF !important; box-shadow: 0 0 15rpx #fff; }
 

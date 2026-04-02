@@ -19,6 +19,15 @@ const { LIMITS, CANVAS_CONFIG, THEME_COLORS, RISK_THRESHOLDS } = require('../../
 const { buildRiskLevels } = require('../../utils/risk-config');
 const dataModel = require('../../utils/data-model');
 const resultManager = require('../../utils/result-manager');
+const {
+  safeStopRecorder,
+  safeCloseAudioContext,
+  createCamcorderRecordParams,
+  bindRecorderFrameListener,
+  bindRecorderListenersOnce,
+  clearRecorderFrameListener,
+  restartRecorderSession,
+} = require('../../utils/recorder-session');
 let audioCtx, canvasf, ctxf, dpr;
 
 /**
@@ -41,12 +50,12 @@ let startDate, offset, dBArray, time, cne, threat, expectedExposure, noiseAlarmL
 let location, allowAlarm = true, isAlarming = false, hasAlerted = false;
 
 /**
- * A 计权滤波器实例
- * 【关键】：必须在整个监测周期内保持唯一一个实例
- * 因为滤波器内部为 IIR 结构，有状态寄存器 (z1, z2, z3) 需要跨帧记忆
- * 若每帧重建实例，则状态丢失，滤波器输出错误
+ * A 计权滤波器实例。
+ * 【关键】：必须在整个监测周期内保持唯一一个实例。
+ * 因为滤波器内部为 IIR 结构，有状态寄存器 (z1, z2, z3) 需要跨帧记忆。
+ * 若每帧重建实例，则状态丢失，滤波器输出错误。
  */
-let aFilter = new AWeightingFilter();
+let aWeightingFilter = new AWeightingFilter();
 
 /**
  * === 高性能帧处理变量（避免 O(n) 频繁重算） ===
@@ -57,8 +66,8 @@ let aFilter = new AWeightingFilter();
  * - totalEnergySum: CNE 计算中的能量累计器（单位：10^(dB/10)）
  * - globalMaxDB、globalMinDB: 用于K-Factor估算的全局最大/最小值
  * - instantLimit: 示波器的瞬时边界线阈值（通常为 80dB）
- * - mainRecorderListenerBound: 标志录音监听器是否已注册（防止重复注册）
- * - activeMainPage: 当前激活的 main 页面实例引用（用于正确的 setData 上下文）
+ * - isMainMonitoringActive: 标志当前 main 监测会话是否有效（阻断退出后的迟到帧）
+ * - currentMainPage: 当前激活的 main 页面实例引用（用于正确的 setData 上下文）
  */
 let timeTerm = 0;
 let frameCount = 0;
@@ -69,8 +78,9 @@ let globalMaxDB = -Infinity;
 let globalMinDB = Infinity;
 let instantLimit = LIMITS.INSTANT_DB_LIMIT_DEFAULT;
 let currentRiskLevels = [];
-let mainRecorderListenerBound = false;
-let activeMainPage = null;
+let currentMainPage = null;
+let isMainMonitoringActive = false;
+let mainRecorderStartTimerId = null;
 
 const globalSize = CANVAS_CONFIG.MONITOR.GLOBAL_SIZE;
 const scaleX = CANVAS_CONFIG.MONITOR.SCALE_X;
@@ -87,6 +97,186 @@ function recordArray(currentTime, dBSPL) {
     dBArray[0] = dBSPL;
   }
   dBArray[currentTime] = dBSPL;
+}
+
+/**
+ * 重置一轮 main 监测会话的运行时状态。
+ * Side effect: 会清空本轮录音的统计缓存、风险状态与波形缓存。
+ */
+function resetMonitorSessionState() {
+  dBArray = [];
+  time = 0;
+  frameCount = 0;
+  lastFrameTimestamp = 0;
+  elapsedMsAccumulator = 0;
+  cne = 0;
+  totalEnergySum = 0;
+  globalMaxDB = -Infinity;
+  globalMinDB = Infinity;
+  isAlarming = false;
+  hasAlerted = false;
+  startDate = Date.now();
+}
+
+/**
+ * 处理单个录音帧的 Z/A 计权计算、秒级汇总、UI 刷新和告警判断。
+ * @param {object} page 当前激活的 main 页面实例。
+ * @param {object} res 录音帧回调对象。
+ * Side effect: 更新页面 data、波形数组、全局统计量与告警状态。
+ */
+function handleRecordedFrame(page, res) {
+  if (!isMainMonitoringActive || !page) {
+    return;
+  }
+
+  const frameBuffer = res.frameBuffer;
+  const buffer = new Int16Array(frameBuffer);
+
+  const energyZ = calculateRMS(buffer);
+  const dbfsZ = calculateDb(energyZ, 32768.0);
+  const dbsplZ = dbfsZ + offset;
+
+  const bufferA = aWeightingFilter.process(buffer, true);
+  let energyA = 0;
+  for (let i = 0; i < bufferA.length; i++) {
+    energyA += bufferA[i] * bufferA[i];
+  }
+  energyA = Math.sqrt(energyA / bufferA.length);
+
+  const dbfsA = calculateDb(energyA, 1.0);
+  const dbsplA = dbfsA + offset;
+
+  frameCount++;
+  const now = Date.now();
+  if (lastFrameTimestamp === 0) {
+    lastFrameTimestamp = now;
+    return;
+  }
+
+  elapsedMsAccumulator += (now - lastFrameTimestamp);
+  lastFrameTimestamp = now;
+
+  if (elapsedMsAccumulator < 1000) {
+    return;
+  }
+
+  elapsedMsAccumulator -= 1000;
+  time++;
+
+  recordArray(time, dbsplZ);
+  draw(ctxf, time);
+
+  const cneResult = calculateShortCNE(
+    dbsplA,
+    time,
+    timeTerm,
+    totalEnergySum,
+    globalMaxDB,
+    globalMinDB
+  );
+  cne = cneResult.cne;
+  totalEnergySum = cneResult.totalEnergySum;
+  globalMaxDB = cneResult.globalMaxDB;
+  globalMinDB = cneResult.globalMinDB;
+
+  const riskStatus = getRiskStatusByCNE(cne);
+  threat = riskStatus.text;
+
+  page.setData({
+    dbfs: dbfsZ.toFixed(2),
+    dbspl: dbsplZ.toFixed(2),
+    cne: cne.toFixed(2),
+    threat,
+    threatClass: riskStatus.bgClass
+  });
+
+  if (allowAlarm && cne >= noiseAlarmLevel && !isAlarming && !hasAlerted) {
+    isAlarming = true;
+    hasAlerted = true;
+    wx.showModal({
+      title: '警报',
+      content: '噪声累积能量预计将超过健康暴露水平',
+      showCancel: false,
+      complete: () => {
+        isAlarming = false;
+      }
+    });
+    page.doVibrate(5, 500);
+  }
+}
+
+/**
+ * 绑定 main 页当前会话的录音帧回调。
+ * @returns {boolean} true 表示回调已生效；false 表示绑定失败。
+ * Side effect: 会替换此前页面绑定的 onFrameRecorded 回调。
+ */
+function bindMainRecorderFrameListener() {
+  return bindRecorderFrameListener(recorderManager, (res) => {
+    const page = currentMainPage;
+    if (!isMainMonitoringActive || !page) {
+      return;
+    }
+    handleRecordedFrame(page, res);
+  });
+}
+
+/**
+ * 绑定 main 页录音生命周期监听（仅注册一次）。
+ * @returns {void}
+ * Side effect: 注册 recorderManager.onStop / onInterruptionEnd 回调。
+ */
+function bindMainRecorderLifecycleListeners() {
+  bindRecorderListenersOnce(recorderManager, 'main-lifecycle-listeners', () => {
+    recorderManager.onStop(() => {
+      if (!isMainMonitoringActive || !currentMainPage) {
+        return;
+      }
+
+      // 会话仍活跃但录音意外停止时，尝试自动恢复。
+      scheduleMainRecorderRestart(80);
+    });
+
+    recorderManager.onInterruptionEnd(() => {
+      if (!isMainMonitoringActive || !currentMainPage) {
+        return;
+      }
+
+      scheduleMainRecorderRestart(80);
+    });
+  });
+}
+
+/**
+ * 取消待启动的 main 录音定时任务。
+ * @returns {void}
+ * Side effect: 可能清除未执行的 setTimeout。
+ */
+function cancelPendingMainRecorderStart() {
+  if (mainRecorderStartTimerId) {
+    clearTimeout(mainRecorderStartTimerId);
+    mainRecorderStartTimerId = null;
+  }
+}
+
+/**
+ * 在 main 会话存活时调度一次录音重启。
+ * @param {number} delayMs 重启延迟，单位毫秒。
+ * @returns {boolean} true 表示重启已成功调度；false 表示当前会话不满足重启条件。
+ * Side effect: 会取消旧的待启动定时器，并创建新的录音重启任务。
+ */
+function scheduleMainRecorderRestart(delayMs) {
+  if (!isMainMonitoringActive || !currentMainPage) {
+    return false;
+  }
+
+  cancelPendingMainRecorderStart();
+  const restartResult = restartRecorderSession(recorderManager, currentMainPage.mainRecordParams, delayMs);
+  if (restartResult === false) {
+    return false;
+  }
+
+  mainRecorderStartTimerId = restartResult;
+  return true;
 }
 
 /**
@@ -166,7 +356,7 @@ function mark(ctx, thresholdLine) {
  */
 function draw(ctx, currentTime) {
   // 1. 基于当前坐标系精确清空绘图区域
-  ctx.clearRect(0, -globalSize, globalSize, globalSize);
+  ctx.clearRect(-10, -globalSize - 50, globalSize + 100, globalSize + 100);
   
   // 2. 绘制静态背景 (网格与刻度)
   mesh(ctx, 0, globalSize, instantLimit);
@@ -202,6 +392,11 @@ function draw(ctx, currentTime) {
   }
 }
 
+/**
+ * 初始化前景波形 Canvas 的节点与坐标变换。
+ * @param {object} query 由 wx.createSelectorQuery() 创建的查询实例。
+ * Side effect: 更新全局 canvasf/ctxf/dpr，并设置像素比缩放与坐标系平移。
+ */
 function initCanvasFront(query){
   query.select('#canvas-front').fields({ node: true, size: true }).exec((res) => {
       canvasf = res[0].node;
@@ -222,7 +417,7 @@ function initCanvasFront(query){
  * @param {number} cneValue - 当前 CNE 值
  * @returns {{text: string, bgClass: string}}
  */
-function evaluateRisk(cneValue) {
+function getRiskStatusByCNE(cneValue) {
   if (!Number.isFinite(cneValue)) {
     return { text: '安全', bgClass: 'detail-safe' };
   }
@@ -253,16 +448,10 @@ Page({
     threatClass:"detail-init",
   },
 
-  // 核心录音参数：必须用 camcorder 绕过通话降噪处理
-  recordParams: {
+  // 核心录音参数：必须使用 camcorder 声源绕过通话降噪处理，并保持长时连续采样。
+  mainRecordParams: createCamcorderRecordParams({
     duration: 600000,
-    sampleRate: 16000,    
-    numberOfChannels: 1,
-    encodeBitRate: 48000,
-    format: 'PCM',
-    frameSize: 16, // 16KB约等于0.5秒
-    audioSource: 'camcorder',
-  },
+  }),
   
   onReady() {
     const query = wx.createSelectorQuery();
@@ -270,27 +459,27 @@ Page({
   },
 
   onShow() {
-    activeMainPage = this;
-    this.initMonitor();
-    this.noiseDetect();
+    this.startMainMonitoring();
   },
 
   onHide() {
-    this.cleanupMonitoring();
-    activeMainPage = null;
+    this.stopMainMonitoring();
   },
 
   onUnload() {
-    this.cleanupMonitoring();
-    activeMainPage = null;
+    this.stopMainMonitoring();
   },
 
+  /**
+   * 初始化一轮 main 监测会话所需的配置、缓存和计时起点。
+   * @returns {boolean} true 表示初始化成功；false 表示本轮会话不应启动。
+   * Side effect: 读取本地配置、重建 A 计权滤波器、重置会话状态。
+   */
   initMonitor() {
     try {
       audioCtx = wx.createWebAudioContext();
 
-      // 重置滤波器的状态寄存器，防止上一轮监测的残余能量影响本次
-      aFilter = new AWeightingFilter(); 
+      aWeightingFilter = new AWeightingFilter(); 
       
       offset = dataModel.getOffset();
       expectedExposure = dataModel.getExpectedExposureSeconds();
@@ -298,41 +487,67 @@ Page({
       riskConfig = dataModel.getRiskConfig();
       currentRiskLevels = buildRiskLevels(riskConfig);
       allowAlarm = dataModel.getAlarmEnabled();
-      isAlarming = false;
-      hasAlerted = false;
-      
-      // 【修改位置】：确保 timeTerm 随配置更新
       timeTerm = 10 * Math.log10(expectedExposure);
-      
-      // 【修改位置】：重置增量计算变量
-      dBArray = []; 
-      time = 0;
-      frameCount = 0;
-      lastFrameTimestamp = 0;
-      elapsedMsAccumulator = 0;
-      cne = 0;
-      totalEnergySum = 0;
-      globalMaxDB = -Infinity;
-      globalMinDB = Infinity;
+      resetMonitorSessionState();
 
       if (DEBUG) {
         console.log('[initMonitor] currentRiskLevels:', currentRiskLevels);
       }
   
       console.log(`[initMonitor] offset:${offset}, expectedExposure:${expectedExposure}, noiseAlarmLevel:${noiseAlarmLevel}, allowAlarm:${allowAlarm}`);
+      return true;
     } catch(e) {
       console.log(e);
+      isMainMonitoringActive = false;
+      return false;
     } 
   },
 
+  /**
+   * 启动 main 页监测会话。
+   * @returns {boolean} true 表示已成功进入可采样状态；false 表示启动失败。
+   * Side effect: 重置会话状态、绑定录音监听器并启动录音。
+   */
+  startMainMonitoring() {
+    currentMainPage = this;
+    isMainMonitoringActive = false;
+    cancelPendingMainRecorderStart();
+
+    if (!this.initMonitor()) {
+      this.stopMainMonitoring();
+      return false;
+    }
+
+    const isFrameListenerBound = bindMainRecorderFrameListener();
+    if (!isFrameListenerBound) {
+      this.stopMainMonitoring();
+      return false;
+    }
+
+    bindMainRecorderLifecycleListeners();
+    isMainMonitoringActive = true;
+    const restartResult = restartRecorderSession(recorderManager, this.mainRecordParams, 50);
+    if (restartResult === false) {
+      this.stopMainMonitoring();
+      return false;
+    }
+    mainRecorderStartTimerId = restartResult;
+    return true;
+  },
+
+  /**
+   * 生成当前监测结果的归档对象。
+   * @returns {object} 可持久化的结果快照。
+   * Side effect: none.
+   */
   archive() {
-    let currentDate = Date.now();
-    let duration = (currentDate - startDate)/1000; 
-    let formattedDate = new Date(currentDate).toLocaleString("zh-CN");
+    const currentDate = Date.now();
+    const duration = (currentDate - startDate) / 1000; 
+    const formattedDate = new Date(currentDate).toLocaleString("zh-CN");
     
-    let d = wx.getDeviceInfo();
-    let device = d.brand + ' ' + d.model;
-    let system = d.system;
+    const deviceInfo = wx.getDeviceInfo();
+    const deviceName = deviceInfo.brand + ' ' + deviceInfo.model;
+    const systemName = deviceInfo.system;
     
     return {
       name: null,
@@ -343,18 +558,22 @@ Page({
       threat: this.data.threat,
       location: location,
       extra: null,
-      device: device,
-      system: system,
+      device: deviceName,
+      system: systemName,
       offset: offset,
       vstamp: app.globalData.vstamp,
     };
   },
 
+  /**
+   * 保存当前监测结果到本地历史记录。
+   * Side effect: 写入本地结果存储并弹出成功提示。
+   */
   saveResult(){
     console.group('save')
-    let _save = this.archive();
-    console.log("archived: ", _save)
-    const savedResult = resultManager.add(_save);
+    const archivedSnapshot = this.archive();
+    console.log("archived: ", archivedSnapshot)
+    const savedResult = resultManager.add(archivedSnapshot);
     console.log("formed: ", savedResult);
     console.groupEnd();
     wx.showToast({
@@ -364,7 +583,11 @@ Page({
     });
   },
 
-  _saveResult(){
+  /**
+   * 处理“保存记录”点击事件。
+   * Side effect: 触发结果归档写入和提示弹窗。
+   */
+  handleSaveResult(){
     try{
       this.saveResult();
     }catch(e){
@@ -372,24 +595,30 @@ Page({
     };
   },
 
+  // 向后兼容旧模板事件名。
+  _saveResult(){
+    return this.handleSaveResult();
+  },
+
+  /**
+   * 停止 main 页监测会话并释放资源。
+   * Side effect: 终止录音、关闭音频上下文，并阻断后续帧回调写入。
+   */
+  stopMainMonitoring: function() {
+    isMainMonitoringActive = false;
+    currentMainPage = null;
+    cancelPendingMainRecorderStart();
+    safeStopRecorder(recorderManager);
+    clearRecorderFrameListener(recorderManager);
+    audioCtx = safeCloseAudioContext(audioCtx);
+  },
+
   cleanupMonitoring: function() {
-    try {
-      recorderManager.stop();
-    } catch (e) {
-      console.log(e);
-    }
-    try {
-      if (audioCtx) {
-        audioCtx.close();
-        audioCtx = null;
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    this.stopMainMonitoring();
   },
 
   stopNoiseMonitoring: function() {
-    this.cleanupMonitoring();
+    this.stopMainMonitoring();
     wx.navigateBack();
   },
 
@@ -414,119 +643,33 @@ Page({
     });
   },
 
-/**
- * @param {number} count 震动次数
- * @param {number} interval 每次震动的间隔时间（ms），建议大于 450ms (因为vibrateLong持续约400ms)
- */
-doVibrate(count, interval = 600) {
-  if (count <= 0) return;
-  wx.vibrateLong(); // 触发长震动 (约400ms)
-  let currentCount = 1;
-  const timer = setInterval(() => {
-    if (currentCount >= count) {
-      clearInterval(timer);
-      return;
-    }
-    wx.vibrateLong();
-    currentCount++;
-  }, interval);
-},
+  /**
+   * 触发指定次数的长震动提醒。
+   * @param {number} count 震动次数，必须大于 0。
+   * @param {number} interval 每次震动间隔，单位毫秒。
+   * Side effect: 调用系统震动能力。
+   */
+  doVibrate(count, interval = 600) {
+    if (count <= 0) return;
+    wx.vibrateLong(); // 触发长震动 (约400ms)
+    let currentCount = 1;
+    const timer = setInterval(() => {
+      if (currentCount >= count) {
+        clearInterval(timer);
+        return;
+      }
+      wx.vibrateLong();
+      currentCount++;
+    }, interval);
+  },
 
+  /**
+   * 启动 main 页录音监测。
+   * 兼容旧入口：保留原方法名，内部统一走 startMainMonitoring。
+   * @returns {boolean} true 表示本次进入监测流程。
+   */
   noiseDetect: function () {
-    if (!mainRecorderListenerBound) {
-      recorderManager.onFrameRecorded(res => { 
-      const page = activeMainPage;
-      if (!page) {
-        return;
-      }
-      const resbuffer = res.frameBuffer;
-      const buffer = new Int16Array(resbuffer); // 这是 Z计权 的原始数据
-      
-      // 1. Z 计权（无计权）计算：直接用于屏幕顶部的实时声压级显示与画图
-      // 保持界面示波器的物理绝对准确性
-      const energyZ = calculateRMS(buffer); 
-      // 假设 calculateRMS 内部没有归一化，这里传入 32768.0 
-      const dbfsZ = calculateDb(energyZ, 32768.0);
-      const dbsplZ = dbfsZ + offset;
-
-      // 2. 【核心亮点】A 计权（等响度）计算：专用于 CNE 积分与职业健康预警
-      // 让原始数据通过 IIR 滤波器
-      const bufferA = aFilter.process(buffer, true); // 输出已经是归一化的浮点数
-      
-      // 对滤波后的数据求 RMS。由于已经归一化，计算 DB 时 reference 传 1.0
-      let energyA = 0;
-      for (let i = 0; i < bufferA.length; i++) {
-         energyA += bufferA[i] * bufferA[i];
-      }
-      energyA = Math.sqrt(energyA / bufferA.length);
-      
-      const dbfsA = calculateDb(energyA, 1.0); 
-      const dbsplA = dbfsA + offset; // 这就是严谨的 dB(A) 值！
-
-      // 3. 处理帧逻辑
-      frameCount++;
-      const now = Date.now();
-      if (lastFrameTimestamp === 0) {
-        lastFrameTimestamp = now;
-        return;
-      }
-      elapsedMsAccumulator += (now - lastFrameTimestamp);
-      lastFrameTimestamp = now;
-      
-      if (elapsedMsAccumulator >= 1000) {
-        elapsedMsAccumulator -= 1000;
-        time++; 
-        
-        // 示波器画图：画 Z 计权 (符合物理声学仪器习惯)
-        recordArray(time, dbsplZ);
-        draw(ctxf, time);
-        
-        // 累积能量 CNE 计算：必须使用 A 计权！
-        const cneResult = calculateShortCNE(
-          dbsplA, // 传入真 A 计权值参与 CNE 和 K-Factor 计算
-          time,
-          timeTerm,
-          totalEnergySum,
-          globalMaxDB,
-          globalMinDB
-        );
-        cne = cneResult.cne;
-        totalEnergySum = cneResult.totalEnergySum;
-        globalMaxDB = cneResult.globalMaxDB;
-        globalMinDB = cneResult.globalMinDB;
-
-        let riskStatus = evaluateRisk(cne);
-        threat = riskStatus.text; 
-
-        // 界面数据绑定
-        page.setData({
-          dbfs: dbfsZ.toFixed(2),    // UI显示原始电平
-          dbspl: dbsplZ.toFixed(2),  // UI显示 Z计权声压
-          cne: cne.toFixed(2),       // 这是符合职业卫生标准的 A计权能量
-          threat: threat,
-          threatClass: riskStatus.bgClass
-        });
-        // main.js 中的 noiseDetect() 警报逻辑修改为：
-        if (allowAlarm && cne >= noiseAlarmLevel && !isAlarming && !hasAlerted) {
-          isAlarming = true;
-          hasAlerted = true; // 标记本次监测已发出过警报
-          wx.showModal({
-            title: '警报',
-            content: '噪声累积能量预计将超过健康暴露水平',
-            showCancel: false,
-            complete: () => { 
-              isAlarming = false; 
-              // 注意：这里不要重置 hasAlerted，确保本次监测期间只弹一次
-            }
-          });
-          page.doVibrate(5, 500);
-        }
-      }
-      });
-      mainRecorderListenerBound = true;
-    }
-
-    recorderManager.start(this.recordParams);
+    return this.startMainMonitoring();
   },
   
 });

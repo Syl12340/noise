@@ -9,11 +9,10 @@
   </view>
 
   <!-- 唯一的操作按钮 -->
-  <button 
-    bindtap="startCalibrationProcess" 
-    type="primary" 
-    disabled="{{isCalibratingUI}}"
-    style="margin-top: 40px; width: 80%;">
+  <button class="btn btn--primary"
+    style="margin-top: 40px;"
+    bindtap="startCalibrationProcess"
+    disabled="{{isCalibratingUI}}">
     开始 1kHz (80dB) 标准标定
   </button>
 

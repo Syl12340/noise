@@ -4,6 +4,7 @@ const recorderManager = wx.getRecorderManager();
 const { calculateRMS, calculateDb } = require('../../utils/audio-math');
 const { LIMITS, CANVAS_CONFIG, THEME_COLORS } = require('../../utils/constants');
 const dataModel = require('../../utils/data-model');
+const { safeStopRecorder, createCamcorderRecordParams, bindRecorderFrameListener, clearRecorderFrameListener, restartRecorderSession } = require('../../utils/recorder-session');
 
 let canvasf, ctxf, dpr;
 
@@ -12,11 +13,24 @@ let offset, dBArray, time, frameCount = 0;
 let lastFrameTimestamp = 0;
 let elapsedMsAccumulator = 0;
 let isCalibrating = false;
+let isCalibrateMonitoringActive = false;
 let calibEnergySum = 0;
 let calibSamples = 0;
 let instantLimit = LIMITS.INSTANT_DB_LIMIT_DEFAULT;
-let calibrateRecorderListenerBound = false;
-let activeCalibratePage = null;
+let currentCalibratePage = null;
+let calibrateRecorderStartTimerId = null;
+const calibrateRecordParams = createCamcorderRecordParams();
+
+/**
+ * 清理校准页待启动录音定时器。
+ * Side effect: 清除尚未触发的录音重启任务。
+ */
+function clearCalibrateRecorderStartTimer() {
+  if (calibrateRecorderStartTimerId) {
+    clearTimeout(calibrateRecorderStartTimerId);
+    calibrateRecorderStartTimerId = null;
+  }
+}
 
 const globalSize = CANVAS_CONFIG.CALIBRATE.GLOBAL_SIZE;
 const scaleX = CANVAS_CONFIG.CALIBRATE.SCALE_X;
@@ -129,15 +143,27 @@ Page({
   },
 
   onShow() {
-    activeCalibratePage = this;
+    currentCalibratePage = this;
+    isCalibrateMonitoringActive = true;
     this.initMonitor();
     this.noiseDetect();
   },
 
   onHide() {
-    recorderManager.stop();
-    activeCalibratePage = null;
+    this.stopCalibrateMonitoring();
   },
+  /**
+   * 停止校准页录音会话并清理资源。
+   * Side effect: 终止录音、移除帧监听、清空页面引用与重启定时器。
+   */
+  stopCalibrateMonitoring() {
+    isCalibrateMonitoringActive = false;
+    currentCalibratePage = null;
+    clearCalibrateRecorderStartTimer();
+    safeStopRecorder(recorderManager);
+    clearRecorderFrameListener(recorderManager);
+  },
+
 
   initMonitor() {
     offset = dataModel.getOffset();
@@ -202,11 +228,15 @@ Page({
     });
   },
 
+  /**
+   * 启动校准页录音并绑定帧处理。
+   * @returns {void}
+   * Side effect: 替换 recorder 帧监听并重启录音会话。
+   */
   noiseDetect() {
-    if (!calibrateRecorderListenerBound) {
-      recorderManager.onFrameRecorded(res => {
-      const page = activeCalibratePage;
-      if (!page) {
+    const isFrameListenerBound = bindRecorderFrameListener(recorderManager, (res) => {
+      const page = currentCalibratePage;
+      if (!isCalibrateMonitoringActive || !page) {
         return;
       }
       const buffer = new Int16Array(res.frameBuffer);
@@ -244,22 +274,26 @@ Page({
           dbspl: (dbfs + offset).toFixed(2) 
         });
       }
-      });
-      calibrateRecorderListenerBound = true;
+    });
+
+    if (!isFrameListenerBound) {
+      return;
     }
 
-    recorderManager.start({
-      sampleRate: 16000, numberOfChannels: 1, format: 'PCM', frameSize: 16, audioSource: 'camcorder'
-    });
+    if (!isCalibrateMonitoringActive) {
+      return;
+    }
+
+    clearCalibrateRecorderStartTimer();
+    calibrateRecorderStartTimerId = restartRecorderSession(recorderManager, calibrateRecordParams, 50);
   },
 
   stopNoiseMonitoring() {
-    recorderManager.stop();
+    this.stopCalibrateMonitoring();
     wx.navigateBack();
   },
 
   onUnload() {
-    recorderManager.stop();
-    activeCalibratePage = null;
+    this.stopCalibrateMonitoring();
   }
 });

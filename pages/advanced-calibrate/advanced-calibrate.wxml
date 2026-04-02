@@ -15,14 +15,14 @@
   <view class="action-group">
     <view class="action-cell" hover-class="cell-hover" bindtap="applyPresetCalibration">
       <view class="cell-left">
-        <text class="cell-icon">☁️</text>
+        <image class="cell-icon" src="../../images/apply.svg" mode="aspectFit" />
         <text class="cell-text">一键匹配云端预设</text>
       </view>
       <text class="cell-arrow">›</text>
     </view>
     <view class="action-cell" hover-class="cell-hover" bindtap="importCalibration">
       <view class="cell-left">
-        <text class="cell-icon">📋</text>
+        <image class="cell-icon" src="../../images/download.svg" mode="aspectFit" />
         <text class="cell-text">从 NoiCali 导入参数</text>
       </view>
       <text class="cell-arrow">›</text>
@@ -34,7 +34,7 @@
   <view class="action-group">
     <view class="action-cell" hover-class="cell-hover" bindtap="goToAdvancedCalibration">
       <view class="cell-left">
-        <text class="cell-icon">🎛️</text>
+        <image class="cell-icon" src="../../images/calibrate.svg" mode="aspectFit" />
         <text class="cell-text">执行声学标定 (1kHz标准)</text>
       </view>
       <text class="cell-arrow">›</text>
@@ -46,14 +46,14 @@
   <view class="action-group">
     <view class="action-cell" hover-class="cell-hover" bindtap="fetchDeviceInfo">
       <view class="cell-left">
-        <text class="cell-icon">📱</text>
+        <image class="cell-icon" src="../../images/info.svg" mode="aspectFit" />
         <text class="cell-text">获取本机设备信息</text>
       </view>
       <text class="cell-arrow">›</text>
     </view>
     <view class="action-cell" hover-class="cell-hover" bindtap="getNoiCali">
       <view class="cell-left">
-        <text class="cell-icon">📥</text>
+        <image class="cell-icon" src="../../images/download.svg" mode="aspectFit" />
         <text class="cell-text">下载 NoiCali App</text>
       </view>
       <text class="cell-arrow">›</text>

@@ -1,5 +1,4 @@
 const { CNE_FORMULA } = require('./constants');
-const { buildRiskLevels } = require('./risk-config');
 
 /**
  * 计算音频信号的均方根值（RMS）
@@ -67,14 +66,14 @@ function estimateKFactorIncremental(currentDB, globalMaxDB, globalMinDB) {
 
 /**
  * 增量计算累积噪声能量 (CNE)
- * CNE = Leq + TimeTerm + K-Factor×权重 - 基础偏移
- * 这是职业卫生学标准（如 GB/T 3096）中的核心指标
- * @param {number} currentDB - 当前秒的 A 计权声压级 dB(A)
- * @param {number} totalSeconds - 已统计的总秒数
- * @param {number} timeTerm - 时间项（= 10×log10(预期暴露时长秒数)）
- * @param {number} totalEnergySum - 能量累计和
- * @param {number} globalMaxDB - 全局最大值
- * @param {number} globalMinDB - 全局最小值
+ * CNE = Leq + TimeTerm + K-Factor×权重 - 基础偏移。
+ * 这是职业卫生学标准（如 GB/T 3096）中的核心指标。
+ * @param {number} currentDB 当前秒的 A 计权声压级，单位 dB(A)。
+ * @param {number} totalSeconds 已统计的总秒数，必须从 1 开始递增。
+ * @param {number} timeTerm 时间项，单位 dB，公式为 10×log10(预期暴露时长秒数)。
+ * @param {number} totalEnergySum 能量累计和，单位为 10^(dB/10)。
+ * @param {number} globalMaxDB 全局最大值，用于 K-Factor 判定。
+ * @param {number} globalMinDB 全局最小值，用于 K-Factor 判定。
  * @returns {object} { cne: 累积能量, leq: 等效声级, kFactor: 波值因子, totalEnergySum, globalMaxDB, globalMinDB }
  */
 function calculateShortCNE(currentDB, totalSeconds, timeTerm, totalEnergySum, globalMaxDB, globalMinDB) {
@@ -108,27 +107,6 @@ function calculateShortCNE(currentDB, totalSeconds, timeTerm, totalEnergySum, gl
 }
 
 /**
- * 根据累积能量等级判断风险等级（5 级）
- * @param {number} cne - 累积噪声能量 (CNE) 值
- * @param {object} [riskConfig] - 风险配置对象（若不提供则使用默认配置）
- * @returns {object} { text: 风险等级文本, bgClass: CSS 背景色类名 }
- */
-function evaluateRisk(cne, riskConfig) {
-  // P0 改进：NaN 检查，防止无效值导致判断错误
-  if (!Number.isFinite(cne)) {
-    return { text: '安全', bgClass: 'detail-safe' };
-  }
-
-  const levels = buildRiskLevels(riskConfig);
-  for (let i = 0; i < levels.length; i++) {
-    if (cne < levels[i].upper) {
-      return { text: levels[i].text, bgClass: levels[i].bgClass };
-    }
-  }
-  return { text: '高危', bgClass: 'detail-extreme' };
-}
-
-/**
  * IEC 61672 标准 A 计权数字滤波器
  * 采用级联 Biquad 直接 II 型转置结构
  * 确保高精度和数值稳定性
@@ -159,10 +137,13 @@ class AWeightingFilter {
   }
 
   /**
-   * 处理单帧 PCM 数据，返回 A 计权后的音频
-   * @param {Int16Array|Float32Array} inputBuffer - 原始 PCM 数据
-   * @param {boolean} [normalize=true] - 是否将 16 位整数归一化为 [-1, 1]
-   * @returns {Float32Array} A 计权后的音频数据（浮点数）
+    * 处理单帧 PCM 数据，返回 A 计权后的音频。
+    * @param {Int16Array|Float32Array} inputBuffer 原始 PCM 数据。
+    * @param {boolean} [normalize=true] 是否将 16 位整数归一化为 [-1, 1]。
+    *   - true：输入视为 Int16 PCM，内部先除以 32768。
+    *   - false：输入已是浮点归一化数据，直接进入滤波器。
+    * @returns {Float32Array} A 计权后的音频数据（浮点数）。
+    * Side effect: 会更新内部延迟线状态 z1/z2/z3；同一实例必须连续使用，不能每帧重建。
    */
   process(inputBuffer, normalize = true) {
     const len = inputBuffer.length;
@@ -202,6 +183,5 @@ module.exports = {
   calculateLeqIncremental,
   estimateKFactorIncremental,
   calculateShortCNE,
-  evaluateRisk,
   AWeightingFilter,
 };

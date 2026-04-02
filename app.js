@@ -14,8 +14,8 @@ function resolveServer() {
 
 App({
   globalData:{
-    version: "Beta 1.1.0.20260401.0",
-    vstamp:"b.1.1.0.20260401.0",
+    version: "Beta 1.1.1.20260401.4",
+    vstamp:"b.1.1.1.20260401.4",
     init: false,
     server: resolveServer(),
     isLoggedIn: wx.getStorageSync('isLoggedIn'),

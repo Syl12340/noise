@@ -9,6 +9,15 @@ const recorderManager = wx.getRecorderManager();
 const { calculateRMS, calculateDb } = require('../../../utils/audio-math');
 const { LIMITS, THEME_COLORS } = require('../../../utils/constants');
 const dataModel = require('../../../utils/data-model');
+const {
+  safeStopRecorder,
+  safeCloseAudioContext,
+  createCamcorderRecordParams,
+  bindRecorderListenersOnce,
+  bindRecorderFrameListener,
+  clearRecorderFrameListener,
+  restartRecorderSession,
+} = require('../../../utils/recorder-session');
 let audioCtx;
 
 // --- 全局物理计算变量 ---
@@ -22,8 +31,20 @@ let isCalibrating = false;
 let calibEnergySum = 0;
 let calibSamples = 0;
 const CALIB_TARGET_SPL = LIMITS.CALIB_TARGET_SPL; // 固定的 1kHz 纯音参考标准
-let advancedRecorderListenersBound = false;
-let activeAdvancedCalibratePage = null;
+let currentAdvancedCalibratePage = null;
+let isAdvancedMonitoringActive = false;
+let advancedRecorderRestartTimerId = null;
+
+/**
+ * 清理进阶校准页待启动录音定时器。
+ * Side effect: 清除尚未执行的录音重启任务。
+ */
+function clearAdvancedRecorderRestartTimer() {
+  if (advancedRecorderRestartTimerId) {
+    clearTimeout(advancedRecorderRestartTimerId);
+    advancedRecorderRestartTimerId = null;
+  }
+}
 
 function recordArray(currentTime, dBSPL) {
   dBArray[currentTime] = dBSPL;
@@ -44,19 +65,15 @@ Page({
   },
   isPageActive: false,
   // 核心录音配置：无处理的原始音频
-  recordParams: {
+  advancedCalibrateRecordParams: {
+    ...createCamcorderRecordParams(),
     duration: 10000,
-    sampleRate: 16000,
-    numberOfChannels: 1,
-    encodeBitRate: 48000, 
-    format: 'PCM',
-    frameSize: 16,
-    audioSource: 'camcorder', 
   },
   
   onShow() {
     this.isPageActive = true;
-    activeAdvancedCalibratePage = this;
+    isAdvancedMonitoringActive = true;
+    currentAdvancedCalibratePage = this;
     this.initMonitor();
     this.setupRecorderListeners(); // 新增：统一挂载录音监听器
     this.noiseDetect();
@@ -64,16 +81,18 @@ Page({
 
   onHide() { 
     this.isPageActive = false;
-    if (activeAdvancedCalibratePage === this) {
-      activeAdvancedCalibratePage = null;
+    isAdvancedMonitoringActive = false;
+    if (currentAdvancedCalibratePage === this) {
+      currentAdvancedCalibratePage = null;
     }
     this.stopNoiseMonitoring(); 
   },
   
   onUnload() { 
     this.isPageActive = false;
-    if (activeAdvancedCalibratePage === this) {
-      activeAdvancedCalibratePage = null;
+    isAdvancedMonitoringActive = false;
+    if (currentAdvancedCalibratePage === this) {
+      currentAdvancedCalibratePage = null;
     }
     this.stopNoiseMonitoring(); 
   },
@@ -92,38 +111,44 @@ Page({
 
   // 新增的专门处理录音机生命周期的函数
   setupRecorderListeners() {
-    if (advancedRecorderListenersBound) {
-      return;
-    }
+    bindRecorderListenersOnce(recorderManager, 'advanced-calibrate-listeners', () => {
+      // 1. 监听意外停止
+      recorderManager.onStop((res) => {
+        const page = currentAdvancedCalibratePage;
+        if (!isAdvancedMonitoringActive || !page) {
+          return;
+        }
+        console.log('[Recorder] Stopped', res);
+        // 核心修复：如果页面还在前台，说明是被系统弹窗打断的，自动重启！
+        if (page.isPageActive) {
+          console.log('[Recorder] 尝试自动恢复录音...');
+          clearAdvancedRecorderRestartTimer();
+          advancedRecorderRestartTimerId = restartRecorderSession(
+            recorderManager,
+            page.advancedCalibrateRecordParams,
+            500
+          );
+        }
+      });
 
-    // 1. 监听意外停止
-    recorderManager.onStop((res) => {
-      const page = activeAdvancedCalibratePage;
-      if (!page) {
-        return;
-      }
-      console.log('[Recorder] Stopped', res);
-      // 核心修复：如果页面还在前台，说明是被系统弹窗打断的，自动重启！
-      if (page.isPageActive) {
-        console.log('[Recorder] 尝试自动恢复录音...');
-        setTimeout(() => {
-          recorderManager.start(page.recordParams);
-        }, 500); 
-      }
+      // 2. 监听系统级打断恢复 (如接完电话切回)
+      recorderManager.onInterruptionEnd(() => {
+        const page = currentAdvancedCalibratePage;
+        if (isAdvancedMonitoringActive && page && page.isPageActive) {
+          clearAdvancedRecorderRestartTimer();
+          advancedRecorderRestartTimerId = restartRecorderSession(
+            recorderManager,
+            page.advancedCalibrateRecordParams,
+            120
+          );
+        }
+      });
+
     });
 
-    // 2. 监听系统级打断恢复 (如接完电话切回)
-    recorderManager.onInterruptionEnd(() => {
-      const page = activeAdvancedCalibratePage;
-      if (page && page.isPageActive) {
-        recorderManager.start(page.recordParams);
-      }
-    });
-
-    // 3. 原本的帧回调逻辑 (直接把原来的代码搬过来)
-    recorderManager.onFrameRecorded(res => { 
-      const page = activeAdvancedCalibratePage;
-      if (!page) {
+    bindRecorderFrameListener(recorderManager, (res) => {
+      const page = currentAdvancedCalibratePage;
+      if (!isAdvancedMonitoringActive || !page) {
         return;
       }
 
@@ -154,15 +179,19 @@ Page({
       page.setData({
         dbfs: dbfs.toFixed(2),
         dbspl: dbspl.toFixed(2),
-      }); 
+      });
     });
-
-    advancedRecorderListenersBound = true;
   },
 
+  /**
+   * 停止进阶校准录音并清理资源。
+   * Side effect: 停止录音、移除帧监听、清理音频上下文与重启定时器。
+   */
   stopNoiseMonitoring() {
-    recorderManager.stop();
-    if (audioCtx) audioCtx.close();
+    clearAdvancedRecorderRestartTimer();
+    safeStopRecorder(recorderManager);
+    clearRecorderFrameListener(recorderManager);
+    audioCtx = safeCloseAudioContext(audioCtx);
   },
 
   // ================= 严格校准交互流程 =================
@@ -170,7 +199,8 @@ Page({
   // 1. 唯一校准入口 (仅 1kHz, 80dB)
   startCalibrationProcess() {
     if (isCalibrating || this.data.isCalibratingUI) return;
-    recorderManager.start(this.recordParams);
+    clearAdvancedRecorderRestartTimer();
+    advancedRecorderRestartTimerId = restartRecorderSession(recorderManager, this.advancedCalibrateRecordParams, 0);
     this.setData({ isCalibratingUI: true });
 
     let countdown = 3;
@@ -253,8 +283,9 @@ Page({
         }
       },
       complete() {
-        if (that.isPageActive) {
-          recorderManager.start(that.recordParams);
+        if (isAdvancedMonitoringActive && that.isPageActive) {
+          clearAdvancedRecorderRestartTimer();
+          advancedRecorderRestartTimerId = restartRecorderSession(recorderManager, that.advancedCalibrateRecordParams, 0);
         }
       }
     });
@@ -262,6 +293,10 @@ Page({
 
   // ================= 实时后台采样 =================
   noiseDetect() {
-    recorderManager.start(this.recordParams);
+    if (!isAdvancedMonitoringActive) {
+      return;
+    }
+    clearAdvancedRecorderRestartTimer();
+    advancedRecorderRestartTimerId = restartRecorderSession(recorderManager, this.advancedCalibrateRecordParams, 0);
   }
 });

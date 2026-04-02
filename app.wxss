@@ -6,12 +6,13 @@ page {
   --ecnu-light-blue: #40B4E5;
   --ecnu-safe: #40B4E5;
   --ecnu-dark-gray: #555759;
-  --ecnu-dark: #555759;
+  --ecnu-dark: #000000;
 
   --ecnu-primary-rgb: 164, 31, 53;
   --ecnu-warn-rgb: 255, 184, 25;
   --ecnu-light-blue-rgb: 64, 180, 229;
 
+  --alpha-100: 1.00;
   --alpha-85: 0.85;
   --alpha-70: 0.70;
   --alpha-60: 0.60;
@@ -20,11 +21,13 @@ page {
   --alpha-25: 0.25;
   --alpha-10: 0.10;
 
-  --bg-safe: rgba(64, 180, 229, 0.15);
-  --bg-warn: rgba(255, 184, 25, 0.15);
-  --bg-medium: rgba(255, 152, 0, 0.15);
-  --bg-high: rgba(164, 31, 53, 0.15);
-  --bg-extreme: rgba(0, 0, 0, 0.85);
+  --bg-safe: rgba(var(--ecnu-light-blue-rgb), var(--alpha-25));
+  --bg-warn: rgba(var(--ecnu-warn-rgb), var(--alpha-25));
+  --bg-medium: rgba(var(--ecnu-warn-rgb), var(--alpha-55));
+  --bg-high: rgba(var(--ecnu-primary-rgb), var(--alpha-100));
+  --bg-high-soft: rgba(var(--ecnu-primary-rgb), var(--alpha-55));
+  --bg-extreme: rgba(50, 8, 14, var(--alpha-100));
+  --bg-extreme-soft: rgba(50, 8, 14, var(--alpha-40));
 }
 
 .container {

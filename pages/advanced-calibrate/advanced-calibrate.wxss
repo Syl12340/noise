@@ -32,6 +32,11 @@ page { background: #F4F5F7; font-family: -apple-system, sans-serif; }
 .cell-hover { background: #F9F9F9; }
 
 .cell-left { display: flex; align-items: center; }
-.cell-icon { font-size: 36rpx; margin-right: 24rpx; }
+.cell-icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
 .cell-text { font-size: 30rpx; font-weight: 500; color: #333; }
 .cell-arrow { font-size: 36rpx; color: #CCC; font-weight: 300; }
