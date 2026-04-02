@@ -1,4 +1,4 @@
-<!--pages/my/my.wxml-->
+<!-- pages/my/my.wxml -->
 <view class="page-container">
   <!-- 顶部名片区 -->
   <view class="profile-header">
@@ -35,9 +35,9 @@
     <text>噪声累积能量监测 小程序</text>
     <text class="footer-sub">华东师范大学教育学部国创项目</text> 
     <text class="footer-sub">{{version}}</text>
-    <text class="footer-sub">内部评估版本 </text>
+    <text class="footer-sub">预览版本</text>
     <text class="footer-sub">\n\n测量数据仅供参考</text>
-    <text class="footer-sub">若需高精度检测，请使用专业声级计。</text>
+    <text class="footer-sub">如需高精度检测，请使用专业声级计</text>
     
   </view>
 </view>

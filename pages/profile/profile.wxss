@@ -1,5 +1,4 @@
 /* pages/profile/profile.wxss */
-/**index.wxss**/
 page {
   height: 100vh;
   display: flex;

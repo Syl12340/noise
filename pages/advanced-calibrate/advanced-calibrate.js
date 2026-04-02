@@ -1,4 +1,5 @@
-// pages/advanced-calibrate.js
+// pages/advanced-calibrate/advanced-calibrate.js
+// 作用：提供进阶的声学偏移量校准、历史预设加载以及外部校准参数导入功能。
 const app = getApp();
 const dataModel = require('../../utils/data-model');
 const { OFFSET_IMPORT_RANGE } = require('../../utils/constants');
@@ -8,9 +9,6 @@ Page({
     currentOffset: dataModel.getOffset(),
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow() {
     this.setData({
       currentOffset: dataModel.getOffset(),
@@ -67,7 +65,7 @@ Page({
         const clipboardText = res.data.trim(); 
         
         if (!clipboardText) {
-          wx.showToast({ title: '剪贴板为空', icon: 'none' });
+          wx.showToast({ title: '未检测到有效的校准信息', icon: 'none' });
           return;
         }
 
@@ -118,7 +116,12 @@ Page({
     });
   },
 
-  // 辅助函数：降级处理 ArrayBuffer 转 UTF-8 字符串
+  /**
+   * 辅助函数：降级处理 ArrayBuffer 转 UTF-8 字符串
+   * 作用是为了在低版本环境中，将加密/导出的 Base64 对应 ArrayBuffer 解码。
+   * @param {ArrayBuffer} buffer - 待解析的 ArrayBuffer 二进制数据。
+   * @return {string} 返回转码后的 UTF-8 字符串。
+   */
   decodeUtf8BufferToString(buffer) {
     const array = new Uint8Array(buffer);
     let out = "", i = 0, len = array.length;
@@ -179,15 +182,15 @@ Page({
         content: `识别到您的设备为：${matchedDevice.name}\n实验室均值偏移量：${matchedDevice.offset} dB\n是否立即应用该参数？`,
         success: (res) => {
           if (res.confirm) {
-            // A. 应用参数到本地永久缓存
+            // 应用参数到本地永久缓存
             dataModel.setOffset(matchedDevice.offset);
             
-            // B. (可选) 如果你希望校准页面上的数值也能立即刷新，可以在这里 setData
+            // 校准页面上的数值也能立即刷新，可以在这里 setData
             this.setData({
               currentOffset: matchedDevice.offset.toFixed(2)
             });
 
-            // C. 提示用户
+            // 提示用户
             wx.showToast({
               title: '参数已应用',
               icon: 'success',

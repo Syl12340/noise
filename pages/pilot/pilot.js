@@ -1,4 +1,5 @@
 // pages/pilot/pilot.js
+// 作用：提供应用快速启动导览及核心校准、使用说明的入口集合页面。
 Page({
   data: {
 

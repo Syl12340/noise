@@ -1,10 +1,10 @@
+/* pages/settings/settings.wxss */
 page {
   background-color: #F4F5F7;
   min-height: 100vh;
   font-family: -apple-system, sans-serif;
 }
 
-/* 去掉蓝色的渐变导航背景，改为原生大标题风格 */
 .nav {
   padding: 60rpx 32rpx 20rpx;
   background: transparent;
@@ -44,7 +44,7 @@ page {
   padding: 16rpx 0 0 16rpx;
 }
 
-/* 为了实现 iOS 那种全包裹的白色卡片，这里假设你在 wxml 里给 cell 外面套了一个包裹层。
+/* 为了实现 iOS 那种全包裹的白色卡片，这里假设在 wxml 里给 Cell 外面套了一个包裹层。
    如果没有套，直接作用在组上也可以，这里用直接相邻选择器给 Cell 加白底 */
 .cell {
   background-color: #FFFFFF;

@@ -1,7 +1,7 @@
-<!--pages/advanced-calibrate/calibrate/calibrate.wxml-->
+<!-- pages/advanced-calibrate/calibrate/calibrate.wxml -->
 <view class="container">
   
-  <!-- 顶部状态文字区域 (模仿 Android) -->
+  <!-- 顶部状态文字区域 -->
   <view class="status-box" style="margin-top: 40px; text-align: center;">
     <text style="font-size: 20px; font-weight: bold; color: {{statusColor}}; line-height: 1.5;">
       {{statusText}}
@@ -13,12 +13,12 @@
     style="margin-top: 40px;"
     bindtap="startCalibrationProcess"
     disabled="{{isCalibratingUI}}">
-    开始 1kHz (80dB) 标准标定
+    开始 1kHz (80 dB) 标准标定
   </button>
 
   <!-- 日常监控数据 (校准期间淡化) -->
   <view class="data-panel" style="opacity: {{isCalibratingUI ? 0.3 : 1}}; margin-top: 30px; text-align: center;">
-    <text>当前输入: {{dbfs}} dBFS</text>
+    <text>当前输入: {{dbfs}} dB FS</text>
     <view>测算声压: {{dbspl}} dB SPL</view>
     <view>当前偏移量配置: {{newOffset}} dB</view>
   </view>

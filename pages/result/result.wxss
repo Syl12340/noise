@@ -1,3 +1,4 @@
+/* pages/result/result.wxss */
 page {
   background: #F4F5F7;
   padding-bottom: constant(safe-area-inset-bottom);

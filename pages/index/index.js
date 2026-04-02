@@ -1,4 +1,5 @@
-// 首页逻辑
+// pages/index/index.js
+// 作用：提供应用首页导航，连接核心声学监测、结果记录、校准及科普指南等页面。
 Page({
   data: { 
   },
@@ -7,23 +8,7 @@ Page({
       url: '/pages/result/result'
     });
   },
-
-  noiseDetect: function(){
-    this.goToMain();
-  },
   
-  goToMain: function() {
-    wx.navigateTo({
-      url: '/pages/main/main'
-    });
-  },
-
-  goToCalibrate: function() {
-    wx.navigateTo({
-      url: '/pages/calibrate/calibrate'
-    });
-  },
-
   goToPilot(){
     wx.navigateTo({
       url: '/pages/pilot/pilot'

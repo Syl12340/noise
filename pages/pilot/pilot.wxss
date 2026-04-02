@@ -68,7 +68,7 @@ page {
   opacity: 0.2;
 }
 
-.tip {
+.tips {
   margin-top: 80rpx;
   text-align: center;
   font-size: 24rpx;

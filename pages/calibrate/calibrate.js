@@ -1,4 +1,5 @@
 // pages/calibrate/calibrate.js
+// 作用：快速环境声学校准界面，支持基于预设场景或快速采样本底噪声进行粗略校准。
 const recorderManager = wx.getRecorderManager();
 
 const { calculateRMS, calculateDb } = require('../../utils/audio-math');
@@ -36,7 +37,15 @@ const globalSize = CANVAS_CONFIG.CALIBRATE.GLOBAL_SIZE;
 const scaleX = CANVAS_CONFIG.CALIBRATE.SCALE_X;
 const scaleY = CANVAS_CONFIG.CALIBRATE.SCALE_Y;
 
-// ================= Canvas 渲染引擎 (极致性能优化版) =================
+// ================= Canvas 渲染引擎  =================
+/**
+ * 绘制图表背景网格与界限线
+ * @param {CanvasRenderingContext2D} ctx - Canvas 绘制上下文
+ * @param {number} mtX - 网格左边缘 X 坐标
+ * @param {number} ltX - 网格右边缘 X 坐标
+ * @param {number} thresholdLine - 高亮阈值线数值
+ * @return {void}
+ */
 function mesh(ctx, mtX, ltX, thresholdLine) {
   // 1. 批量绘制基础网格 (合并路径)
   ctx.strokeStyle = THEME_COLORS.GRID;
@@ -83,6 +92,12 @@ function mark(ctx, thresholdLine) {
   }
 }
 
+/**
+ * 局部刷新最新瞬态波形，提升绘制流畅度
+ * @param {CanvasRenderingContext2D} ctx - 绘图上下文
+ * @param {number} currentTime - 最新的时间帧索引
+ * @return {void}
+ */
 function draw(ctx, currentTime) { 
   // 1. 基于当前坐标系精确清空绘图区域
   ctx.clearRect(0, -globalSize, globalSize, globalSize);

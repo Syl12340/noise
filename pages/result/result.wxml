@@ -1,3 +1,4 @@
+<!-- pages/result/result.wxml -->
 <view class="page">
   <!-- 顶部标题与操作 -->
   <view class="header-bar">

@@ -1,20 +1,21 @@
+<!-- pages/calibrate/calibrate.wxml -->
 <view class="page-container">
   
   <!-- 头部提示说明 -->
   <view class="card info-card">
     <text class="info-title">常规环境简易校准</text>
-    <text class="info-desc">利用常见环境的预估声压作为基准进行逆向推算。将执行 2 秒能量积分采样。由于环境不可控，此法可能存在 5-10dB 的误差。</text>
+    <text class="info-desc">利用常见环境的预估声压作为基准进行逆向推算。将执行 2 秒能量积分采样。由于环境不可控，此法可能存在 5-10 dB 的误差。\n请注意，在任何情况下，我们都推荐您在实验室环境下使用专业声场和经有效校准的声级计为您的设备校准。未经有效校准得到的结果可能完全不可用。</text>
   </view>
 
   <!-- 实时示波器面板 (白底，Canvas居中) -->
   <view class="card chart-card">
     <view class="data-row">
       <view class="data-item">
-        <text class="d-label">当前输入 (dBFS)</text>
+        <text class="d-label">当前输入满刻度幅度 (dB FS)</text>
         <text class="d-val">{{dbfs}}</text>
       </view>
       <view class="data-item">
-        <text class="d-label">测算声压 (SPL)</text>
+        <text class="d-label">测算分贝声压级 (dB SPL)</text>
         <text class="d-val text-red">{{dbspl}}</text>
       </view>
     </view>
@@ -27,17 +28,14 @@
 
   <!-- 校准基准操作区 -->
   <view class="card action-card">
-    <text class="section-title">选择所在环境以开始 2 秒采样</text>
+    <text class="section-title">选择所在环境以进行采样</text>
     
     <view class="btn-group">
-      <view class="calib-btn" bindtap="doRoughCalibrate" data-spl="80" data-name="1kHz 80dB 标准音">
-        1kHz 80dB 标准纯音
-      </view>
       <view class="calib-btn" bindtap="doRoughCalibrate" data-spl="63" data-name="一米正常谈话">
-        一米正常谈话 (~63dB)
+        一米正常谈话 (~63 dB)
       </view>
       <view class="calib-btn" bindtap="doRoughCalibrate" data-spl="33" data-name="一般安静房间">
-        一般安静房间 (~33dB)
+        一般安静房间 (~33 dB)
       </view>
     </view>
 
@@ -48,7 +46,7 @@
     </view>
   </view>
 
-  <!-- 底部固定操作栏 (比例对齐 main.wxml) -->
+  <!-- 底部固定操作栏 -->
   <view class="action-bar">
     <button class="btn-main btn-stop" hover-class="btn-hover" bindtap="stopNoiseMonitoring">结束退出</button>
     <button class="btn-main btn-save" hover-class="btn-hover" bindtap="saveOffset">保存校准</button>

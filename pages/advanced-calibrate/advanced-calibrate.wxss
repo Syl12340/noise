@@ -1,4 +1,4 @@
-/* pages/pilot/pilot.wxss */
+/* pages/advanced-calibrate/advanced-calibrate.wxss */
 page { background: #F4F5F7; font-family: -apple-system, sans-serif; }
 .page-container { padding: 40rpx 32rpx 60rpx; }
 

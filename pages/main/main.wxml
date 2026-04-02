@@ -1,5 +1,6 @@
+<!-- pages/main/main.wxml -->
 <view class="page-container">
-  <!-- 1. 顶部状态与仪表盘（整块变色区） -->
+  <!-- 顶部状态与仪表盘（整块变色区） -->
   <view class="card dashboard {{threatClass}}">
     <view class="recording-tag">
       <view class="dot"></view>
@@ -16,7 +17,7 @@
     </view>
   </view>
 
-  <!-- 2. 辅助数据两列 -->
+  <!-- 辅助数据两列 -->
   <view class="stats-row">
     <view class="card stats-card">
       <text class="stats-label">累积能量 (CNE)</text>
@@ -26,15 +27,15 @@
       </view>
     </view>
     <view class="card stats-card">
-      <text class="stats-label">数字电平 (dBFS)</text>
+      <text class="stats-label">满刻度幅度 (dB FS)</text>
       <view class="stats-value">
         <text class="val">{{dbfs}}</text>
-        <text class="unit">FS</text>
+        <text class="unit">dB FS</text>
       </view>
     </view>
   </view>
 
-  <!-- 3. 波形图表卡片（Canvas 居中） -->
+  <!-- 波形图表卡片（Canvas 居中） -->
   <view class="card chart-card">
     <view class="chart-header">
       <text class="chart-title">实时分贝声压级波形 [Z计权]</text>
@@ -44,7 +45,7 @@
     </view>
   </view>
 
-  <!-- 4. 底部固定操作栏（按钮比例调整） -->
+  <!-- 底部固定操作栏（按钮比例调整） -->
   <view class="action-bar">
   <!-- 缩小为正方形图标按钮 -->
   <view class="btn-mini" bindtap="recordMyLocation" hover-class="btn-hover-mini">

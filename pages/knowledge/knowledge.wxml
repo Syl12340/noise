@@ -1,4 +1,4 @@
-<!--pages/knowledge/knowledge.wxml-->
+<!-- pages/knowledge/knowledge.wxml -->
  <view class="page-container">
   <!-- 页面头部 -->
   <view class="doc-header">
@@ -11,16 +11,16 @@
     <image class="cover-pic" src="/images/harm.svg" mode="aspectFill" />
     <view class="article">
       <text class="h2">什么是噪声</text>
-      <text class="p">妨碍人们正常休息、学习和工作的声音，以及对人们要听的声音产生干扰的声音，都属于噪声。当声音超过85分贝时，就会开始对人体产生显著危害。法律评价指标为 dB(A)，即A计权。</text>
+      <text class="p">从物理学角度，噪声是发声体做无规则振动时发出的声音；从环境保护和生理学角度，凡是妨碍人们正常休息、学习和工作、甚至产生干扰的声音，均统称噪声。当环境声暴露量超过 85 dB(A) 时，长期暴露可对人体听觉系统产生显著危害。法定声学评价指标常以 A 计权 为基础。</text>
     </view>
   </view>
   <view class="doc-card">
     <image class="cover-pic" src="/images/protect.svg" mode="aspectFill" />
     <view class="article">
       <text class="h2">护耳小贴士</text>
-      <text class="p">60-60原则：使用耳机时，音量不超过最大音量的60%，连续使用不超过60分钟
-    	物理防护：在工地、演唱会等高噪环境下，佩戴防噪耳塞或降噪耳机
-    	定期检测：如果发现耳鸣、听不清高频声音（如门铃、电话铃），应及时就医
+      <text class="p">60-60原则：使用个人音频设备时，音量不超过最大音量的60%，连续使用不超过60分钟。
+    	物理防护：在施工场地、演唱会等高暴露噪声环境下，建议佩戴专业防噪耳塞或主动降噪耳机。
+    	定期检测：如果发现耳鸣、听不清高频声音（如门铃、电话铃），应及时前往正规医疗机构就诊检查。
       </text>
     </view>
   </view>
@@ -29,9 +29,7 @@
     <view class="article">
       <text class="h2">噪声的“三重打击”</text>
       <text class="p">听力损伤（不可逆）：可能导致永久性内耳毛细胞受损，目前医学上无法治愈
-
       心血管系统：噪声易导致血压升高、心率加快，长期暴露会增加高血压、心脏病的风险
-
       心理与认知：影响睡眠质量，导致失眠多梦；降低专注力、记忆力，引发焦虑和易怒情绪
       </text>
     </view>
@@ -40,11 +38,11 @@
     <image class="cover-pic" src="/images/dblevel.svg" mode="aspectFill" />
     <view class="article">
       <text class="h2">简易分贝等级对照表</text>
-      <text class="p">0-20dB ：极静（落叶声）舒适
-      30-50dB ：安静（图书馆、私语）理想睡眠环境
-      60-70dB ：嘈杂（正常交谈、空调外机）开始影响注意力
-      80-90dB ：吵闹（吸尘器、闹市交通）听力开始受损
-      100dB以上 ：危害（电钻、KTV、飞机起飞）长时间暴露导致永久性耳聋
+      <text class="p">0-20 dB(A)：极静（落叶声）舒适
+      30-50 dB(A)：安静（图书馆、轻声细语）理想睡眠环境
+      60-70 dB(A)：较吵（正常交谈、空调外机）开始影响注意力
+      80-90 dB(A)：吵闹（吸尘器、闹市交通）长期暴露可能导致听力受损
+      100 dB(A)以上：危害（电钻、KTV、飞机起飞）长时间暴露极易导致不可逆的听力损伤
       </text>
     </view>
   </view>

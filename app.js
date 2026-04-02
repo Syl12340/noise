@@ -14,8 +14,8 @@ function resolveServer() {
 
 App({
   globalData:{
-    version: "Beta 1.1.1.20260401.4",
-    vstamp:"b.1.1.1.20260401.4",
+    version: "Beta 1.2.0.20260402.2",
+    vstamp:"b.1.2.0.20260402.2",
     init: false,
     server: resolveServer(),
     isLoggedIn: wx.getStorageSync('isLoggedIn'),
@@ -62,7 +62,7 @@ App({
       success(res) {
         if (!res.authSetting['scope.record']) {
           wx.authorize({
-            desc: '用于分析环境噪声分贝听力级和噪声累积能量',
+            desc: '用于分析环境噪声分贝声压级和噪声累积能量',
             scope: 'scope.record',
             success () {
               // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问

@@ -1,2 +1,3 @@
-// pages/knowledge/knowledge.js
+// pages/about/about.js
+// 作用：渲染应用“关于我们”纯静态页面，提供团队背景和版本信息。
 Page({ /* 纯静态页面，无需逻辑 */ });

@@ -1,6 +1,7 @@
 // pages/advanced-calibrate/calibrate/calibrate.js
+// 作用：专业环境声学校准，通过标准 1kHz 纯音和长时间能量积分算法，计算设备麦克风偏移量。
 /**
- * 专业环境声学校准页面 (calibrate.js)
+ * 专业环境声学校准页面 
  * 仅保留 1kHz 纯音标准校准 (80dB SPL)
  * 采用 3秒倒计时(防震防遮挡) + 5秒等效连续声级(Leq)积分算法
  */
@@ -46,6 +47,12 @@ function clearAdvancedRecorderRestartTimer() {
   }
 }
 
+/**
+ * 记录声强数据到缓存数组
+ * 用于后续可能会在校准过程中处理和统计波形特征。
+ * @param {number} currentTime - 记录点时间坐标或帧数索引
+ * @param {number} dBSPL - 计算所得的实际声压级别
+ */
 function recordArray(currentTime, dBSPL) {
   dBArray[currentTime] = dBSPL;
 }

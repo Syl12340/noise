@@ -1,5 +1,4 @@
 /* pages/index/index.wxss */
-/* pages/index/index.wxss */
 page {
   background: #F4F5F7; /* 统一的高级极浅灰底色 */
   padding-bottom: constant(safe-area-inset-bottom);
@@ -70,7 +69,7 @@ page {
 }
 
 /* 底部小贴士 */
-.tip {
+.tips {
   margin-top: 80rpx;
   text-align: center;
   font-size: 24rpx;

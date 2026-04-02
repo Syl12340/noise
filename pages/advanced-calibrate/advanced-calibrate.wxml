@@ -1,4 +1,4 @@
-<!--pages/advanced-calibrate.wxml-->
+<!-- pages/advanced-calibrate/advanced-calibrate.wxml -->
 <view class="page-container">
   
   <!-- 顶部状态面板 -->
@@ -35,7 +35,7 @@
     <view class="action-cell" hover-class="cell-hover" bindtap="goToAdvancedCalibration">
       <view class="cell-left">
         <image class="cell-icon" src="../../images/calibrate.svg" mode="aspectFit" />
-        <text class="cell-text">执行声学标定 (1kHz标准)</text>
+        <text class="cell-text">执行声学标定 (1kHz, 80 dB SPL 纯/啭音)</text>
       </view>
       <text class="cell-arrow">›</text>
     </view>
@@ -54,10 +54,9 @@
     <view class="action-cell" hover-class="cell-hover" bindtap="getNoiCali">
       <view class="cell-left">
         <image class="cell-icon" src="../../images/download.svg" mode="aspectFit" />
-        <text class="cell-text">下载 NoiCali App</text>
+        <text class="cell-text">获取 NoiCali for Android</text>
       </view>
       <text class="cell-arrow">›</text>
     </view>
   </view>
-
 </view>

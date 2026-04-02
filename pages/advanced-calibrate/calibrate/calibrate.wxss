@@ -1,10 +1,11 @@
+/* pages/advanced-calibrate/calibrate/calibrate.wxss */
 
 .btn {
   width: 100%; 
   padding: 20rpx;
   font-size: 34rpx;
   font-weight: bold;
-  border-radius: 100rpx; /* 大胶囊按钮 */
+  border-radius: 100rpx;
   display: flex;
   align-items: center;
   justify-content: center;

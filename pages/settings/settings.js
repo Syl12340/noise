@@ -1,3 +1,5 @@
+// pages/settings/settings.js
+// 作用：呈现用户应用偏好与安全参数配置界面，负责风险等级阈值和提醒开关的修改及持久化。
 const dataModel = require('../../utils/data-model');
 const { OFFSET_IMPORT_RANGE } = require('../../utils/constants');
 const {
@@ -16,7 +18,7 @@ Page({
     duration: dataModel.getExpectedExposureHours(),
     energy: dataModel.getNoiseAlarmLevel(),
     unitIndex: 0,
-    units: [{ name: 'dB SPL' }, { name: 'Pa²·h' }],
+    units: [{ name: 'dB SPL' }],
     alarm: dataModel.getAlarmEnabled(),
     offset: dataModel.getOffset(),
     darkMode: false,
@@ -75,7 +77,7 @@ Page({
   },
 
   toggleDark() {
-    // dark mode kept as placeholder
+    // 根据业务发展规划，暂不实现。
   },
 
   toggleSync(e) {

@@ -1,3 +1,5 @@
+// pages/result/result.js
+// 作用：展示历史噪声监测的详细结果列表，提供分级颜色标注与折叠面板交互。
 const resultManager = require('../../utils/result-manager');
 const { THEME_COLORS } = require('../../utils/constants');
 const { RISK_META } = require('../../utils/risk-config');

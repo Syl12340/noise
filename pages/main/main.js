@@ -1,10 +1,6 @@
-/**
- * main.js - 噪声监测主逻辑
- * 【重要说明】: 本计算采用 Z计权 (无计权物理真实声压)。
- * 明天实验室验证时，请务必将专业声级计设置为 Z档 或 Flat档 (非A计权档位)！
- */
+// pages/main/main.js
+// 作用：实施核心的实时噪声监测，基于 Z 计权计算短期等效连续声级（CNE）和暴露风险，并处理预警与录音缓存波形图绘制。
 
-// P2 改进：配置 DEBUG 日志开关
 const DEBUG = false; // 设为 true 以启用详细日志
 
 const app = getApp();
@@ -90,6 +86,7 @@ const scaleY = CANVAS_CONFIG.MONITOR.SCALE_Y;
  * 将声压级数据点存入波形数组，用于 Canvas 渲染
  * @param {number} currentTime - 当前秒数索引
  * @param {number} dBSPL - Z 计权声压级（dB SPL）
+ * @return {void}
  * 【注】第一个数据点会被补到 index 0（虽然 time 从 1 开始）
  */
 function recordArray(currentTime, dBSPL) {

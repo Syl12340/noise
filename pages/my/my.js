@@ -1,3 +1,5 @@
+// pages/my/my.js
+// 作用：渲染“我的”用户中心页面，管理用户登录状态并发起配置、历史记录查阅流程。
 var isLoggedIn=false, isNewUser=false;
 const app = getApp();
 const server = app.globalData.server;

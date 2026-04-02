@@ -1,4 +1,4 @@
-/* pages/knowledge/about.wxss */
+/* pages/about/about.wxss */
 page {
   background: #F4F5F7;
   font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;

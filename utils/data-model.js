@@ -1,3 +1,4 @@
+// utils/data-model.js
 const KEYS = {
   OFFSET: 'offset',
   EXPECTED_EXPOSURE: 'expectedExposure',

@@ -1,8 +1,8 @@
-<!--pages/pilot/pilot.wxml-->
+<!-- pages/pilot/pilot.wxml -->
 <view class="page">
   <view class="e"></view>
   <view class="grid">
-    <!-- ① 如何检测 -->
+    <!-- 如何检测 -->
     <view class="card" hover-class="card--pressed" bindtap="goToUsage">
       <image class="card__icon" src="/images/info.svg" />
       <view class="card__body">
@@ -11,7 +11,7 @@
       </view>
     </view>
 
-    <!-- ② 麦克风校准 -->
+    <!-- 麦克风校准 -->
     <view class="card" hover-class="card--pressed" bindtap="goToCalibrate">
       <image class="card__icon" src="/images/calibrate.svg" />
       <view class="card__body">
@@ -20,8 +20,7 @@
       </view>
     </view>
 
-    <!-- ③ 开始检测 (核心功能) -->
-    <!-- 建议给核心功能加一个特定的高亮类名以示区分，或者保持完全一致 -->
+    <!-- 开始检测 (核心功能) -->
     <view class="card" hover-class="card--pressed" bindtap="noiseDetect">
       <image class="card__icon" src="/images/mic.svg" />
       <view class="card__body">
@@ -30,18 +29,16 @@
       </view>
     </view>
 
-     <!-- ④ 高级校准 -->
+     <!-- 高级校准 -->
     <view class="card" hover-class="card--pressed" bindtap="goToAdvancedCalibrate">
       <image class="card__icon" src="/images/calibrate.svg" />
       <view class="card__body">
         <text class="card__title">高级校准选项（实验性）</text>
         <text class="card__desc">实验性功能与云端预设</text>
       </view>
-    </view>
-    
+    </view> 
   </view>
-
-  <view class="tip">
-    <text>建议在安静环境下完成校准流程</text>
+  <view class="tips">
+    <text>建议在实验室环境下完成校准流程</text>
   </view>
 </view>

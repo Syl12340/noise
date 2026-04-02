@@ -1,6 +1,5 @@
-/**
- * recorder-session.js - recorderManager 与 WebAudio 资源清理辅助函数。
- */
+// utils/recorder-session.js
+// recorder-session.js - recorderManager 与 WebAudio 资源清理辅助函数。
 
 const CAMCORDER_RECORD_BASE = {
   sampleRate: 16000,

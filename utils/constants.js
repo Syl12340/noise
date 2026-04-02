@@ -1,3 +1,4 @@
+// utils/constants.js
 const RISK_THRESHOLDS = {
   SAFE_MAX: 80,
   ATTENTION_MAX: 85,
@@ -56,9 +57,9 @@ const CANVAS_CONFIG = {
 
 const APP_CONFIG = {
   SERVER_BY_ENV: {
-    default: 'http://47.117.40.74:9999',
+    default: 'https://project.stu.ecnu.edu.cn/noise',
     dev: 'http://47.117.40.74:9999',
-    prod: 'http://47.117.40.74:9999',
+    prod: 'https://project.stu.ecnu.edu.cn/noise',
   },
 };
 

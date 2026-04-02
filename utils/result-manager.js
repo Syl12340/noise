@@ -1,3 +1,4 @@
+// utils/result-manager.js
 const STORAGE_KEY = 'savedResult';
 
 function getAll() {

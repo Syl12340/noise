@@ -1,3 +1,4 @@
+// utils/audio-math.js
 const { CNE_FORMULA } = require('./constants');
 
 /**

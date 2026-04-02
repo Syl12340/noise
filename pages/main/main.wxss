@@ -1,3 +1,4 @@
+/* pages/main/main.wxss */
 page {
   background: #F4F5F7;
   font-family: -apple-system, sans-serif;
@@ -18,7 +19,7 @@ page {
   box-sizing: border-box;
 }
 
-/* --- 需求3：分贝区整块变色样式 --- */
+/* --- 分贝区整块变色样式 --- */
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -96,7 +97,7 @@ page {
 .stats-value .val { font-size: 44rpx; font-weight: 700; color: #333; font-variant-numeric: tabular-nums; }
 .stats-value .unit { font-size: 20rpx; color: #AAA; margin-left: 6rpx; }
 
-/* --- 需求1：图表居中控制 --- */
+/* --- 图表居中控制 --- */
 .chart-card { padding-bottom: 30rpx; }
 .chart-header { padding: 30rpx 40rpx; }
 .chart-title { font-size: 24rpx; color: #90a4ae; font-weight: 600; }
@@ -116,8 +117,7 @@ page {
   height: 600rpx;
 }
 
-/* --- 需求2：底部操作栏比例调整 --- */
-/* 底部操作栏容器 */
+/* --- 底部操作栏 --- */
 .action-bar {
   position: fixed;
   bottom: 0; left: 0; right: 0;
@@ -131,7 +131,7 @@ page {
   z-index: 100;
 }
 
-/* 缩小后的位置按钮：小巧的正方形 */
+/* 小巧正方形位置按钮 */
 .btn-mini {
   width: 100rpx;
   height: 100rpx;
@@ -140,7 +140,7 @@ page {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0; /* 核心：防止被右侧按钮挤压变形 */
+  flex-shrink: 0; /* 防止被右侧按钮挤压变形 */
 }
 
 .mini-icon {
@@ -153,9 +153,8 @@ page {
   background: #EAECEF;
 }
 
-/* 主操作按钮：平分剩余所有空间 */
 .btn-main {
-  flex: 1; /* 核心：平分剩余宽度 */
+  flex: 1; /* 平分剩余宽度 */
   height: 100rpx;
   border-radius: 24rpx;
   display: flex;

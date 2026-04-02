@@ -1,3 +1,4 @@
+<!-- pages/settings/settings.wxml -->
 <view class="page">
   <!-- 顶部导航 -->
   <view class="nav">

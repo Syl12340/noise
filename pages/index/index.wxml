@@ -3,7 +3,7 @@
   <!-- 顶部氛围图 -->
   <image class="hero" src="/images/Doctors-pana.svg" mode="aspectFit" />
   <view class="grid">
-    <!-- ① 开始检测 -->
+    <!-- 开始检测 -->
     <view class="card" hover-class="card--pressed" bindtap="goToPilot">
       <image class="card__icon" src="/images/mic.svg" />
       <view class="card__body">
@@ -11,18 +11,7 @@
         <text class="card__desc">先校准 · 再检测</text>
       </view>
     </view>
-    
-    <!-- ② 麦克风校准 
-    <view class="card" hover-class="card--pressed" bindtap="goToCalibrate">
-      <image class="card__icon" src="/images/calibrate.svg" />
-      <view class="card__body">
-        <text class="card__title">麦克风校准</text>
-        <text class="card__desc">声压级校正 · 偏移量测定</text>
-      </view>
-    </view>
-    -->
-
-    <!-- ③ 查询记录 -->
+    <!-- 查询记录 -->
     <view class="card" hover-class="card--pressed" bindtap="goToResult">
       <image class="card__icon" src="/images/chart.svg" />
       <view class="card__body">
@@ -31,7 +20,7 @@
       </view>
     </view>
 
-    <!-- ④ 噪声危害科普 -->
+    <!-- 噪声危害科普 -->
     <view class="card" hover-class="card--pressed" bindtap="goToKnowledge">
       <image class="card__icon" src="/images/book.svg" />
       <view class="card__body">
@@ -40,7 +29,7 @@
       </view>
     </view>
 
-    <!-- ⑤ 关于本项目 -->
+    <!-- 关于本项目 -->
     <view class="card" hover-class="card--pressed" bindtap="goToAbout">
       <image class="card__icon" src="/images/info.svg" />
       <view class="card__body">
@@ -52,7 +41,7 @@
   </view>
 
   <!-- 底部小贴士 -->
-  <view class="tip">
+  <view class="tips">
     <text>强烈建议监测前为您的麦克风进行校准\n</text>
     <text>未经有效校准产生的结果可能完全不可用</text>
   </view>

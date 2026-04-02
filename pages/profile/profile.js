@@ -1,4 +1,5 @@
 // pages/profile/profile.js
+// 作用：管理并展示修改用户的基本信息（如昵称、头像），支持同步配置到云端服务器。
 var avatarUrl, nickname;
 const app = getApp();
 const server = app.globalData.server;
@@ -15,26 +16,6 @@ Page({
     canIUseNicknameComp: wx.canIUse('input.type.nickname'),
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
   onChooseAvatar(e) {
     const { avatarUrl } = e.detail 
     this.setData({
@@ -51,19 +32,7 @@ Page({
   },
 
   postData(){
-    wx.request({
-      url: 'example.php', //仅为示例，并非真实的接口地址
-      data: {
-        x: '',
-        y: ''
-      },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success (res) {
-        console.log(res.data)
-      }
-    })
+    // 根据业务发展规划，暂不实现。
   },
   back(){
     wx.showModal({
@@ -73,6 +42,5 @@ Page({
       confirmText: '知道了',
       confirmColor: THEME_COLORS.PRIMARY
     });
-    //wx.navigateBack();
   }
 })
