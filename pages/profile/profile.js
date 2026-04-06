@@ -38,7 +38,7 @@ Page({
     wx.showModal({
       title: '提示',
       content: '修改头像昵称功能正在测试中',
-      showCancel: false,       // 只有一个“确定”按钮
+      showCancel: false,      
       confirmText: '知道了',
       confirmColor: THEME_COLORS.PRIMARY
     });

@@ -169,8 +169,7 @@ function createCamcorderRecordParams(overrides = {}) {
  * @param {string} bindingKey 本次注册的唯一键。
  * @param {Function} register 注册函数，内部执行 onFrameRecorded/onStop 等绑定。
  * @returns {boolean} true 表示本次完成注册；false 表示此前已注册。
- * Side effect: 更新监听器注册状态并可能执行回调绑定。
- * 注意：该函数适用于 onStop/onInterruptionEnd 这类生命周期监听，
+ * 更新监听器注册状态并可能执行回调绑定。适用于 onStop/onInterruptionEnd 这类生命周期监听，
  * 不适用于需要按页面切换动态替换的 onFrameRecorded（应使用 bindRecorderFrameListener）。
  */
 function bindRecorderListenersOnce(recorderManager, bindingKey, register) {

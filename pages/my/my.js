@@ -56,7 +56,7 @@ Page({
       wx.showModal({
         title: '登录未开放',
         content: '正在测试中',
-        showCancel: false,       // 只有一个“确定”按钮
+        showCancel: false,       
         confirmText: '知道了',
         confirmColor: THEME_COLORS.PRIMARY
       });
@@ -65,7 +65,7 @@ Page({
       wx.showModal({
         title: '登录失败',
         content: '登录状态异常',
-        showCancel: false,       // 只有一个“确定”按钮
+        showCancel: false,       
         confirmText: '知道了',
         confirmColor: THEME_COLORS.PRIMARY
       });
@@ -79,7 +79,7 @@ Page({
     wx.showModal({
       title: '登录提示',
       content: '您已登录',
-      showCancel: false,       // 只有一个“确定”按钮
+      showCancel: false,      
       confirmText: '知道了',
       confirmColor: THEME_COLORS.PRIMARY
     });
@@ -143,7 +143,7 @@ Page({
     wx.showModal({
       title: '欢迎使用',
       content: str,
-      showCancel: false,       // 只有一个“确定”按钮
+      showCancel: false,       
       confirmText: '知道了',
       confirmColor: THEME_COLORS.PRIMARY
     });

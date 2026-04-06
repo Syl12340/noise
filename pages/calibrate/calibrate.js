@@ -22,10 +22,7 @@ let currentCalibratePage = null;
 let calibrateRecorderStartTimerId = null;
 const calibrateRecordParams = createCamcorderRecordParams();
 
-/**
- * 清理校准页待启动录音定时器。
- * Side effect: 清除尚未触发的录音重启任务。
- */
+
 function clearCalibrateRecorderStartTimer() {
   if (calibrateRecorderStartTimerId) {
     clearTimeout(calibrateRecorderStartTimerId);
@@ -100,7 +97,7 @@ function mark(ctx, thresholdLine) {
  */
 function draw(ctx, currentTime) { 
   // 1. 基于当前坐标系精确清空绘图区域
-  ctx.clearRect(0, -globalSize, globalSize, globalSize);
+  ctx.clearRect(0, -globalSize-50, globalSize+100, globalSize+100);
   
   // 2. 绘制静态背景
   mesh(ctx, 0, globalSize, instantLimit);
@@ -168,8 +165,10 @@ Page({
     this.stopCalibrateMonitoring();
   },
   /**
-   * 停止校准页录音会话并清理资源。
-   * Side effect: 终止录音、移除帧监听、清空页面引用与重启定时器。
+   * 停止并销毁录音机数据事件与监听钩子，阻断物理设备的调用防止内存泄露。
+   * 该机制主要用于确保在退出页面时，底层音频流和尚未触发的定时任务被正确清除。
+   * 
+   * @sideeffect 停止录音，清除页面引用与定时器。
    */
   stopCalibrateMonitoring() {
     isCalibrateMonitoringActive = false;

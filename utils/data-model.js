@@ -12,10 +12,13 @@ const { getDefaultRiskConfig, normalizeRiskConfig } = require('./risk-config');
 const DEFAULTS = STORAGE_DEFAULTS;
 
 /**
- * 验证并转换值为有效的数字
- * @param {*} value - 待转换的值
- * @param {number} fallback - 转换失败时的默认值
- * @returns {number} 有效的数字或默认值
+ * 数据非空强验证及防篡改容错适配器。
+ * 对小程序基础缓存中提取的无模式字符串或隐式丢失状态进行检测和拦截；
+ * 如遇非法取值或 `NaN` 等异常表现则透明降级到缺省安全边界值。
+ * 
+ * @param {*} value - 解析中涉及到的不固定域变量
+ * @param {number} fallback - 数据毁损时对应的默认安全缺省变量常量
+ * @returns {number} 用于声学算式的正规 64 位浮点有效表示数字
  */
 function asValidNumber(value, fallback) {
   const parsed = parseFloat(value);
@@ -130,7 +133,7 @@ function getRiskConfig() {
     }
     return normalizeRiskConfig(value);
   } catch (error) {
-    // P1 改进：存储读取异常时的错误处理，返回默认配置
+    // 存储读取异常时的错误处理，返回默认配置
     console.error('getRiskConfig storage error:', error);
     return getDefaultRiskConfig();
   }

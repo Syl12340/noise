@@ -141,6 +141,13 @@ Page({
     wx.showToast({ title: '已清除缓存', icon: 'success' });
   },
 
+  /**
+   * 验证并保存用户的偏好设置与风险配置，将其持久化到本地存储中。
+   * 
+   * @sideeffect 更新全局的预期暴露时间、噪声报警阈值以及设备偏移量等配置项，
+   * 并在保存成功后返回上一页面。
+   * @returns {void}
+   */
   save() {
     const duration = parseFloat(this.data.duration);
     const energy = parseFloat(this.data.energy);

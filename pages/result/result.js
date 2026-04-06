@@ -5,9 +5,11 @@ const { THEME_COLORS } = require('../../utils/constants');
 const { RISK_META } = require('../../utils/risk-config');
 
 /**
- * 根据风险等级文本获取对应的 CSS 颜色类名
- * @param {string} threat - 风险等级文本（安全/需要注意/中风险/高风险/高危）
- * @returns {string} CSS 类名（bg-safe/bg-attention/bg-medium/bg-high/bg-extreme）
+ * 依据健康风险等级进行 UI 控件的颜色类名映射。
+ * 将后台获取的严重程度评价转换为视觉上醒目的 CSS 显示类名，
+ * 供结果态势列表渲染使用。
+ * @param {string} threat - 计算所得的对应风险等级文本
+ * @returns {string} 前端定义的表示危害程度的 CSS 颜色声明
  */
 function getThreatColorClass(threat) {
   const mapping = {
@@ -61,9 +63,6 @@ Page({
     });
   },
 
-  /**
-   * 页面显示时触发，加载历史记录列表
-   */
   onShow: function () {
     const savedResult = resultManager.getAll();
     this.setData({
@@ -74,10 +73,6 @@ Page({
     console.log('result: ', this.data.savedResult);
   },
 
-  /**
-   * 处理卡片点击事件，展开/收起详情区
-   * @param {object} e - 事件对象
-   */
   handleCardTap(e) {
     console.log(e);
     const index = e.currentTarget.dataset.index;
@@ -88,10 +83,6 @@ Page({
     }
   },
 
-  /**
-   * 处理卡片长按事件，弹出操作菜单（查看位置/重命名/删除）
-   * @param {object} e - 事件对象
-   */
   handleCardLongPress(e) {
     let instance = this;
     const index = e.currentTarget.dataset.index;
@@ -120,9 +111,6 @@ Page({
     });
   },
 
-  /**
-   * 弹出模态框确认是否清空所有记录
-   */
   confirmDeleteAll() {
     console.group('delete all');
     let instance = this;
@@ -146,9 +134,6 @@ Page({
     });
   },
 
-  /**
-   * 清空所有监测记录
-   */
   deleteAll() {
     this.delete(0, -1);
     wx.showToast({
@@ -186,10 +171,6 @@ Page({
     console.log('result: ', this.data.savedResult);
   },
 
-  /**
-   * 弹出重命名对话框
-   * @param {number} index - 要重命名的记录索引
-   */
   rename(index) {
     var instance = this;
     let savedResult = resultManager.getAll();

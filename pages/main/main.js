@@ -97,8 +97,11 @@ function recordArray(currentTime, dBSPL) {
 }
 
 /**
- * 重置一轮 main 监测会话的运行时状态。
- * Side effect: 会清空本轮录音的统计缓存、风险状态与波形缓存。
+ * 在新一轮环境声学采样流程建立之前初始化数据及图形域。
+ * 清空之前缓存的统计数组、积分计数器和风险评估状态记录，
+ * 保障单次连续监控的数据流不致发生交叉覆盖现象。
+ * 
+ * @sideeffect 重启 `dBArray`、`cne` 等业务标量及清除告警阻塞标志位。
  */
 function resetMonitorSessionState() {
   dBArray = [];
@@ -116,10 +119,14 @@ function resetMonitorSessionState() {
 }
 
 /**
- * 处理单个录音帧的 Z/A 计权计算、秒级汇总、UI 刷新和告警判断。
- * @param {object} page 当前激活的 main 页面实例。
- * @param {object} res 录音帧回调对象。
- * Side effect: 更新页面 data、波形数组、全局统计量与告警状态。
+ * 高吞吐量实录帧音频流的主要处理流水线。
+ * 利用主线程逐行读取每次麦克风底层传来的脉冲编码信号，
+ * 按顺序实施 Z 计权有效推导与 A 计权等响度数字滤波分析；
+ * 计算单秒能量均值，然后实时渲染到前端 Canvas 和风险显示接口。
+ * 
+ * @param {object} page - 环境所依附的前端 Page 沙盒内实例
+ * @param {object} res - 硬件麦克风实时返回的帧向音频缓冲内存块
+ * @sideeffect 在闭包下修改记录队列，并驱动相关健康暴露与弹窗预警机制。
  */
 function handleRecordedFrame(page, res) {
   if (!isMainMonitoringActive || !page) {

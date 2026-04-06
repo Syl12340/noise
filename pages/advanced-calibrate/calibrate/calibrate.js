@@ -1,7 +1,6 @@
 // pages/advanced-calibrate/calibrate/calibrate.js
 // 作用：专业环境声学校准，通过标准 1kHz 纯音和长时间能量积分算法，计算设备麦克风偏移量。
 /**
- * 专业环境声学校准页面 
  * 仅保留 1kHz 纯音标准校准 (80dB SPL)
  * 采用 3秒倒计时(防震防遮挡) + 5秒等效连续声级(Leq)积分算法
  */
@@ -36,10 +35,8 @@ let currentAdvancedCalibratePage = null;
 let isAdvancedMonitoringActive = false;
 let advancedRecorderRestartTimerId = null;
 
-/**
- * 清理进阶校准页待启动录音定时器。
- * Side effect: 清除尚未执行的录音重启任务。
- */
+// 清理进阶校准页待启动录音定时器。
+//Side effect: 清除尚未执行的录音重启任务。
 function clearAdvancedRecorderRestartTimer() {
   if (advancedRecorderRestartTimerId) {
     clearTimeout(advancedRecorderRestartTimerId);
@@ -49,7 +46,6 @@ function clearAdvancedRecorderRestartTimer() {
 
 /**
  * 记录声强数据到缓存数组
- * 用于后续可能会在校准过程中处理和统计波形特征。
  * @param {number} currentTime - 记录点时间坐标或帧数索引
  * @param {number} dBSPL - 计算所得的实际声压级别
  */
@@ -116,7 +112,12 @@ Page({
     } catch(e) { console.error(e); }
   },
 
-  // 新增的专门处理录音机生命周期的函数
+  /**
+   * 初始化并绑定录音相关的事件监听器，处理由于系统中断或异常导致的录音停止。
+   * 在发生中断（如电话接入）或意外结束时，尝试自动恢复或重启录音流程，以确保校准数据的连续性。
+   * 
+   * @sideeffect 配置并注册录音机的各类生命周期回调（如 onStop、onInterruptionEnd 等）。
+   */
   setupRecorderListeners() {
     bindRecorderListenersOnce(recorderManager, 'advanced-calibrate-listeners', () => {
       // 1. 监听意外停止
@@ -190,10 +191,7 @@ Page({
     });
   },
 
-  /**
-   * 停止进阶校准录音并清理资源。
-   * Side effect: 停止录音、移除帧监听、清理音频上下文与重启定时器。
-   */
+  //停止录音、移除帧监听、清理音频上下文与重启定时器。
   stopNoiseMonitoring() {
     clearAdvancedRecorderRestartTimer();
     safeStopRecorder(recorderManager);

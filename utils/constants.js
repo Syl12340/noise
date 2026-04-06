@@ -27,7 +27,7 @@ const CNE_FORMULA = {
 
 const STORAGE_DEFAULTS = {
   offset: 77,
-  expectedExposure: 8,
+  expectedExposure: 2,
   noiseAlarmLevel: 85,
   alarm: true,
 };
