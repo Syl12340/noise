@@ -70,7 +70,7 @@ page {
   transition: all 0.4s ease;
 }
 .card-active .detail-wrapper {
-  max-height: 600rpx; /* 足够容纳内容的高度 */
+  max-height: 900rpx; /* 足够容纳新增规则摘要内容 */
   opacity: 1;
   margin-top: 30rpx;
   padding-top: 30rpx;
@@ -83,5 +83,17 @@ page {
 .detail-full { grid-column: span 2; }
 .detail-label { font-size: 22rpx; color: #999; text-transform: uppercase; }
 .detail-value { font-size: 26rpx; font-weight: 500; color: #333; }
+
+.risk-rule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.risk-rule-line {
+  font-size: 24rpx;
+  color: #4f5b67;
+  line-height: 1.5;
+}
 
 .tip-text { font-size: 22rpx; color: #CCC; text-align: center; margin-top: 30rpx; }

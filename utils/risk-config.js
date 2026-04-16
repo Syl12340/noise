@@ -58,7 +58,6 @@ function clamp(value, min, max) {
 
 /**
  * 规范化用户输入的风险容忍配置矩阵，校验是否存在冲突或越界情况，对异常阈值做安全限制或修正以供阶梯应用。
- * 
  * @param {object} input - 用户输入的配置对象
  * @returns {object} 经过校验与限制后的有效风险配置对象
  */

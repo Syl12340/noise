@@ -8,14 +8,14 @@ function resolveServer() {
     return override.trim();
   }
 
-  const env = wx.getStorageSync('serverEnv') || 'default';
+  const env = 'dev';
   return APP_CONFIG.SERVER_BY_ENV[env] || APP_CONFIG.SERVER_BY_ENV.default;
 }
 
 App({
   globalData:{
-    version: "Beta 1.2.0.20260406.0",
-    vstamp:"b.1.2.0.20260406.0",
+    version: "V1.0",
+    vstamp:"v1.0",
     init: false,
     server: resolveServer(),
     isLoggedIn: wx.getStorageSync('isLoggedIn'),

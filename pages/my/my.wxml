@@ -32,9 +32,9 @@
 
   <!-- 底部版权信息 -->
   <view class="footer">
-    <text>噪声累积能量监测 小程序</text>
+    <text>噪声累积能量监测平台</text>
     <text class="footer-sub">华东师范大学教育学部国创项目</text> 
-    <text class="footer-sub">{{version}}</text>
+    <text class="footer-sub">版本号：{{version}}</text>
     <text class="footer-sub">预览版本</text>
     <text class="footer-sub">\n\n测量数据仅供参考</text>
     <text class="footer-sub">如需高精度检测，请使用专业声级计</text>

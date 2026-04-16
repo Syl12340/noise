@@ -22,7 +22,7 @@
         bind:longpress="handleCardLongPress"
       >
         <!-- 动态风险色带（5级映射：安全/需要注意/中风险/高风险/高危） -->
-        <view class="risk-bar {{(item.threat === '安全' && 'bg-safe') || (item.threat === '需要注意' && 'bg-attention') || (item.threat === '中风险' && 'bg-medium') || (item.threat === '高风险' && 'bg-high') || 'bg-extreme'}}" ></view>
+        <view class="risk-bar {{item.threatColorClass}}" ></view>
 
         <view class="card-content">
           <!-- 核心信息区 (始终显示) -->
@@ -32,7 +32,7 @@
               <text class="card-date">{{item.date}}</text>
             </view>
             <view class="header-right">
-              <text class="cne-val {{(item.threat === '安全' && 'text-safe') || (item.threat === '需要注意' && 'text-attention') || (item.threat === '中风险' && 'text-medium') || (item.threat === '高风险' && 'text-high') || 'text-extreme'}}">{{item.cne}}</text>
+              <text class="cne-val {{item.threatTextClass}}">{{item.cne}}</text>
               <text class="cne-unit">CNE</text>
             </view>
           </view>
@@ -63,6 +63,17 @@
               <view class="detail-item detail-full">
                 <text class="detail-label">采集设备</text>
                 <text class="detail-value">{{item.device}} ({{item.system}})</text>
+              </view>
+              <view class="detail-item detail-full">
+                <text class="detail-label">风险预警规则</text>
+                <view class="risk-rule-list">
+                  <text
+                    wx:for="{{item.riskSegmentSummary}}"
+                    wx:for-item="line"
+                    wx:key="index"
+                    class="risk-rule-line"
+                  >{{line}}</text>
+                </view>
               </view>
             </view>
             <view class="tip-text">长按卡片可重命名或删除此记录</view>

@@ -23,7 +23,7 @@
     <view class="action-cell" hover-class="cell-hover" bindtap="importCalibration">
       <view class="cell-left">
         <image class="cell-icon" src="../../images/download.svg" mode="aspectFit" />
-        <text class="cell-text">从 NoiCali 导入参数</text>
+        <text class="cell-text">从 剪贴板 导入参数</text>
       </view>
       <text class="cell-arrow">›</text>
     </view>
@@ -51,6 +51,7 @@
       </view>
       <text class="cell-arrow">›</text>
     </view>
+    <!-- 
     <view class="action-cell" hover-class="cell-hover" bindtap="getNoiCali">
       <view class="cell-left">
         <image class="cell-icon" src="../../images/download.svg" mode="aspectFit" />
@@ -58,5 +59,6 @@
       </view>
       <text class="cell-arrow">›</text>
     </view>
+    -->
   </view>
 </view>

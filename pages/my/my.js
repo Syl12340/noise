@@ -51,8 +51,8 @@ Page({
 
   login(){
     try{
-      //this._login()
-      
+      this._login()
+      /*
       wx.showModal({
         title: '登录未开放',
         content: '正在测试中',
@@ -60,6 +60,7 @@ Page({
         confirmText: '知道了',
         confirmColor: THEME_COLORS.PRIMARY
       });
+      */
     }catch(e){
       console.log(e);
       wx.showModal({
@@ -84,55 +85,122 @@ Page({
       confirmColor: THEME_COLORS.PRIMARY
     });
   }else{
-    wx.login({
-      success (res) {
-        if (res.code) {
-          //发起网络请求
-          console.log(res.code);
-          wx.request({
-            url: serverAPILogin, 
-            data: {
-              code: res.code,
-              extra: ''
-            },
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
-            method:'POST',
-            complete(res){
-              console.log(res.data);
-              isLoggedIn = res.data.success;
-              my.setData({
-                'isLoggedIn' : res.data.success,
-                'userInfo':{
-                  token : res.data.token,
-                  userId : res.data.userId,
-                  nickname : res.data.nickname,
-                  avatarUrl : res.data.avatarUrl,
-                  group : res.data.userGroup,
-                  groupType:null,
-                }
-              }, () => {
-                // 在setData回调中执行后续操作
-                isNewUser = res.data.isNewUser;
-                console.log('3', my.data);
-                my.checkUserGroup();
-                my.saveLoginState();
-                my.syncLoginState(app);
-                
-                if (my.data.isLoggedIn && isNewUser) {
-                  my.welcome(my.data.userInfo.userId);
+    wx.getUserProfile({
+      desc: '用于完善用户资料',
+      success: (profileRes) => {
+        const profile = profileRes.userInfo || {};
+
+        wx.login({
+          success (res) {
+            if (res.code) {
+              wx.request({
+                url: serverAPILogin,
+                data: {
+                  code: res.code,
+                  userInfo: {
+                    nickName: profile.nickName || '',
+                    avatarUrl: profile.avatarUrl || ''
+                  }
+                },
+                header: {
+                  'content-type': 'application/json'
+                },
+                method: 'POST',
+                success(loginRes) {
+                  const data = loginRes.data || {};
+                  const serverUserInfo = data.userInfo || {};
+
+                  if (!data.success) {
+                    isLoggedIn = false;
+                    my.setData({ isLoggedIn: false });
+                    wx.showModal({
+                      title: '登录失败',
+                      content: data.message || '登录失败，请稍后重试',
+                      showCancel: false,
+                      confirmText: '知道了',
+                      confirmColor: THEME_COLORS.PRIMARY
+                    });
+                    return;
+                  }
+
+                  const nicknameCandidates = [
+                    serverUserInfo.nickname,
+                    serverUserInfo.nickName,
+                    data.nickname,
+                    profile.nickName
+                  ];
+                  const resolvedNickname = nicknameCandidates.find(
+                    (name) => typeof name === 'string' && name.trim().length > 0
+                  ) || '微信用户';
+
+                  const avatarCandidates = [
+                    serverUserInfo.avatarUrl,
+                    serverUserInfo.avatar_url,
+                    data.avatarUrl,
+                    profile.avatarUrl
+                  ];
+                  const resolvedAvatar = avatarCandidates.find(
+                    (url) => typeof url === 'string' && url.trim().length > 0
+                  ) || '';
+
+                  const userInfo = {
+                    token: data.token || '',
+                    userId: serverUserInfo.userId || serverUserInfo.id || data.userId || null,
+                    nickname: resolvedNickname,
+                    avatarUrl: resolvedAvatar,
+                    group: (
+                      serverUserInfo.userGroup ??
+                      serverUserInfo.user_group ??
+                      data.userGroup ??
+                      data.user_group ??
+                      (data.data && (data.data.userGroup ?? data.data.user_group)) ??
+                      null
+                    ),
+                    groupType: null
+                  };
+
+                  isLoggedIn = true;
+                  my.setData({
+                    isLoggedIn: true,
+                    userInfo
+                  }, () => {
+                    isNewUser = !!data.isNewUser;
+                    my.checkUserGroup();
+                    my.saveLoginState();
+                    my.syncLoginState(app);
+
+                    if (my.data.isLoggedIn && isNewUser) {
+                      my.welcome(my.data.userInfo.userId);
+                    }
+                  });
+                },
+                fail(err) {
+                  console.log('登录请求失败', err);
+                  wx.showModal({
+                    title: '登录失败',
+                    content: '网络异常，请稍后重试',
+                    showCancel: false,
+                    confirmText: '知道了',
+                    confirmColor: THEME_COLORS.PRIMARY
+                  });
                 }
               });
+            } else {
+              console.log('登录失败！' + res.errMsg)
             }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
+          }
+        })
       },
-      complete(res){
+      fail: () => {
+        wx.showModal({
+          title: '提示',
+          content: '需要授权后才能登录',
+          showCancel: false,
+          confirmText: '知道了',
+          confirmColor: THEME_COLORS.PRIMARY
+        });
       }
-    })
+    });
   }
   },
 
@@ -150,7 +218,12 @@ Page({
   },
 
   bindGetUserInfo (e) {
-    wx.setStorageSync('userInfo', e.detail.userInfo);
+    const userInfo = e.detail.userInfo || {};
+    wx.setStorageSync('userInfo', {
+      ...this.data.userInfo,
+      nickname: userInfo.nickName || this.data.userInfo.nickname,
+      avatarUrl: userInfo.avatarUrl || this.data.userInfo.avatarUrl
+    });
   },
 
   // 退出登录
@@ -163,6 +236,8 @@ Page({
           isLoggedIn = false;
           wx.setStorageSync('isLoggedIn', false);
           wx.removeStorageSync('userInfo');
+          app.globalData.isLoggedIn = false;
+          app.globalData.userInfo = {};
           this.setData({ 
             'userInfo': {
               userId:null,
@@ -180,7 +255,8 @@ Page({
     });
   },
   checkUserGroup(){
-    const type = this.data.userInfo.group;
+    const rawType = this.data.userInfo.group;
+    const type = rawType === null || rawType === undefined || rawType === '' ? null : Number(rawType);
     let groupType = '';
     
     if (type === 0) {
@@ -205,9 +281,14 @@ Page({
       wx.getUserProfile({
         desc: '用于完善用户资料',
         success: (res) => {
-          const userInfo = res.userInfo;
-          wx.setStorageSync('userInfo', userInfo);
-          this.setData({ userInfo });
+          const profile = res.userInfo || {};
+          const mergedUserInfo = {
+            ...this.data.userInfo,
+            nickname: profile.nickName || this.data.userInfo.nickname,
+            avatarUrl: profile.avatarUrl || this.data.userInfo.avatarUrl
+          };
+          wx.setStorageSync('userInfo', mergedUserInfo);
+          this.setData({ userInfo: mergedUserInfo });
         }
       });
     }
@@ -220,7 +301,21 @@ Page({
   },
   loadLoginState(){
     isLoggedIn = wx.getStorageSync('isLoggedIn');
-    const userInfo = wx.getStorageSync('userInfo') || {};
+    const rawUserInfo = wx.getStorageSync('userInfo') || {};
+    const userInfo = {
+      ...rawUserInfo,
+      userId: rawUserInfo.userId || rawUserInfo.id || null,
+      nickname: rawUserInfo.nickname || rawUserInfo.nickName || null,
+      avatarUrl: rawUserInfo.avatarUrl || rawUserInfo.avatar_url || null,
+      group: (
+        rawUserInfo.group ??
+        rawUserInfo.userGroup ??
+        rawUserInfo.user_group ??
+        (rawUserInfo.data && (rawUserInfo.data.userGroup ?? rawUserInfo.data.user_group)) ??
+        null
+      ),
+      token: rawUserInfo.token || null
+    };
     console.log("loadloginstate from wx: ",userInfo);
     if(isLoggedIn){
       this.setData({
@@ -230,6 +325,18 @@ Page({
         this.checkUserGroup();
       });
       console.log("loadloginstate data: ",this.data.userInfo);
+    } else {
+      this.setData({
+        'isLoggedIn': false,
+        'userInfo': {
+          userId:null,
+          nickname:null,
+          avatarUrl:null,
+          group:null,
+          groupType:null,
+          token:null,
+        }
+      });
     }
   },
   syncLoginState(app){

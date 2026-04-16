@@ -38,6 +38,103 @@ function getThreatTextClass(threat) {
   return mapping[threat] || 'text-safe';
 }
 
+/**
+ * 将 dB 数值格式化为易读文本。
+ * @param {number} value - 待格式化数值。
+ * @returns {string} 格式化后的 dB 值字符串。
+ */
+function formatDbValue(value) {
+  if (!Number.isFinite(value)) {
+    return '--';
+  }
+
+  const rounded = Math.round(value * 100) / 100;
+  return Number.isInteger(rounded) ? `${rounded}` : `${rounded}`;
+}
+
+/**
+ * 将风险区间对象格式化为文本区间。
+ * @param {{lower: number|null, upper: number|null}} level - 风险区间对象。
+ * @returns {string} 区间描述。
+ */
+function formatRiskRange(level) {
+  const lower = level ? level.lower : null;
+  const upper = level ? level.upper : null;
+  const hasLower = Number.isFinite(lower);
+  const hasUpper = Number.isFinite(upper);
+
+  if (hasLower && hasUpper) {
+    return `${formatDbValue(lower)}-${formatDbValue(upper)} dB(A)`;
+  }
+
+  if (!hasLower && hasUpper) {
+    return `<${formatDbValue(upper)} dB(A)`;
+  }
+
+  if (hasLower && !hasUpper) {
+    return `>=${formatDbValue(lower)} dB(A)`;
+  }
+
+  return '全范围';
+}
+
+/**
+ * 依据记录中的 riskSegments 快照生成历史详情展示文案。
+ * @param {object} record - 单条历史记录。
+ * @returns {string[]} 风险规则摘要行列表。
+ */
+function buildRiskSegmentSummary(record) {
+  const snapshot = record && record.riskSegments;
+  if (!snapshot || !snapshot.enabled || !Array.isArray(snapshot.levels)) {
+    return ['未记录风险分段快照'];
+  }
+
+  const levelMap = snapshot.levels.reduce((acc, level) => {
+    if (level && level.key) {
+      acc[level.key] = level;
+    }
+    return acc;
+  }, {});
+
+  const keyOrder = ['SAFE', 'ATTENTION', 'MEDIUM', 'HIGH', 'EXTREME'];
+  const enabledMap = {
+    SAFE: snapshot.enabled.safe !== false,
+    ATTENTION: snapshot.enabled.attention !== false,
+    MEDIUM: snapshot.enabled.medium !== false,
+    HIGH: snapshot.enabled.high !== false,
+    EXTREME: snapshot.enabled.extreme !== false,
+  };
+
+  return keyOrder.map((key) => {
+    const meta = RISK_META[key];
+    const label = meta ? meta.text : key;
+    if (!enabledMap[key]) {
+      return `${label}：未启用`;
+    }
+
+    const level = levelMap[key];
+    if (!level) {
+      return `${label}：已启用（区间缺失）`;
+    }
+
+    return `${label}：${formatRiskRange(level)}`;
+  });
+}
+
+/**
+ * 为结果页渲染附加展示字段（不回写存储）。
+ * @param {object[]} records - 原始历史记录列表。
+ * @returns {object[]} 附带展示字段的记录列表。
+ */
+function normalizeRecordsForDisplay(records) {
+  return records.map((record) => ({
+    ...record,
+    threatColorClass: getThreatColorClass(record.threat),
+    threatTextClass: getThreatTextClass(record.threat),
+    riskSegmentSummary: buildRiskSegmentSummary(record),
+  }));
+}
+
 Page({
   data: {
     savedResult: [],
@@ -50,7 +147,7 @@ Page({
    * 如果当前展开的索引超出新数组长度，则收起
    */
   refresh() {
-    const savedResult = resultManager.getAll();
+    const savedResult = normalizeRecordsForDisplay(resultManager.getAll());
     let nextActiveIndex = this.data.activeIndex;
     if (nextActiveIndex >= savedResult.length) {
       nextActiveIndex = -1;
@@ -64,7 +161,7 @@ Page({
   },
 
   onShow: function () {
-    const savedResult = resultManager.getAll();
+    const savedResult = normalizeRecordsForDisplay(resultManager.getAll());
     this.setData({
       savedResult,
       activeIndex: -1,

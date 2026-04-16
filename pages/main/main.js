@@ -10,8 +10,9 @@ const {
   calculateDb,
   calculateShortCNE,
   AWeightingFilter,
+  estimateKFactorSliding,
 } = require('../../utils/audio-math');
-const { LIMITS, CANVAS_CONFIG, THEME_COLORS, RISK_THRESHOLDS } = require('../../utils/constants');
+const { LIMITS, CANVAS_CONFIG, THEME_COLORS } = require('../../utils/constants');
 const { buildRiskLevels } = require('../../utils/risk-config');
 const dataModel = require('../../utils/data-model');
 const resultManager = require('../../utils/result-manager');
@@ -24,6 +25,13 @@ const {
   clearRecorderFrameListener,
   restartRecorderSession,
 } = require('../../utils/recorder-session');
+const {
+  initCanvasFrontAsync,
+  recordArrayPoint,
+  drawCanvasMesh,
+  drawCanvasMark,
+  drawWaveformFrame,
+} = require('../../utils/canvas/index');
 let audioCtx, canvasf, ctxf, dpr;
 
 /**
@@ -55,12 +63,11 @@ let aWeightingFilter = new AWeightingFilter();
 
 /**
  * === 高性能帧处理变量（避免 O(n) 频繁重算） ===
- * - timeTerm: 预期暴露时长的时间项（= 10×log10(exposureSeconds)）
+ * - timeTerm: 预期暴露时长时间项（= 10×log10(T/T0)，T0=28800s）
  * - frameCount: 已收到的音频帧总数
  * - lastFrameTimestamp: 上一帧到达时的时间戳（毫秒）
  * - elapsedMsAccumulator: 帧间隔累积时间（毫秒），达 1000ms 时输出一个秒级数据点
  * - totalEnergySum: CNE 计算中的能量累计器（单位：10^(dB/10)）
- * - globalMaxDB、globalMinDB: 用于K-Factor估算的全局最大/最小值
  * - instantLimit: 示波器的瞬时边界线阈值（通常为 80dB）
  * - isMainMonitoringActive: 标志当前 main 监测会话是否有效（阻断退出后的迟到帧）
  * - currentMainPage: 当前激活的 main 页面实例引用（用于正确的 setData 上下文）
@@ -70,8 +77,6 @@ let frameCount = 0;
 let lastFrameTimestamp = 0;
 let elapsedMsAccumulator = 0;
 let totalEnergySum = 0;
-let globalMaxDB = -Infinity;
-let globalMinDB = Infinity;
 let instantLimit = LIMITS.INSTANT_DB_LIMIT_DEFAULT;
 let currentRiskLevels = [];
 let currentMainPage = null;
@@ -87,20 +92,16 @@ const scaleY = CANVAS_CONFIG.MONITOR.SCALE_Y;
  * @param {number} currentTime - 当前秒数索引
  * @param {number} dBSPL - Z 计权声压级（dB SPL）
  * @return {void}
- * 【注】第一个数据点会被补到 index 0（虽然 time 从 1 开始）
+ * 第一个数据点会被补到 index 0（虽然 time 从 1 开始）
  */
 function recordArray(currentTime, dBSPL) {
-  if (currentTime === 1) {
-    dBArray[0] = dBSPL;
-  }
-  dBArray[currentTime] = dBSPL;
+  recordArrayPoint(dBArray, currentTime, dBSPL);
 }
 
 /**
  * 在新一轮环境声学采样流程建立之前初始化数据及图形域。
  * 清空之前缓存的统计数组、积分计数器和风险评估状态记录，
  * 保障单次连续监控的数据流不致发生交叉覆盖现象。
- * 
  * @sideeffect 重启 `dBArray`、`cne` 等业务标量及清除告警阻塞标志位。
  */
 function resetMonitorSessionState() {
@@ -111,8 +112,6 @@ function resetMonitorSessionState() {
   elapsedMsAccumulator = 0;
   cne = 0;
   totalEnergySum = 0;
-  globalMaxDB = -Infinity;
-  globalMinDB = Infinity;
   isAlarming = false;
   hasAlerted = false;
   startDate = Date.now();
@@ -123,7 +122,6 @@ function resetMonitorSessionState() {
  * 利用主线程逐行读取每次麦克风底层传来的脉冲编码信号，
  * 按顺序实施 Z 计权有效推导与 A 计权等响度数字滤波分析；
  * 计算单秒能量均值，然后实时渲染到前端 Canvas 和风险显示接口。
- * 
  * @param {object} page - 环境所依附的前端 Page 沙盒内实例
  * @param {object} res - 硬件麦克风实时返回的帧向音频缓冲内存块
  * @sideeffect 在闭包下修改记录队列，并驱动相关健康暴露与弹窗预警机制。
@@ -170,18 +168,17 @@ function handleRecordedFrame(page, res) {
   recordArray(time, dbsplZ);
   draw(ctxf, time);
 
+  const currentKFactor = estimateKFactorSliding(dBArray, time, 10);
+
   const cneResult = calculateShortCNE(
     dbsplA,
     time,
     timeTerm,
     totalEnergySum,
-    globalMaxDB,
-    globalMinDB
+    currentKFactor
   );
   cne = cneResult.cne;
   totalEnergySum = cneResult.totalEnergySum;
-  globalMaxDB = cneResult.globalMaxDB;
-  globalMinDB = cneResult.globalMinDB;
 
   const riskStatus = getRiskStatusByCNE(cne);
   threat = riskStatus.text;
@@ -224,11 +221,9 @@ function bindMainRecorderFrameListener() {
   });
 }
 
-/**
- * 绑定 main 页录音生命周期监听（仅注册一次）。
- * @returns {void}
- * Side effect: 注册 recorderManager.onStop / onInterruptionEnd 回调。
- */
+
+// 绑定 main 页录音生命周期监听（仅注册一次）。
+// 注册 recorderManager.onStop / onInterruptionEnd 回调。
 function bindMainRecorderLifecycleListeners() {
   bindRecorderListenersOnce(recorderManager, 'main-lifecycle-listeners', () => {
     recorderManager.onStop(() => {
@@ -250,11 +245,8 @@ function bindMainRecorderLifecycleListeners() {
   });
 }
 
-/**
- * 取消待启动的 main 录音定时任务。
- * @returns {void}
- * Side effect: 可能清除未执行的 setTimeout。
- */
+
+//取消待启动的 main 录音定时任务。
 function cancelPendingMainRecorderStart() {
   if (mainRecorderStartTimerId) {
     clearTimeout(mainRecorderStartTimerId);
@@ -283,10 +275,8 @@ function scheduleMainRecorderRestart(delayMs) {
   return true;
 }
 
-/**
- * === Canvas 绘制函数组（极致性能优化）===
- * 采用单一 beginPath/stroke 递推绘制网格与阈值线，最小化状态变更
- */
+// === Canvas 绘制函数组（极致性能优化）===
+//采用单一 beginPath/stroke 递推绘制网格与阈值线，最小化状态变更
 
 /**
  * 绘制背景网格和瞬时阈值线
@@ -296,33 +286,16 @@ function scheduleMainRecorderRestart(delayMs) {
  * @param {number} thresholdLine - 瞬时边界线（dB），可选
  */
 function mesh(ctx, leftBoundary, rightBoundary, thresholdLine) {
-  // --- 1. 批量绘制基础网格 (合并路径，极省性能) ---
-  ctx.strokeStyle = THEME_COLORS.GRID;
-  ctx.lineWidth = 0.2;
-  ctx.setLineDash([]);
-  
-  ctx.beginPath(); // 开启唯一主路径
-  for (let db = 0; db <= 130; db += 10) {
-    const y = db * scaleY;
-    ctx.moveTo(leftBoundary, -y);
-    ctx.lineTo(rightBoundary, -y);
-  }
-  ctx.stroke(); // 循环外一次性渲染所有基础网格！
-
-  // --- 2. 绘制独立的瞬时边界高亮线 ---
-  if (thresholdLine !== undefined && thresholdLine !== null) {
-    ctx.beginPath();
-    ctx.strokeStyle = THEME_COLORS.PRIMARY;
-    ctx.lineWidth = 0.35; 
-    ctx.setLineDash([5, 3]); 
-    
-    const targetY = thresholdLine * scaleY;
-    ctx.moveTo(leftBoundary, -targetY);
-    ctx.lineTo(rightBoundary, -targetY);
-    ctx.stroke();
-    
-    ctx.setLineDash([]); // 重置虚线配置
-  }
+  drawCanvasMesh(ctx, {
+    leftBoundary,
+    rightBoundary,
+    thresholdLine,
+    thresholdVisible: thresholdLine !== undefined && thresholdLine !== null,
+    scaleY,
+    gridColor: THEME_COLORS.GRID,
+    primaryColor: THEME_COLORS.PRIMARY,
+    thresholdLineWidth: 0.35,
+  });
 }
 
 /**
@@ -331,25 +304,14 @@ function mesh(ctx, leftBoundary, rightBoundary, thresholdLine) {
  * @param {number} thresholdLine - 瞬时阈值线，用于在右侧标注其 dB 值
  */
 function mark(ctx, thresholdLine) {
-  ctx.fillStyle = THEME_COLORS.NEUTRAL;
-  ctx.font = '10px Arial';
-  
-  ctx.textAlign = 'left';
-  ctx.fillText('SPL [dB(Z)]', 5, -globalSize + 15); 
-  
-  ctx.textAlign = 'right';
-  for (let db = 130; db >= 0; db -= 20) {
-      const y = db * scaleY;
-      ctx.fillText(`${db}`, globalSize - 5, -y - 3); 
-  }
-
-  // --- 额外绘制红色的瞬时边界数值 ---
-  if (thresholdLine !== undefined && thresholdLine !== null) {
-    ctx.fillStyle = THEME_COLORS.PRIMARY;
-    ctx.font = '10px Arial';
-    const targetY = thresholdLine * scaleY;
-    ctx.fillText(`${thresholdLine}`, globalSize - 5, -targetY - 3); 
-  }
+  drawCanvasMark(ctx, {
+    globalSize,
+    scaleY,
+    thresholdLine,
+    thresholdVisible: thresholdLine !== undefined && thresholdLine !== null,
+    neutralColor: THEME_COLORS.NEUTRAL,
+    primaryColor: THEME_COLORS.PRIMARY,
+  });
 }
 
 /**
@@ -359,41 +321,24 @@ function mark(ctx, thresholdLine) {
  * @param {number} currentTime - 当前已统计的秒数
  */
 function draw(ctx, currentTime) {
-  // 1. 基于当前坐标系精确清空绘图区域
-  ctx.clearRect(-10, -globalSize - 50, globalSize + 100, globalSize + 100);
-  
-  // 2. 绘制静态背景 (网格与刻度)
-  mesh(ctx, 0, globalSize, instantLimit);
-  mark(ctx, instantLimit);
-  
-  // 3. 计算波形可视窗口
-  const maxPoints = Math.floor(globalSize / scaleX); 
-  const startIdx = Math.max(1, currentTime - maxPoints + 1);
-  const xOffset = (currentTime <= maxPoints) ? 0 : (currentTime - maxPoints) * scaleX;
-  
-  ctx.lineWidth = 2.5; 
-  ctx.lineJoin = 'round';
-  ctx.lineCap = 'round';
-  
-  // 4. 动态波形分段渲染
-  for (let t = startIdx; t <= currentTime; t++) {
-    let currentDB = dBArray[t];
-    let previousDB = dBArray[t-1];
-    
-    // 动态确定当前线段颜色 - 使用 RISK_THRESHOLDS 常量替代硬编码值
-    let targetColor = THEME_COLORS.SAFE_ASSIST;
-    if (currentDB >= RISK_THRESHOLDS.HIGH_MAX) targetColor = THEME_COLORS.PRIMARY;
-    else if (currentDB >= RISK_THRESHOLDS.ATTENTION_MAX) targetColor = THEME_COLORS.WARN;
-
-    let startX = (t - 1) * scaleX - xOffset;
-    let endX = t * scaleX - xOffset;
-    
-    ctx.beginPath();
-    ctx.strokeStyle = targetColor; // 仅在需要时切换状态
-    ctx.moveTo(startX, -previousDB * scaleY);
-    ctx.lineTo(endX, -currentDB * scaleY);
-    ctx.stroke();
-  }
+  drawWaveformFrame(ctx, {
+    clearRect: [-10, -globalSize - 50, globalSize + 100, globalSize + 100],
+    drawBackground: () => {
+      mesh(ctx, 0, globalSize, instantLimit);
+      mark(ctx, instantLimit);
+    },
+    globalSize,
+    scaleX,
+    scaleY,
+    currentTime,
+    dBArray,
+    getStrokeColor: (currentDB) => {
+      const status = getRiskStatusByCNE(currentDB);
+      if (status.key === 'EXTREME') return THEME_COLORS.PRIMARY;
+      if (status.key === 'ATTENTION' || status.key === 'MEDIUM' || status.key === 'HIGH') return THEME_COLORS.WARN;
+      return THEME_COLORS.SAFE_ASSIST;
+    },
+  });
 }
 
 /**
@@ -402,18 +347,15 @@ function draw(ctx, currentTime) {
  * Side effect: 更新全局 canvasf/ctxf/dpr，并设置像素比缩放与坐标系平移。
  */
 function initCanvasFront(query){
-  query.select('#canvas-front').fields({ node: true, size: true }).exec((res) => {
-      canvasf = res[0].node;
-      ctxf = canvasf.getContext('2d');
-      dpr = wx.getWindowInfo().pixelRatio;
-      
-      // 物理像素映射
-      canvasf.width = res[0].width * dpr;
-      canvasf.height = res[0].height * dpr;   
-      
-      ctxf.scale(dpr, dpr);
-      ctxf.translate(0, globalSize);
-  });
+  initCanvasFrontAsync(query, globalSize)
+    .then((res) => {
+      canvasf = res.canvas;
+      ctxf = res.ctx;
+      dpr = res.dpr;
+    })
+    .catch((error) => {
+      console.warn('[main] init canvas failed:', error);
+    });
 }
 
 /**
@@ -423,7 +365,7 @@ function initCanvasFront(query){
  */
 function getRiskStatusByCNE(cneValue) {
   if (!Number.isFinite(cneValue)) {
-    return { text: '安全', bgClass: 'detail-safe' };
+    return { key: 'SAFE', text: '安全', bgClass: 'detail-safe' };
   }
 
   const levels = (Array.isArray(currentRiskLevels) && currentRiskLevels.length > 0)
@@ -433,12 +375,47 @@ function getRiskStatusByCNE(cneValue) {
   for (let i = 0; i < levels.length; i++) {
     const level = levels[i];
     if (cneValue < level.upper) {
-      return { text: level.text, bgClass: level.bgClass };
+      return { key: level.key, text: level.text, bgClass: level.bgClass };
     }
   }
 
   const lastLevel = levels[levels.length - 1];
-  return { text: lastLevel.text, bgClass: lastLevel.bgClass };
+  return { key: lastLevel.key, text: lastLevel.text, bgClass: lastLevel.bgClass };
+}
+
+/**
+ * 生成本次记录的风险分段快照，便于回溯启用状态与区间划分。
+ * @returns {{enabled: object, levels: Array}} 风险分段快照。
+ */
+function getRiskSegmentSnapshot() {
+  const config = riskConfig || {};
+  const enabled = config.enabled || {};
+  const levels = (Array.isArray(currentRiskLevels) && currentRiskLevels.length > 0)
+    ? currentRiskLevels
+    : buildRiskLevels(config);
+
+  let lowerBound = -Infinity;
+  const levelSnapshots = levels.map((level) => {
+    const snapshot = {
+      key: level.key,
+      text: level.text,
+      lower: Number.isFinite(lowerBound) ? lowerBound : null,
+      upper: Number.isFinite(level.upper) ? level.upper : null,
+    };
+    lowerBound = level.upper;
+    return snapshot;
+  });
+
+  return {
+    enabled: {
+      safe: true,
+      attention: enabled.attention !== false,
+      medium: enabled.medium !== false,
+      high: enabled.high !== false,
+      extreme: true,
+    },
+    levels: levelSnapshots,
+  };
 }
 
 // ================= 页面主逻辑 =================
@@ -491,7 +468,7 @@ Page({
       riskConfig = dataModel.getRiskConfig();
       currentRiskLevels = buildRiskLevels(riskConfig);
       allowAlarm = dataModel.getAlarmEnabled();
-      timeTerm = 10 * Math.log10(expectedExposure);
+      timeTerm = 10 * Math.log10(expectedExposure / 28800);
       resetMonitorSessionState();
 
       if (DEBUG) {
@@ -562,6 +539,7 @@ Page({
       threat: this.data.threat,
       location: location,
       extra: null,
+      riskSegments: getRiskSegmentSnapshot(),
       device: deviceName,
       system: systemName,
       offset: offset,
@@ -587,10 +565,6 @@ Page({
     });
   },
 
-  /**
-   * 处理“保存记录”点击事件。
-   * Side effect: 触发结果归档写入和提示弹窗。
-   */
   handleSaveResult(){
     try{
       this.saveResult();
@@ -606,7 +580,7 @@ Page({
 
   /**
    * 停止 main 页监测会话并释放资源。
-   * Side effect: 终止录音、关闭音频上下文，并阻断后续帧回调写入。
+   * 终止录音、关闭音频上下文，并阻断后续帧回调写入。
    */
   stopMainMonitoring: function() {
     isMainMonitoringActive = false;

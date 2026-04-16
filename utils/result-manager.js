@@ -15,7 +15,6 @@ function setAll(records) {
 /**
  * 通过后进先出 (LIFO) 方式向持久化缓存新增采样记录。
  * 用于实现单次监测完成后的安全数据落盘保存与展示刷新。
- * 
  * @param {object} record - 包含时间地理和统计量度等特征数据的单个快照对象
  * @returns {Array} 推入后的全部序列数组
  */

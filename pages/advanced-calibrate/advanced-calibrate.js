@@ -104,7 +104,7 @@ Page({
             wx.setClipboardData({ data: ' ' });
             
             // 刷新页面数据
-            that.setData({ currentOffset: offset });
+            that.setData({ currentOffset: offset.toFixed(6) });
           } else {
             throw new Error("Invalid Source");
           }

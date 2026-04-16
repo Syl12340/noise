@@ -5,6 +5,13 @@ const recorderManager = wx.getRecorderManager();
 const { calculateRMS, calculateDb } = require('../../utils/audio-math');
 const { LIMITS, CANVAS_CONFIG, THEME_COLORS } = require('../../utils/constants');
 const dataModel = require('../../utils/data-model');
+const {
+  initCanvasFrontAsync,
+  recordArrayPoint,
+  drawCanvasMesh,
+  drawCanvasMark,
+  drawWaveformFrame,
+} = require('../../utils/canvas/index');
 const { safeStopRecorder, createCamcorderRecordParams, bindRecorderFrameListener, clearRecorderFrameListener, restartRecorderSession } = require('../../utils/recorder-session');
 
 let canvasf, ctxf, dpr;
@@ -44,49 +51,27 @@ const scaleY = CANVAS_CONFIG.CALIBRATE.SCALE_Y;
  * @return {void}
  */
 function mesh(ctx, mtX, ltX, thresholdLine) {
-  // 1. 批量绘制基础网格 (合并路径)
-  ctx.strokeStyle = THEME_COLORS.GRID;
-  ctx.lineWidth = 0.2;
-  ctx.setLineDash([]);
-  
-  ctx.beginPath();
-  for (let db = 0; db <= 130; db += 10) {
-    const y = db * scaleY;
-    ctx.moveTo(mtX, -y);
-    ctx.lineTo(ltX, -y);
-  }
-  ctx.stroke();
-
-  // 2. 绘制独立的瞬时边界高亮线
-  if (thresholdLine) {
-    ctx.beginPath();
-    ctx.strokeStyle = THEME_COLORS.PRIMARY;
-    ctx.lineWidth = 0.5;
-    ctx.setLineDash([5, 3]);
-    const targetY = thresholdLine * scaleY;
-    ctx.moveTo(mtX, -targetY);
-    ctx.lineTo(ltX, -targetY);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  }
+  drawCanvasMesh(ctx, {
+    leftBoundary: mtX,
+    rightBoundary: ltX,
+    thresholdLine,
+    thresholdVisible: !!thresholdLine,
+    scaleY,
+    gridColor: THEME_COLORS.GRID,
+    primaryColor: THEME_COLORS.PRIMARY,
+    thresholdLineWidth: 0.5,
+  });
 }
 
 function mark(ctx, thresholdLine) {
-  ctx.fillStyle = THEME_COLORS.NEUTRAL;
-  ctx.font = '10px Arial';
-  
-  ctx.textAlign = 'left';
-  ctx.fillText('SPL [dB(Z)]', 5, -globalSize + 15); 
-  
-  ctx.textAlign = 'right';
-  for (let db = 130; db >= 0; db -= 20) {
-    const y = db * scaleY;
-    ctx.fillText(`${db}`, globalSize - 5, -y - 3);
-  }
-  if (thresholdLine) {
-    ctx.fillStyle = THEME_COLORS.PRIMARY;
-    ctx.fillText(`${thresholdLine}`, globalSize - 5, -(thresholdLine * scaleY) - 3);
-  }
+  drawCanvasMark(ctx, {
+    globalSize,
+    scaleY,
+    thresholdLine,
+    thresholdVisible: !!thresholdLine,
+    neutralColor: THEME_COLORS.NEUTRAL,
+    primaryColor: THEME_COLORS.PRIMARY,
+  });
 }
 
 /**
@@ -96,37 +81,21 @@ function mark(ctx, thresholdLine) {
  * @return {void}
  */
 function draw(ctx, currentTime) { 
-  // 1. 基于当前坐标系精确清空绘图区域
-  ctx.clearRect(0, -globalSize-50, globalSize+100, globalSize+100);
-  
-  // 2. 绘制静态背景
-  mesh(ctx, 0, globalSize, instantLimit);
-  mark(ctx, instantLimit);
-  
-  // 3. 计算波形可视窗口
-  const maxPoints = Math.floor(globalSize / scaleX); 
-  const startIdx = Math.max(1, currentTime - maxPoints + 1);
-  const xOffset = (currentTime <= maxPoints) ? 0 : (currentTime - maxPoints) * scaleX;
-  
-  ctx.lineWidth = 2.5;
-  ctx.lineJoin = 'round';
-  ctx.lineCap = 'round';
-  
-  // 4. 动态波形分段渲染
-  for (let t = startIdx; t <= currentTime; t++) {
-    let currentDB = dBArray[t];
-    let previousDB = dBArray[t-1];
-    
-    ctx.strokeStyle = currentDB >= instantLimit ? THEME_COLORS.PRIMARY : THEME_COLORS.SAFE_ASSIST;
-    
-    let startX = (t - 1) * scaleX - xOffset;
-    let endX = t * scaleX - xOffset;
-    
-    ctx.beginPath();
-    ctx.moveTo(startX, -previousDB * scaleY);
-    ctx.lineTo(endX, -currentDB * scaleY);
-    ctx.stroke();
-  }
+  drawWaveformFrame(ctx, {
+    clearRect: [0, -globalSize - 50, globalSize + 100, globalSize + 100],
+    drawBackground: () => {
+      mesh(ctx, 0, globalSize, instantLimit);
+      mark(ctx, instantLimit);
+    },
+    globalSize,
+    scaleX,
+    scaleY,
+    currentTime,
+    dBArray,
+    getStrokeColor: (currentDB) => {
+      return currentDB >= instantLimit ? THEME_COLORS.PRIMARY : THEME_COLORS.SAFE_ASSIST;
+    },
+  });
 }
 
 
@@ -141,17 +110,15 @@ Page({
 
   onReady() {
     const query = wx.createSelectorQuery();
-    query.select('#canvas-front').fields({ node: true, size: true }).exec((res) => {
-      canvasf = res[0].node;
-      ctxf = canvasf.getContext('2d');
-      dpr = wx.getWindowInfo().pixelRatio;
-      
-      // 物理像素映射
-      canvasf.width = res[0].width * dpr;
-      canvasf.height = res[0].height * dpr;   
-      ctxf.scale(dpr, dpr);
-      ctxf.translate(0, globalSize);
-    });
+    initCanvasFrontAsync(query, globalSize)
+      .then((res) => {
+        canvasf = res.canvas;
+        ctxf = res.ctx;
+        dpr = res.dpr;
+      })
+      .catch((error) => {
+        console.warn('[calibrate] init canvas failed:', error);
+      });
   },
 
   onShow() {
@@ -167,7 +134,6 @@ Page({
   /**
    * 停止并销毁录音机数据事件与监听钩子，阻断物理设备的调用防止内存泄露。
    * 该机制主要用于确保在退出页面时，底层音频流和尚未触发的定时任务被正确清除。
-   * 
    * @sideeffect 停止录音，清除页面引用与定时器。
    */
   stopCalibrateMonitoring() {
@@ -278,8 +244,7 @@ Page({
         elapsedMsAccumulator -= 1000;
         time++;
         
-        if (time === 1) dBArray[0] = dbfs + offset;
-        dBArray[time] = dbfs + offset;
+        recordArrayPoint(dBArray, time, dbfs + offset);
         
         draw(ctxf, time);
         

@@ -48,24 +48,33 @@ function calculateLeqIncremental(currentDB, totalSeconds, totalEnergySum) {
 }
 
 /**
- * 增量估算波值因子 (K-Factor)
- * K-Factor 用于描述信号变化的剧烈程度：
- * - K = 0：平稳信号（min ~ max 范围 <= 15dB）
- * - K = 1：波动信号（min ~ max 范围 > 15dB）
- * @param {number} currentDB - 当前秒的声压级
- * @param {number} globalMaxDB - 全局最大值
- * @param {number} globalMinDB - 全局最小值
- * @returns {object} { kFactor: 波值因子, globalMaxDB: 更新后最大值, globalMinDB: 更新后最小值 }
+ * 基于短时滑动窗口（Sliding Window）的波值因子 (K-Factor) 估算
+ * @param {Array<number>} dbHistory - 历史秒级声压级数组
+ * @param {number} currentTime - 当前时间索引（秒）
+ * @param {number} [windowSize=10] - 滑动窗口大小（秒）
+ * @returns {number} 波值因子（0 或 1）
  */
-function estimateKFactorIncremental(currentDB, globalMaxDB, globalMinDB) {
-  const nextMax = currentDB > globalMaxDB ? currentDB : globalMaxDB;
-  const nextMin = currentDB < globalMinDB ? currentDB : globalMinDB;
-  const range = nextMax - nextMin;
-  return {
-    kFactor: range > 15 ? 1 : 0,
-    globalMaxDB: nextMax,
-    globalMinDB: nextMin,
-  };
+function estimateKFactorSliding(dbHistory, currentTime, windowSize = 10) {
+  if (currentTime <= 0 || !dbHistory || dbHistory.length === 0) return 0;
+
+  const startIdx = Math.max(1, currentTime - windowSize + 1);
+  let localMax = -Infinity;
+  let localMin = Infinity;
+
+  for (let i = startIdx; i <= currentTime; i++) {
+    const value = dbHistory[i];
+    if (typeof value !== 'number') {
+      continue;
+    }
+    if (value > localMax) localMax = value;
+    if (value < localMin) localMin = value;
+  }
+
+  if (!Number.isFinite(localMax) || !Number.isFinite(localMin)) {
+    return 0;
+  }
+
+  return (localMax - localMin) > 15 ? 1 : 0;
 }
 
 /**
@@ -76,37 +85,30 @@ function estimateKFactorIncremental(currentDB, globalMaxDB, globalMinDB) {
  * @param {number} totalSeconds - 本次测量有效时长基数
  * @param {number} timeTerm - 基于预估接触时域加权得到的时间平移项参数
  * @param {number} totalEnergySum - 历史统计所推导出的对质量级宏观累积能量
- * @param {number} globalMaxDB - 测量周期声压上限，用于 K-Factor 波形波动校验
- * @param {number} globalMinDB - 测量周期声压下限，用于 K-Factor 波形波动校验
+ * @param {number} currentKFactor - 当前短时滑动窗口估算的 K-Factor（0 或 1）
  * @returns {object} 返回综合指数 CNE，及对应关联声学参量集合
  */
-function calculateShortCNE(currentDB, totalSeconds, timeTerm, totalEnergySum, globalMaxDB, globalMinDB) {
+function calculateShortCNE(currentDB, totalSeconds, timeTerm, totalEnergySum, currentKFactor) {
   if (totalSeconds <= 0) {
     return {
       cne: 0,
       leq: 0,
       kFactor: 0,
       totalEnergySum,
-      globalMaxDB,
-      globalMinDB,
     };
   }
 
   const leqResult = calculateLeqIncremental(currentDB, totalSeconds, totalEnergySum);
-  const kResult = estimateKFactorIncremental(currentDB, globalMaxDB, globalMinDB);
   const cne =
     leqResult.leq +
     timeTerm +
-    kResult.kFactor * CNE_FORMULA.K_FACTOR_WEIGHT -
-    CNE_FORMULA.BASE_OFFSET;
+    currentKFactor * CNE_FORMULA.K_FACTOR_WEIGHT;
 
   return {
     cne,
     leq: leqResult.leq,
-    kFactor: kResult.kFactor,
+    kFactor: currentKFactor,
     totalEnergySum: leqResult.totalEnergySum,
-    globalMaxDB: kResult.globalMaxDB,
-    globalMinDB: kResult.globalMinDB,
   };
 }
 
@@ -184,7 +186,7 @@ module.exports = {
   calculateRMS,
   calculateDb,
   calculateLeqIncremental,
-  estimateKFactorIncremental,
+  estimateKFactorSliding,
   calculateShortCNE,
   AWeightingFilter,
 };

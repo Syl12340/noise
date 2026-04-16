@@ -2,7 +2,7 @@
 <view class="page-container">
   <!-- 页面头部 -->
   <view class="doc-header">
-    <text class="title">如何检测</text>
+    <text class="title">如何监测</text>
     <text class="subtitle">USAGE</text>
   </view>
   <!-- 内容卡片 -->

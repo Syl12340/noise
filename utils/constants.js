@@ -22,13 +22,13 @@ const RISK_LIMIT_RANGE = {
 
 const CNE_FORMULA = {
   K_FACTOR_WEIGHT: 3,
-  BASE_OFFSET: 44.6,
+  REFERENCE_EXPOSURE_SECONDS: 28800,
 };
 
 const STORAGE_DEFAULTS = {
-  offset: 77,
+  offset: 100,
   expectedExposure: 2,
-  noiseAlarmLevel: 85,
+  noiseAlarmLevel: 100,
   alarm: true,
 };
 

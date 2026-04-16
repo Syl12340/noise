@@ -7,8 +7,8 @@
     <view class="card" hover-class="card--pressed" bindtap="goToPilot">
       <image class="card__icon" src="/images/mic.svg" />
       <view class="card__body">
-        <text class="card__title">检测前准备</text>
-        <text class="card__desc">先校准 · 再检测</text>
+        <text class="card__title">监测前准备</text>
+        <text class="card__desc">先校准 · 再监测</text>
       </view>
     </view>
     <!-- 查询记录 -->
