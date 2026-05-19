@@ -20,14 +20,15 @@ function initCanvasFrontAsync(query, globalSize, selectorId = '#canvas-front') {
         const canvas = res[0].node;
         const ctx = canvas.getContext('2d');
         const dpr = wx.getWindowInfo().pixelRatio;
+        const baseline = Number.isFinite(globalSize) ? globalSize : Math.min(res[0].width, res[0].height);
 
         canvas.width = res[0].width * dpr;
         canvas.height = res[0].height * dpr;
 
         ctx.scale(dpr, dpr);
-        ctx.translate(0, globalSize);
+        ctx.translate(0, baseline);
 
-        resolve({ canvas, ctx, dpr });
+        resolve({ canvas, ctx, dpr, baseline });
       });
     } catch (error) {
       reject(error);

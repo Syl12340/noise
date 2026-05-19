@@ -99,12 +99,40 @@ page {
 
 /* --- 图表居中控制 --- */
 .chart-card { padding-bottom: 30rpx; }
-.chart-header { padding: 30rpx 40rpx; }
+.chart-header { padding: 30rpx 40rpx 0; }
 .chart-title { font-size: 24rpx; color: #90a4ae; font-weight: 600; }
+
+/* 视图切换标签 */
+.view-tabs {
+  display: flex;
+  flex-direction: row;
+  padding: 16rpx 40rpx 20rpx;
+  gap: 16rpx;
+}
+
+.view-tab {
+  flex: 1;
+  text-align: center;
+  padding: 14rpx 0;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #90a4ae;
+  background: #F4F5F7;
+  transition: all 0.25s ease;
+}
+
+.view-tab-active {
+  color: #FFFFFF;
+  background: var(--ecnu-primary);
+  box-shadow: 0 4rpx 12rpx rgba(var(--ecnu-primary-rgb), 0.3);
+}
 
 .canvas-container {
   width: 100%;
-  height: 600rpx;
+  height: 760rpx;
+  padding: 24rpx;
+  box-sizing: border-box;
   display: flex;         /* 开启 flex */
   justify-content: center; /* 水平居中 */
   align-items: center;     /* 垂直居中 */
@@ -113,8 +141,8 @@ page {
 }
 /* canvas-layer 不再使用 absolute 以配合 flex 居中，或者手动指定 canvas 大小 */
 .canvas-layer {
-  width: 620rpx;  /* 对应 JS 中的 globalSize */
-  height: 600rpx;
+  width: 620rpx;  /* 缩小实际绘制矩形边长 */
+  height: 620rpx;
 }
 
 /* --- 底部操作栏 --- */

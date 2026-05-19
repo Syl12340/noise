@@ -13,6 +13,7 @@ const {
   estimateKFactorSliding,
 } = require('../../utils/audio-math');
 const { LIMITS, CANVAS_CONFIG, THEME_COLORS } = require('../../utils/constants');
+const { computeSpectrum } = require('../../utils/fft');
 const { buildRiskLevels } = require('../../utils/risk-config');
 const dataModel = require('../../utils/data-model');
 const resultManager = require('../../utils/result-manager');
@@ -31,8 +32,29 @@ const {
   drawCanvasMesh,
   drawCanvasMark,
   drawWaveformFrame,
+  computeThirdOctaveBands,
+  drawSpectrumFrame,
+  createSpectrogramState,
+  initSpectrogramImageData,
+  appendSpectrogramColumn,
+  drawSpectrogramFrame: renderSpectrogramFrame,
+  drawSpectrogramLabels,
+  clearSpectrogram,
 } = require('../../utils/canvas/index');
 let audioCtx, canvasf, ctxf, dpr;
+
+// === FFT / 频谱 / 频谱图状态 ===
+let pcmRingBuffer = new Int16Array(CANVAS_CONFIG.FFT.SIZE); // PCM 环形缓冲区
+let pcmWriteIndex = 0;    // 当前写入位置
+let fftSampleCount = 0;    // 距上次 FFT 的采样计数
+let spectrumBandLevels = null; // 最新 1/3 倍频程频段数据
+let spectrogramState = null;   // 频谱图状态对象
+let currentViewMode = 'waveform'; // 当前视图模式
+
+// 各视图的 Canvas 上下文
+let canvasSpectrum = null, ctxSpectrum = null;
+let canvasSpectrogram = null, ctxSpectrogram = null;
+let spectrogramOffCanvas = null; // 离屏 canvas，用于 putImageData 中转
 
 /**
  * === 全局状态变量（监测生命周期内持久化） ===
@@ -76,6 +98,7 @@ let timeTerm = 0;
 let frameCount = 0;
 let lastFrameTimestamp = 0;
 let elapsedMsAccumulator = 0;
+let uiElapsedMsAccumulator = 0;
 let totalEnergySum = 0;
 let instantLimit = LIMITS.INSTANT_DB_LIMIT_DEFAULT;
 let currentRiskLevels = [];
@@ -83,7 +106,7 @@ let currentMainPage = null;
 let isMainMonitoringActive = false;
 let mainRecorderStartTimerId = null;
 
-const globalSize = CANVAS_CONFIG.MONITOR.GLOBAL_SIZE;
+let globalSize = CANVAS_CONFIG.MONITOR.GLOBAL_SIZE;
 const scaleX = CANVAS_CONFIG.MONITOR.SCALE_X;
 const scaleY = CANVAS_CONFIG.MONITOR.SCALE_Y;
 
@@ -110,11 +133,22 @@ function resetMonitorSessionState() {
   frameCount = 0;
   lastFrameTimestamp = 0;
   elapsedMsAccumulator = 0;
+  uiElapsedMsAccumulator = 0;
   cne = 0;
   totalEnergySum = 0;
   isAlarming = false;
   hasAlerted = false;
   startDate = Date.now();
+
+  // 重置 FFT 状态
+  pcmRingBuffer.fill(0);
+  pcmWriteIndex = 0;
+  fftSampleCount = 0;
+  spectrumBandLevels = null;
+  // 频谱图状态保留画布尺寸，仅清空像素
+  if (spectrogramState) {
+    clearSpectrogram(spectrogramState);
+  }
 }
 
 /**
@@ -148,6 +182,42 @@ function handleRecordedFrame(page, res) {
   const dbfsA = calculateDb(energyA, 1.0);
   const dbsplA = dbfsA + offset;
 
+  // === 新增：累积原始 PCM 到环形缓冲区用于 FFT ===
+  const frameLen = buffer.length;
+  for (let i = 0; i < frameLen; i++) {
+    pcmRingBuffer[pcmWriteIndex] = buffer[i];
+    pcmWriteIndex = (pcmWriteIndex + 1) % CANVAS_CONFIG.FFT.SIZE;
+  }
+  fftSampleCount += frameLen;
+
+  // 按步进长度触发 FFT，提升频谱时间分辨率
+  const fftHopSize = CANVAS_CONFIG.FFT.HOP_SIZE || 1600;
+  if (fftSampleCount >= fftHopSize) {
+    fftSampleCount -= fftHopSize;
+
+    // 从环形缓冲区提取有序样本
+    const fftSize = CANVAS_CONFIG.FFT.SIZE;
+    const fftInput = new Int16Array(fftSize);
+    const startRead = pcmWriteIndex; // 最旧的样本位置
+    for (let i = 0; i < fftSize; i++) {
+      fftInput[i] = pcmRingBuffer[(startRead + i) % fftSize];
+    }
+
+    // 计算 FFT 频谱
+    const spectrumDB = computeSpectrum(fftInput, offset);
+
+    // 更新 1/3 倍频程频段
+    spectrumBandLevels = computeThirdOctaveBands(spectrumDB);
+
+    // 追加到频谱图
+    if (spectrogramState) {
+      appendSpectrogramColumn(spectrogramState, spectrumDB, CANVAS_CONFIG.SPECTROGRAM.STRIP_WIDTH);
+    }
+
+    // 触发当前活跃视图的重绘
+    drawActiveView();
+  }
+
   frameCount++;
   const now = Date.now();
   if (lastFrameTimestamp === 0) {
@@ -156,7 +226,17 @@ function handleRecordedFrame(page, res) {
   }
 
   elapsedMsAccumulator += (now - lastFrameTimestamp);
+  uiElapsedMsAccumulator += (now - lastFrameTimestamp);
   lastFrameTimestamp = now;
+
+  if (uiElapsedMsAccumulator >= 500) {
+    uiElapsedMsAccumulator -= 500;
+
+    page.setData({
+      dbfs: dbfsZ.toFixed(2),
+      dbspl: dbsplZ.toFixed(2),
+    });
+  }
 
   if (elapsedMsAccumulator < 1000) {
     return;
@@ -166,7 +246,11 @@ function handleRecordedFrame(page, res) {
   time++;
 
   recordArray(time, dbsplZ);
-  draw(ctxf, time);
+
+  // 仅在波形模式下每秒重绘波形
+  if (currentViewMode === 'waveform') {
+    draw(ctxf, time);
+  }
 
   const currentKFactor = estimateKFactorSliding(dBArray, time, 10);
 
@@ -342,16 +426,43 @@ function draw(ctx, currentTime) {
 }
 
 /**
+ * 绘制当前活跃视图
+ * 根据 currentViewMode 分发到对应的渲染函数
+ * @returns {void}
+ */
+function drawActiveView() {
+  if (currentViewMode === 'spectrum' && spectrumBandLevels && ctxSpectrum) {
+    drawSpectrumFrame(ctxSpectrum, {
+      bandLevels: spectrumBandLevels,
+      canvasWidth: globalSize,
+      canvasHeight: globalSize,
+      dbMin: CANVAS_CONFIG.SPECTRUM.DB_MIN,
+      dbMax: CANVAS_CONFIG.SPECTRUM.DB_MAX,
+      barColor: THEME_COLORS.SAFE_ASSIST,
+      gridColor: THEME_COLORS.GRID,
+      textColor: THEME_COLORS.NEUTRAL,
+      primaryColor: THEME_COLORS.PRIMARY,
+    });
+  } else if (currentViewMode === 'spectrogram' && spectrogramState && ctxSpectrogram) {
+    renderSpectrogramFrame(ctxSpectrogram, spectrogramState, spectrogramOffCanvas);
+    drawSpectrogramLabels(ctxSpectrogram, spectrogramState, THEME_COLORS.NEUTRAL);
+  }
+}
+
+/**
  * 初始化前景波形 Canvas 的节点与坐标变换。
  * @param {object} query 由 wx.createSelectorQuery() 创建的查询实例。
  * Side effect: 更新全局 canvasf/ctxf/dpr，并设置像素比缩放与坐标系平移。
  */
 function initCanvasFront(query){
-  initCanvasFrontAsync(query, globalSize)
+  initCanvasFrontAsync(query, null)
     .then((res) => {
       canvasf = res.canvas;
       ctxf = res.ctx;
       dpr = res.dpr;
+      if (Number.isFinite(res.baseline) && res.baseline > 0) {
+        globalSize = res.baseline;
+      }
     })
     .catch((error) => {
       console.warn('[main] init canvas failed:', error);
@@ -427,19 +538,131 @@ Page({
     cne: '0.00',
     threat: "暂无数据",
     threatClass:"detail-init",
+    viewMode: 'waveform', // 当前视图模式：waveform | spectrum | spectrogram
   },
 
   // 核心录音参数：必须使用 camcorder 声源绕过通话降噪处理，并保持长时连续采样。
   mainRecordParams: createCamcorderRecordParams({
     duration: 600000,
   }),
-  
+
   onReady() {
     const query = wx.createSelectorQuery();
     initCanvasFront(query);
+    // 频谱和频谱图 Canvas 延迟到首次切换时初始化（避免 display:none 时尺寸为 0）
+  },
+
+  /**
+   * 切换可视化视图模式
+   * @param {object} e - 点击事件，dataset.mode 包含目标模式
+   */
+  switchView(e) {
+    const mode = e.currentTarget.dataset.mode;
+    if (mode && mode !== currentViewMode) {
+      currentViewMode = mode;
+      this.setData({ viewMode: mode }, () => {
+        wx.nextTick(() => {
+          if (mode === 'waveform') {
+            draw(ctxf, time);
+            return;
+          }
+
+          if (mode === 'spectrum') {
+            if (!ctxSpectrum) {
+              this.initSpectrumCanvas(drawActiveView);
+            } else {
+              drawActiveView();
+            }
+            return;
+          }
+
+          if (mode === 'spectrogram') {
+            if (!ctxSpectrogram) {
+              this.initSpectrogramCanvas(drawActiveView);
+            } else {
+              drawActiveView();
+            }
+          }
+        });
+      });
+    }
+  },
+
+  /**
+   * 初始化频谱 Canvas（坐标原点在左下角，与波形一致）
+   */
+  initSpectrumCanvas(onReady) {
+    const query = wx.createSelectorQuery();
+    query.select('#canvas-spectrum').fields({ node: true, size: true }).exec((res) => {
+      if (res && res[0] && res[0].node) {
+        const logicalSize = Math.min(res[0].width, res[0].height);
+        if (Number.isFinite(logicalSize) && logicalSize > 0) {
+          globalSize = logicalSize;
+        }
+        canvasSpectrum = res[0].node;
+        ctxSpectrum = canvasSpectrum.getContext('2d');
+        const dpr = wx.getWindowInfo().pixelRatio;
+        canvasSpectrum.width = res[0].width * dpr;
+        canvasSpectrum.height = res[0].height * dpr;
+        ctxSpectrum.scale(dpr, dpr);
+        ctxSpectrum.translate(0, globalSize);
+        if (typeof onReady === 'function') {
+          onReady();
+        }
+      }
+    });
+  },
+
+  /**
+   * 初始化频谱图 Canvas（坐标原点在左上角，标准像素坐标）
+   */
+  initSpectrogramCanvas(onReady) {
+    const query = wx.createSelectorQuery();
+    query.select('#canvas-spectrogram').fields({ node: true, size: true }).exec((res) => {
+      if (res && res[0] && res[0].node) {
+        const logicalSize = Math.min(res[0].width, res[0].height);
+        if (Number.isFinite(logicalSize) && logicalSize > 0) {
+          globalSize = logicalSize;
+        }
+        canvasSpectrogram = res[0].node;
+        ctxSpectrogram = canvasSpectrogram.getContext('2d');
+        const dpr = wx.getWindowInfo().pixelRatio;
+        canvasSpectrogram.width = res[0].width * dpr;
+        canvasSpectrogram.height = res[0].height * dpr;
+        ctxSpectrogram.scale(dpr, dpr);
+
+        const logicalW = res[0].width;
+        const logicalH = res[0].height;
+
+        // 创建离屏 canvas（逻辑尺寸），用于 putImageData 中转
+        spectrogramOffCanvas = wx.createOffscreenCanvas({ type: '2d', width: logicalW, height: logicalH });
+
+        // 创建频谱图状态（逻辑尺寸）
+        spectrogramState = createSpectrogramState(logicalW, logicalH, {
+          dbMin: CANVAS_CONFIG.SPECTROGRAM.DB_MIN,
+          dbMax: CANVAS_CONFIG.SPECTROGRAM.DB_MAX,
+        });
+
+        // 在离屏 canvas 上创建 ImageData
+        initSpectrogramImageData(spectrogramState, spectrogramOffCanvas.getContext('2d'));
+
+        if (typeof onReady === 'function') {
+          onReady();
+        }
+      }
+    });
   },
 
   onShow() {
+    const mode = this.data.viewMode || 'waveform';
+    currentViewMode = mode;
+
+    if (mode === 'spectrum' && !ctxSpectrum) {
+      this.initSpectrumCanvas(drawActiveView);
+    } else if (mode === 'spectrogram' && !ctxSpectrogram) {
+      this.initSpectrogramCanvas(drawActiveView);
+    }
+
     this.startMainMonitoring();
   },
 
@@ -449,6 +672,18 @@ Page({
 
   onUnload() {
     this.stopMainMonitoring();
+    this.resetViewCaches();
+  },
+
+  resetViewCaches() {
+    canvasSpectrum = null;
+    ctxSpectrum = null;
+    canvasSpectrogram = null;
+    ctxSpectrogram = null;
+    spectrogramOffCanvas = null;
+    spectrogramState = null;
+    spectrumBandLevels = null;
+    currentViewMode = 'waveform';
   },
 
   /**

@@ -35,13 +35,40 @@
     </view>
   </view>
 
-  <!-- 波形图表卡片（Canvas 居中） -->
+  <!-- 可视化卡片（波形/频谱/频谱图切换） -->
   <view class="card chart-card">
     <view class="chart-header">
-      <text class="chart-title">实时分贝声压级波形 [Z计权]</text>
+      <text class="chart-title">
+        {{viewMode === 'waveform' ? '时域波形 [Z计权声压级]' :
+          viewMode === 'spectrum' ? '频谱柱图 [1/3倍频程]' :
+          '时频热力图 [时间-频率]' }}
+      </text>
     </view>
+
+    <!-- 视图切换标签 -->
+    <view class="view-tabs">
+      <view class="view-tab {{viewMode === 'waveform' ? 'view-tab-active' : ''}}"
+            data-mode="waveform" bindtap="switchView">
+        <text>时域波形</text>
+      </view>
+      <view class="view-tab {{viewMode === 'spectrum' ? 'view-tab-active' : ''}}"
+            data-mode="spectrum" bindtap="switchView">
+        <text>频谱柱图</text>
+      </view>
+      <view class="view-tab {{viewMode === 'spectrogram' ? 'view-tab-active' : ''}}"
+            data-mode="spectrogram" bindtap="switchView">
+        <text>时频热力图</text>
+      </view>
+    </view>
+
     <view class="canvas-container">
-      <canvas id="canvas-front" type="2d" class="canvas-layer" />
+      <!-- 三个 Canvas 同时存在，CSS 控制可见性 -->
+      <canvas id="canvas-front" type="2d" class="canvas-layer"
+              style="display:{{viewMode === 'waveform' ? 'block' : 'none'}}" />
+      <canvas id="canvas-spectrum" type="2d" class="canvas-layer"
+              style="display:{{viewMode === 'spectrum' ? 'block' : 'none'}}" />
+      <canvas id="canvas-spectrogram" type="2d" class="canvas-layer"
+              style="display:{{viewMode === 'spectrogram' ? 'block' : 'none'}}" />
     </view>
   </view>
 

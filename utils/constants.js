@@ -44,14 +44,36 @@ const LIMITS = {
 
 const CANVAS_CONFIG = {
   MONITOR: {
-    GLOBAL_SIZE: 300,
+    GLOBAL_SIZE: 320,
     SCALE_X: 30,
     SCALE_Y: 2,
+  },
+  AXIS_PADDING: {
+    LEFT: 28,    // 左侧Y轴标签空间
+    RIGHT: 20,   // 右侧Y轴标签空间
+    TOP: 12,     // 顶部空间
+    BOTTOM: 8,   // 底部空间
   },
   CALIBRATE: {
     GLOBAL_SIZE: 300,
     SCALE_X: 30,
     SCALE_Y: 3,
+  },
+  SPECTRUM: {
+    GLOBAL_SIZE: 320,
+    DB_MIN: 20,
+    DB_MAX: 120,
+  },
+  SPECTROGRAM: {
+    GLOBAL_SIZE: 300,
+    DB_MIN: 0,
+    DB_MAX: 70,
+    STRIP_WIDTH: 4,
+  },
+  FFT: {
+    SIZE: 2048,
+    SAMPLE_RATE: 16000,
+    HOP_SIZE: 1600,
   },
 };
 
