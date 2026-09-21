@@ -40,6 +40,13 @@ page {
 .detail-safe .status-pill { background: var(--bg-safe); }
 .detail-safe .status-text { color: var(--ecnu-dark); }
 
+/* 状态颜色：测量数据无效 */
+.detail-invalid {
+  background-color: var(--bg-warn) !important;
+}
+.detail-invalid .status-pill { background: var(--bg-warn); }
+.detail-invalid .status-text { color: var(--ecnu-dark); }
+
 /* 状态颜色：需要注意 */
 .detail-attention {
   background-color: var(--bg-warn) !important;
@@ -130,7 +137,7 @@ page {
 
 .canvas-container {
   width: 100%;
-  height: 760rpx;
+  height: 780rpx;
   padding: 24rpx;
   box-sizing: border-box;
   display: flex;         /* 开启 flex */
@@ -138,11 +145,12 @@ page {
   align-items: center;     /* 垂直居中 */
   background: #fff;
   position: relative;
+  overflow: visible;
 }
 /* canvas-layer 不再使用 absolute 以配合 flex 居中，或者手动指定 canvas 大小 */
 .canvas-layer {
-  width: 620rpx;  /* 缩小实际绘制矩形边长 */
-  height: 620rpx;
+  width: 640rpx;  /* 为底部安全边距预留更充足的显示空间 */
+  height: 640rpx;
 }
 
 /* --- 底部操作栏 --- */

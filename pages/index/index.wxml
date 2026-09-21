@@ -1,7 +1,7 @@
 <!-- pages/index/index.wxml -->
 <view class="page">
   <!-- 顶部氛围图 -->
-  <image class="hero" src="/images/Doctors-pana.svg" mode="aspectFit" />
+  <image class="hero" src="/images/doctors.svg" mode="aspectFit" />
   <view class="grid">
     <!-- 开始检测 -->
     <view class="card" hover-class="card--pressed" bindtap="goToPilot">

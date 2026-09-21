@@ -4,18 +4,21 @@ const { APP_CONFIG } = require('./utils/constants');
 
 function resolveServer() {
   const override = wx.getStorageSync('serverOverride');
+  if (typeof override === 'string' && /^https:\/\//i.test(override.trim())) {
+    return override.trim().replace(/\/$/, '');
+  }
   if (typeof override === 'string' && override.trim()) {
-    return override.trim();
+    console.warn('[app] 已忽略非 HTTPS 的服务器覆盖地址');
   }
 
-  const env = 'dev';
+  const env = 'prod';
   return APP_CONFIG.SERVER_BY_ENV[env] || APP_CONFIG.SERVER_BY_ENV.default;
 }
 
 App({
   globalData:{
-    version: "V1.0",
-    vstamp:"v1.0",
+    version: "Beta 1.3.0.20260521.0",
+    vstamp:"b.1.3.0.20260521.0",
     init: false,
     server: resolveServer(),
     isLoggedIn: wx.getStorageSync('isLoggedIn'),

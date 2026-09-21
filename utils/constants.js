@@ -52,7 +52,7 @@ const CANVAS_CONFIG = {
     LEFT: 28,    // 左侧Y轴标签空间
     RIGHT: 20,   // 右侧Y轴标签空间
     TOP: 12,     // 顶部空间
-    BOTTOM: 8,   // 底部空间
+    BOTTOM: 30,  // 底部空间（容纳 X 轴标签）
   },
   CALIBRATE: {
     GLOBAL_SIZE: 300,
@@ -72,7 +72,7 @@ const CANVAS_CONFIG = {
   },
   FFT: {
     SIZE: 2048,
-    SAMPLE_RATE: 16000,
+    SAMPLE_RATE: 44100,
     HOP_SIZE: 1600,
   },
 };
@@ -80,17 +80,18 @@ const CANVAS_CONFIG = {
 const APP_CONFIG = {
   SERVER_BY_ENV: {
     default: 'https://project.stu.ecnu.edu.cn/noise',
-    dev: 'http://47.117.40.74:9999',
+    dev: 'https://project.stu.ecnu.edu.cn/noise',
     prod: 'https://project.stu.ecnu.edu.cn/noise',
   },
 };
 
 const THEME_COLORS = {
   PRIMARY: '#A41F35',
+  PRIMARY_RGB: '164, 31, 53',
   WARN: '#FFB819',
   SAFE_ASSIST: '#40B4E5',
   DARK_GRAY: '#555759',
-  GRID: 'rgba(100, 150, 180, 0.3)',
+  GRID: 'rgba(100, 150, 180, 0.4)',
   NEUTRAL: '#90a4ae',
   SAFE_BG: 'rgba(64, 180, 229, 0.25)',
   WARN_BG: 'rgba(255, 184, 25, 0.25)',

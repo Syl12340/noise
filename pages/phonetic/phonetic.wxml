@@ -1,0 +1,193 @@
+<!-- pages/phonetic/phonetic.wxml -->
+<view class="page">
+
+  <!-- 语谱图显示区 -->
+  <view class="card chart-card">
+    <view class="chart-header">
+      <text class="chart-title">
+        {{state === 'result' ? '语音学分析结果' : '语音学分析'}}
+      </text>
+      <text class="chart-time" wx:if="{{state === 'result' && selectedTime !== null && viewMode === 'spectrogram'}}">
+        t = {{selectedTime}}s
+      </text>
+    </view>
+
+    <!-- 视图切换 tabs -->
+    <view class="view-tabs" wx:if="{{state === 'result'}}">
+      <view class="tab-item {{viewMode === 'spectrogram' ? 'tab-active' : ''}}" bindtap="switchView" data-mode="spectrogram">语谱图</view>
+      <view class="tab-item {{viewMode === 'ltas' ? 'tab-active' : ''}}" bindtap="switchView" data-mode="ltas">LTAS</view>
+      <view class="tab-item {{viewMode === 'vowel' ? 'tab-active' : ''}}" bindtap="switchView" data-mode="vowel">元音空间</view>
+    </view>
+
+    <!-- 语谱图 canvas -->
+    <view class="canvas-container" wx:if="{{viewMode === 'spectrogram'}}">
+      <canvas id="canvas-spectrogram" type="2d" class="canvas-layer" />
+      <canvas id="canvas-overlay" type="2d" class="canvas-overlay"
+              bindtouchstart="onOverlayTouchStart"
+              bindtouchmove="onOverlayTouchMove"
+              bindtouchend="onOverlayTouchEnd" />
+    </view>
+
+    <!-- 语谱图图例：放到画布下方，避免覆盖绘制区域 -->
+    <view class="legend" wx:if="{{state === 'result' && viewMode === 'spectrogram'}}">
+      <view class="legend-item">
+        <view class="legend-dot" style="background:#40B4E5"></view>
+        <text class="legend-label">F0 基频</text>
+      </view>
+      <view class="legend-item">
+        <view class="legend-dot" style="background:#A41F35"></view>
+        <text class="legend-label">F1 第一共振峰</text>
+      </view>
+      <view class="legend-item">
+        <view class="legend-dot" style="background:#FF8800"></view>
+        <text class="legend-label">F2 第二共振峰</text>
+      </view>
+      <view class="legend-item">
+        <view class="legend-dot" style="background:#FFB819"></view>
+        <text class="legend-label">F3 第三共振峰</text>
+      </view>
+      <view class="legend-item">
+        <view class="legend-dot" style="background:#FFD700"></view>
+        <text class="legend-label">声强</text>
+      </view>
+    </view>
+
+    <!-- LTAS canvas -->
+    <view class="canvas-container" wx:if="{{viewMode === 'ltas'}}">
+      <canvas id="canvas-ltas" type="2d" class="canvas-layer" />
+    </view>
+
+    <!-- 元音空间图 canvas -->
+    <view class="canvas-container" wx:if="{{viewMode === 'vowel'}}">
+      <canvas id="canvas-vowel" type="2d" class="canvas-layer" />
+    </view>
+
+  </view>
+
+  <!-- 数值卡片（结果态） -->
+  <view class="stats-row" wx:if="{{state === 'result'}}">
+    <view class="card stats-card">
+      <text class="stats-label">F0 基频</text>
+      <view class="stats-value">
+        <text class="val">{{f0}}</text>
+        <text class="unit">Hz</text>
+      </view>
+    </view>
+    <view class="card stats-card">
+      <text class="stats-label">F1 第一共振峰</text>
+      <view class="stats-value">
+        <text class="val">{{f1}}</text>
+        <text class="unit">Hz</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-row" wx:if="{{state === 'result'}}">
+    <view class="card stats-card">
+      <text class="stats-label">F2 第二共振峰</text>
+      <view class="stats-value">
+        <text class="val">{{f2}}</text>
+        <text class="unit">Hz</text>
+      </view>
+    </view>
+    <view class="card stats-card">
+      <text class="stats-label">F3 第三共振峰</text>
+      <view class="stats-value">
+        <text class="val">{{f3}}</text>
+        <text class="unit">Hz</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-row" wx:if="{{state === 'result'}}">
+    <view class="card stats-card">
+      <text class="stats-label">HNR 谐噪比</text>
+      <view class="stats-value">
+        <text class="val">{{hnr}}</text>
+        <text class="unit">dB</text>
+      </view>
+    </view>
+    <view class="card stats-card">
+      <text class="stats-label">帧间周期变化率</text>
+      <view class="stats-value">
+        <text class="val">{{jitter}}</text>
+        <text class="unit">%</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-row" wx:if="{{state === 'result'}}">
+    <view class="card stats-card">
+      <text class="stats-label">短时声强</text>
+      <view class="stats-value">
+        <text class="val">{{intensity}}</text>
+        <text class="unit">dBFS</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 选区统计 -->
+  <view class="card selection-card" wx:if="{{state === 'result' && selectionStart !== null}}">
+    <view class="selection-header">
+      <text class="selection-title">选区统计</text>
+      <text class="selection-range">{{selectionStart}}s — {{selectionEnd}}s</text>
+    </view>
+    <view class="stats-row">
+      <view class="card stats-card inner-card">
+        <text class="stats-label">时长</text>
+        <view class="stats-value">
+          <text class="val">{{selDuration}}</text>
+          <text class="unit">s</text>
+        </view>
+      </view>
+      <view class="card stats-card inner-card">
+        <text class="stats-label">平均 F0</text>
+        <view class="stats-value">
+          <text class="val">{{selMeanF0}}</text>
+          <text class="unit">Hz</text>
+        </view>
+      </view>
+      <view class="card stats-card inner-card">
+        <text class="stats-label">最大声强</text>
+        <view class="stats-value">
+          <text class="val">{{selMaxIntensity}}</text>
+          <text class="unit">dBFS</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 录音中 -->
+  <view class="card status-card" wx:if="{{state === 'recording'}}">
+    <view class="recording-indicator">
+      <view class="rec-dot"></view>
+      <text class="rec-label">录音中</text>
+    </view>
+    <text class="rec-time">{{recordTime}}s / 5s</text>
+    <text class="rec-hint">请朗读元音 "a e i o u" 或持续发 "啊——"</text>
+  </view>
+
+  <!-- 分析中 -->
+  <view class="card status-card" wx:if="{{state === 'analyzing'}}">
+    <text class="analyzing-stage">{{progressStage}}</text>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progress}}%"></view>
+    </view>
+    <text class="analyzing-percent">{{progress}}%</text>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="action-bar">
+    <button class="btn-main btn-start" wx:if="{{state === 'idle'}}"
+            bindtap="startRecording" hover-class="btn-hover">开始录音</button>
+    <button class="btn-main btn-stop" wx:if="{{state === 'recording'}}"
+            bindtap="stopRecording" hover-class="btn-hover">停止录音</button>
+    <button class="btn-main btn-retry" wx:if="{{state === 'result'}}"
+            bindtap="resetToIdle" hover-class="btn-hover">重新录音</button>
+  </view>
+
+  <!-- 说明文字 -->
+  <view class="tips" wx:if="{{state === 'idle'}}">
+    <text>录制 3-5 秒语音，系统将自动分析语谱图、基频和共振峰</text>
+  </view>
+</view>

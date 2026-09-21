@@ -1,0 +1,336 @@
+/* pages/phonetic/phonetic.wxss */
+/* 颜色全部来自 app.wxss CSS 变量，不硬编码 */
+
+page {
+  background: #F4F5F7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.page {
+  padding: 30rpx 30rpx 220rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+/* ── 通用卡片 ── */
+.card {
+  background: var(--ecnu-bg-white);
+  border-radius: 32rpx;
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
+}
+
+/* ── 图表卡片 ── */
+.chart-card {
+  padding-bottom: 24rpx;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 40rpx 16rpx;
+}
+
+.chart-title {
+  font-size: 24rpx;
+  color: #90a4ae;
+  font-weight: 600;
+}
+
+.chart-time {
+  font-size: 24rpx;
+  color: var(--ecnu-light-blue);
+  font-weight: 600;
+}
+
+/* ── Canvas 容器 ── */
+.canvas-container {
+  width: 100%;
+  height: 680rpx;
+  padding: 24rpx 24rpx 32rpx;
+  box-sizing: border-box;
+  position: relative;
+  background: var(--ecnu-bg-white);
+  overflow: visible;
+}
+
+.canvas-layer {
+  position: absolute;
+  top: 24rpx;
+  left: 24rpx;
+  width: calc(100% - 48rpx);
+  height: calc(100% - 48rpx);
+}
+
+.canvas-overlay {
+  position: absolute;
+  top: 24rpx;
+  left: 24rpx;
+  width: calc(100% - 48rpx);
+  height: calc(100% - 48rpx);
+}
+
+/* ── 视图切换 tabs ── */
+.view-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 16rpx;
+  padding: 8rpx 40rpx 16rpx;
+}
+
+.tab-item {
+  font-size: 24rpx;
+  color: #999;
+  padding: 8rpx 24rpx;
+  border-radius: 20rpx;
+  background: #F4F5F7;
+  transition: all 0.2s;
+}
+
+.tab-active {
+  color: var(--ecnu-bg-white);
+  background: var(--ecnu-primary);
+  font-weight: 600;
+}
+
+/* ── 图例 ── */
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 16rpx;
+  padding: 16rpx 0 8rpx;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  min-width: 88rpx;
+  flex: 0 0 auto;
+}
+
+.legend-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+}
+
+.legend-label {
+  font-size: 22rpx;
+  color: #90a4ae;
+}
+
+/* ── 数值卡片 ── */
+.stats-row {
+  display: flex;
+  gap: 24rpx;
+}
+
+.stats-card {
+  flex: 1;
+  padding: 30rpx;
+  text-align: center;
+}
+
+.stats-label {
+  font-size: 22rpx;
+  color: #999;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.stats-value {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.val {
+  font-size: 44rpx;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #333;
+}
+
+.unit {
+  font-size: 20rpx;
+  color: #AAA;
+  margin-left: 6rpx;
+}
+
+/* 数值统一使用 .val 默认黑色 */
+
+/* ── 录音状态卡片 ── */
+.status-card {
+  padding: 40rpx;
+  text-align: center;
+}
+
+.recording-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.rec-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: var(--ecnu-primary);
+  animation: pulse 1.5s infinite;
+}
+
+.rec-label {
+  font-size: 24rpx;
+  color: #888;
+  font-weight: bold;
+  letter-spacing: 2rpx;
+}
+
+.rec-time {
+  font-size: 44rpx;
+  font-weight: 800;
+  color: #111;
+  font-variant-numeric: tabular-nums;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.rec-hint {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+}
+
+/* ── 分析进度 ── */
+.analyzing-stage {
+  font-size: 28rpx;
+  color: var(--ecnu-dark-gray);
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12rpx;
+  background: #F4F5F7;
+  border-radius: 6rpx;
+  overflow: hidden;
+  margin-bottom: 12rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--ecnu-primary);
+  border-radius: 6rpx;
+  transition: width 0.3s ease;
+}
+
+.analyzing-percent {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* ── 底部操作栏 ── */
+.action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, var(--alpha-96, 0.96));
+  backdrop-filter: blur(20px);
+  padding: 24rpx 30rpx calc(24rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  box-shadow: 0 -4rpx 30rpx rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.btn-main {
+  flex: 1;
+  height: 100rpx;
+  border-radius: 24rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30rpx;
+  font-weight: bold;
+  margin: 0 !important;
+  padding: 0;
+  border: none;
+  color: var(--ecnu-bg-white);
+}
+
+.btn-start {
+  background: var(--ecnu-primary);
+  box-shadow: 0 8rpx 20rpx rgba(var(--ecnu-primary-rgb), var(--alpha-25));
+}
+
+.btn-stop {
+  background: var(--ecnu-bg-white);
+  color: var(--ecnu-primary);
+  border: 3rpx solid var(--ecnu-primary);
+}
+
+.btn-retry {
+  background: #F4F5F7;
+  color: var(--ecnu-dark-gray);
+}
+
+.btn-hover {
+  opacity: var(--alpha-85);
+  transform: scale(0.97);
+}
+
+/* ── 选区统计卡片 ── */
+.selection-card {
+  padding: 24rpx 30rpx;
+}
+
+.selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.selection-title {
+  font-size: 24rpx;
+  color: var(--ecnu-dark-gray);
+  font-weight: 600;
+}
+
+.selection-range {
+  font-size: 22rpx;
+  color: var(--ecnu-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.inner-card {
+  background: #F4F5F7;
+  box-shadow: none;
+}
+
+/* ── 提示文字 ── */
+.tips {
+  margin-top: 40rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #A0A0A0;
+  line-height: 1.6;
+}
+
+/* ── 动画 ── */
+@keyframes pulse {
+  0%   { opacity: 1; transform: scale(1); }
+  50%  { opacity: var(--alpha-40); transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}

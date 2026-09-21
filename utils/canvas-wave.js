@@ -6,6 +6,7 @@
  * @param {number[]} options.clearRect - 清空区域，格式为 [x, y, width, height]。
  * @param {Function} options.drawBackground - 背景绘制回调，通常用于绘制网格与刻度。
  * @param {number} options.globalSize - 画布可视区域尺寸。
+ * @param {number} options.leftBoundary - 波形绘制起始的左侧边界。
  * @param {number} options.scaleX - X 轴缩放比例。
  * @param {number} options.scaleY - Y 轴缩放比例。
  * @param {number} options.currentTime - 当前秒数索引。
@@ -19,6 +20,7 @@ function drawWaveformFrame(ctx, options) {
     clearRect,
     drawBackground,
     globalSize,
+    leftBoundary = 0,
     scaleX,
     scaleY,
     currentTime,
@@ -34,7 +36,8 @@ function drawWaveformFrame(ctx, options) {
     drawBackground();
   }
 
-  const maxPoints = Math.floor(globalSize / scaleX);
+  const plotWidth = Math.max(1, globalSize - leftBoundary);
+  const maxPoints = Math.floor(plotWidth / scaleX);
   const startIdx = Math.max(1, currentTime - maxPoints + 1);
   const xOffset = currentTime <= maxPoints ? 0 : (currentTime - maxPoints) * scaleX;
 
@@ -50,8 +53,8 @@ function drawWaveformFrame(ctx, options) {
       continue;
     }
 
-    const startX = (t - 1) * scaleX - xOffset;
-    const endX = t * scaleX - xOffset;
+    const startX = leftBoundary + (t - 1) * scaleX - xOffset;
+    const endX = leftBoundary + t * scaleX - xOffset;
 
     ctx.beginPath();
     ctx.strokeStyle = getStrokeColor(currentDB, t);

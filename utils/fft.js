@@ -5,12 +5,17 @@
  * FFT 模块配置常量
  * @type {object}
  */
+const { CANVAS_CONFIG } = require('./constants');
+
+const FFT_SIZE = CANVAS_CONFIG.FFT.SIZE;
+const FFT_SAMPLE_RATE = CANVAS_CONFIG.FFT.SAMPLE_RATE;
+
 const FFT_CONFIG = {
-  SIZE: 2048,           // FFT 点数（必须为 2 的幂）
-  SAMPLE_RATE: 16000,   // 采样率 (Hz)
-  NYQUIST: 8000,        // 奈奎斯特频率 = 采样率 / 2
-  BIN_COUNT: 1024,      // 频率 bin 数量 = FFT_SIZE / 2
-  FREQ_RESOLUTION: 7.8125, // 频率分辨率 = 采样率 / FFT_SIZE
+  SIZE: FFT_SIZE,
+  SAMPLE_RATE: FFT_SAMPLE_RATE,
+  NYQUIST: FFT_SAMPLE_RATE / 2,
+  BIN_COUNT: FFT_SIZE / 2,
+  FREQ_RESOLUTION: FFT_SAMPLE_RATE / FFT_SIZE,
 };
 
 /**
@@ -105,11 +110,11 @@ function applyHannWindow(pcm, out, N) {
 }
 
 /**
- * 完整 FFT 管道：窗函数 → FFT → 功率谱 → dB SPL
+ * 完整 FFT 管道：窗函数 → FFT → 单边功率谱 → dB SPL
  * @param {Int16Array} pcm - 2048 个原始 PCM 样本（Int16）
  * @param {number} offset - 校准偏移量 (dB)，用于 dBFS → dB SPL 转换
  * @returns {Float64Array} 幅度谱，单位 dB SPL，长度 1024 bins
- *   bin k 对应频率 k * (16000/2048) ≈ k * 7.8125 Hz
+ *   bin k 对应频率 k * (SAMPLE_RATE / FFT_SIZE)
  */
 function computeSpectrum(pcm, offset) {
   const N = FFT_CONFIG.SIZE;
@@ -127,18 +132,19 @@ function computeSpectrum(pcm, offset) {
   // 2. 执行 FFT
   fftInPlace(re, im, N);
 
-  // 3. 计算功率谱并转换为 dB SPL
-  //    |X(k)| 来自未归一化 FFT，需按 N 和窗函数做幅度归一化
-  //    峰值幅度 A = 2*|X(k)|/(N*CG)，RMS = A/sqrt(2)
-  //    dB SPL = 20*log10(RMS) + offset
+  // 3. 计算单边功率谱并转换为 dB SPL。
+  // 使用 Hann 窗能量增益归一化，使频带内各 bin 的线性功率可直接求和。
   const spectrumDB = new Float64Array(halfN);
-  const coherentGain = 0.5; // Hann 窗的幅度相干增益
-  const amplitudeScale = Math.SQRT2 / (N * coherentGain);
+  let windowEnergy = 0;
+  for (let i = 0; i < N; i++) {
+    windowEnergy += HANN_WINDOW[i] * HANN_WINDOW[i];
+  }
 
   for (let k = 0; k < halfN; k++) {
-    const power = re[k] * re[k] + im[k] * im[k];
-    const rms = Math.sqrt(power) * amplitudeScale;
-    spectrumDB[k] = 20 * Math.log10(Math.max(rms, 1e-12)) + offset;
+    const fftPower = re[k] * re[k] + im[k] * im[k];
+    const oneSidedFactor = k === 0 ? 1 : 2;
+    const meanSquareContribution = oneSidedFactor * fftPower / (N * windowEnergy);
+    spectrumDB[k] = 10 * Math.log10(Math.max(meanSquareContribution, 1e-24)) + offset;
   }
 
   return spectrumDB;

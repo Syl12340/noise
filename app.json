@@ -12,7 +12,8 @@
     "pages/pilot/pilot",
     "pages/usage/usage",
     "pages/advanced-calibrate/advanced-calibrate",
-    "pages/advanced-calibrate/calibrate/calibrate"
+    "pages/advanced-calibrate/calibrate/calibrate",
+    "pages/phonetic/phonetic"
   ],
   "tabBar": {
     "selectedColor": "#b4282d",

@@ -138,7 +138,14 @@ Page({
   },
 
   clearCache() {
-    wx.showToast({ title: '已清除缓存', icon: 'success' });
+    try {
+      // 只清理可重新生成的临时数据，保留账号、校准、偏好和历史记录。
+      wx.removeStorageSync('avatarTempPath');
+      wx.showToast({ title: '临时缓存已清除', icon: 'success' });
+    } catch (error) {
+      console.warn('[settings] clear cache failed:', error);
+      wx.showToast({ title: '清除缓存失败', icon: 'none' });
+    }
   },
 
   /**

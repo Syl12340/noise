@@ -81,15 +81,15 @@ function drawCanvasMark(ctx, options) {
   ctx.textAlign = 'left';
   ctx.fillText('SPL [dB(Z)]', axisPadding.LEFT, -globalSize + axisPadding.TOP + 6);
 
-  ctx.textAlign = 'right';
+  ctx.textAlign = 'left';
   for (let db = 130; db >= 0; db -= 10) {
     const y = db * scaleY;
-    ctx.fillText(`${db}`, globalSize - axisPadding.RIGHT, -y + 3);
+    ctx.fillText(`${db}`, axisPadding.LEFT, -y + 3);
   }
 
   if (thresholdVisible) {
     ctx.fillStyle = primaryColor;
-    ctx.fillText(`${thresholdLine}`, globalSize - axisPadding.RIGHT, -(thresholdLine * scaleY) + 3);
+    ctx.fillText(`${thresholdLine}`, axisPadding.LEFT, -(thresholdLine * scaleY) + 3);
   }
 }
 

@@ -2,9 +2,9 @@
 // recorder-session.js - recorderManager 与 WebAudio 资源清理辅助函数。
 
 const CAMCORDER_RECORD_BASE = {
-  sampleRate: 16000,
+  sampleRate: 44100,
   numberOfChannels: 1,
-  encodeBitRate: 48000,
+  encodeBitRate: 44100 * 2,
   format: 'PCM',
   frameSize: 16,
   audioSource: 'camcorder',

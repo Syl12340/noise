@@ -25,7 +25,16 @@
       <image class="card__icon" src="/images/mic.svg" />
       <view class="card__body">
         <text class="card__title">开始监测</text>
-        <text class="card__desc">实时监测 · 5秒出结果</text>
+        <text class="card__desc">实时监测 · 秒出结果</text>
+      </view>
+    </view>
+
+    <!-- 语音学分析 -->
+    <view class="card" hover-class="card--pressed" bindtap="goToPhonetic">
+      <image class="card__icon" src="/images/speech.svg" />
+      <view class="card__body">
+        <text class="card__title">语音学分析</text>
+        <text class="card__desc">语谱图 · 共振峰 · 基频提取</text>
       </view>
     </view>
 

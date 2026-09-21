@@ -12,7 +12,7 @@ const { CANVAS_CONFIG } = require('./constants');
 const THIRD_OCTAVE_CENTERS = [
   25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200,
   250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000,
-  2500, 3150, 4000, 5000, 6300, 8000,
+  2500, 3150, 4000, 5000, 6300, 8000, 10000, 12500, 16000,
 ];
 
 /**
@@ -28,7 +28,7 @@ const BAND_FACTOR = Math.pow(2, 1.0 / 6.0);
  * @type {Array<{startBin: number, endBin: number}>}
  */
 const BAND_BIN_RANGES = (function computeBandBinRanges() {
-  const freqRes = FFT_CONFIG.FREQ_RESOLUTION; // 7.8125 Hz/bin
+  const freqRes = FFT_CONFIG.FREQ_RESOLUTION;
   const ranges = [];
 
   for (let i = 0; i < THIRD_OCTAVE_CENTERS.length; i++) {
@@ -60,7 +60,7 @@ function computeThirdOctaveBands(spectrumDB) {
     const { startBin, endBin } = BAND_BIN_RANGES[band];
 
     if (startBin > endBin) {
-      // 该频段没有对应的 FFT bin（频率超出范围）
+      // 不借用邻近频带能量，避免制造并不存在的频带读数。
       bandLevels[band] = -Infinity;
       continue;
     }
@@ -162,8 +162,10 @@ function drawSpectrumFrame(ctx, options) {
   }
 
   // 4. 绘制 X 轴标签（频段中心频率）
+  // 坐标系原点在左下角，Y 向上为正，正 y 在画布下方（不可见）
+  // 标签需使用负 y 值才能显示在画布内
   ctx.fillStyle = textColor;
-  ctx.font = '7px Arial';
+  ctx.font = '8px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'top';
 
@@ -176,14 +178,13 @@ function drawSpectrumFrame(ctx, options) {
     const freq = THIRD_OCTAVE_CENTERS[i];
     const x = barAreaLeft + i * barWidth + barWidth / 2;
 
-    // 格式化频率标签
     let label;
     if (freq >= 1000) {
       label = (freq / 1000).toFixed(freq % 1000 === 0 ? 0 : 1) + 'k';
     } else {
       label = freq.toString();
     }
-    ctx.fillText(label, x, 6);
+    ctx.fillText(label, x, -20);
   }
 
   // 确保最后一个频段标签可见
@@ -194,7 +195,7 @@ function drawSpectrumFrame(ctx, options) {
     const lastLabel = lastFreq >= 1000
       ? (lastFreq / 1000).toFixed(lastFreq % 1000 === 0 ? 0 : 1) + 'k'
       : lastFreq.toString();
-    ctx.fillText(lastLabel, lastX, 6);
+    ctx.fillText(lastLabel, lastX, -20);
   }
 
   // 5. 绘制单位标签
@@ -204,9 +205,9 @@ function drawSpectrumFrame(ctx, options) {
   ctx.textBaseline = 'top';
   ctx.fillText('dB SPL', barAreaLeft, -canvasHeight + 2);
 
-  ctx.font = '8px Arial';
+  ctx.font = '9px Arial';
   ctx.textAlign = 'center';
-  ctx.fillText('1/3 倍频程频段 (Hz)', canvasWidth / 2, 16);
+  ctx.fillText('1/3 倍频程频段 (Hz)', canvasWidth / 2, -8);
 }
 
 module.exports = {

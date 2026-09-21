@@ -101,6 +101,16 @@ function createSpectrogramState(width, height, options = {}) {
     }
   }
 
+  // 预计算每行对应的 bin 索引（确保每行都有数据，消除低频空白）
+  const rowToBin = new Uint16Array(height);
+  for (let row = 0; row < height; row++) {
+    // 从该行对应的频率反推 bin 索引
+    const freqRatio = 1 - row / (height - 1);
+    const freq = fMin * Math.exp(freqRatio * logRatio);
+    const bin = Math.round(freq / FFT_CONFIG.FREQ_RESOLUTION);
+    rowToBin[row] = Math.max(1, Math.min(binCount - 1, bin));
+  }
+
   return {
     imageData,
     pixels,
@@ -109,6 +119,7 @@ function createSpectrogramState(width, height, options = {}) {
     dbMin,
     dbMax,
     freqToRow,
+    rowToBin,
   };
 }
 
@@ -134,7 +145,7 @@ function initSpectrogramImageData(state, ctx) {
  * @returns {void}
  */
 function appendSpectrogramColumn(state, spectrumDB, stripWidth = 4) {
-  const { pixels, width, height, dbMin, dbMax, freqToRow } = state;
+  const { pixels, width, height, dbMin, dbMax, rowToBin } = state;
   if (!pixels) return;
 
   const bytesPerRow = width * 4;
@@ -143,14 +154,14 @@ function appendSpectrogramColumn(state, spectrumDB, stripWidth = 4) {
   // 1. 将所有行左移 stripWidth 像素
   for (let y = 0; y < height; y++) {
     const rowOffset = y * bytesPerRow;
-    // 使用 copyWithin 高效移动像素数据
     pixels.copyWithin(rowOffset, rowOffset + shiftBytes, rowOffset + bytesPerRow);
   }
 
-  // 2. 在右侧写入新列
+  // 2. 逐行写入新列（确保每行都有数据，消除低频空白）
   const xStart = width - stripWidth;
-  for (let k = 1; k < spectrumDB.length; k++) {
-    const db = spectrumDB[k];
+  for (let row = 0; row < height; row++) {
+    const binIdx = rowToBin[row];
+    const db = spectrumDB[binIdx];
     if (!Number.isFinite(db)) continue;
 
     const rampIdx = dbToRampIndex(db, dbMin, dbMax);
@@ -159,15 +170,11 @@ function appendSpectrogramColumn(state, spectrumDB, stripWidth = 4) {
     const g = RAMP_RGBA[rIdx + 1];
     const b = RAMP_RGBA[rIdx + 2];
 
-    const row = freqToRow[k];
-
-    // 写入 stripWidth 个像素
     for (let dx = 0; dx < stripWidth; dx++) {
       const pixelOffset = (row * width + xStart + dx) * 4;
       pixels[pixelOffset] = r;
       pixels[pixelOffset + 1] = g;
       pixels[pixelOffset + 2] = b;
-      // alpha 已经是 255，无需更新
     }
   }
 }
@@ -179,18 +186,18 @@ function appendSpectrogramColumn(state, spectrumDB, stripWidth = 4) {
  * @param {CanvasRenderingContext2D} ctx - 目标 2D 上下文（已应用 DPR scale）
  * @param {SpectrogramState} state - 频谱图状态
  * @param {object} [offscreenCanvas] - 逻辑尺寸的离屏 canvas（用于 putImageData 中转）
+ * @param {number} [leftOffset=0] - 左侧偏移量（像素），用于为频率标签留出空间
  * @returns {void}
  */
-function drawSpectrogramFrame(ctx, state, offscreenCanvas) {
+function drawSpectrogramFrame(ctx, state, offscreenCanvas, leftOffset) {
   if (!state.imageData) return;
+  const xOff = leftOffset || 0;
   if (offscreenCanvas) {
-    // 先 putImageData 到离屏 canvas（1:1 像素映射）
     const offCtx = offscreenCanvas.getContext('2d');
     offCtx.putImageData(state.imageData, 0, 0);
-    // 再用 drawImage 缩放到目标 canvas（尊重 DPR transform）
-    ctx.drawImage(offscreenCanvas, 0, 0, state.width, state.height);
+    ctx.drawImage(offscreenCanvas, 0, 0, state.width, state.height, xOff, 0, state.width, state.height);
   } else {
-    ctx.putImageData(state.imageData, 0, 0);
+    ctx.putImageData(state.imageData, xOff, 0);
   }
 }
 
@@ -205,7 +212,7 @@ function drawSpectrogramLabels(ctx, state, textColor) {
   const { height, dbMin, dbMax } = state;
 
   // 标准频率标签位置 (Hz)
-  const labelFrequencies = [31.5, 63, 125, 250, 500, 1000, 2000, 4000, 8000];
+  const labelFrequencies = [31.5, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
   const fMin = 20;
   const fMax = FFT_CONFIG.NYQUIST;
   const logRatio = Math.log(fMax / fMin);

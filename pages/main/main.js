@@ -8,11 +8,12 @@ const recorderManager = wx.getRecorderManager();
 const {
   calculateRMS,
   calculateDb,
-  calculateShortCNE,
+  calculateLeqFromEnergy,
+  calculateCNEFromLeq,
   AWeightingFilter,
   estimateKFactorSliding,
 } = require('../../utils/audio-math');
-const { LIMITS, CANVAS_CONFIG, THEME_COLORS } = require('../../utils/constants');
+const { LIMITS, CANVAS_CONFIG, THEME_COLORS, CNE_FORMULA } = require('../../utils/constants');
 const { computeSpectrum } = require('../../utils/fft');
 const { buildRiskLevels } = require('../../utils/risk-config');
 const dataModel = require('../../utils/data-model');
@@ -47,6 +48,7 @@ let audioCtx, canvasf, ctxf, dpr;
 let pcmRingBuffer = new Int16Array(CANVAS_CONFIG.FFT.SIZE); // PCM 环形缓冲区
 let pcmWriteIndex = 0;    // 当前写入位置
 let fftSampleCount = 0;    // 距上次 FFT 的采样计数
+let pcmBufferedSamples = 0; // 环形缓冲区内已经写入的真实样本数
 let spectrumBandLevels = null; // 最新 1/3 倍频程频段数据
 let spectrogramState = null;   // 频谱图状态对象
 let currentViewMode = 'waveform'; // 当前视图模式
@@ -74,6 +76,8 @@ let spectrogramOffCanvas = null; // 离屏 canvas，用于 putImageData 中转
  */
 let startDate, offset, dBArray, time, cne, threat, expectedExposure, noiseAlarmLevel, riskConfig;
 let location, allowAlarm = true, isAlarming = false, hasAlerted = false;
+let monitorSessionId = 0;
+const SPECTROGRAM_LABEL_AREA_WIDTH = 38;
 
 /**
  * A 计权滤波器实例。
@@ -87,19 +91,24 @@ let aWeightingFilter = new AWeightingFilter();
  * === 高性能帧处理变量（避免 O(n) 频繁重算） ===
  * - timeTerm: 预期暴露时长时间项（= 10×log10(T/T0)，T0=28800s）
  * - frameCount: 已收到的音频帧总数
- * - lastFrameTimestamp: 上一帧到达时的时间戳（毫秒）
- * - elapsedMsAccumulator: 帧间隔累积时间（毫秒），达 1000ms 时输出一个秒级数据点
- * - totalEnergySum: CNE 计算中的能量累计器（单位：10^(dB/10)）
+ * - intervalSampleCounter: 当前秒级积分区间内的样本数
+ * - uiSampleCounter: 距上次 UI 瞬时值刷新的样本数
+ * - totalAWeightedEnergySum/totalAWeightedSampleCount: 全部 A 计权样本的能量积分
  * - instantLimit: 示波器的瞬时边界线阈值（通常为 80dB）
  * - isMainMonitoringActive: 标志当前 main 监测会话是否有效（阻断退出后的迟到帧）
  * - currentMainPage: 当前激活的 main 页面实例引用（用于正确的 setData 上下文）
  */
 let timeTerm = 0;
 let frameCount = 0;
-let lastFrameTimestamp = 0;
-let elapsedMsAccumulator = 0;
-let uiElapsedMsAccumulator = 0;
-let totalEnergySum = 0;
+let intervalSampleCounter = 0;
+let uiSampleCounter = 0;
+let totalAWeightedEnergySum = 0;
+let totalAWeightedSampleCount = 0;
+let intervalAWeightedEnergySum = 0;
+let intervalAWeightedSampleCount = 0;
+let intervalZWeightedEnergySum = 0;
+let intervalZWeightedSampleCount = 0;
+let aWeightedDbHistory = [];
 let instantLimit = LIMITS.INSTANT_DB_LIMIT_DEFAULT;
 let currentRiskLevels = [];
 let currentMainPage = null;
@@ -109,6 +118,7 @@ let mainRecorderStartTimerId = null;
 let globalSize = CANVAS_CONFIG.MONITOR.GLOBAL_SIZE;
 const scaleX = CANVAS_CONFIG.MONITOR.SCALE_X;
 const scaleY = CANVAS_CONFIG.MONITOR.SCALE_Y;
+const MAIN_CANVAS_PADDING_BOTTOM = 26;
 
 /**
  * 将声压级数据点存入波形数组，用于 Canvas 渲染
@@ -127,15 +137,22 @@ function recordArray(currentTime, dBSPL) {
  * 保障单次连续监控的数据流不致发生交叉覆盖现象。
  * @sideeffect 重启 `dBArray`、`cne` 等业务标量及清除告警阻塞标志位。
  */
-function resetMonitorSessionState() {
+function resetMonitorSessionState(page) {
+  monitorSessionId++;
+  location = null;
   dBArray = [];
   time = 0;
   frameCount = 0;
-  lastFrameTimestamp = 0;
-  elapsedMsAccumulator = 0;
-  uiElapsedMsAccumulator = 0;
+  intervalSampleCounter = 0;
+  uiSampleCounter = 0;
   cne = 0;
-  totalEnergySum = 0;
+  totalAWeightedEnergySum = 0;
+  totalAWeightedSampleCount = 0;
+  intervalAWeightedEnergySum = 0;
+  intervalAWeightedSampleCount = 0;
+  intervalZWeightedEnergySum = 0;
+  intervalZWeightedSampleCount = 0;
+  aWeightedDbHistory = [];
   isAlarming = false;
   hasAlerted = false;
   startDate = Date.now();
@@ -144,10 +161,98 @@ function resetMonitorSessionState() {
   pcmRingBuffer.fill(0);
   pcmWriteIndex = 0;
   fftSampleCount = 0;
+  pcmBufferedSamples = 0;
   spectrumBandLevels = null;
   // 频谱图状态保留画布尺寸，仅清空像素
   if (spectrogramState) {
     clearSpectrogram(spectrogramState);
+  }
+  if (page) {
+    page.setData({
+      dbfs: '0.00',
+      dbspl: '0.00',
+      cne: '0.00',
+      threat: '安全',
+      threatClass: 'detail-safe',
+    });
+  }
+}
+
+function calculateCurrentCne() {
+  if (totalAWeightedSampleCount <= 0) {
+    return 0;
+  }
+  const currentKFactor = estimateKFactorSliding(aWeightedDbHistory, time, 10);
+  const cumulativeLeqA = calculateLeqFromEnergy(
+    totalAWeightedEnergySum,
+    totalAWeightedSampleCount,
+    offset
+  );
+  return calculateCNEFromLeq(cumulativeLeqA, timeTerm, currentKFactor);
+}
+
+function updateSpectrumFromRingBuffer() {
+  const fftSize = CANVAS_CONFIG.FFT.SIZE;
+  const fftInput = new Int16Array(fftSize);
+  const startRead = pcmWriteIndex;
+  for (let i = 0; i < fftSize; i++) {
+    fftInput[i] = pcmRingBuffer[(startRead + i) % fftSize];
+  }
+
+  const spectrumDB = computeSpectrum(fftInput, offset);
+  spectrumBandLevels = computeThirdOctaveBands(spectrumDB);
+  if (spectrogramState) {
+    appendSpectrogramColumn(spectrogramState, spectrumDB, CANVAS_CONFIG.SPECTROGRAM.STRIP_WIDTH);
+  }
+}
+
+function finalizeMeasurementSecond(page, dbfsZ, dbsplZ) {
+  time++;
+  const intervalDbsplZ = calculateLeqFromEnergy(
+    intervalZWeightedEnergySum,
+    intervalZWeightedSampleCount,
+    offset
+  );
+  const intervalDbsplA = calculateLeqFromEnergy(
+    intervalAWeightedEnergySum,
+    intervalAWeightedSampleCount,
+    offset
+  );
+
+  intervalZWeightedEnergySum = 0;
+  intervalZWeightedSampleCount = 0;
+  intervalAWeightedEnergySum = 0;
+  intervalAWeightedSampleCount = 0;
+
+  recordArray(time, intervalDbsplZ);
+  aWeightedDbHistory[time] = intervalDbsplA;
+  if (currentViewMode === 'waveform') {
+    draw(ctxf, time);
+  }
+
+  cne = calculateCurrentCne();
+  const riskStatus = getRiskStatusByCNE(cne);
+  threat = riskStatus.text;
+  page.setData({
+    dbfs: dbfsZ.toFixed(2),
+    dbspl: dbsplZ.toFixed(2),
+    cne: Number.isFinite(cne) ? cne.toFixed(2) : '--',
+    threat,
+    threatClass: riskStatus.bgClass
+  });
+
+  if (allowAlarm && Number.isFinite(cne) && cne >= noiseAlarmLevel && !isAlarming && !hasAlerted) {
+    isAlarming = true;
+    hasAlerted = true;
+    wx.showModal({
+      title: '警报',
+      content: '噪声累积能量预计将超过健康暴露水平',
+      showCancel: false,
+      complete: () => {
+        isAlarming = false;
+      }
+    });
+    page.doVibrate(5, 500);
   }
 }
 
@@ -171,122 +276,65 @@ function handleRecordedFrame(page, res) {
   const energyZ = calculateRMS(buffer);
   const dbfsZ = calculateDb(energyZ, 32768.0);
   const dbsplZ = dbfsZ + offset;
-
   const bufferA = aWeightingFilter.process(buffer, true);
-  let energyA = 0;
-  for (let i = 0; i < bufferA.length; i++) {
-    energyA += bufferA[i] * bufferA[i];
-  }
-  energyA = Math.sqrt(energyA / bufferA.length);
-
-  const dbfsA = calculateDb(energyA, 1.0);
-  const dbsplA = dbfsA + offset;
-
-  // === 新增：累积原始 PCM 到环形缓冲区用于 FFT ===
-  const frameLen = buffer.length;
-  for (let i = 0; i < frameLen; i++) {
-    pcmRingBuffer[pcmWriteIndex] = buffer[i];
-    pcmWriteIndex = (pcmWriteIndex + 1) % CANVAS_CONFIG.FFT.SIZE;
-  }
-  fftSampleCount += frameLen;
-
-  // 按步进长度触发 FFT，提升频谱时间分辨率
+  const sampleRate = CANVAS_CONFIG.FFT.SAMPLE_RATE;
+  const fftSize = CANVAS_CONFIG.FFT.SIZE;
   const fftHopSize = CANVAS_CONFIG.FFT.HOP_SIZE || 1600;
-  if (fftSampleCount >= fftHopSize) {
-    fftSampleCount -= fftHopSize;
+  const uiRefreshSamples = Math.max(1, Math.round(sampleRate / 2));
+  let spectrumUpdated = false;
+  let uiUpdateDue = false;
 
-    // 从环形缓冲区提取有序样本
-    const fftSize = CANVAS_CONFIG.FFT.SIZE;
-    const fftInput = new Int16Array(fftSize);
-    const startRead = pcmWriteIndex; // 最旧的样本位置
-    for (let i = 0; i < fftSize; i++) {
-      fftInput[i] = pcmRingBuffer[(startRead + i) % fftSize];
+  for (let i = 0; i < buffer.length; i++) {
+    const normalizedZ = buffer[i] / 32768.0;
+    const weightedA = bufferA[i];
+    const energyA = weightedA * weightedA;
+
+    totalAWeightedEnergySum += energyA;
+    totalAWeightedSampleCount++;
+    intervalAWeightedEnergySum += energyA;
+    intervalAWeightedSampleCount++;
+    intervalZWeightedEnergySum += normalizedZ * normalizedZ;
+    intervalZWeightedSampleCount++;
+
+    pcmRingBuffer[pcmWriteIndex] = buffer[i];
+    pcmWriteIndex = (pcmWriteIndex + 1) % fftSize;
+    if (pcmBufferedSamples < fftSize) {
+      pcmBufferedSamples++;
+      if (pcmBufferedSamples === fftSize) {
+        updateSpectrumFromRingBuffer();
+        spectrumUpdated = true;
+        fftSampleCount = 0;
+      }
+    } else {
+      fftSampleCount++;
+      if (fftSampleCount >= fftHopSize) {
+        fftSampleCount -= fftHopSize;
+        updateSpectrumFromRingBuffer();
+        spectrumUpdated = true;
+      }
     }
 
-    // 计算 FFT 频谱
-    const spectrumDB = computeSpectrum(fftInput, offset);
-
-    // 更新 1/3 倍频程频段
-    spectrumBandLevels = computeThirdOctaveBands(spectrumDB);
-
-    // 追加到频谱图
-    if (spectrogramState) {
-      appendSpectrogramColumn(spectrogramState, spectrumDB, CANVAS_CONFIG.SPECTROGRAM.STRIP_WIDTH);
+    intervalSampleCounter++;
+    uiSampleCounter++;
+    if (uiSampleCounter >= uiRefreshSamples) {
+      uiSampleCounter -= uiRefreshSamples;
+      uiUpdateDue = true;
     }
+    if (intervalSampleCounter >= sampleRate) {
+      intervalSampleCounter -= sampleRate;
+      finalizeMeasurementSecond(page, dbfsZ, dbsplZ);
+    }
+  }
 
-    // 触发当前活跃视图的重绘
+  if (spectrumUpdated) {
     drawActiveView();
   }
-
   frameCount++;
-  const now = Date.now();
-  if (lastFrameTimestamp === 0) {
-    lastFrameTimestamp = now;
-    return;
-  }
-
-  elapsedMsAccumulator += (now - lastFrameTimestamp);
-  uiElapsedMsAccumulator += (now - lastFrameTimestamp);
-  lastFrameTimestamp = now;
-
-  if (uiElapsedMsAccumulator >= 500) {
-    uiElapsedMsAccumulator -= 500;
-
+  if (uiUpdateDue) {
     page.setData({
       dbfs: dbfsZ.toFixed(2),
       dbspl: dbsplZ.toFixed(2),
     });
-  }
-
-  if (elapsedMsAccumulator < 1000) {
-    return;
-  }
-
-  elapsedMsAccumulator -= 1000;
-  time++;
-
-  recordArray(time, dbsplZ);
-
-  // 仅在波形模式下每秒重绘波形
-  if (currentViewMode === 'waveform') {
-    draw(ctxf, time);
-  }
-
-  const currentKFactor = estimateKFactorSliding(dBArray, time, 10);
-
-  const cneResult = calculateShortCNE(
-    dbsplA,
-    time,
-    timeTerm,
-    totalEnergySum,
-    currentKFactor
-  );
-  cne = cneResult.cne;
-  totalEnergySum = cneResult.totalEnergySum;
-
-  const riskStatus = getRiskStatusByCNE(cne);
-  threat = riskStatus.text;
-
-  page.setData({
-    dbfs: dbfsZ.toFixed(2),
-    dbspl: dbsplZ.toFixed(2),
-    cne: cne.toFixed(2),
-    threat,
-    threatClass: riskStatus.bgClass
-  });
-
-  if (allowAlarm && cne >= noiseAlarmLevel && !isAlarming && !hasAlerted) {
-    isAlarming = true;
-    hasAlerted = true;
-    wx.showModal({
-      title: '警报',
-      content: '噪声累积能量预计将超过健康暴露水平',
-      showCancel: false,
-      complete: () => {
-        isAlarming = false;
-      }
-    });
-    page.doVibrate(5, 500);
   }
 }
 
@@ -408,10 +456,11 @@ function draw(ctx, currentTime) {
   drawWaveformFrame(ctx, {
     clearRect: [-10, -globalSize - 50, globalSize + 100, globalSize + 100],
     drawBackground: () => {
-      mesh(ctx, 0, globalSize, instantLimit);
+      mesh(ctx, CANVAS_CONFIG.AXIS_PADDING.LEFT, globalSize, instantLimit);
       mark(ctx, instantLimit);
     },
     globalSize,
+    leftBoundary: CANVAS_CONFIG.AXIS_PADDING.LEFT,
     scaleX,
     scaleY,
     currentTime,
@@ -444,7 +493,12 @@ function drawActiveView() {
       primaryColor: THEME_COLORS.PRIMARY,
     });
   } else if (currentViewMode === 'spectrogram' && spectrogramState && ctxSpectrogram) {
-    renderSpectrogramFrame(ctxSpectrogram, spectrogramState, spectrogramOffCanvas);
+    renderSpectrogramFrame(
+      ctxSpectrogram,
+      spectrogramState,
+      spectrogramOffCanvas,
+      SPECTROGRAM_LABEL_AREA_WIDTH
+    );
     drawSpectrogramLabels(ctxSpectrogram, spectrogramState, THEME_COLORS.NEUTRAL);
   }
 }
@@ -461,7 +515,8 @@ function initCanvasFront(query){
       ctxf = res.ctx;
       dpr = res.dpr;
       if (Number.isFinite(res.baseline) && res.baseline > 0) {
-        globalSize = res.baseline;
+        globalSize = Math.max(0, res.baseline - MAIN_CANVAS_PADDING_BOTTOM);
+        ctxf.translate(0, -MAIN_CANVAS_PADDING_BOTTOM);
       }
     })
     .catch((error) => {
@@ -476,7 +531,7 @@ function initCanvasFront(query){
  */
 function getRiskStatusByCNE(cneValue) {
   if (!Number.isFinite(cneValue)) {
-    return { key: 'SAFE', text: '安全', bgClass: 'detail-safe' };
+    return { key: 'INVALID', text: '数据异常', bgClass: 'detail-invalid' };
   }
 
   const levels = (Array.isArray(currentRiskLevels) && currentRiskLevels.length > 0)
@@ -587,7 +642,6 @@ Page({
       });
     }
   },
-
   /**
    * 初始化频谱 Canvas（坐标原点在左下角，与波形一致）
    */
@@ -595,17 +649,15 @@ Page({
     const query = wx.createSelectorQuery();
     query.select('#canvas-spectrum').fields({ node: true, size: true }).exec((res) => {
       if (res && res[0] && res[0].node) {
-        const logicalSize = Math.min(res[0].width, res[0].height);
-        if (Number.isFinite(logicalSize) && logicalSize > 0) {
-          globalSize = logicalSize;
-        }
         canvasSpectrum = res[0].node;
         ctxSpectrum = canvasSpectrum.getContext('2d');
         const dpr = wx.getWindowInfo().pixelRatio;
         canvasSpectrum.width = res[0].width * dpr;
         canvasSpectrum.height = res[0].height * dpr;
         ctxSpectrum.scale(dpr, dpr);
-        ctxSpectrum.translate(0, globalSize);
+        // 以 canvas 的逻辑高度作为底部基线，避免 globalSize 与实际像素尺寸不一致导致底部被裁剪
+        ctxSpectrum.translate(0, res[0].height);
+        ctxSpectrum.translate(0, -MAIN_CANVAS_PADDING_BOTTOM);
         if (typeof onReady === 'function') {
           onReady();
         }
@@ -620,10 +672,6 @@ Page({
     const query = wx.createSelectorQuery();
     query.select('#canvas-spectrogram').fields({ node: true, size: true }).exec((res) => {
       if (res && res[0] && res[0].node) {
-        const logicalSize = Math.min(res[0].width, res[0].height);
-        if (Number.isFinite(logicalSize) && logicalSize > 0) {
-          globalSize = logicalSize;
-        }
         canvasSpectrogram = res[0].node;
         ctxSpectrogram = canvasSpectrogram.getContext('2d');
         const dpr = wx.getWindowInfo().pixelRatio;
@@ -633,12 +681,13 @@ Page({
 
         const logicalW = res[0].width;
         const logicalH = res[0].height;
+        const plotW = Math.max(1, logicalW - SPECTROGRAM_LABEL_AREA_WIDTH);
 
         // 创建离屏 canvas（逻辑尺寸），用于 putImageData 中转
-        spectrogramOffCanvas = wx.createOffscreenCanvas({ type: '2d', width: logicalW, height: logicalH });
+        spectrogramOffCanvas = wx.createOffscreenCanvas({ type: '2d', width: plotW, height: logicalH });
 
         // 创建频谱图状态（逻辑尺寸）
-        spectrogramState = createSpectrogramState(logicalW, logicalH, {
+        spectrogramState = createSpectrogramState(plotW, logicalH, {
           dbMin: CANVAS_CONFIG.SPECTROGRAM.DB_MIN,
           dbMax: CANVAS_CONFIG.SPECTROGRAM.DB_MAX,
         });
@@ -703,8 +752,8 @@ Page({
       riskConfig = dataModel.getRiskConfig();
       currentRiskLevels = buildRiskLevels(riskConfig);
       allowAlarm = dataModel.getAlarmEnabled();
-      timeTerm = 10 * Math.log10(expectedExposure / 28800);
-      resetMonitorSessionState();
+      timeTerm = 10 * Math.log10(expectedExposure / CNE_FORMULA.REFERENCE_EXPOSURE_SECONDS);
+      resetMonitorSessionState(this);
 
       if (DEBUG) {
         console.log('[initMonitor] currentRiskLevels:', currentRiskLevels);
@@ -758,8 +807,10 @@ Page({
    */
   archive() {
     const currentDate = Date.now();
-    const duration = (currentDate - startDate) / 1000; 
+    const duration = totalAWeightedSampleCount / CANVAS_CONFIG.FFT.SAMPLE_RATE;
     const formattedDate = new Date(currentDate).toLocaleString("zh-CN");
+    const snapshotCne = calculateCurrentCne();
+    const snapshotRiskStatus = getRiskStatusByCNE(snapshotCne);
     
     const deviceInfo = wx.getDeviceInfo();
     const deviceName = deviceInfo.brand + ' ' + deviceInfo.model;
@@ -770,8 +821,8 @@ Page({
       date: formattedDate,
       duration: duration.toFixed(3),
       exposure: expectedExposure,
-      cne: parseFloat(this.data.cne),
-      threat: this.data.threat,
+      cne: Number.isFinite(snapshotCne) ? parseFloat(snapshotCne.toFixed(2)) : null,
+      threat: snapshotRiskStatus.text,
       location: location,
       extra: null,
       riskSegments: getRiskSegmentSnapshot(),
@@ -836,6 +887,7 @@ Page({
   },
 
   recordMyLocation() {
+    const requestSessionId = monitorSessionId;
     wx.showLoading({ title: '获取位置信息' });
     wx.getLocation({
       type: 'gcj02',
@@ -843,11 +895,19 @@ Page({
       isHighAccuracy: true,
       highAccuracyExpireTime: 3500,
       success (res) {
+        if (requestSessionId !== monitorSessionId) {
+          return;
+        }
         location = {
           latitude: res.latitude,
           longitude: res.longitude,
           altitude: res.altitude,
           accuracy: res.accuracy,
+        };
+      },
+      fail() {
+        if (requestSessionId === monitorSessionId) {
+          location = null;
         }
       },
       complete() {

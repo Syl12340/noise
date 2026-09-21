@@ -6,7 +6,7 @@ const KEYS = {
   ALARM: 'alarm',
   RISK_CONFIG: 'riskConfig',
 };
-const { STORAGE_DEFAULTS } = require('./constants');
+const { OFFSET_IMPORT_RANGE, STORAGE_DEFAULTS } = require('./constants');
 const { getDefaultRiskConfig, normalizeRiskConfig } = require('./risk-config');
 
 const DEFAULTS = STORAGE_DEFAULTS;
@@ -40,7 +40,8 @@ function asPositiveNumber(value, fallback) {
  * @returns {number} 偏移量（dB）
  */
 function getOffset() {
-  return asValidNumber(wx.getStorageSync(KEYS.OFFSET), DEFAULTS.offset);
+  const offset = asValidNumber(wx.getStorageSync(KEYS.OFFSET), DEFAULTS.offset);
+  return Math.min(OFFSET_IMPORT_RANGE.MAX, Math.max(OFFSET_IMPORT_RANGE.MIN, offset));
 }
 
 /**
@@ -49,7 +50,8 @@ function getOffset() {
  * @returns {number} 设置后的偏移量
  */
 function setOffset(value) {
-  const offset = asValidNumber(value, DEFAULTS.offset);
+  const parsed = asValidNumber(value, DEFAULTS.offset);
+  const offset = Math.min(OFFSET_IMPORT_RANGE.MAX, Math.max(OFFSET_IMPORT_RANGE.MIN, parsed));
   wx.setStorageSync(KEYS.OFFSET, offset);
   return offset;
 }

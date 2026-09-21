@@ -1,5 +1,5 @@
 // utils/audio-math.js
-const { CNE_FORMULA } = require('./constants');
+const { CNE_FORMULA, CANVAS_CONFIG } = require('./constants');
 
 /**
  * 计算连续音频离散采样信号的均方根值（RMS）。
@@ -45,6 +45,34 @@ function calculateLeqIncremental(currentDB, totalSeconds, totalEnergySum) {
     leq: 10 * Math.log10(avgEnergy),
     totalEnergySum: nextEnergySum,
   };
+}
+
+/**
+ * 由累计的归一化平方幅值和样本数计算 Leq。
+ * 该形式按样本加权，适用于录音帧长度不一致的连续音频流。
+ * @param {number} totalSquaredAmplitude 归一化样本平方和
+ * @param {number} totalSampleCount 有效样本总数
+ * @param {number} [offset=0] dBFS 到 dB SPL 的校准偏移
+ * @returns {number} 等效连续声级；无有效样本时返回 0
+ */
+function calculateLeqFromEnergy(totalSquaredAmplitude, totalSampleCount, offset = 0) {
+  if (!Number.isFinite(totalSquaredAmplitude) || totalSquaredAmplitude < 0 || totalSampleCount <= 0) {
+    return 0;
+  }
+
+  const meanSquare = totalSquaredAmplitude / totalSampleCount;
+  return 10 * Math.log10(Math.max(meanSquare, 1e-24)) + offset;
+}
+
+/**
+ * 由已经完成时间积分的 Leq 计算预计暴露 CNE。
+ * @param {number} leq A 计权等效连续声级
+ * @param {number} timeTerm 预计暴露时长项 10*log10(T/T0)
+ * @param {number} kFactor 脉冲噪声惩罚因子
+ * @returns {number} CNE
+ */
+function calculateCNEFromLeq(leq, timeTerm, kFactor) {
+  return leq + timeTerm + kFactor * CNE_FORMULA.K_FACTOR_WEIGHT;
 }
 
 /**
@@ -99,10 +127,7 @@ function calculateShortCNE(currentDB, totalSeconds, timeTerm, totalEnergySum, cu
   }
 
   const leqResult = calculateLeqIncremental(currentDB, totalSeconds, totalEnergySum);
-  const cne =
-    leqResult.leq +
-    timeTerm +
-    currentKFactor * CNE_FORMULA.K_FACTOR_WEIGHT;
+  const cne = calculateCNEFromLeq(leqResult.leq, timeTerm, currentKFactor);
 
   return {
     cne,
@@ -116,29 +141,59 @@ function calculateShortCNE(currentDB, totalSeconds, timeTerm, totalEnergySum, cu
  * IEC 61672 标准 A 计权数字滤波器
  * 采用级联 Biquad 直接 II 型转置结构
  * 确保高精度和数值稳定性
- * 采样率：16000 Hz（对应微信小程序麦克风采样率）
+ * 采样率：44100 Hz（对应微信小程序麦克风采样率）
  * 若后续需要适配其他采样率，请使用 MATLAB 重新生成系数：
  * fdesign.audioweighting('wt', 'A', <新采样率>)
  */
 class AWeightingFilter {
-  constructor() {
-    // 全局增益系数
-    this.gain = 0.582348555848;
+  constructor(sampleRate = CANVAS_CONFIG.FFT.SAMPLE_RATE) {
+    const toDigitalPole = (frequency) => {
+      const analogPole = -2 * Math.PI * frequency;
+      return (2 * sampleRate + analogPole) / (2 * sampleRate - analogPole);
+    };
 
-    // 第 1 级 Biquad - 处理高频与极低频极点
-    this.b1 = [1.0, 2.0, 1.0];
-    this.a1 = [1.0, 0.228919690196, 0.013106399039];
+    // IEC A 计权模拟原型的四组转折频率，经双线性变换得到数字极点。
+    const pole20 = toDigitalPole(20.598997);
+    const pole107 = toDigitalPole(107.65265);
+    const pole738 = toDigitalPole(737.86223);
+    const pole12194 = toDigitalPole(12194.217);
+
+    // 两个 20.6Hz 极点与两个 z=1 零点。
+    this.b1 = [1.0, -2.0, 1.0];
+    this.a1 = [1.0, -2 * pole20, pole20 * pole20];
     this.z1 = [0, 0]; // 延迟线状态寄存器
 
-    // 第 2 级 Biquad - 处理中低频曲线
+    // 107.7Hz、737.9Hz 极点与两个 z=1 零点。
     this.b2 = [1.0, -2.0, 1.0];
-    this.a2 = [1.0, -1.986682054238, 0.986701889814];
+    this.a2 = [1.0, -(pole107 + pole738), pole107 * pole738];
     this.z2 = [0, 0];
 
-    // 第 3 级 Biquad - 处理低频衰减
-    this.b3 = [1.0, -2.0, 1.0];
-    this.a3 = [1.0, -1.996160359265, 0.996165502446];
+    // 两个 12.2kHz 极点与双线性变换补入的两个 z=-1 零点。
+    this.b3 = [1.0, 2.0, 1.0];
+    this.a3 = [1.0, -2 * pole12194, pole12194 * pole12194];
     this.z3 = [0, 0];
+
+    // A 计权在 1kHz 的标准增益为 0dB，按实际数字滤波器响应归一。
+    const sectionMagnitude = (b, a, angularFrequency) => {
+      const cos1 = Math.cos(angularFrequency);
+      const sin1 = Math.sin(angularFrequency);
+      const cos2 = Math.cos(2 * angularFrequency);
+      const sin2 = Math.sin(2 * angularFrequency);
+      const numeratorRe = b[0] + b[1] * cos1 + b[2] * cos2;
+      const numeratorIm = -b[1] * sin1 - b[2] * sin2;
+      const denominatorRe = a[0] + a[1] * cos1 + a[2] * cos2;
+      const denominatorIm = -a[1] * sin1 - a[2] * sin2;
+      return Math.sqrt(
+        (numeratorRe * numeratorRe + numeratorIm * numeratorIm) /
+        (denominatorRe * denominatorRe + denominatorIm * denominatorIm)
+      );
+    };
+    const oneKhz = 2 * Math.PI * 1000 / sampleRate;
+    const magnitudeAtOneKhz =
+      sectionMagnitude(this.b1, this.a1, oneKhz) *
+      sectionMagnitude(this.b2, this.a2, oneKhz) *
+      sectionMagnitude(this.b3, this.a3, oneKhz);
+    this.gain = 1 / magnitudeAtOneKhz;
   }
 
   /**
@@ -186,6 +241,8 @@ module.exports = {
   calculateRMS,
   calculateDb,
   calculateLeqIncremental,
+  calculateLeqFromEnergy,
+  calculateCNEFromLeq,
   estimateKFactorSliding,
   calculateShortCNE,
   AWeightingFilter,

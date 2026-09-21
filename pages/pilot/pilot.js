@@ -30,5 +30,11 @@ Page({
     wx.navigateTo({
       url: '/pages/advanced-calibrate/advanced-calibrate',
     })
+  },
+
+  goToPhonetic(){
+    wx.navigateTo({
+      url: '/pages/phonetic/phonetic',
+    })
   }
 })
