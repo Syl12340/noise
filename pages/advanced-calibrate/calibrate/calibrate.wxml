@@ -13,7 +13,7 @@
     style="margin-top: 40px;"
     bindtap="startCalibrationProcess"
     disabled="{{isCalibratingUI}}">
-    开始 1kHz (80 dB) 标准标定
+    开始 1kHz 纯音 (80 dB) 标准标定
   </button>
 
   <!-- 日常监控数据 (校准期间淡化) -->

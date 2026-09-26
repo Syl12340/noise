@@ -69,6 +69,8 @@ function dbToRampIndex(db, dbMin, dbMax) {
  * @returns {SpectrogramState}
  */
 function createSpectrogramState(width, height, options = {}) {
+  width = Math.max(1, Math.round(width));
+  height = Math.max(1, Math.round(height));
   const {
     dbMin = 0,
     dbMax = 70,
@@ -83,7 +85,7 @@ function createSpectrogramState(width, height, options = {}) {
 
   // 预计算频率 bin → 像素行的查找表（对数刻度）
   // 公式：row = height - 1 - round(height * log(f/fMin) / log(fMax/fMin))
-  const binCount = FFT_CONFIG.BIN_COUNT; // 1024
+  const binCount = FFT_CONFIG.BIN_COUNT;
   const freqToRow = new Uint16Array(binCount);
   const logRatio = Math.log(fMax / fMin);
 
@@ -101,14 +103,24 @@ function createSpectrogramState(width, height, options = {}) {
     }
   }
 
-  // 预计算每行对应的 bin 索引（确保每行都有数据，消除低频空白）
-  const rowToBin = new Uint16Array(height);
+  // 预计算每行覆盖的完整 bin 范围，避免单 bin 抽样漏掉窄带峰值。
+  const rowBinStart = new Uint16Array(height);
+  const rowBinEnd = new Uint16Array(height);
+  const rowDenominator = Math.max(1, height - 1);
   for (let row = 0; row < height; row++) {
-    // 从该行对应的频率反推 bin 索引
-    const freqRatio = 1 - row / (height - 1);
-    const freq = fMin * Math.exp(freqRatio * logRatio);
-    const bin = Math.round(freq / FFT_CONFIG.FREQ_RESOLUTION);
-    rowToBin[row] = Math.max(1, Math.min(binCount - 1, bin));
+    const upperRatio = Math.max(0, Math.min(1, 1 - (row - 0.5) / rowDenominator));
+    const lowerRatio = Math.max(0, Math.min(1, 1 - (row + 0.5) / rowDenominator));
+    const highFreq = fMin * Math.exp(upperRatio * logRatio);
+    const lowFreq = fMin * Math.exp(lowerRatio * logRatio);
+    let startBin = Math.max(1, Math.ceil(lowFreq / FFT_CONFIG.FREQ_RESOLUTION));
+    let endBin = Math.min(binCount - 1, Math.floor(highFreq / FFT_CONFIG.FREQ_RESOLUTION));
+    if (startBin > endBin) {
+      const nearest = Math.max(1, Math.min(binCount - 1, Math.round(Math.sqrt(lowFreq * highFreq) / FFT_CONFIG.FREQ_RESOLUTION)));
+      startBin = nearest;
+      endBin = nearest;
+    }
+    rowBinStart[row] = startBin;
+    rowBinEnd[row] = endBin;
   }
 
   return {
@@ -119,7 +131,8 @@ function createSpectrogramState(width, height, options = {}) {
     dbMin,
     dbMax,
     freqToRow,
-    rowToBin,
+    rowBinStart,
+    rowBinEnd,
   };
 }
 
@@ -145,7 +158,7 @@ function initSpectrogramImageData(state, ctx) {
  * @returns {void}
  */
 function appendSpectrogramColumn(state, spectrumDB, stripWidth = 4) {
-  const { pixels, width, height, dbMin, dbMax, rowToBin } = state;
+  const { pixels, width, height, dbMin, dbMax, rowBinStart, rowBinEnd } = state;
   if (!pixels) return;
 
   const bytesPerRow = width * 4;
@@ -160,8 +173,11 @@ function appendSpectrogramColumn(state, spectrumDB, stripWidth = 4) {
   // 2. 逐行写入新列（确保每行都有数据，消除低频空白）
   const xStart = width - stripWidth;
   for (let row = 0; row < height; row++) {
-    const binIdx = rowToBin[row];
-    const db = spectrumDB[binIdx];
+    let db = -Infinity;
+    const endBin = Math.min(rowBinEnd[row], spectrumDB.length - 1);
+    for (let binIdx = rowBinStart[row]; binIdx <= endBin; binIdx++) {
+      if (Number.isFinite(spectrumDB[binIdx]) && spectrumDB[binIdx] > db) db = spectrumDB[binIdx];
+    }
     if (!Number.isFinite(db)) continue;
 
     const rampIdx = dbToRampIndex(db, dbMin, dbMax);

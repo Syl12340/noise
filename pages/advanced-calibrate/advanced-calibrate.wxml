@@ -11,6 +11,13 @@
   </view>
 
   <!-- 快捷校准组 -->
+  <view class="status-panel">
+    <text>{{calibrationLabel}}</text>
+    <view><text>校准 {{calibrationDate}} · 应用复核期限 {{validUntil}}</text></view>
+    <view><text>90 天复核是本应用的管理策略。换麦克风、耳机或系统输入后请立即重新校准。</text></view>
+    <button bindtap="invalidateChangedInput">采集条件变化，重新校准</button>
+    <button bindtap="exportCalibration">复制本安装的校准备份</button>
+  </view>
   <view class="group-title">快捷校准</view>
   <view class="action-group">
     <view class="action-cell" hover-class="cell-hover" bindtap="applyPresetCalibration">
@@ -35,7 +42,7 @@
     <view class="action-cell" hover-class="cell-hover" bindtap="goToAdvancedCalibration">
       <view class="cell-left">
         <image class="cell-icon" src="../../images/calibrate.svg" mode="aspectFit" />
-        <text class="cell-text">执行声学标定 (1kHz, 80 dB SPL 纯/啭音)</text>
+        <text class="cell-text">执行声学标定 (1kHz, 80 dB SPL 纯音)</text>
       </view>
       <text class="cell-arrow">›</text>
     </view>

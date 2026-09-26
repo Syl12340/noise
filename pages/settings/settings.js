@@ -2,16 +2,13 @@
 // 作用：呈现用户应用偏好与安全参数配置界面，负责风险等级阈值和提醒开关的修改及持久化。
 const dataModel = require('../../utils/data-model');
 const { OFFSET_IMPORT_RANGE } = require('../../utils/constants');
+const { getMeasurementCaptureProfile, getCurrentDeviceCalibrationId } = require('../../utils/recorder-session');
 const {
   getDefaultRiskConfig,
   normalizeRiskConfig,
   validateRiskConfig,
   getEnabledRiskLevels,
 } = require('../../utils/risk-config');
-
-function clampOffset(value) {
-  return Math.min(OFFSET_IMPORT_RANGE.MAX, Math.max(OFFSET_IMPORT_RANGE.MIN, value));
-}
 
 Page({
   data: {
@@ -32,6 +29,8 @@ Page({
   onShow() {
     try {
       const riskConfig = dataModel.getRiskConfig();
+      this._loadedOffset = dataModel.getOffset();
+      this._offsetEdited = false;
       this.setData({
         duration: dataModel.getExpectedExposureHours(),
         energy: dataModel.getNoiseAlarmLevel(),
@@ -73,7 +72,8 @@ Page({
 
   changeOffset(e) {
     const val = parseFloat(e.detail.value);
-    this.setData({ offset: Number.isFinite(val) ? clampOffset(val) : dataModel.getOffset() });
+    this._offsetEdited = true;
+    this.setData({ offset: Number.isFinite(val) ? val : dataModel.getOffset() });
   },
 
   toggleDark() {
@@ -159,7 +159,11 @@ Page({
     const duration = parseFloat(this.data.duration);
     const energy = parseFloat(this.data.energy);
     const offset = parseFloat(this.data.offset);
-    const normalizedOffset = Number.isFinite(offset) ? clampOffset(offset) : dataModel.getOffset();
+    if (!Number.isFinite(offset) || offset < OFFSET_IMPORT_RANGE.MIN || offset > OFFSET_IMPORT_RANGE.MAX) {
+      wx.showToast({ title: `偏移量须在 ${OFFSET_IMPORT_RANGE.MIN}~${OFFSET_IMPORT_RANGE.MAX} dB`, icon: 'none' });
+      return;
+    }
+    const normalizedOffset = offset;
 
     const candidateRiskConfig = normalizeRiskConfig(this.data.riskConfig);
     const validation = validateRiskConfig(candidateRiskConfig);
@@ -171,7 +175,15 @@ Page({
     dataModel.setExpectedExposureHours(Number.isFinite(duration) && duration > 0 ? duration : dataModel.getExpectedExposureHours());
     dataModel.setNoiseAlarmLevel(Number.isFinite(energy) ? energy : dataModel.getNoiseAlarmLevel());
     dataModel.setAlarmEnabled(this.data.alarm);
-    dataModel.setOffset(normalizedOffset);
+    if (this._offsetEdited) {
+      dataModel.setOffset(normalizedOffset, {
+        captureProfile: getMeasurementCaptureProfile(),
+        deviceId: getCurrentDeviceCalibrationId(),
+        source: 'manual-settings',
+      });
+      this._loadedOffset = normalizedOffset;
+      this._offsetEdited = false;
+    }
     dataModel.setRiskConfig(candidateRiskConfig);
 
     this.setData({
@@ -192,6 +204,7 @@ Page({
 
   reset() {
     const defaults = dataModel.getDefaults();
+    this._offsetEdited = false;
     this.setData({
       duration: defaults.expectedExposure,
       energy: defaults.noiseAlarmLevel,

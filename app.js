@@ -17,8 +17,8 @@ function resolveServer() {
 
 App({
   globalData:{
-    version: "Beta 1.3.0.20260521.0",
-    vstamp:"b.1.3.0.20260521.0",
+    version: "Beta 1.4.0.20260921.0",
+    vstamp:"b.1.4.0.20260921.0",
     init: false,
     server: resolveServer(),
     isLoggedIn: wx.getStorageSync('isLoggedIn'),
@@ -51,6 +51,8 @@ App({
     this.ioLog('noiseAlarmLevel', defaults.noiseAlarmLevel, 'set');
     this.ioLog('alarm', defaults.alarm, 'set');
     this.ioLog('offset', defaults.offset, 'set');
+    this.ioLog('offsetValid', false, 'set');
+    wx.removeStorageSync('offsetMeta');
     //this.ioLog('savedResult', initDataArray, 'set');
     this.ioLog('init', true, 'set');
     setTimeout(function () {

@@ -3,8 +3,9 @@
 const recorderManager = wx.getRecorderManager();
 
 const { calculateRMS, calculateDb } = require('../../utils/audio-math');
-const { LIMITS, CANVAS_CONFIG, THEME_COLORS } = require('../../utils/constants');
+const { LIMITS, CANVAS_CONFIG, THEME_COLORS, OFFSET_IMPORT_RANGE } = require('../../utils/constants');
 const dataModel = require('../../utils/data-model');
+const { DCBlocker, inspectPcm } = require('../../utils/audio-quality');
 const {
   initCanvasFrontAsync,
   recordArrayPoint,
@@ -12,7 +13,17 @@ const {
   drawCanvasMark,
   drawWaveformFrame,
 } = require('../../utils/canvas/index');
-const { safeStopRecorder, createCamcorderRecordParams, bindRecorderFrameListener, clearRecorderFrameListener, restartRecorderSession } = require('../../utils/recorder-session');
+const {
+  safeStopRecorder,
+  cancelRecorderStart,
+  createCamcorderRecordParams,
+  getMeasurementCaptureProfile,
+  getCurrentDeviceCalibrationId,
+  bindRecorderFrameListener,
+  bindRecorderListenersOnce,
+  clearRecorderFrameListener,
+  restartRecorderSession,
+} = require('../../utils/recorder-session');
 
 let canvasf, ctxf, dpr;
 
@@ -24,6 +35,11 @@ let isCalibrating = false;
 let isCalibrateMonitoringActive = false;
 let calibEnergySum = 0;
 let calibSamples = 0;
+let dcBlocker = new DCBlocker(44100);
+let calibClipped = false;
+let roughCalibrationTimer = null;
+let calibrationInterrupted = false;
+const ROUGH_CALIBRATION_REQUIRED_SAMPLES = 44100 * 2;
 let instantLimit = LIMITS.INSTANT_DB_LIMIT_DEFAULT;
 let currentCalibratePage = null;
 let calibrateRecorderStartTimerId = null;
@@ -31,8 +47,9 @@ const calibrateRecordParams = createCamcorderRecordParams();
 
 
 function clearCalibrateRecorderStartTimer() {
+  cancelRecorderStart(recorderManager);
   if (calibrateRecorderStartTimerId) {
-    clearTimeout(calibrateRecorderStartTimerId);
+    if (typeof calibrateRecorderStartTimerId === 'number') clearTimeout(calibrateRecorderStartTimerId);
     calibrateRecorderStartTimerId = null;
   }
 }
@@ -105,7 +122,8 @@ Page({
     dbfs: '0.00',
     dbspl: '0.00',
     presetCalibration: "未开始",
-    newOffset: '0.00',
+    newOffset: '--',
+    canSaveCalibration: false,
   },
 
   onReady() {
@@ -137,6 +155,12 @@ Page({
    * @sideeffect 停止录音，清除页面引用与定时器。
    */
   stopCalibrateMonitoring() {
+    this.completedCalibration = null;
+    this.setData({ canSaveCalibration: false });
+    if (roughCalibrationTimer) clearTimeout(roughCalibrationTimer);
+    roughCalibrationTimer = null;
+    isCalibrating = false;
+    wx.hideLoading();
     isCalibrateMonitoringActive = false;
     currentCalibratePage = null;
     clearCalibrateRecorderStartTimer();
@@ -146,8 +170,11 @@ Page({
 
 
   initMonitor() {
+    dcBlocker = new DCBlocker(44100);
     offset = dataModel.getOffset();
-    this.setData({ newOffset: offset.toFixed(2) });
+    this.completedCalibration = null;
+    this.pendingCalibrationTarget = null;
+    this.setData({ newOffset: '--', presetCalibration: '未开始', canSaveCalibration: false });
     
     dBArray =[];
     time = 0;
@@ -158,49 +185,94 @@ Page({
   },
 
   doRoughCalibrate(e) {
+    if (isCalibrating) return;
     const targetSPL = parseFloat(e.currentTarget.dataset.spl);
     const targetName = e.currentTarget.dataset.name;
+    this.completedCalibration = null;
+    this.setData({ newOffset: '--', canSaveCalibration: false });
+    if (!isCalibrateMonitoringActive || !Number.isFinite(targetSPL)) return;
     instantLimit = targetSPL; // 图表动态显示目标红线
     
     // 开启积分
     isCalibrating = true;
     calibEnergySum = 0;
     calibSamples = 0;
+    calibClipped = false;
+    calibrationInterrupted = false;
     
     wx.showLoading({ title: '环境采样中...', mask: true });
 
-    // 采集 2 秒钟的数据求等效连续均值
-    setTimeout(() => {
-      isCalibrating = false;
-      wx.hideLoading();
-      
-      if (calibSamples === 0) {
-        wx.showToast({ title: '采样失败', icon: 'error' });
-        return;
-      }
+    // 超时只负责判失败；成功必须由收到的两秒真实样本数触发。
+    roughCalibrationTimer = setTimeout(() => {
+      roughCalibrationTimer = null;
+      if (isCalibrating) this.failRoughCalibration('采样不足 2 秒，请重试');
+    }, 3500);
 
-      const meanSquare = calibEnergySum / calibSamples;
-      const rms = Math.sqrt(meanSquare);
-      const leqDbfs = calculateDb(rms, 1.0);
-      const calibrationOffset = targetSPL - leqDbfs;
+    this.pendingCalibrationTarget = { targetSPL, targetName };
+  },
 
-      this.setData({
-        presetCalibration: targetName,
-        newOffset: calibrationOffset.toFixed(2),
-      });
+  failRoughCalibration(message) {
+    this.completedCalibration = null;
+    if (roughCalibrationTimer) clearTimeout(roughCalibrationTimer);
+    roughCalibrationTimer = null;
+    isCalibrating = false;
+    wx.hideLoading();
+    this.setData({ newOffset: '--', canSaveCalibration: false });
+    wx.showToast({ title: message, icon: 'none', duration: 2500 });
+  },
 
-      wx.showToast({ title: '参数已生成', icon: 'success' });
-    }, 2000);
+  finalizeRoughCalibration() {
+    const target = this.pendingCalibrationTarget;
+    if (!target || calibSamples !== ROUGH_CALIBRATION_REQUIRED_SAMPLES || calibrationInterrupted) {
+      this.failRoughCalibration('录音不连续，校准无效');
+      return;
+    }
+    if (roughCalibrationTimer) clearTimeout(roughCalibrationTimer);
+    roughCalibrationTimer = null;
+    isCalibrating = false;
+    wx.hideLoading();
+
+    const rms = Math.sqrt(calibEnergySum / calibSamples);
+    if (!Number.isFinite(rms) || rms < 1e-5 || calibClipped) {
+      this.failRoughCalibration('输入过弱或过载，校准无效');
+      return;
+    }
+    const leqDbfs = calculateDb(rms, 1.0);
+    const calibrationOffset = target.targetSPL - leqDbfs;
+    if (!Number.isFinite(calibrationOffset) || calibrationOffset < OFFSET_IMPORT_RANGE.MIN || calibrationOffset > OFFSET_IMPORT_RANGE.MAX) {
+      this.failRoughCalibration('校准偏移量超出有效范围');
+      return;
+    }
+    this.completedCalibration = {
+      offset: calibrationOffset,
+      captureProfile: getMeasurementCaptureProfile(),
+      deviceId: getCurrentDeviceCalibrationId(),
+      source: 'rough-calibration',
+      calibratedAt: Date.now(),
+    };
+    this.setData({
+      presetCalibration: target.targetName,
+      newOffset: calibrationOffset.toFixed(2),
+      canSaveCalibration: true,
+    });
+    wx.showToast({ title: '参数已生成', icon: 'success' });
   },
 
   saveOffset() {
-    const val = parseFloat(this.data.newOffset);
+    const completed = this.completedCalibration;
+    if (!completed || isCalibrating || !isCalibrateMonitoringActive) {
+      wx.showToast({ title: '请先完成一次有效校准', icon: 'none' });
+      return;
+    }
+    const val = completed.offset;
     wx.showModal({
       title: '应用校准',
-      content: `确定将偏移量设为 ${val} dB 吗？`,
+      content: `确定将偏移量设为 ${val.toFixed(2)} dB 吗？`,
       success: (res) => {
-        if (res.confirm) {
-          dataModel.setOffset(val);
+        if (res.confirm && isCalibrateMonitoringActive && this.completedCalibration === completed
+          && completed.captureProfile === getMeasurementCaptureProfile()
+          && completed.deviceId === getCurrentDeviceCalibrationId()) {
+          dataModel.setOffset(val, completed);
           wx.showToast({ title: '已保存' });
           setTimeout(() => wx.navigateBack(), 1000);
         }
@@ -214,21 +286,48 @@ Page({
    * Side effect: 替换 recorder 帧监听并重启录音会话。
    */
   noiseDetect() {
+    bindRecorderListenersOnce(recorderManager, 'rough-calibrate-listeners', () => {
+      const failActiveCalibration = () => {
+        const page = currentCalibratePage;
+        if (isCalibrateMonitoringActive && page && isCalibrating) {
+          calibrationInterrupted = true;
+          page.failRoughCalibration('录音中断或出错，请重新校准');
+        }
+      };
+      if (typeof recorderManager.onInterruptionBegin === 'function') recorderManager.onInterruptionBegin(failActiveCalibration);
+      if (typeof recorderManager.onPause === 'function') recorderManager.onPause(failActiveCalibration);
+      if (typeof recorderManager.onError === 'function') recorderManager.onError(failActiveCalibration);
+      recorderManager.onStop(failActiveCalibration);
+    });
+
     const isFrameListenerBound = bindRecorderFrameListener(recorderManager, (res) => {
       const page = currentCalibratePage;
       if (!isCalibrateMonitoringActive || !page) {
         return;
       }
-      const buffer = new Int16Array(res.frameBuffer);
-      const dbfs = calculateDb(calculateRMS(buffer), 32768.0);
+      const pcm = new Int16Array(res.frameBuffer);
+      if (!pcm.length) return;
+      const buffer = dcBlocker.process(pcm);
+      const dbfs = calculateDb(calculateRMS(buffer), 1);
       
       // 积分采样期
       if (isCalibrating) {
-        for (let i = 0; i < buffer.length; i++) {
-          let s = buffer[i] / 32768.0;
+        const count = Math.min(buffer.length, ROUGH_CALIBRATION_REQUIRED_SAMPLES - calibSamples);
+        const calibrationPcm = pcm.subarray(0, count);
+        const inputQuality = inspectPcm(calibrationPcm);
+        if (inputQuality.digitalSilence || inputQuality.noAcSignal) {
+          page.failRoughCalibration('输入无有效交流信号，校准无效');
+          return;
+        }
+        calibClipped = calibClipped || inputQuality.clipped;
+        for (let i = 0; i < count; i++) {
+          const s = buffer[i];
           calibEnergySum += s * s;
         }
-        calibSamples += buffer.length;
+        calibSamples += count;
+        if (calibSamples === ROUGH_CALIBRATION_REQUIRED_SAMPLES) {
+          page.finalizeRoughCalibration();
+        }
       }
 
       frameCount++;

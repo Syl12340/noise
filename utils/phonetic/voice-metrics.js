@@ -2,14 +2,14 @@
 // 音质特征计算：HNR / 帧间周期变化率 / Intensity
 
 /**
- * 由非周期性指标计算谐噪比 (Harmonic-to-Noise Ratio)。
- * 公式: HNR = 10 * log10((1 - ap) / ap)，ap 为 CMNDF 最小值。
- * @param {number} aperiodicity - YIN CMNDF 最小值 (0~1)，越低越周期性
+ * 由归一化自相关峰估计 HNR；参数不能使用 YIN CMNDF。
+ * @param {number} correlation - 原始信号上的归一化自相关峰 (0~1)
  * @returns {?number} HNR (dB)，输入无效时返回 null
  */
-function calculateHNR(aperiodicity) {
-  if (!Number.isFinite(aperiodicity) || aperiodicity <= 0 || aperiodicity >= 1) return null;
-  return 10 * Math.log10((1 - aperiodicity) / aperiodicity);
+function calculateHNR(correlation) {
+  if (!Number.isFinite(correlation) || correlation <= 0 || correlation > 1) return null;
+  const r = Math.min(correlation, 1 - 1e-6);
+  return 10 * Math.log10(r / (1 - r));
 }
 
 /**
@@ -47,9 +47,9 @@ const calculateJitter = calculatePitchPeriodVariability;
 
 /**
  * 逐帧计算短时声强轨迹 (dBFS)。
- * 对预加重后的浮点信号按帧切分（不加窗），计算 RMS → dBFS。
+ * 对去直流、未经预加重的浮点信号按帧切分（不加窗），计算 RMS → dBFS。
  * 0 dBFS = 数字满幅，负值 = 相对衰减。不加校准偏移。
- * @param {Float32Array} signal - 预加重后的浮点信号
+ * @param {Float32Array} signal - 去直流、未经预加重的浮点信号
  * @param {number} sampleRate - 采样率
  * @param {number} frameSize - 帧长
  * @param {number} hopSize - 帧移
@@ -58,7 +58,6 @@ const calculateJitter = calculatePitchPeriodVariability;
 function calculateIntensity(signal, sampleRate, frameSize, hopSize) {
   const track = [];
   let start = 0;
-  let idx = 0;
 
   while (start + frameSize <= signal.length) {
     let sumSq = 0;
@@ -68,9 +67,8 @@ function calculateIntensity(signal, sampleRate, frameSize, hopSize) {
     }
     const rms = Math.sqrt(sumSq / frameSize);
     const dbfs = 20 * Math.log10(Math.max(rms, 1e-12));
-    track.push({ time: (idx * hopSize) / sampleRate, db: dbfs });
+    track.push({ time: (start + frameSize / 2) / sampleRate, db: dbfs });
     start += hopSize;
-    idx++;
   }
 
   return track;

@@ -1,0 +1,117 @@
+{
+  "generatedAt": "2026-09-26T17:06:47.925Z",
+  "summary": {
+    "total": 23,
+    "passed": 23,
+    "failed": 0
+  },
+  "sourceSha256": {
+    "utils/phonetic/analysis.js": "fb91ca673e0df11d4e321079374e6347de4c17cc930df77d638af15c07d82508",
+    "utils/phonetic/formant-extract.js": "f2f3987ce219f20025cff795a6404a6b3d4f21cc421a4529ae5f65ff0c4b0081",
+    "utils/phonetic/yin-pitch.js": "ef2210766e5ce0baece17de7057eb4ee5d95031411a9685befe3be1955373e76",
+    "utils/recorder-session.js": "17b35c9a18267094546455e9e7af3a993b10a8a53f47d0172e37fe024c9136e7",
+    "utils/data-model.js": "ca556cb18aa29698470a8d79aff6d188c8e12188ab960b8c2384ecbd0fc40961",
+    "pages/main/main.js": "6b5e0bac1eab2ff24fa9c42db27686879018ca40afc7ad29964bf337cd51c4e6",
+    "pages/phonetic/phonetic.js": "839e157f7b817e4f5c18d207b911dbc76cda3f1d407fd5fcb80310259c89d542",
+    "pages/result/result.js": "c01d0cc710f86b25f317647c58e7cc0345696f3d66b76091fa1cb09f14276daa",
+    "pages/main/main.wxml": "7c82794494e38778152d612b19a7557ba636516bf922819fbc5b3670963b0ae8",
+    "workers/phonetic-analysis/index.js": "6ca8479903c42db65e15e8cf0e8b247bbbdee3040b79ffde85ff829a40da9cf1",
+    "workers/phonetic-analysis/bundle.js": "28f08ada7e006351c355d939295f7d09dcbc778f94847bd32e319f732d1ac74e",
+    "tests/revision-regression.cjs": "1ed1d5cc400406476af269371608a70c164545fea5acaf1540f980f58e461150",
+    "tests/runtime.cjs": "445e11f468d049be3eb7564605cfe2e47fcf57369147b7b309c5ec08e7f9fa80"
+  },
+  "results": [
+    {
+      "name": "Broad true pole retains ordinal slots",
+      "status": "PASS"
+    },
+    {
+      "name": "Upper boundary never clamped into an accepted 1200 Hz",
+      "status": "PASS"
+    },
+    {
+      "name": "Sync/async numerical equality across all long stages",
+      "status": "PASS"
+    },
+    {
+      "name": "Cancellation can interrupt within pitch tracking",
+      "status": "PASS"
+    },
+    {
+      "name": "Shared analysis rejects invalid parameters and preserves metadata",
+      "status": "PASS"
+    },
+    {
+      "name": "Worker and foreground return identical full results",
+      "status": "PASS"
+    },
+    {
+      "name": "Native stop acknowledgement precedes next start",
+      "status": "PASS"
+    },
+    {
+      "name": "Stale callbacks are inert without native offFrameRecorded",
+      "status": "PASS"
+    },
+    {
+      "name": "Cancelling pending start prevents restart on late stop",
+      "status": "PASS"
+    },
+    {
+      "name": "Calibration grades, installation binding and expiry are enforced",
+      "status": "PASS"
+    },
+    {
+      "name": "Frozen stopped summary remains saveable after input timeout",
+      "status": "PASS"
+    },
+    {
+      "name": "Restart discards stopped snapshot and disables saving until new input",
+      "status": "PASS"
+    },
+    {
+      "name": "Invalid and legacy records never receive safe colors",
+      "status": "PASS"
+    },
+    {
+      "name": "Selecting a range clears old point values and exposes coverage",
+      "status": "PASS"
+    },
+    {
+      "name": "Phonetic recorder can retry a synchronous native start error",
+      "status": "PASS"
+    },
+    {
+      "name": "Risk color belongs to projected exposure, not current Z level",
+      "status": "PASS"
+    },
+    {
+      "name": "Order-specific broad root does not displace stable higher formants",
+      "status": "PASS"
+    },
+    {
+      "name": "Cross-order broad root retains its ordinal position",
+      "status": "PASS"
+    },
+    {
+      "name": "Narrow pole matches by radius as well as frequency",
+      "status": "PASS"
+    },
+    {
+      "name": "Track continuity cannot substitute a different ordinal",
+      "status": "PASS"
+    },
+    {
+      "name": "Leaving phonetic page cancels before delayed native stop",
+      "status": "PASS"
+    },
+    {
+      "name": "Malformed PCM invalidates a live measurement without throwing",
+      "status": "PASS"
+    },
+    {
+      "name": "Partial model evidence cannot erase a broad ordinal",
+      "status": "PASS"
+    }
+  ]
+}

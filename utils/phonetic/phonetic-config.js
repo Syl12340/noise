@@ -4,13 +4,16 @@
 const PHONETIC_CONFIG = {
   SAMPLE_RATE: 44100,        // 采样率 (Hz)
   FRAME_SIZE: 1102,          // 共振峰/声强帧长 = 25ms @ 44100Hz
-  PITCH_FRAME_SIZE: 2048,    // YIN 分析帧，足以覆盖 60Hz 的完整延迟搜索
+  ANALYSIS_SAMPLE_RATE: 12000, // 抗混叠后用于 F0 / LPC / 自相关分析
+  ANALYSIS_FRAME_SIZE: 300, // 25 ms
+  ANALYSIS_HOP_SIZE: 120,   // 10 ms
+  PITCH_FRAME_SIZE: 1024,   // 85.3 ms @ 12 kHz，覆盖低基频及越界检查
   HOP_SIZE: 441,             // 帧移 = 10ms @ 44100Hz
-  LPC_ORDER: 16,             // LPC 阶数（44100Hz 下推荐 16）
+  LPC_ORDER: 12,             // 在 12 kHz 分析信号上拟合
   PRE_EMPHASIS_COEFF: 0.97,  // 预加重系数
   YIN_THRESHOLD: 0.1,        // YIN 绝对阈值
-  YIN_FMIN: 60,              // 最低基频 (Hz)
-  YIN_FMAX: 500,             // 最高基频 (Hz)
+  YIN_FMIN: 40,              // 最低基频 (Hz)
+  YIN_FMAX: 1200,            // 最高基频 (Hz)，范围外候选不回填为低八度
   FORMANT_MIN_FREQ: 90,      // 共振峰最低频率 (Hz)
   FORMANT_MAX_FREQ: 5000,    // 共振峰最高频率 (Hz)
   FORMANT_MAX_BW: 500,       // 共振峰最大带宽 (Hz)

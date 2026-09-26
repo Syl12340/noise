@@ -14,7 +14,7 @@
  * @param {number} [options.dbMax=0] - dBFS 上限
  * @returns {{ data: Float32Array[], width: number, height: number, times: Float64Array }}
  */
-function generateSpectrogram(signal, sampleRate, options = {}) {
+function* iterateSpectrogram(signal, sampleRate, options = {}) {
   const {
     fftSize = 1024,
     windowSec = 0.005,
@@ -69,6 +69,7 @@ function generateSpectrogram(signal, sampleRate, options = {}) {
     }
 
     data.push(spectrum);
+    yield;
   }
 
   return { data, width: frameCount, height: binCount, times };
@@ -119,4 +120,11 @@ function fftInPlaceLocal(re, im, N) {
   }
 }
 
-module.exports = { generateSpectrogram };
+const { consume, consumeAsync } = require('./iteration');
+function generateSpectrogram(signal, sampleRate, options = {}) {
+  return consume(iterateSpectrogram(signal, sampleRate, options));
+}
+function generateSpectrogramAsync(signal, sampleRate, options = {}) {
+  return consumeAsync(iterateSpectrogram(signal, sampleRate, options), options);
+}
+module.exports = { generateSpectrogram, generateSpectrogramAsync };

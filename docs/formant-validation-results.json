@@ -1,0 +1,1737 @@
+{
+  "generatedAt": "2026-09-26T17:06:49.075Z",
+  "seed": 270927,
+  "criterion": "Independent known-pole synthetic signals; 10% frequency tolerance, 80% coverage. Missing is counted separately, never as accurate. Not a clinical benchmark.",
+  "sourceSha256": {
+    "utils/phonetic/analysis.js": "fb91ca673e0df11d4e321079374e6347de4c17cc930df77d638af15c07d82508",
+    "utils/phonetic/yin-pitch.js": "ef2210766e5ce0baece17de7057eb4ee5d95031411a9685befe3be1955373e76",
+    "utils/phonetic/formant-extract.js": "f2f3987ce219f20025cff795a6404a6b3d4f21cc421a4529ae5f65ff0c4b0081",
+    "utils/phonetic/burg-lpc.js": "1cc087f0e0c058bba155b07b5224088d793947d1667cbc658dc1ada9821a76b0",
+    "utils/phonetic/resample.js": "2bb24d483f60643d18a220e8a7ebd87b523b9f564fa2f8befd28de1dfb5d43e0",
+    "tests/formant-validation.cjs": "5c76b7d4dcc995a30b5c19a83d586b2f5be4b59790ec86088184c32d48ae982e"
+  },
+  "aggregate": [
+    {
+      "truthFrames": 750,
+      "acceptedFrames": 358,
+      "coverage": 0.47733333333333333,
+      "missingFrames": 392,
+      "missingRate": 0.5226666666666666,
+      "wrongAcceptedFrames": 60,
+      "falseAcceptancePerTruthFrame": 0.08,
+      "wrongFractionAmongAccepted": 0.16759776536312848,
+      "meanRelativeErrorAmongAccepted": 0.057641328095413294,
+      "maxRelativeErrorAmongAccepted": 0.17500000000000004
+    },
+    {
+      "truthFrames": 750,
+      "acceptedFrames": 336,
+      "coverage": 0.448,
+      "missingFrames": 414,
+      "missingRate": 0.552,
+      "wrongAcceptedFrames": 30,
+      "falseAcceptancePerTruthFrame": 0.04,
+      "wrongFractionAmongAccepted": 0.08928571428571429,
+      "meanRelativeErrorAmongAccepted": 0.023394334151465412,
+      "maxRelativeErrorAmongAccepted": 0.10962962962962952
+    },
+    {
+      "truthFrames": 750,
+      "acceptedFrames": 306,
+      "coverage": 0.408,
+      "missingFrames": 444,
+      "missingRate": 0.592,
+      "wrongAcceptedFrames": 0,
+      "falseAcceptancePerTruthFrame": 0,
+      "wrongFractionAmongAccepted": 0,
+      "meanRelativeErrorAmongAccepted": 0.010399315959958334,
+      "maxRelativeErrorAmongAccepted": 0.03612903225806452
+    }
+  ],
+  "nonperiodic": {
+    "frames": 48,
+    "acceptedFormants": 0
+  },
+  "cases": [
+    {
+      "f0": 83,
+      "poles": [
+        [
+          360,
+          85
+        ],
+        [
+          1150,
+          115
+        ],
+        [
+          2320,
+          195
+        ],
+        [
+          3450,
+          260
+        ],
+        [
+          4480,
+          330
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.030370370370370377,
+          "maxRelativeErrorAmongAccepted": 0.036388888888888915
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 27,
+          "coverage": 0.9,
+          "missingFrames": 3,
+          "missingRate": 0.1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.0009694041867954915,
+          "maxRelativeErrorAmongAccepted": 0.002695652173912988
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 27,
+          "coverage": 0.9,
+          "missingFrames": 3,
+          "missingRate": 0.1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.008151340996168556,
+          "maxRelativeErrorAmongAccepted": 0.011551724137931041
+        }
+      ],
+      "reasons": {
+        "accepted": 84,
+        "model-disagreement": 5,
+        "ambiguous-numbering": 1
+      }
+    },
+    {
+      "f0": 137,
+      "poles": [
+        [
+          360,
+          85
+        ],
+        [
+          1150,
+          115
+        ],
+        [
+          2320,
+          195
+        ],
+        [
+          3450,
+          260
+        ],
+        [
+          4480,
+          330
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 28,
+          "coverage": 0.9333333333333333,
+          "missingFrames": 2,
+          "missingRate": 0.06666666666666667,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.004980158730158731,
+          "maxRelativeErrorAmongAccepted": 0.008055555555555483
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 26,
+          "coverage": 0.8666666666666667,
+          "missingFrames": 4,
+          "missingRate": 0.13333333333333333,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.006949832775919728,
+          "maxRelativeErrorAmongAccepted": 0.008260869565217432
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 26,
+          "coverage": 0.8666666666666667,
+          "missingFrames": 4,
+          "missingRate": 0.13333333333333333,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.008693633952254651,
+          "maxRelativeErrorAmongAccepted": 0.010172413793103408
+        }
+      ],
+      "reasons": {
+        "accepted": 80,
+        "model-disagreement": 10
+      }
+    },
+    {
+      "f0": 223,
+      "poles": [
+        [
+          360,
+          85
+        ],
+        [
+          1150,
+          115
+        ],
+        [
+          2320,
+          195
+        ],
+        [
+          3450,
+          260
+        ],
+        [
+          4480,
+          330
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 25,
+          "coverage": 0.8333333333333334,
+          "missingFrames": 5,
+          "missingRate": 0.16666666666666666,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.022888888888888844,
+          "maxRelativeErrorAmongAccepted": 0.026111111111110974
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 25,
+          "coverage": 0.8333333333333334,
+          "missingFrames": 5,
+          "missingRate": 0.16666666666666666,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.02358608695652173,
+          "maxRelativeErrorAmongAccepted": 0.024521739130434872
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 25,
+          "coverage": 0.8333333333333334,
+          "missingFrames": 5,
+          "missingRate": 0.16666666666666666,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.005539655172413793,
+          "maxRelativeErrorAmongAccepted": 0.0070689655172413435
+        }
+      ],
+      "reasons": {
+        "accepted": 75,
+        "model-disagreement": 15
+      }
+    },
+    {
+      "f0": 331,
+      "poles": [
+        [
+          360,
+          85
+        ],
+        [
+          1150,
+          115
+        ],
+        [
+          2320,
+          195
+        ],
+        [
+          3450,
+          260
+        ],
+        [
+          4480,
+          330
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "sparse-harmonics": 30,
+        "model-disagreement": 30,
+        "ambiguous-numbering": 30
+      }
+    },
+    {
+      "f0": 479,
+      "poles": [
+        [
+          360,
+          85
+        ],
+        [
+          1150,
+          115
+        ],
+        [
+          2320,
+          195
+        ],
+        [
+          3450,
+          260
+        ],
+        [
+          4480,
+          330
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "sparse-harmonics": 30,
+        "model-disagreement": 60
+      }
+    },
+    {
+      "f0": 83,
+      "poles": [
+        [
+          550,
+          95
+        ],
+        [
+          1620,
+          145
+        ],
+        [
+          2790,
+          185
+        ],
+        [
+          3820,
+          230
+        ],
+        [
+          4760,
+          290
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 19,
+          "coverage": 0.6333333333333333,
+          "missingFrames": 11,
+          "missingRate": 0.36666666666666664,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.018966507177033468,
+          "maxRelativeErrorAmongAccepted": 0.021272727272727332
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 19,
+          "coverage": 0.6333333333333333,
+          "missingFrames": 11,
+          "missingRate": 0.36666666666666664,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.006075373619233218,
+          "maxRelativeErrorAmongAccepted": 0.006851851851851887
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 19,
+          "coverage": 0.6333333333333333,
+          "missingFrames": 11,
+          "missingRate": 0.36666666666666664,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.006129032258064551,
+          "maxRelativeErrorAmongAccepted": 0.006917562724014337
+        }
+      ],
+      "reasons": {
+        "accepted": 57,
+        "model-disagreement": 31,
+        "ambiguous-numbering": 2
+      }
+    },
+    {
+      "f0": 137,
+      "poles": [
+        [
+          550,
+          95
+        ],
+        [
+          1620,
+          145
+        ],
+        [
+          2790,
+          185
+        ],
+        [
+          3820,
+          230
+        ],
+        [
+          4760,
+          290
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 29,
+          "coverage": 0.9666666666666667,
+          "missingFrames": 1,
+          "missingRate": 0.03333333333333333,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.019266457680250794,
+          "maxRelativeErrorAmongAccepted": 0.019636363636363563
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 29,
+          "coverage": 0.9666666666666667,
+          "missingFrames": 1,
+          "missingRate": 0.03333333333333333,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.008320561941251598,
+          "maxRelativeErrorAmongAccepted": 0.008456790123456903
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 29,
+          "coverage": 0.9666666666666667,
+          "missingFrames": 1,
+          "missingRate": 0.03333333333333333,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.006159930787294545,
+          "maxRelativeErrorAmongAccepted": 0.006272401433691677
+        }
+      ],
+      "reasons": {
+        "accepted": 87,
+        "model-disagreement": 3
+      }
+    },
+    {
+      "f0": 223,
+      "poles": [
+        [
+          550,
+          95
+        ],
+        [
+          1620,
+          145
+        ],
+        [
+          2790,
+          185
+        ],
+        [
+          3820,
+          230
+        ],
+        [
+          4760,
+          290
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.06347272727272726,
+          "maxRelativeErrorAmongAccepted": 0.06381818181818188
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.014713991769547349,
+          "maxRelativeErrorAmongAccepted": 0.014814814814814836
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.00703106332138587,
+          "maxRelativeErrorAmongAccepted": 0.007132616487455223
+        }
+      ],
+      "reasons": {
+        "accepted": 90
+      }
+    },
+    {
+      "f0": 331,
+      "poles": [
+        [
+          550,
+          95
+        ],
+        [
+          1620,
+          145
+        ],
+        [
+          2790,
+          185
+        ],
+        [
+          3820,
+          230
+        ],
+        [
+          4760,
+          290
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.08272727272727275,
+          "maxRelativeErrorAmongAccepted": 0.0830909090909091
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.02318724279835389,
+          "maxRelativeErrorAmongAccepted": 0.02327160493827174
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "accepted": 60,
+        "model-bandwidth-disagreement": 30
+      }
+    },
+    {
+      "f0": 479,
+      "poles": [
+        [
+          550,
+          95
+        ],
+        [
+          1620,
+          145
+        ],
+        [
+          2790,
+          185
+        ],
+        [
+          3820,
+          230
+        ],
+        [
+          4760,
+          290
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 30,
+          "falseAcceptancePerTruthFrame": 1,
+          "wrongFractionAmongAccepted": 1,
+          "meanRelativeErrorAmongAccepted": 0.10927160493827161,
+          "maxRelativeErrorAmongAccepted": 0.10962962962962952
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.036034647550776594,
+          "maxRelativeErrorAmongAccepted": 0.03612903225806452
+        }
+      ],
+      "reasons": {
+        "sparse-harmonics": 30,
+        "accepted": 60
+      }
+    },
+    {
+      "f0": 83,
+      "poles": [
+        [
+          760,
+          110
+        ],
+        [
+          1380,
+          125
+        ],
+        [
+          3150,
+          210
+        ],
+        [
+          3900,
+          245
+        ],
+        [
+          4800,
+          320
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 4,
+          "coverage": 0.13333333333333333,
+          "missingFrames": 26,
+          "missingRate": 0.8666666666666667,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.016743421052631602,
+          "maxRelativeErrorAmongAccepted": 0.018289473684210522
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 4,
+          "coverage": 0.13333333333333333,
+          "missingFrames": 26,
+          "missingRate": 0.8666666666666667,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.0014492753623187582,
+          "maxRelativeErrorAmongAccepted": 0.0020289855072463947
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 4,
+          "coverage": 0.13333333333333333,
+          "missingFrames": 26,
+          "missingRate": 0.8666666666666667,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.003420634920634935,
+          "maxRelativeErrorAmongAccepted": 0.003555555555555534
+        }
+      ],
+      "reasons": {
+        "model-disagreement": 50,
+        "ambiguous-numbering": 28,
+        "accepted": 12
+      }
+    },
+    {
+      "f0": 137,
+      "poles": [
+        [
+          760,
+          110
+        ],
+        [
+          1380,
+          125
+        ],
+        [
+          3150,
+          210
+        ],
+        [
+          3900,
+          245
+        ],
+        [
+          4800,
+          320
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "model-disagreement": 30,
+        "ambiguous-numbering": 60
+      }
+    },
+    {
+      "f0": 223,
+      "poles": [
+        [
+          760,
+          110
+        ],
+        [
+          1380,
+          125
+        ],
+        [
+          3150,
+          210
+        ],
+        [
+          3900,
+          245
+        ],
+        [
+          4800,
+          320
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.07086842105263158,
+          "maxRelativeErrorAmongAccepted": 0.07118421052631585
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "accepted": 30,
+        "model-disagreement": 60
+      }
+    },
+    {
+      "f0": 331,
+      "poles": [
+        [
+          760,
+          110
+        ],
+        [
+          1380,
+          125
+        ],
+        [
+          3150,
+          210
+        ],
+        [
+          3900,
+          245
+        ],
+        [
+          4800,
+          320
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 30,
+          "falseAcceptancePerTruthFrame": 1,
+          "wrongFractionAmongAccepted": 1,
+          "meanRelativeErrorAmongAccepted": 0.12997807017543853,
+          "maxRelativeErrorAmongAccepted": 0.13039473684210534
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.04773913043478261,
+          "maxRelativeErrorAmongAccepted": 0.047826086956521685
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.015235978835978848,
+          "maxRelativeErrorAmongAccepted": 0.015333333333333421
+        }
+      ],
+      "reasons": {
+        "accepted": 90
+      }
+    },
+    {
+      "f0": 479,
+      "poles": [
+        [
+          760,
+          110
+        ],
+        [
+          1380,
+          125
+        ],
+        [
+          3150,
+          210
+        ],
+        [
+          3900,
+          245
+        ],
+        [
+          4800,
+          320
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "model-disagreement": 30,
+        "ambiguous-numbering": 60
+      }
+    },
+    {
+      "f0": 83,
+      "poles": [
+        [
+          870,
+          135
+        ],
+        [
+          2180,
+          155
+        ],
+        [
+          2950,
+          205
+        ],
+        [
+          3750,
+          255
+        ],
+        [
+          4680,
+          315
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 13,
+          "coverage": 0.43333333333333335,
+          "missingFrames": 17,
+          "missingRate": 0.5666666666666667,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.01408488063660477,
+          "maxRelativeErrorAmongAccepted": 0.01551724137931032
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 13,
+          "coverage": 0.43333333333333335,
+          "missingFrames": 17,
+          "missingRate": 0.5666666666666667,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.006591390261115027,
+          "maxRelativeErrorAmongAccepted": 0.007201834862385237
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 13,
+          "coverage": 0.43333333333333335,
+          "missingFrames": 17,
+          "missingRate": 0.5666666666666667,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.005554106910039103,
+          "maxRelativeErrorAmongAccepted": 0.006135593220338853
+        }
+      ],
+      "reasons": {
+        "model-disagreement": 41,
+        "ambiguous-numbering": 10,
+        "accepted": 39
+      }
+    },
+    {
+      "f0": 137,
+      "poles": [
+        [
+          870,
+          135
+        ],
+        [
+          2180,
+          155
+        ],
+        [
+          2950,
+          205
+        ],
+        [
+          3750,
+          255
+        ],
+        [
+          4680,
+          315
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "model-disagreement": 60,
+        "ambiguous-numbering": 30
+      }
+    },
+    {
+      "f0": 223,
+      "poles": [
+        [
+          870,
+          135
+        ],
+        [
+          2180,
+          155
+        ],
+        [
+          2950,
+          205
+        ],
+        [
+          3750,
+          255
+        ],
+        [
+          4680,
+          315
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.007042145593869768,
+          "maxRelativeErrorAmongAccepted": 0.007241379310344742
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.01645565749235472,
+          "maxRelativeErrorAmongAccepted": 0.016513761467889854
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.0020926553672315847,
+          "maxRelativeErrorAmongAccepted": 0.0021355932203390715
+        }
+      ],
+      "reasons": {
+        "accepted": 90
+      }
+    },
+    {
+      "f0": 331,
+      "poles": [
+        [
+          870,
+          135
+        ],
+        [
+          2180,
+          155
+        ],
+        [
+          2950,
+          205
+        ],
+        [
+          3750,
+          255
+        ],
+        [
+          4680,
+          315
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "model-disagreement": 60,
+        "ambiguous-numbering": 30
+      }
+    },
+    {
+      "f0": 479,
+      "poles": [
+        [
+          870,
+          135
+        ],
+        [
+          2180,
+          155
+        ],
+        [
+          2950,
+          205
+        ],
+        [
+          3750,
+          255
+        ],
+        [
+          4680,
+          315
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.06651340996168577,
+          "maxRelativeErrorAmongAccepted": 0.06666666666666665
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "accepted": 30,
+        "model-disagreement": 30,
+        "ambiguous-numbering": 30
+      }
+    },
+    {
+      "f0": 83,
+      "poles": [
+        [
+          680,
+          620
+        ],
+        [
+          1120,
+          130
+        ],
+        [
+          2640,
+          185
+        ],
+        [
+          3620,
+          230
+        ],
+        [
+          4590,
+          300
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 13,
+          "coverage": 0.43333333333333335,
+          "missingFrames": 17,
+          "missingRate": 0.5666666666666667,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.00850961538461534,
+          "maxRelativeErrorAmongAccepted": 0.009464285714285592
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 13,
+          "coverage": 0.43333333333333335,
+          "missingFrames": 17,
+          "missingRate": 0.5666666666666667,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.007007575757575755,
+          "maxRelativeErrorAmongAccepted": 0.007689393939394051
+        }
+      ],
+      "reasons": {
+        "wide-bandwidth": 13,
+        "accepted": 26,
+        "model-disagreement": 17,
+        "ambiguous-numbering": 34
+      }
+    },
+    {
+      "f0": 137,
+      "poles": [
+        [
+          680,
+          620
+        ],
+        [
+          1120,
+          130
+        ],
+        [
+          2640,
+          185
+        ],
+        [
+          3620,
+          230
+        ],
+        [
+          4590,
+          300
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "model-disagreement": 30,
+        "ambiguous-numbering": 60
+      }
+    },
+    {
+      "f0": 223,
+      "poles": [
+        [
+          680,
+          620
+        ],
+        [
+          1120,
+          130
+        ],
+        [
+          2640,
+          185
+        ],
+        [
+          3620,
+          230
+        ],
+        [
+          4590,
+          300
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 30,
+          "falseAcceptancePerTruthFrame": 1,
+          "wrongFractionAmongAccepted": 1,
+          "meanRelativeErrorAmongAccepted": 0.17418627450980395,
+          "maxRelativeErrorAmongAccepted": 0.17500000000000004
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.0054702380952380706,
+          "maxRelativeErrorAmongAccepted": 0.005624999999999991
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.010455808080808104,
+          "maxRelativeErrorAmongAccepted": 0.010643939393939261
+        }
+      ],
+      "reasons": {
+        "accepted": 90
+      }
+    },
+    {
+      "f0": 331,
+      "poles": [
+        [
+          680,
+          620
+        ],
+        [
+          1120,
+          130
+        ],
+        [
+          2640,
+          185
+        ],
+        [
+          3620,
+          230
+        ],
+        [
+          4590,
+          300
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "model-disagreement": 60,
+        "ambiguous-numbering": 30
+      }
+    },
+    {
+      "f0": 479,
+      "poles": [
+        [
+          680,
+          620
+        ],
+        [
+          1120,
+          130
+        ],
+        [
+          2640,
+          185
+        ],
+        [
+          3620,
+          230
+        ],
+        [
+          4590,
+          300
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        }
+      ],
+      "reasons": {
+        "model-disagreement": 60,
+        "ambiguous-numbering": 30
+      }
+    }
+  ],
+  "accuracyAndCoveragePassed": false
+}

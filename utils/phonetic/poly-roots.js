@@ -124,7 +124,8 @@ function durandKerner(coefficients) {
     (maxValue, root) => Math.max(maxValue, relativeResidual(coefficients, root)),
     0
   );
-  if (!converged && finalResidual > 1e-7) {
+  if (!Number.isFinite(finalResidual) || roots.some(root => !Number.isFinite(root.re) || !Number.isFinite(root.im))
+      || (!converged && finalResidual > 1e-7)) {
     throw new Error(`多项式求根未收敛：最大相对残差 ${finalResidual}`);
   }
 

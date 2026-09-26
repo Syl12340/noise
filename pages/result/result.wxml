@@ -30,16 +30,19 @@
             <view class="header-left">
               <text class="card-title">{{item.name || '未命名记录'}}</text>
               <text class="card-date">{{item.date}}</text>
+              <text class="card-date">{{item.qualityLabel}}</text>
             </view>
             <view class="header-right">
-              <text class="cne-val {{item.threatTextClass}}">{{item.cne}}</text>
-              <text class="cne-unit">CNE</text>
+              <text class="cne-val {{item.threatTextClass}}">{{item.cneDisplay}}</text>
+              <text class="cne-unit">dB(A)，预计暴露</text>
             </view>
           </view>
 
           <!-- 详细信息区 (折叠手风琴) -->
           <view class="detail-wrapper">
             <view class="detail-grid">
+              <view class="detail-item detail-full"><text class="detail-value">{{item.comparisonNote}}</text></view>
+              <view class="detail-item detail-full"><text class="detail-value">{{item.qualityReason || '未记录额外质量原因'}}</text></view>
               <view class="detail-item">
                 <text class="detail-label">预期暴露</text>
                 <text class="detail-value">{{item.exposure}} s</text>
@@ -50,7 +53,7 @@
               </view>
               <view class="detail-item">
                 <text class="detail-label">风险评估</text>
-                <text class="detail-value">{{item.threat}}</text>
+                <text class="detail-value">{{item.threatDisplay}}</text>
               </view>
               <view class="detail-item">
                 <text class="detail-label">偏移量</text>

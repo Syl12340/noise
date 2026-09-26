@@ -64,10 +64,10 @@ evaluateRisk(cne, riskConfig)  // 纯参数驱动，取代硬编码3档逻辑
 
 **补充注释**：
 - `calculateRMS/calculateDb` - 音频能量转分贝转换
-- `calculateLeqIncremental` - 增量等效声级计算（符合职业卫生标准）
-- `estimateKFactorIncremental` - 波值因子估算（0 <= range <= 15 → K=1，range>15 → K=2）
-- `calculateShortCNE` - CNE = Leq + TimeTerm + K×权重 - 基础偏移（核心职业健康指标）
-- `AWeightingFilter` - IEC 61672 标准A计权滤波器（3级级联Biquad）
+- `calculateLeqFromEnergy` - 由累计 A 计权能量计算等效声级
+- `calculateCNEFromLeq` - 按预计暴露时间换算结果；当前不包含峰度惩罚
+- `evaluateRisk` - 根据用户配置的阈值划分风险等级
+- `AWeightingFilter` - 低频 IIR 与 129 点 FIR 组成的 A 计权近似；全频带误差仍需验证
 
 ---
 

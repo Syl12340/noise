@@ -44,6 +44,7 @@
     "navigationBarTitleText": "首页",
     "navigationBarTextStyle": "black"
   },
+  "workers": "workers",
   "renderer": "webview",
   "style": "v2",
   "sitemapLocation": "sitemap.json"

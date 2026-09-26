@@ -3,7 +3,19 @@
   "compileType": "miniprogram",
   "libVersion": "3.5.5",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      { "type": "folder", "value": ".git" },
+      { "type": "folder", "value": ".claude" },
+      { "type": "folder", "value": ".vscode" },
+      { "type": "folder", "value": ".codex" },
+      { "type": "folder", "value": ".agents" },
+      { "type": "folder", "value": "docs" },
+      { "type": "folder", "value": "tests" },
+      { "type": "folder", "value": "scripts" },
+      { "type": "file", "value": "source_code.txt" },
+      { "type": "file", "value": "extract_code.js" },
+      { "type": "file", "value": "fix_comments.js" }
+    ],
     "include": []
   },
   "setting": {

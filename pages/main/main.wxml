@@ -1,29 +1,36 @@
 <!-- pages/main/main.wxml -->
 <view class="page-container">
-  <!-- 顶部状态与仪表盘（整块变色区） -->
-  <view class="card dashboard {{threatClass}}">
+  <!-- 当前短时 Z 声级，不使用预计暴露风险配色 -->
+  <view class="card dashboard">
     <view class="recording-tag">
-      <view class="dot"></view>
-      <text class="tag-text">噪声监测已启动</text>
+      <view class="dot" wx:if="{{recordingState === 'recording'}}"></view>
+      <text class="tag-text">{{recordingLabel}}</text>
     </view>
     
     <view class="main-value">
       <text class="db-num">{{dbspl}}</text>
-      <text class="db-unit">dB SPL</text>
+      <text class="db-unit">dB SPL（当前短时 Z 计权）</text>
     </view>
 
-    <view class="status-pill">
-      <text class="status-text">{{threat}}</text>
-    </view>
+  </view>
+
+  <view class="card">
+    <text>{{calibrationLabel}} · 校准日期 {{calibrationDate}}</text>
+    <view><text>本次有效采样 {{measurementSeconds}} 秒 · 预计暴露 {{exposureHours}} 小时</text></view>
+    <view><text>本次 LAeq：{{leqA}} dB(A)</text></view>
+    <view><text>换算结果假设预计暴露期间声级与本次测量相同。</text></view>
   </view>
 
   <!-- 辅助数据两列 -->
   <view class="stats-row">
     <view class="card stats-card">
-      <text class="stats-label">累积能量 (CNE)</text>
+      <text class="stats-label">预计暴露级（归一至 8 小时）</text>
       <view class="stats-value">
         <text class="val">{{cne}}</text>
         <text class="unit">dB(A)</text>
+      </view>
+      <view class="status-pill {{threatClass}}">
+        <text class="status-text">{{threat}}</text>
       </view>
     </view>
     <view class="card stats-card">
@@ -39,7 +46,7 @@
   <view class="card chart-card">
     <view class="chart-header">
       <text class="chart-title">
-        {{viewMode === 'waveform' ? '时域波形 [Z计权声压级]' :
+        {{viewMode === 'waveform' ? '每秒声级 [Z计权，无风险配色]' :
           viewMode === 'spectrum' ? '频谱柱图 [1/3倍频程]' :
           '时频热力图 [时间-频率]' }}
       </text>
@@ -49,7 +56,7 @@
     <view class="view-tabs">
       <view class="view-tab {{viewMode === 'waveform' ? 'view-tab-active' : ''}}"
             data-mode="waveform" bindtap="switchView">
-        <text>时域波形</text>
+        <text>声级走势</text>
       </view>
       <view class="view-tab {{viewMode === 'spectrum' ? 'view-tab-active' : ''}}"
             data-mode="spectrum" bindtap="switchView">
@@ -80,7 +87,9 @@
   </view>
 
   <!-- 占据主要空间的两个平分按钮 -->
-  <button class="btn-main btn-save" bindtap="_saveResult">保存记录</button>
-  <button class="btn-main btn-stop" bindtap="stopNoiseMonitoring">停止</button>
+   <button class="btn-main btn-save" bindtap="_saveResult" disabled="{{!canSave}}">保存记录</button>
+   <button wx:if="{{recordingState === 'recording' || recordingState === 'starting'}}" class="btn-main btn-stop" bindtap="stopNoiseMonitoring">停止并查看</button>
+   <button wx:else class="btn-main" bindtap="restartMeasurement">重新测量</button>
+   <button wx:if="{{recordingState === 'invalid' || recordingState === 'stopped'}}" class="btn-mini" bindtap="leaveMeasurement">退出</button>
   </view>
 </view>

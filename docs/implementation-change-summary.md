@@ -5,7 +5,7 @@
 
 ## 新增文件
 1. utils/audio-math.js
-- 集中音频计算与风险评估函数：RMS、dB、增量 Leq、K 因子、CNE、风险分级。
+- 集中音频计算与风险评估函数：RMS、dB、累计能量 Leq、预计暴露结果、A 计权和风险分级；不再包含未经验证的峰度因子。
 
 2. utils/data-model.js
 - 集中存储读写：offset、expectedExposure、noiseAlarmLevel、alarm。

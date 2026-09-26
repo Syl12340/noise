@@ -1,5 +1,6 @@
 // utils/audio-math.js
-const { CNE_FORMULA, CANVAS_CONFIG } = require('./constants');
+const { CANVAS_CONFIG } = require('./constants');
+const { fftInPlace } = require('./fft');
 
 /**
  * 计算连续音频离散采样信号的均方根值（RMS）。
@@ -30,24 +31,6 @@ function calculateDb(rms, reference) {
 }
 
 /**
- * 增量计算等效连续声级（Leq）。
- * 采用能量求和法累加瞬态时间轴上的声学能量分布，
- * 用以评估长时间声场暴露产生的稳态响应负荷。
- * @param {number} currentDB - 当前秒的 A 计权等效声压 L_A dB(A)
- * @param {number} totalSeconds - 时间序列积分的总时长（秒）
- * @param {number} totalEnergySum - 连续积分能量累计缓存
- * @returns {object} { leq: 等效连续声级, totalEnergySum: 更新后的标量累积能量 }
- */
-function calculateLeqIncremental(currentDB, totalSeconds, totalEnergySum) {
-  const nextEnergySum = totalEnergySum + Math.pow(10, currentDB / 10);
-  const avgEnergy = nextEnergySum / totalSeconds;
-  return {
-    leq: 10 * Math.log10(avgEnergy),
-    totalEnergySum: nextEnergySum,
-  };
-}
-
-/**
  * 由累计的归一化平方幅值和样本数计算 Leq。
  * 该形式按样本加权，适用于录音帧长度不一致的连续音频流。
  * @param {number} totalSquaredAmplitude 归一化样本平方和
@@ -68,82 +51,17 @@ function calculateLeqFromEnergy(totalSquaredAmplitude, totalSampleCount, offset 
  * 由已经完成时间积分的 Leq 计算预计暴露 CNE。
  * @param {number} leq A 计权等效连续声级
  * @param {number} timeTerm 预计暴露时长项 10*log10(T/T0)
- * @param {number} kFactor 脉冲噪声惩罚因子
  * @returns {number} CNE
  */
-function calculateCNEFromLeq(leq, timeTerm, kFactor) {
-  return leq + timeTerm + kFactor * CNE_FORMULA.K_FACTOR_WEIGHT;
+function calculateCNEFromLeq(leq, timeTerm) {
+  // 当前没有样本级峰度模型；仅报告由 LAeq 与预计暴露时间换算的等效暴露级。
+  return leq + timeTerm;
 }
 
 /**
- * 基于短时滑动窗口（Sliding Window）的波值因子 (K-Factor) 估算
- * @param {Array<number>} dbHistory - 历史秒级声压级数组
- * @param {number} currentTime - 当前时间索引（秒）
- * @param {number} [windowSize=10] - 滑动窗口大小（秒）
- * @returns {number} 波值因子（0 或 1）
- */
-function estimateKFactorSliding(dbHistory, currentTime, windowSize = 10) {
-  if (currentTime <= 0 || !dbHistory || dbHistory.length === 0) return 0;
-
-  const startIdx = Math.max(1, currentTime - windowSize + 1);
-  let localMax = -Infinity;
-  let localMin = Infinity;
-
-  for (let i = startIdx; i <= currentTime; i++) {
-    const value = dbHistory[i];
-    if (typeof value !== 'number') {
-      continue;
-    }
-    if (value > localMax) localMax = value;
-    if (value < localMin) localMin = value;
-  }
-
-  if (!Number.isFinite(localMax) || !Number.isFinite(localMin)) {
-    return 0;
-  }
-
-  return (localMax - localMin) > 15 ? 1 : 0;
-}
-
-/**
- * 计算引入脉冲惩罚后的累积噪声能量 (CNE, Cumulative Noise Energy)。
- * 这是一个综合了时域等效声压级（Leq）、预定日接触持续时长以及 K-Factor 波动惩罚影响的关键职业卫生学曝光评估指标，
- * 其结果是对基础声学变量（A计权真实声压）经过一系列等效缩放与惩罚加权后的评价数值。
- * @param {number} currentDB - 当前秒的 A 计权瞬态真实声压值 (dB)
- * @param {number} totalSeconds - 本次测量有效时长基数
- * @param {number} timeTerm - 基于预估接触时域加权得到的时间平移项参数
- * @param {number} totalEnergySum - 历史统计所推导出的对质量级宏观累积能量
- * @param {number} currentKFactor - 当前短时滑动窗口估算的 K-Factor（0 或 1）
- * @returns {object} 返回综合指数 CNE，及对应关联声学参量集合
- */
-function calculateShortCNE(currentDB, totalSeconds, timeTerm, totalEnergySum, currentKFactor) {
-  if (totalSeconds <= 0) {
-    return {
-      cne: 0,
-      leq: 0,
-      kFactor: 0,
-      totalEnergySum,
-    };
-  }
-
-  const leqResult = calculateLeqIncremental(currentDB, totalSeconds, totalEnergySum);
-  const cne = calculateCNEFromLeq(leqResult.leq, timeTerm, currentKFactor);
-
-  return {
-    cne,
-    leq: leqResult.leq,
-    kFactor: currentKFactor,
-    totalEnergySum: leqResult.totalEnergySum,
-  };
-}
-
-/**
- * IEC 61672 标准 A 计权数字滤波器
- * 采用级联 Biquad 直接 II 型转置结构
- * 确保高精度和数值稳定性
- * 采样率：44100 Hz（对应微信小程序麦克风采样率）
- * 若后续需要适配其他采样率，请使用 MATLAB 重新生成系数：
- * fdesign.audioweighting('wt', 'A', <新采样率>)
+ * A 计权近似：低频双二阶节 + 按模拟目标曲线设计的 FIR 高频段。
+ * 不再把 12.2 kHz 模拟极点直接双线性变换，避免奈奎斯特处人为归零。
+ * 有限长 FIR 是数值近似；设备与全频带精度仍需实测校验。
  */
 class AWeightingFilter {
   constructor(sampleRate = CANVAS_CONFIG.FFT.SAMPLE_RATE) {
@@ -156,7 +74,6 @@ class AWeightingFilter {
     const pole20 = toDigitalPole(20.598997);
     const pole107 = toDigitalPole(107.65265);
     const pole738 = toDigitalPole(737.86223);
-    const pole12194 = toDigitalPole(12194.217);
 
     // 两个 20.6Hz 极点与两个 z=1 零点。
     this.b1 = [1.0, -2.0, 1.0];
@@ -168,32 +85,40 @@ class AWeightingFilter {
     this.a2 = [1.0, -(pole107 + pole738), pole107 * pole738];
     this.z2 = [0, 0];
 
-    // 两个 12.2kHz 极点与双线性变换补入的两个 z=-1 零点。
-    this.b3 = [1.0, 2.0, 1.0];
-    this.a3 = [1.0, -2 * pole12194, pole12194 * pole12194];
-    this.z3 = [0, 0];
-
-    // A 计权在 1kHz 的标准增益为 0dB，按实际数字滤波器响应归一。
-    const sectionMagnitude = (b, a, angularFrequency) => {
-      const cos1 = Math.cos(angularFrequency);
-      const sin1 = Math.sin(angularFrequency);
-      const cos2 = Math.cos(2 * angularFrequency);
-      const sin2 = Math.sin(2 * angularFrequency);
-      const numeratorRe = b[0] + b[1] * cos1 + b[2] * cos2;
-      const numeratorIm = -b[1] * sin1 - b[2] * sin2;
-      const denominatorRe = a[0] + a[1] * cos1 + a[2] * cos2;
-      const denominatorIm = -a[1] * sin1 - a[2] * sin2;
-      return Math.sqrt(
-        (numeratorRe * numeratorRe + numeratorIm * numeratorIm) /
-        (denominatorRe * denominatorRe + denominatorIm * denominatorIm)
-      );
+    const lowMagnitude = (frequency) => {
+      const s = 4 * Math.pow(Math.sin(Math.PI * frequency / sampleRate), 2);
+      const denominator = pole => (1 - pole) * (1 - pole) + pole * s;
+      return s * s / (denominator(pole20) * Math.sqrt(denominator(pole107) * denominator(pole738)));
     };
-    const oneKhz = 2 * Math.PI * 1000 / sampleRate;
-    const magnitudeAtOneKhz =
-      sectionMagnitude(this.b1, this.a1, oneKhz) *
-      sectionMagnitude(this.b2, this.a2, oneKhz) *
-      sectionMagnitude(this.b3, this.a3, oneKhz);
-    this.gain = 1 / magnitudeAtOneKhz;
+    const prototype = (frequency) => {
+      const f2 = frequency * frequency;
+      const high2 = 12194.217 * 12194.217;
+      return high2 * f2 * f2 / ((f2 + 20.598997 * 20.598997)
+        * Math.sqrt((f2 + 107.65265 * 107.65265) * (f2 + 737.86223 * 737.86223)) * (f2 + high2));
+    };
+    const reference = prototype(1000);
+    const designSize = 2048;
+    const re = new Float64Array(designSize), im = new Float64Array(designSize);
+    for (let k = 0; k <= designSize / 2; k++) {
+      const f = Math.max(0.1, k * sampleRate / designSize);
+      const response = prototype(f) / reference / lowMagnitude(f);
+      re[k] = response;
+      if (k > 0 && k < designSize / 2) re[designSize - k] = response;
+    }
+    // 实偶幅频响应的逆变换；时移得到可实时执行的线性相位 FIR。
+    fftInPlace(re, im, designSize);
+    const half = 64;
+    this.fir = new Float64Array(2 * half + 1);
+    let firAtOneKhz = 0;
+    for (let i = 0; i < this.fir.length; i++) {
+      const lag = i - half;
+      const window = 0.42 + 0.5 * Math.cos(Math.PI * lag / half) + 0.08 * Math.cos(2 * Math.PI * lag / half);
+      this.fir[i] = re[(lag + designSize) % designSize] / designSize * window;
+      firAtOneKhz += this.fir[i] * Math.cos(2 * Math.PI * 1000 * lag / sampleRate);
+    }
+    this.gain = 1 / (lowMagnitude(1000) * Math.abs(firAtOneKhz));
+    this.history = new Float64Array(this.fir.length);
+    this.historyIndex = 0;
   }
 
   /**
@@ -203,7 +128,7 @@ class AWeightingFilter {
     *   - true：输入视为 Int16 PCM，内部先除以 32768。
     *   - false：输入已是浮点归一化数据，直接进入滤波器。
     * @returns {Float32Array} A 计权后的音频数据（浮点数）。
-    * Side effect: 会更新内部延迟线状态 z1/z2/z3；同一实例必须连续使用，不能每帧重建。
+    * Side effect: 更新双二阶节与 FIR 历史；同一实例连续使用，不能每帧重建。
    */
   process(inputBuffer, normalize = true) {
     const len = inputBuffer.length;
@@ -224,13 +149,14 @@ class AWeightingFilter {
       this.z2[0] = this.b2[1] * y1 - this.a2[1] * y2 + this.z2[1];
       this.z2[1] = this.b2[2] * y1 - this.a2[2] * y2;
 
-      // 4. 级联 Biquad 3
-      let y3 = this.b3[0] * y2 + this.z3[0];
-      this.z3[0] = this.b3[1] * y2 - this.a3[1] * y3 + this.z3[1];
-      this.z3[1] = this.b3[2] * y2 - this.a3[2] * y3;
-
-      // 5. 输出
-      output[i] = y3;
+      this.history[this.historyIndex] = y2;
+      let value = 0, index = this.historyIndex;
+      for (let tap = 0; tap < this.fir.length; tap++) {
+        value += this.fir[tap] * this.history[index];
+        if (--index < 0) index = this.history.length - 1;
+      }
+      this.historyIndex = (this.historyIndex + 1) % this.history.length;
+      output[i] = value;
     }
 
     return output;
@@ -240,10 +166,7 @@ class AWeightingFilter {
 module.exports = {
   calculateRMS,
   calculateDb,
-  calculateLeqIncremental,
   calculateLeqFromEnergy,
   calculateCNEFromLeq,
-  estimateKFactorSliding,
-  calculateShortCNE,
   AWeightingFilter,
 };

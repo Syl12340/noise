@@ -19,7 +19,7 @@ function getThreatColorClass(threat) {
     '高风险': 'bg-high',
     '高危': 'bg-extreme',
   };
-  return mapping[threat] || 'bg-safe';
+  return mapping[threat] || 'bg-unknown';
 }
 
 /**
@@ -35,7 +35,7 @@ function getThreatTextClass(threat) {
     '高风险': 'text-high',
     '高危': 'text-extreme',
   };
-  return mapping[threat] || 'text-safe';
+  return mapping[threat] || 'text-unknown';
 }
 
 /**
@@ -127,12 +127,22 @@ function buildRiskSegmentSummary(record) {
  * @returns {object[]} 附带展示字段的记录列表。
  */
 function normalizeRecordsForDisplay(records) {
-  return records.map((record) => ({
-    ...record,
-    threatColorClass: getThreatColorClass(record.threat),
-    threatTextClass: getThreatTextClass(record.threat),
-    riskSegmentSummary: buildRiskSegmentSummary(record),
-  }));
+  return records.map((value) => {
+    const record = value && typeof value === 'object' ? value : {};
+    const valid = record.dataQuality === 'valid' && Number.isFinite(record.cne);
+    const reference = valid && record.calibrationGrade === 'reference';
+    const knownRisk = ['安全', '需要注意', '中风险', '高风险', '高危'].includes(record.threat);
+    const qualityLabel = record.dataQuality === 'invalid' ? '无效记录'
+      : !valid ? '旧记录或质量信息缺失，不能确认有效性'
+      : !reference ? '估算记录，不作风险分级' : !knownRisk ? '风险状态未知' : '参考校准记录';
+    return { ...record, qualityLabel,
+      threatDisplay: reference && knownRisk ? record.threat : qualityLabel,
+      cneDisplay: valid ? record.cne.toFixed(2) : '--',
+      comparisonNote: record.algorithmVersion ? '算法 ' + record.algorithmVersion + '；比较前请核对校准与参数' : '未记录算法版本，不建议直接比较',
+      threatColorClass: reference && knownRisk ? getThreatColorClass(record.threat) : 'bg-unknown',
+      threatTextClass: reference && knownRisk ? getThreatTextClass(record.threat) : 'text-unknown',
+      riskSegmentSummary: buildRiskSegmentSummary(record) };
+  });
 }
 
 Page({

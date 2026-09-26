@@ -21,7 +21,6 @@ const RISK_LIMIT_RANGE = {
 };
 
 const CNE_FORMULA = {
-  K_FACTOR_WEIGHT: 3,
   REFERENCE_EXPOSURE_SECONDS: 28800,
 };
 
@@ -33,8 +32,9 @@ const STORAGE_DEFAULTS = {
 };
 
 const OFFSET_IMPORT_RANGE = {
-  MIN: -200,
-  MAX: 200,
+  // dBFS 到 SPL 的加性偏移通常为正值；越界数据视为损坏，不能夹到边界继续使用。
+  MIN: 40,
+  MAX: 160,
 };
 
 const LIMITS = {
@@ -71,9 +71,10 @@ const CANVAS_CONFIG = {
     STRIP_WIDTH: 4,
   },
   FFT: {
-    SIZE: 2048,
+    // 32768 点在 44.1 kHz 下分辨率约 1.35 Hz，使 25 Hz 频带包含多个频点。
+    SIZE: 32768,
     SAMPLE_RATE: 44100,
-    HOP_SIZE: 1600,
+    HOP_SIZE: 8192,
   },
 };
 

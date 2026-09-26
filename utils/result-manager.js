@@ -20,6 +20,7 @@ function setAll(records) {
  */
 function add(record) {
   const records = getAll();
+  if (record.recordId && records.some(item => item && item.recordId === record.recordId)) return records;
   records.unshift(record);
   return setAll(records);
 }

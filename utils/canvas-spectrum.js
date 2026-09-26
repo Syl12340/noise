@@ -22,6 +22,9 @@ const THIRD_OCTAVE_CENTERS = [
  * @type {number}
  */
 const BAND_FACTOR = Math.pow(2, 1.0 / 6.0);
+const THIRD_OCTAVE_EXACT_CENTERS = THIRD_OCTAVE_CENTERS.map((_, index) => (
+  1000 * Math.pow(2, (index - 16) / 3)
+));
 
 /**
  * 预计算每个 1/3 倍频程频段对应的 FFT bin 范围
@@ -32,7 +35,7 @@ const BAND_BIN_RANGES = (function computeBandBinRanges() {
   const ranges = [];
 
   for (let i = 0; i < THIRD_OCTAVE_CENTERS.length; i++) {
-    const center = THIRD_OCTAVE_CENTERS[i];
+    const center = THIRD_OCTAVE_EXACT_CENTERS[i];
     const fLow = center / BAND_FACTOR;
     const fHigh = center * BAND_FACTOR;
 
@@ -49,7 +52,7 @@ const BAND_BIN_RANGES = (function computeBandBinRanges() {
 /**
  * 从 FFT 幅度谱计算 1/3 倍频程频段声压级
  * 对每个频段，将范围内所有 FFT bin 的功率求和，再转换为 dB SPL
- * @param {Float64Array} spectrumDB - FFT 输出，1024 bins，每 bin 的 dB SPL
+ * @param {Float64Array} spectrumDB - FFT 输出，N/2 bins，每 bin 的 dB SPL
  * @returns {Float64Array} 各频段的 dB SPL，长度等于 THIRD_OCTAVE_CENTERS.length
  */
 function computeThirdOctaveBands(spectrumDB) {
@@ -212,6 +215,7 @@ function drawSpectrumFrame(ctx, options) {
 
 module.exports = {
   THIRD_OCTAVE_CENTERS,
+  THIRD_OCTAVE_EXACT_CENTERS,
   BAND_BIN_RANGES,
   computeThirdOctaveBands,
   drawSpectrumFrame,

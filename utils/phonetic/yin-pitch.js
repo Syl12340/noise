@@ -12,10 +12,11 @@
  */
 function yinPitchFrame(frame, sampleRate, threshold = 0.1, fmin = 60, fmax = 500) {
   const halfLen = Math.floor(frame.length / 2);
-  const tauMin = Math.floor(sampleRate / fmax);
-  const tauMax = Math.min(halfLen - 1, Math.floor(sampleRate / fmin));
+  const tauMax = halfLen - 1;
 
-  if (tauMax <= tauMin) return { f0: 0, aperiodicity: 1 };
+  if (tauMax <= 2 || !(sampleRate > 0 && fmin > 0 && fmax >= fmin)) {
+    return { f0: 0, aperiodicity: 1 };
+  }
 
   let frameEnergy = 0;
   for (let i = 0; i < frame.length; i++) {
@@ -29,8 +30,10 @@ function yinPitchFrame(frame, sampleRate, threshold = 0.1, fmin = 60, fmax = 500
   const diff = new Float64Array(tauMax + 1);
   for (let tau = 1; tau <= tauMax; tau++) {
     let sum = 0;
+    // 延迟两端围绕同一帧中心，保证轨迹时间不随 F0 改变。
+    const offset = Math.floor((frame.length - halfLen - tau) / 2);
     for (let j = 0; j < halfLen; j++) {
-      const d = frame[j] - frame[j + tau];
+      const d = frame[offset + j] - frame[offset + j + tau];
       sum += d * d;
     }
     diff[tau] = sum;
@@ -45,59 +48,73 @@ function yinPitchFrame(frame, sampleRate, threshold = 0.1, fmin = 60, fmax = 500
     cmndf[tau] = runningSum > 1e-30 ? diff[tau] * tau / runningSum : 1;
   }
 
-  // 3. 绝对阈值检测：找第一个低于 threshold 的谷值
-  let bestTau = -1;
-  let aperiodicity = 1;
-  for (let tau = tauMin + 1; tau < tauMax; tau++) {
-    if (cmndf[tau] < threshold) {
-      // 找到谷底
-      while (tau + 1 <= tauMax && cmndf[tau + 1] < cmndf[tau]) {
-        tau++;
-      }
-      aperiodicity = cmndf[tau];
-      // 4. 抛物线插值提高精度
-      const s0 = cmndf[tau - 1];
-      const s1 = cmndf[tau];
-      const s2 = tau + 1 <= tauMax ? cmndf[tau + 1] : s1;
-      const denom = s0 - 2 * s1 + s2;
-      const rawShift = Math.abs(denom) > 1e-12 ? 0.5 * (s0 - s2) / denom : 0;
-      const shift = Math.max(-1, Math.min(1, rawShift));
-      bestTau = tau + shift;
-      break;
-    }
-  }
-
-  // 5. 亚阈值回退：全局最小值
-  if (bestTau < 0) {
-    let minVal = Infinity;
-    let minTau = tauMin;
-    for (let tau = tauMin; tau <= tauMax; tau++) {
-      if (cmndf[tau] < minVal) {
-        minVal = cmndf[tau];
-        minTau = tau;
-      }
-    }
-    if (minVal > 0.5) return { f0: 0, aperiodicity: 1 };
-
-    aperiodicity = minVal;
-    // 抛物线插值
-    const tau = minTau;
-    const s0 = tau > 0 ? cmndf[tau - 1] : cmndf[tau];
+  // 3. 保留范围内外的局部谷；不能在搜索边界截断一个仍在下降的谷。
+  const candidates = [];
+  for (let tau = 2; tau < tauMax; tau++) {
+    const s0 = cmndf[tau - 1];
     const s1 = cmndf[tau];
-    const s2 = tau < tauMax ? cmndf[tau + 1] : cmndf[tau];
+    const s2 = cmndf[tau + 1];
+    if (s1 > s0 || s1 > s2 || (s1 === s0 && s1 === s2)) continue;
     const denom = s0 - 2 * s1 + s2;
-    const rawShift = Math.abs(denom) > 1e-12 ? 0.5 * (s0 - s2) / denom : 0;
-    const shift = Math.max(-1, Math.min(1, rawShift));
-    bestTau = tau + shift;
+    const rawShift = denom > 1e-12 ? 0.5 * (s0 - s2) / denom : 0;
+    const shift = Math.max(-0.5, Math.min(0.5, rawShift));
+    // CMNDF 用于选谷与置信指标；最终周期在原始差分谷上插值。
+    // 避免归一化分母的斜率将短周期系统性推向过高频率。
+    const rawDenom = diff[tau - 1] - 2 * diff[tau] + diff[tau + 1];
+    let periodShift = rawDenom > 1e-12
+      ? Math.max(-0.5, Math.min(0.5, 0.5 * (diff[tau - 1] - diff[tau + 1]) / rawDenom)) : 0;
+    // 只消除浮点运算噪声，不按用户配置的频率边界钳位。
+    if (Math.abs(periodShift) < 8 * Number.EPSILON * tau) periodShift = 0;
+    const period = tau + periodShift;
+    candidates.push({
+      period,
+      f0: sampleRate / period,
+      aperiodicity: Math.max(0, Math.min(1, s1 - 0.25 * (s0 - s2) * shift)),
+    });
   }
 
-  if (bestTau <= 0) return { f0: 0, aperiodicity: 1 };
-  return { f0: sampleRate / bestTau, aperiodicity: Math.min(aperiodicity, 1) };
+  // 优先最短的阈值内周期；较弱的范围外伪谷不阻断后续有效候选。
+  // 上限附近保留候选证据；插值越界时明确拒绝，不钳位成有效边界值。
+  const upperTolerance = fmax * 0.005;
+  const inRange = candidates.filter(candidate => (
+    candidate.f0 >= fmin && candidate.f0 <= fmax + upperTolerance
+  ));
+  let chosen = inRange.find(candidate => candidate.aperiodicity < threshold);
+  if (!chosen) {
+    chosen = inRange.reduce((best, candidate) => (
+      !best || candidate.aperiodicity < best.aperiodicity ? candidate : best
+    ), null);
+    if (chosen && chosen.aperiodicity > 0.5) chosen = null;
+  }
+  if (!chosen) {
+    const outside = candidates.find(candidate => (
+      (candidate.f0 < fmin || candidate.f0 > fmax) && candidate.aperiodicity < threshold
+    ));
+    return outside
+      ? { f0: 0, rawF0: outside.f0, aperiodicity: outside.aperiodicity, reason: 'out-of-range' }
+      : { f0: 0, aperiodicity: 1 };
+  }
+
+  // 如果所选周期只是同样可信的超上限短周期的整数倍，不能回填低八度。
+  // 保留 0.01 的数值余量；无法消除倍周期歧义时输出缺失，不宣称有效 F0。
+  const shorter = candidates.find(candidate => {
+    if (candidate.f0 <= fmax || candidate.aperiodicity >= threshold
+      || candidate.aperiodicity > chosen.aperiodicity + 0.01) return false;
+    const ratio = chosen.period / candidate.period;
+    const multiple = Math.round(ratio);
+    return multiple >= 2 && Math.abs(ratio - multiple) <= 0.05;
+  });
+  if (shorter) return { f0: 0, rawF0: shorter.f0, aperiodicity: shorter.aperiodicity, reason: 'out-of-range' };
+  if (chosen.f0 > fmax) {
+    return { f0: 0, rawF0: chosen.f0, aperiodicity: chosen.aperiodicity,
+      reason: 'boundary-uncertain', range: { min: fmin, max: fmax } };
+  }
+  return { f0: chosen.f0, rawF0: chosen.f0, aperiodicity: chosen.aperiodicity };
 }
 
 /**
  * 对整个信号逐帧提取基频轨迹。
- * @param {Float32Array} signal - 预加重后的浮点信号（未加窗，内部自行切分）
+ * @param {Float32Array} signal - 去直流、抗混叠后的浮点信号，不进行预加重
  * @param {number} sampleRate - 采样率
  * @param {object} [options] - 配置
  * @param {number} [options.frameSize] - 帧长
@@ -107,7 +124,7 @@ function yinPitchFrame(frame, sampleRate, threshold = 0.1, fmin = 60, fmax = 500
  * @param {number} [options.fmax] - 最高基频
  * @returns {Array<{time: number, f0: number, aperiodicity: number}>} 时间-基频-非周期性三元组数组
  */
-function yinPitchTrack(signal, sampleRate, options = {}) {
+function* iteratePitch(signal, sampleRate, options = {}) {
   const {
     frameSize = 2048,
     hopSize = 441,
@@ -125,11 +142,19 @@ function yinPitchTrack(signal, sampleRate, options = {}) {
       frame[i] = signal[start + i];
     }
     const time = (start + frameSize / 2) / sampleRate;
-    const { f0, aperiodicity } = yinPitchFrame(frame, sampleRate, threshold, fmin, fmax);
-    track.push({ time, f0, aperiodicity });
+    const result = yinPitchFrame(frame, sampleRate, threshold, fmin, fmax);
+    track.push({ time, ...result });
+    yield;
   }
 
   return track;
 }
 
-module.exports = { yinPitchFrame, yinPitchTrack };
+const { consume, consumeAsync } = require('./iteration');
+function yinPitchTrack(signal, sampleRate, options = {}) {
+  return consume(iteratePitch(signal, sampleRate, options));
+}
+function yinPitchTrackAsync(signal, sampleRate, options = {}) {
+  return consumeAsync(iteratePitch(signal, sampleRate, options), options);
+}
+module.exports = { yinPitchFrame, yinPitchTrack, yinPitchTrackAsync };

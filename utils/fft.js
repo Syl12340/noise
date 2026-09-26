@@ -19,7 +19,7 @@ const FFT_CONFIG = {
 };
 
 /**
- * 预计算 Hann 窗函数系数（N=2048）
+ * 预计算 Hann 窗函数系数（N 由配置决定）
  * Hann 窗公式: w(n) = 0.5 * (1 - cos(2*pi*n/(N-1)))
  * @type {Float64Array}
  */
@@ -97,7 +97,7 @@ function fftInPlace(re, im, N) {
 
 /**
  * 应用 Hann 窗到 PCM 样本并归一化到 [-1, 1]
- * @param {Int16Array} pcm - 原始 PCM 样本（16 位整数）
+ * @param {Int16Array|Float64Array} pcm - PCM 幅值（以 32768 为满幅；允许去直流后的小数）
  * @param {Float64Array} out - 输出缓冲区（长度 N），窗函数处理后的浮点数据
  * @param {number} N - 窗长度
  * @returns {void}
@@ -111,9 +111,9 @@ function applyHannWindow(pcm, out, N) {
 
 /**
  * 完整 FFT 管道：窗函数 → FFT → 单边功率谱 → dB SPL
- * @param {Int16Array} pcm - 2048 个原始 PCM 样本（Int16）
+ * @param {Int16Array|Float64Array} pcm - N 个 PCM 幅值，以 32768 为满幅
  * @param {number} offset - 校准偏移量 (dB)，用于 dBFS → dB SPL 转换
- * @returns {Float64Array} 幅度谱，单位 dB SPL，长度 1024 bins
+ * @returns {Float64Array} 功率贡献谱，单位 dB SPL，长度 N/2 bins
  *   bin k 对应频率 k * (SAMPLE_RATE / FFT_SIZE)
  */
 function computeSpectrum(pcm, offset) {

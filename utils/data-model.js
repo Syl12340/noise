@@ -1,6 +1,8 @@
 // utils/data-model.js
 const KEYS = {
   OFFSET: 'offset',
+  OFFSET_VALID: 'offsetValid',
+  OFFSET_META: 'offsetMeta',
   EXPECTED_EXPOSURE: 'expectedExposure',
   NOISE_ALARM_LEVEL: 'noiseAlarmLevel',
   ALARM: 'alarm',
@@ -8,6 +10,7 @@ const KEYS = {
 };
 const { OFFSET_IMPORT_RANGE, STORAGE_DEFAULTS } = require('./constants');
 const { getDefaultRiskConfig, normalizeRiskConfig } = require('./risk-config');
+const { getCalibrationInstallationId } = require('./recorder-session');
 
 const DEFAULTS = STORAGE_DEFAULTS;
 
@@ -40,8 +43,42 @@ function asPositiveNumber(value, fallback) {
  * @returns {number} 偏移量（dB）
  */
 function getOffset() {
-  const offset = asValidNumber(wx.getStorageSync(KEYS.OFFSET), DEFAULTS.offset);
-  return Math.min(OFFSET_IMPORT_RANGE.MAX, Math.max(OFFSET_IMPORT_RANGE.MIN, offset));
+  const stored = wx.getStorageSync(KEYS.OFFSET);
+  const offset = typeof stored === 'number' || (typeof stored === 'string' && stored.trim() !== '')
+    ? Number(stored) : NaN;
+  if (!Number.isFinite(offset) || offset < OFFSET_IMPORT_RANGE.MIN || offset > OFFSET_IMPORT_RANGE.MAX) {
+    wx.setStorageSync(KEYS.OFFSET_VALID, false);
+    wx.removeStorageSync(KEYS.OFFSET_META);
+    wx.setStorageSync(KEYS.OFFSET, DEFAULTS.offset);
+    return DEFAULTS.offset;
+  }
+  return offset;
+}
+
+function getOffsetStatus(expected = {}) {
+  const offset = getOffset();
+  const valid = wx.getStorageSync(KEYS.OFFSET_VALID) === true;
+  const meta = wx.getStorageSync(KEYS.OFFSET_META) || {};
+  if (!valid) return { valid: false, offset, reason: '设备尚未完成有效校准', meta };
+  if (expected.captureProfile && meta.captureProfile !== expected.captureProfile) {
+    return { valid: false, offset, reason: '采集配置已变化，需要重新校准', meta };
+  }
+  if (expected.deviceId === 'unknown-device' || meta.deviceId === 'unknown-device') {
+    return { valid: false, offset, reason: '无法确认设备身份，校准参数不可用', meta };
+  }
+  if (expected.deviceId && meta.deviceId !== expected.deviceId) {
+    return { valid: false, offset, reason: '校准参数不属于当前设备', meta };
+  }
+  if (meta.installationId !== getCalibrationInstallationId()) {
+    return { valid: false, offset, reason: '校准尚未绑定当前安装，请重新校准', meta };
+  }
+  if (!Number.isFinite(meta.calibratedAt) || !Number.isFinite(meta.validUntil)
+      || meta.calibratedAt > Date.now() + 300000 || meta.validUntil <= Date.now()) {
+    return { valid: false, offset, reason: '校准已过期或日期无效，请重新校准', meta };
+  }
+  const grade = meta.grade === 'reference' ? 'reference' : 'estimated';
+  return { valid: true, offset, reason: '', meta, grade, riskEligible: grade === 'reference',
+    label: grade === 'reference' ? '参考校准' : '估算参数（非参考校准）' };
 }
 
 /**
@@ -49,11 +86,34 @@ function getOffset() {
  * @param {number} value - 偏移量值（dB）
  * @returns {number} 设置后的偏移量
  */
-function setOffset(value) {
-  const parsed = asValidNumber(value, DEFAULTS.offset);
-  const offset = Math.min(OFFSET_IMPORT_RANGE.MAX, Math.max(OFFSET_IMPORT_RANGE.MIN, parsed));
-  wx.setStorageSync(KEYS.OFFSET, offset);
-  return offset;
+function setOffset(value, metadata = {}) {
+  const parsed = typeof value === 'number' || (typeof value === 'string' && value.trim() !== '')
+    ? Number(value) : NaN;
+  if (!Number.isFinite(parsed) || parsed < OFFSET_IMPORT_RANGE.MIN || parsed > OFFSET_IMPORT_RANGE.MAX) {
+    throw new RangeError(`校准偏移量必须在 ${OFFSET_IMPORT_RANGE.MIN}~${OFFSET_IMPORT_RANGE.MAX} dB 之间`);
+  }
+  // 有效标记最后提交，避免写入中途失败后沿用旧的有效状态。
+  wx.setStorageSync(KEYS.OFFSET_VALID, false);
+  wx.setStorageSync(KEYS.OFFSET, parsed);
+  const calibratedAt = Number.isFinite(metadata.calibratedAt) ? metadata.calibratedAt : Date.now();
+  const grade = metadata.source === 'advanced-1khz-calibration' ? 'reference' : 'estimated';
+  wx.setStorageSync(KEYS.OFFSET_META, {
+    captureProfile: metadata.captureProfile || null,
+    deviceId: metadata.deviceId || null,
+    source: metadata.source || 'manual',
+    calibratedAt,
+    installationId: getCalibrationInstallationId(),
+    grade,
+    // 应用复核策略，不是仪器或临床认证的有效期。
+    validUntil: Math.min(calibratedAt + 90 * 24 * 3600 * 1000,
+      Number.isFinite(metadata.validUntil) ? metadata.validUntil : Infinity),
+  });
+  wx.setStorageSync(KEYS.OFFSET_VALID, true);
+  return parsed;
+}
+
+function invalidateOffset() {
+  wx.setStorageSync(KEYS.OFFSET_VALID, false);
 }
 
 /**
@@ -169,7 +229,9 @@ module.exports = {
   KEYS,
   getDefaults,
   getOffset,
+  getOffsetStatus,
   setOffset,
+  invalidateOffset,
   getExpectedExposureHours,
   getExpectedExposureSeconds,
   setExpectedExposureHours,

@@ -38,6 +38,8 @@ page {
 /* 左侧风险色带 */
 .risk-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 12rpx; transition: background 0.3s; }
 .bg-safe { background: var(--ecnu-light-blue); }
+.bg-unknown { background: #808890; }
+.text-unknown { color: #66717b; }
 .bg-attention { background: var(--ecnu-warn); }
 .bg-medium { background: rgba(var(--ecnu-warn-rgb), 0.85); }
 .bg-high { background: var(--ecnu-primary); }
@@ -70,7 +72,7 @@ page {
   transition: all 0.4s ease;
 }
 .card-active .detail-wrapper {
-  max-height: 900rpx; /* 足够容纳新增规则摘要内容 */
+  max-height: 2400rpx;
   opacity: 1;
   margin-top: 30rpx;
   padding-top: 30rpx;
