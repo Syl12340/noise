@@ -1,12 +1,13 @@
 <!-- pages/phonetic/phonetic.wxml -->
 <view class="page">
 
-  <view class="card" wx:if="{{state === 'idle'}}">
-    <picker range="{{taskOptions}}" value="{{taskIndex}}" data-key="taskIndex" bindchange="setAnalysisOption"><text>任务：{{taskOptions[taskIndex]}}（点击选择）</text></picker>
-    <picker range="{{orderOptions}}" value="{{orderIndex}}" data-key="orderIndex" bindchange="setAnalysisOption"><text>LPC 阶数：{{orderOptions[orderIndex]}}</text></picker>
-    <picker range="{{maxFormantOptions}}" value="{{maxFormantIndex}}" data-key="maxFormantIndex" bindchange="setAnalysisOption"><text>共振峰上限：{{maxFormantOptions[maxFormantIndex]}} Hz</text></picker>
-    <picker range="{{windowOptions}}" value="{{windowIndex}}" data-key="windowIndex" bindchange="setAnalysisOption"><text>共振峰窗长：{{windowOptions[windowIndex]}} ms</text></picker>
-    <text>每次比较请使用相同参数；相邻阶数不一致时数值留空。当前共振峰上限为 4–5 kHz，并不适合所有说话人。</text>
+  <view class="card settings-card" wx:if="{{state === 'idle'}}">
+    <text class="section-title">录音与分析参数</text>
+    <picker range="{{taskOptions}}" value="{{taskIndex}}" data-key="taskIndex" bindchange="setAnalysisOption"><view class="option-row"><text class="option-label">录音任务</text><text class="option-value">{{taskOptions[taskIndex]}} ›</text></view></picker>
+    <picker range="{{orderOptions}}" value="{{orderIndex}}" data-key="orderIndex" bindchange="setAnalysisOption"><view class="option-row"><text class="option-label">LPC 阶数</text><text class="option-value">{{orderOptions[orderIndex]}} ›</text></view></picker>
+    <picker range="{{maxFormantOptions}}" value="{{maxFormantIndex}}" data-key="maxFormantIndex" bindchange="setAnalysisOption"><view class="option-row"><text class="option-label">共振峰上限</text><text class="option-value">{{maxFormantOptions[maxFormantIndex]}} Hz ›</text></view></picker>
+    <picker range="{{windowOptions}}" value="{{windowIndex}}" data-key="windowIndex" bindchange="setAnalysisOption"><view class="option-row"><text class="option-label">共振峰窗长</text><text class="option-value">{{windowOptions[windowIndex]}} ms ›</text></view></picker>
+    <text class="body-note">比较时请使用相同参数。共振峰上限可按说话人选择 4–8 kHz；更高上限不保证更准确。</text>
   </view>
   <!-- 语谱图显示区 -->
   <view class="card chart-card">
@@ -37,11 +38,13 @@
     </view>
 
     </scroll-view>
-    <view wx:if="{{state === 'result' && viewMode === 'spectrogram'}}">
-      <button size="mini" bindtap="changeZoom" data-zoom="1">1×</button>
-      <button size="mini" bindtap="changeZoom" data-zoom="2">2×</button>
-      <button size="mini" bindtap="changeZoom" data-zoom="4">4×</button>
-      <text>放大后可横向滚动；精确选区使用下方起止时间。</text>
+    <view class="zoom-tools" wx:if="{{state === 'result' && viewMode === 'spectrogram'}}">
+      <view class="zoom-buttons">
+        <button class="zoom-button {{zoom === 1 ? 'zoom-active' : ''}}" size="mini" bindtap="changeZoom" data-zoom="1">1×</button>
+        <button class="zoom-button {{zoom === 2 ? 'zoom-active' : ''}}" size="mini" bindtap="changeZoom" data-zoom="2">2×</button>
+        <button class="zoom-button {{zoom === 4 ? 'zoom-active' : ''}}" size="mini" bindtap="changeZoom" data-zoom="4">4×</button>
+      </view>
+      <text class="body-note">放大后可横向滚动，也可在下方输入选区起止时间。</text>
     </view>
     <!-- 语谱图图例：放到画布下方，避免覆盖绘制区域 -->
     <view class="legend" wx:if="{{state === 'result' && viewMode === 'spectrogram'}}">
@@ -79,9 +82,11 @@
 
   </view>
 
-  <view class="card" wx:if="{{state === 'result'}}"><text>{{pointNote}}</text></view>
-  <view class="card" wx:if="{{state === 'result'}}" style="padding: 24rpx;">
-    <text>探索性估计：共振峰为模型候选，不能直接用作诊断。高基频和宽带峰即使通过模型一致性检查也可能存在明显偏差。比较时请同时核对有效帧覆盖率。</text>
+  <view class="card note-card" wx:if="{{state === 'result' && pointNote}}"><text class="body-note">{{pointNote}}</text></view>
+  <view class="card note-card" wx:if="{{state === 'result' && captureNote}}"><text class="section-title">录音说明</text><text class="body-note">{{captureNote}}</text></view>
+  <view class="card note-card" wx:if="{{state === 'result'}}">
+    <text class="section-title">探索性分析</text>
+    <text class="body-note">共振峰为模型候选，不能直接用作诊断。~ 数值及语谱图、元音图空心点表示谐波稀疏或参数不稳定、尚未验证的候选，不计入已接受帧统计；比较时请同时核对覆盖率。</text>
   </view>
   <!-- 数值卡片（结果态） -->
   <view class="stats-row" wx:if="{{state === 'result'}}">
@@ -120,7 +125,7 @@
 
   <view class="stats-row" wx:if="{{state === 'result'}}">
     <view class="card stats-card">
-      <text class="stats-label">HNR 估计（全段）</text>
+      <text class="stats-label">限带 HNR（全段，低通 5.5 kHz）</text>
       <view class="stats-value">
         <text class="val">{{hnr}}</text>
         <text class="unit">dB</text>
@@ -145,14 +150,20 @@
     </view>
   </view>
 
-  <view class="card" wx:if="{{state === 'result'}}"><text>{{analysisNote}}</text></view>
+  <view class="card note-card" wx:if="{{state === 'result'}}"><text class="section-title">分析说明</text><text class="body-note">{{analysisNote}}</text></view>
 
-  <view class="card" wx:if="{{state === 'result'}}">
-    <text>选区起止时间（秒）</text>
-    <input type="digit" value="{{selectionInputStart}}" data-key="selectionInputStart" bindinput="setSelectionInput" aria-label="选区开始秒数" />
-    <input type="digit" value="{{selectionInputEnd}}" data-key="selectionInputEnd" bindinput="setSelectionInput" aria-label="选区结束秒数" />
-    <button size="mini" bindtap="applySelection">应用选区</button>
-    <text>{{selectionCoverage}}</text>
+  <view class="card note-card" wx:if="{{state === 'result'}}">
+    <text class="section-title">分析选区（秒，按完整窗统计）</text>
+    <view class="selection-inputs">
+      <input class="time-input" type="digit" value="{{selectionInputStart}}" data-key="selectionInputStart" bindinput="setSelectionInput" aria-label="选区开始秒数" />
+      <text class="range-separator">至</text>
+      <input class="time-input" type="digit" value="{{selectionInputEnd}}" data-key="selectionInputEnd" bindinput="setSelectionInput" aria-label="选区结束秒数" />
+    </view>
+    <button class="selection-apply" bindtap="applySelection">应用选区</button>
+    <button class="selection-apply" bindtap="reanalyzeSelection" loading="{{selectionBusy}}" disabled="{{selectionBusy}}">独立重分析选区</button>
+    <button class="selection-apply" bindtap="reanalyzeSelection" data-sensitivity="{{true}}" disabled="{{selectionBusy}}">独立分析并复核参数敏感性</button>
+    <text class="body-note" wx:if="{{selectionStage}}">{{selectionStage}}</text>
+    <text class="body-note" wx:if="{{selectionCoverage}}">{{selectionCoverage}}</text>
   </view>
   <!-- 选区统计 -->
   <view class="card selection-card" wx:if="{{state === 'result' && selectionStart !== null}}">
@@ -182,8 +193,17 @@
           <text class="unit">dBFS</text>
         </view>
       </view>
+      <view class="card stats-card inner-card">
+        <text class="stats-label">平均 HNR（有效有声帧）</text>
+        <view class="stats-value">
+          <text class="val">{{selMeanHnr}}</text>
+          <text class="unit">dB</text>
+        </view>
+      </view>
     </view>
   </view>
+
+  <view class="card" wx:if="{{state === 'result' && selectionStart !== null && selHnrNote}}"><text class="body-note">{{selHnrNote}}</text></view>
 
   <!-- 录音中 -->
   <view class="card status-card" wx:if="{{state === 'recording'}}">
@@ -195,8 +215,8 @@
     <text class="rec-hint">{{taskIndex === 0 ? '请以舒适音高和响度持续发同一个元音' : '请朗读固定句子；全段周期变化包含语调'}}</text>
   </view>
 
-  <view class="card" wx:if="{{state === 'starting'}}"><text>正在等待录音器启动…</text></view>
-  <view class="card" wx:if="{{state === 'stopping'}}"><text>正在收齐最后一段音频…</text></view>
+  <view class="card status-card" wx:if="{{state === 'starting'}}"><text class="rec-label">正在等待录音器启动…</text></view>
+  <view class="card status-card" wx:if="{{state === 'stopping'}}"><text class="rec-label">正在收齐最后一段音频…</text></view>
   <!-- 分析中 -->
   <view class="card status-card" wx:if="{{state === 'analyzing'}}">
     <text class="analyzing-stage">{{progressStage}}</text>

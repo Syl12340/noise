@@ -1,0 +1,878 @@
+{
+  "generatedAt": "2026-10-02T08:58:39.019Z",
+  "criterion": "Layered diagnostics, not independent Praat execution or clinical validation; no acceptance threshold changes",
+  "observations": [
+    {
+      "f0": 100,
+      "pitchMedian": 100,
+      "reasons": {
+        "F1": {
+          "accepted": 80
+        },
+        "F2": {
+          "accepted": 80
+        },
+        "F3": {
+          "accepted": 80
+        }
+      },
+      "middleFrame": {
+        "time": 0.5025,
+        "support": {
+          "start": 0.46,
+          "end": 0.5453333333333333
+        },
+        "F1": {
+          "freq": 500.3,
+          "bandwidth": 65.4
+        },
+        "F2": {
+          "freq": 1500.3,
+          "bandwidth": 111
+        },
+        "F3": {
+          "freq": 2501.4,
+          "bandwidth": 175.3
+        },
+        "decisionSupport": {
+          "start": 0,
+          "end": 0.5453333333333333
+        },
+        "candidates": [
+          {
+            "freq": 500.3,
+            "bandwidth": 65.4
+          },
+          {
+            "freq": 1500.3,
+            "bandwidth": 111
+          },
+          {
+            "freq": 2263.5,
+            "bandwidth": 4923.6
+          },
+          {
+            "freq": 2501.4,
+            "bandwidth": 175.3
+          },
+          {
+            "freq": 4654.2,
+            "bandwidth": 5562.8
+          }
+        ],
+        "modelCandidates": [
+          {
+            "order": 12,
+            "candidates": [
+              {
+                "freq": 500.3,
+                "bandwidth": 65.4
+              },
+              {
+                "freq": 1500.3,
+                "bandwidth": 111
+              },
+              {
+                "freq": 2263.5,
+                "bandwidth": 4923.6
+              },
+              {
+                "freq": 2501.4,
+                "bandwidth": 175.3
+              },
+              {
+                "freq": 4654.2,
+                "bandwidth": 5562.8
+              }
+            ]
+          },
+          {
+            "order": 10,
+            "candidates": [
+              {
+                "freq": 500.3,
+                "bandwidth": 65.3
+              },
+              {
+                "freq": 1500.4,
+                "bandwidth": 111.2
+              },
+              {
+                "freq": 1871.6,
+                "bandwidth": 7333.2
+              },
+              {
+                "freq": 2501.4,
+                "bandwidth": 174.9
+              }
+            ]
+          },
+          {
+            "order": 14,
+            "candidates": [
+              {
+                "freq": 500.3,
+                "bandwidth": 65.4
+              },
+              {
+                "freq": 808.1,
+                "bandwidth": 3766.3
+              },
+              {
+                "freq": 1500.4,
+                "bandwidth": 110.9
+              },
+              {
+                "freq": 2487.4,
+                "bandwidth": 3669.6
+              },
+              {
+                "freq": 2501.3,
+                "bandwidth": 175.6
+              },
+              {
+                "freq": 4261.2,
+                "bandwidth": 3967.1
+              }
+            ]
+          }
+        ],
+        "quality": {
+          "F1": {
+            "reason": "accepted",
+            "candidate": {
+              "freq": 500.3,
+              "bandwidth": 65.4
+            },
+            "identification": "cross-order-consensus",
+            "rawOrdinal": 1,
+            "skippedCandidates": [],
+            "frequencySpreadHz": 0
+          },
+          "F2": {
+            "reason": "accepted",
+            "candidate": {
+              "freq": 1500.3,
+              "bandwidth": 111
+            },
+            "identification": "cross-order-consensus",
+            "rawOrdinal": 2,
+            "skippedCandidates": [],
+            "frequencySpreadHz": 0.10000000000013642
+          },
+          "F3": {
+            "reason": "accepted",
+            "candidate": {
+              "freq": 2501.4,
+              "bandwidth": 175.3
+            },
+            "identification": "cross-order-consensus",
+            "rawOrdinal": 4,
+            "skippedCandidates": [
+              {
+                "freq": 2263.5,
+                "bandwidth": 4923.6
+              }
+            ],
+            "frequencySpreadHz": 0.09999999999990905
+          }
+        },
+        "exploratory": {},
+        "orders": [
+          12,
+          10,
+          14
+        ]
+      }
+    },
+    {
+      "f0": 200,
+      "pitchMedian": 200,
+      "reasons": {
+        "F1": {
+          "accepted": 80
+        },
+        "F2": {
+          "accepted": 80
+        },
+        "F3": {
+          "accepted": 80
+        }
+      },
+      "middleFrame": {
+        "time": 0.5025,
+        "support": {
+          "start": 0.46,
+          "end": 0.5453333333333333
+        },
+        "F1": {
+          "freq": 502.1,
+          "bandwidth": 178
+        },
+        "F2": {
+          "freq": 1501.6,
+          "bandwidth": 194.8
+        },
+        "F3": {
+          "freq": 2507.1,
+          "bandwidth": 226.2
+        },
+        "decisionSupport": {
+          "start": 0,
+          "end": 0.5453333333333333
+        },
+        "candidates": [
+          {
+            "freq": 502.1,
+            "bandwidth": 178
+          },
+          {
+            "freq": 1501.6,
+            "bandwidth": 194.8
+          },
+          {
+            "freq": 2050.3,
+            "bandwidth": 3088.6
+          },
+          {
+            "freq": 2507.1,
+            "bandwidth": 226.2
+          },
+          {
+            "freq": 4366.6,
+            "bandwidth": 3829.2
+          }
+        ],
+        "modelCandidates": [
+          {
+            "order": 12,
+            "candidates": [
+              {
+                "freq": 502.1,
+                "bandwidth": 178
+              },
+              {
+                "freq": 1501.6,
+                "bandwidth": 194.8
+              },
+              {
+                "freq": 2050.3,
+                "bandwidth": 3088.6
+              },
+              {
+                "freq": 2507.1,
+                "bandwidth": 226.2
+              },
+              {
+                "freq": 4366.6,
+                "bandwidth": 3829.2
+              }
+            ]
+          },
+          {
+            "order": 10,
+            "candidates": [
+              {
+                "freq": 500.1,
+                "bandwidth": 177.4
+              },
+              {
+                "freq": 1449.5,
+                "bandwidth": 4332.7
+              },
+              {
+                "freq": 1503.4,
+                "bandwidth": 196.9
+              },
+              {
+                "freq": 2506,
+                "bandwidth": 222.4
+              },
+              {
+                "freq": 4757.8,
+                "bandwidth": 5385.4
+              }
+            ]
+          },
+          {
+            "order": 14,
+            "candidates": [
+              {
+                "freq": 500.3,
+                "bandwidth": 179.3
+              },
+              {
+                "freq": 758.6,
+                "bandwidth": 2411
+              },
+              {
+                "freq": 1502.7,
+                "bandwidth": 191.5
+              },
+              {
+                "freq": 2364.8,
+                "bandwidth": 2340.7
+              },
+              {
+                "freq": 2506.9,
+                "bandwidth": 230.6
+              },
+              {
+                "freq": 4194.1,
+                "bandwidth": 2805.7
+              }
+            ]
+          }
+        ],
+        "quality": {
+          "F1": {
+            "reason": "accepted",
+            "candidate": {
+              "freq": 502.1,
+              "bandwidth": 178
+            },
+            "identification": "cross-order-consensus",
+            "rawOrdinal": 1,
+            "skippedCandidates": [],
+            "frequencySpreadHz": 2
+          },
+          "F2": {
+            "reason": "accepted",
+            "candidate": {
+              "freq": 1501.6,
+              "bandwidth": 194.8
+            },
+            "identification": "cross-order-consensus",
+            "rawOrdinal": 2,
+            "skippedCandidates": [],
+            "frequencySpreadHz": 1.800000000000182
+          },
+          "F3": {
+            "reason": "accepted",
+            "candidate": {
+              "freq": 2507.1,
+              "bandwidth": 226.2
+            },
+            "identification": "cross-order-consensus",
+            "rawOrdinal": 4,
+            "skippedCandidates": [
+              {
+                "freq": 2050.3,
+                "bandwidth": 3088.6
+              }
+            ],
+            "frequencySpreadHz": 1.099999999999909
+          }
+        },
+        "exploratory": {},
+        "orders": [
+          12,
+          10,
+          14
+        ]
+      }
+    },
+    {
+      "f0": 400,
+      "pitchMedian": 400,
+      "reasons": {
+        "F1": {
+          "sparse-harmonics": 80
+        },
+        "F2": {
+          "model-disagreement": 80
+        },
+        "F3": {
+          "ambiguous-numbering": 80
+        }
+      },
+      "middleFrame": {
+        "time": 0.5025,
+        "support": {
+          "start": 0.46,
+          "end": 0.5453333333333333
+        },
+        "F1": {
+          "freq": 0,
+          "bandwidth": 0
+        },
+        "F2": {
+          "freq": 0,
+          "bandwidth": 0
+        },
+        "F3": {
+          "freq": 0,
+          "bandwidth": 0
+        },
+        "decisionSupport": {
+          "start": 0,
+          "end": 0.5453333333333333
+        },
+        "candidates": [
+          {
+            "freq": 404.3,
+            "bandwidth": 89.1
+          },
+          {
+            "freq": 1045.7,
+            "bandwidth": 581
+          },
+          {
+            "freq": 1608.7,
+            "bandwidth": 116.9
+          },
+          {
+            "freq": 2424.9,
+            "bandwidth": 109.6
+          },
+          {
+            "freq": 3300,
+            "bandwidth": 840.5
+          }
+        ],
+        "modelCandidates": [
+          {
+            "order": 12,
+            "candidates": [
+              {
+                "freq": 404.3,
+                "bandwidth": 89.1
+              },
+              {
+                "freq": 1045.7,
+                "bandwidth": 581
+              },
+              {
+                "freq": 1608.7,
+                "bandwidth": 116.9
+              },
+              {
+                "freq": 2424.9,
+                "bandwidth": 109.6
+              },
+              {
+                "freq": 3300,
+                "bandwidth": 840.5
+              }
+            ]
+          },
+          {
+            "order": 10,
+            "candidates": [
+              {
+                "freq": 440.6,
+                "bandwidth": 152.1
+              },
+              {
+                "freq": 1558.6,
+                "bandwidth": 157.6
+              },
+              {
+                "freq": 2443.8,
+                "bandwidth": 207.4
+              },
+              {
+                "freq": 3976.2,
+                "bandwidth": 4248.3
+              }
+            ]
+          },
+          {
+            "order": 14,
+            "candidates": [
+              {
+                "freq": 393.1,
+                "bandwidth": 58.6
+              },
+              {
+                "freq": 971.8,
+                "bandwidth": 331.9
+              },
+              {
+                "freq": 1599.5,
+                "bandwidth": 73.2
+              },
+              {
+                "freq": 2396.9,
+                "bandwidth": 121
+              },
+              {
+                "freq": 2979.3,
+                "bandwidth": 798.7
+              },
+              {
+                "freq": 4377.2,
+                "bandwidth": 1568.9
+              }
+            ]
+          }
+        ],
+        "quality": {
+          "F1": {
+            "reason": "sparse-harmonics",
+            "candidate": {
+              "freq": 404.3,
+              "bandwidth": 89.1
+            },
+            "identification": "cross-order-consensus",
+            "rawOrdinal": 1,
+            "skippedCandidates": [],
+            "frequencySpreadHz": 36.30000000000001
+          },
+          "F2": {
+            "reason": "model-disagreement",
+            "candidate": {
+              "freq": 1045.7,
+              "bandwidth": 581
+            },
+            "identification": "unresolved-ordinal",
+            "rawOrdinal": 2,
+            "skippedCandidates": [],
+            "frequencySpreadHz": 73.90000000000009
+          },
+          "F3": {
+            "reason": "ambiguous-numbering",
+            "candidate": {
+              "freq": 1608.7,
+              "bandwidth": 116.9
+            },
+            "identification": "cross-order-consensus",
+            "rawOrdinal": 3,
+            "skippedCandidates": [],
+            "frequencySpreadHz": 50.100000000000136
+          }
+        },
+        "exploratory": {
+          "F1": {
+            "freq": 404.3,
+            "bandwidth": 89.1,
+            "reason": "sparse-harmonics",
+            "quantitativeUseValidated": false
+          }
+        },
+        "orders": [
+          12,
+          10,
+          14
+        ]
+      }
+    }
+  ],
+  "windowExperiments": [
+    {
+      "diagnostic": "gaussian-window",
+      "physicalWindowMs": 25,
+      "f0": 100,
+      "slots": [
+        {
+          "coverage": 1,
+          "median": 502.1
+        },
+        {
+          "coverage": 1,
+          "median": 1504.7
+        },
+        {
+          "coverage": 1,
+          "median": 2510.7
+        }
+      ]
+    },
+    {
+      "diagnostic": "gaussian-window",
+      "physicalWindowMs": 25,
+      "f0": 200,
+      "slots": [
+        {
+          "coverage": 1,
+          "median": 502.8
+        },
+        {
+          "coverage": 1,
+          "median": 1504.4
+        },
+        {
+          "coverage": 1,
+          "median": 2513.1
+        }
+      ]
+    },
+    {
+      "diagnostic": "gaussian-window",
+      "physicalWindowMs": 25,
+      "f0": 400,
+      "slots": [
+        {
+          "coverage": 0,
+          "median": null
+        },
+        {
+          "coverage": 0,
+          "median": null
+        },
+        {
+          "coverage": 0,
+          "median": null
+        }
+      ]
+    },
+    {
+      "diagnostic": "gaussian-window",
+      "physicalWindowMs": 50,
+      "f0": 100,
+      "slots": [
+        {
+          "coverage": 1,
+          "median": 500.3
+        },
+        {
+          "coverage": 1,
+          "median": 1500.7
+        },
+        {
+          "coverage": 1,
+          "median": 2501.7
+        }
+      ]
+    },
+    {
+      "diagnostic": "gaussian-window",
+      "physicalWindowMs": 50,
+      "f0": 200,
+      "slots": [
+        {
+          "coverage": 1,
+          "median": 502.1
+        },
+        {
+          "coverage": 1,
+          "median": 1501.8
+        },
+        {
+          "coverage": 1,
+          "median": 2507.6
+        }
+      ]
+    },
+    {
+      "diagnostic": "gaussian-window",
+      "physicalWindowMs": 50,
+      "f0": 400,
+      "slots": [
+        {
+          "coverage": 0,
+          "median": null
+        },
+        {
+          "coverage": 0,
+          "median": null
+        },
+        {
+          "coverage": 0,
+          "median": null
+        }
+      ]
+    }
+  ],
+  "frozenGridWrongAcceptedCases": [
+    {
+      "f0": 479,
+      "poles": [
+        [
+          550,
+          95
+        ],
+        [
+          1620,
+          145
+        ],
+        [
+          2790,
+          185
+        ],
+        [
+          3820,
+          230
+        ],
+        [
+          4760,
+          290
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 0,
+          "coverage": 0,
+          "missingFrames": 30,
+          "missingRate": 1,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": null,
+          "meanRelativeErrorAmongAccepted": null,
+          "maxRelativeErrorAmongAccepted": null
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 30,
+          "falseAcceptancePerTruthFrame": 1,
+          "wrongFractionAmongAccepted": 1,
+          "meanRelativeErrorAmongAccepted": 0.10927160493827161,
+          "maxRelativeErrorAmongAccepted": 0.10962962962962952
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.036034647550776594,
+          "maxRelativeErrorAmongAccepted": 0.03612903225806452
+        }
+      ],
+      "reasons": {
+        "sparse-harmonics": 30,
+        "accepted": 60
+      }
+    },
+    {
+      "f0": 331,
+      "poles": [
+        [
+          760,
+          110
+        ],
+        [
+          1380,
+          125
+        ],
+        [
+          3150,
+          210
+        ],
+        [
+          3900,
+          245
+        ],
+        [
+          4800,
+          320
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 30,
+          "falseAcceptancePerTruthFrame": 1,
+          "wrongFractionAmongAccepted": 1,
+          "meanRelativeErrorAmongAccepted": 0.12997807017543853,
+          "maxRelativeErrorAmongAccepted": 0.13039473684210534
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.04773913043478261,
+          "maxRelativeErrorAmongAccepted": 0.047826086956521685
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.015235978835978848,
+          "maxRelativeErrorAmongAccepted": 0.015333333333333421
+        }
+      ],
+      "reasons": {
+        "accepted": 90
+      }
+    },
+    {
+      "f0": 223,
+      "poles": [
+        [
+          680,
+          620
+        ],
+        [
+          1120,
+          130
+        ],
+        [
+          2640,
+          185
+        ],
+        [
+          3620,
+          230
+        ],
+        [
+          4590,
+          300
+        ]
+      ],
+      "stats": [
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 30,
+          "falseAcceptancePerTruthFrame": 1,
+          "wrongFractionAmongAccepted": 1,
+          "meanRelativeErrorAmongAccepted": 0.17418627450980395,
+          "maxRelativeErrorAmongAccepted": 0.17500000000000004
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.0054702380952380706,
+          "maxRelativeErrorAmongAccepted": 0.005624999999999991
+        },
+        {
+          "truthFrames": 30,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
+          "wrongAcceptedFrames": 0,
+          "falseAcceptancePerTruthFrame": 0,
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.010455808080808104,
+          "maxRelativeErrorAmongAccepted": 0.010643939393939261
+        }
+      ],
+      "reasons": {
+        "accepted": 90
+      }
+    }
+  ]
+}

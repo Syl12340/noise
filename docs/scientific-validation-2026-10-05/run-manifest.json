@@ -1,0 +1,180 @@
+{
+  "generatedAt": "2026-10-05T06:29:47.991513+00:00",
+  "sourceSnapshot": {
+    "utils/measurement-version.js": "dac8e03f9fb60a5fe5dc1814a9fdca9d2bd1073c6580fe44f53aa7c280eba4d9",
+    "utils/constants.js": "c0fca4f838d29837c625477eef65fd06a9629201b1e4aa0a9d75972520dd3d25",
+    "utils/audio-math.js": "2f81c4db7eb78d5da01614ce5ab8860fd97221d92624492556cf34c330049d19",
+    "utils/audio-quality.js": "4465304b57ea9da6ecd5000cfae3ff67140ca330083e5db6723fa31f85ed34d3",
+    "utils/calibration-quality.js": "0d440cf00224f14d604b3fb4cfccc31c05178d5d200ca4081abcf5903fa674d2",
+    "utils/fft.js": "b6e49fce79beffe96e73bfd35d5929159972a00b842627820e5281d08e3ddc5d",
+    "utils/canvas-spectrum.js": "7142783a06c4050d5530c8cac383c75941dfa06a84cb9a85462c7a0887e3242d",
+    "utils/recorder-session.js": "152e0e0458a4a83763d0eb8b2b644737aeefb10e362120a07a63b31a2c966834",
+    "utils/data-model.js": "935944d672ee141a8820ab56943caa03f9c976487f4831af356d855da49fb25f",
+    "utils/laboratory-verification.js": "11c6a54e21323d40839be62be93c1e7889455c94a9a589ba8de04ac560008e17",
+    "utils/result-manager.js": "2be720007097677c7380a0b3c57fd82355bce344c914d4d4a56a3de7ae5716b9",
+    "utils/phonetic/phonetic-config.js": "ea2ed914a4180e7ab6ca9746de24730d94a2a83c95885abf0d80fc46bcaf4b52",
+    "utils/phonetic/analysis.js": "d7b1f3476de5fd88caa0bf24f7054ca46a9b5c8fd218222b00d4e02aec111d50",
+    "utils/phonetic/resample.js": "2bb24d483f60643d18a220e8a7ebd87b523b9f564fa2f8befd28de1dfb5d43e0",
+    "utils/phonetic/yin-pitch.js": "838c0fe0d297ac0065ea5ab6f1eed03f293db671477ada0257200192aa9c278e",
+    "utils/phonetic/burg-lpc.js": "1cc087f0e0c058bba155b07b5224088d793947d1667cbc658dc1ada9821a76b0",
+    "utils/phonetic/poly-roots.js": "eb6026fb1339b26078f7415ec748e586bfbb4dc2929b9a656eb8070b1223ec66",
+    "utils/phonetic/formant-extract.js": "d4e01284a0258d178eded9bf47920b65de718453fbe1eae2a0abc2f0bc6ccde9",
+    "utils/phonetic/model-sensitivity.js": "f3181114106a0298e091058198ad87dd610c63d9ca435f997c1fe910935598a3",
+    "utils/phonetic/harmonicity.js": "703eda0587eb332f3636b239436e26b40d99bea87ff37692cb37f3c306cf402b",
+    "utils/phonetic/voice-metrics.js": "739db03b3529f7fc5f341f2cb35a7d7a6e3db0b3c9a5b78e7512935ffb5b1022",
+    "utils/phonetic/spectrogram-gen.js": "7b1691442800c6b78dc6895401ecf99a0d1d574d4c146af6d8f2118f60f610d7",
+    "utils/phonetic/time-support.js": "929aab180b280ba133c71f7414f3e7de7519f1f93a78a83c7b0fef36d99e9aa4",
+    "utils/phonetic/coverage.js": "a5776a1bcf9c209af2875076a661eac510dbd0de525ae86b97969c7e75a9048b",
+    "utils/phonetic/selection-analysis.js": "df93f87272cb5dd2c71cfea22d47f32b417e1e30638964a7af67ea6cf51b3ba7",
+    "utils/phonetic/track-display.js": "a27ff17feed34e6508221201f90af06be228a612c904d437d64f986365420948",
+    "utils/phonetic/iteration.js": "8322a149ccc670327009dca9d41056ce998ef7bb274e6e8df48d50aac8a0d674",
+    "pages/main/main.js": "ff5486eb84f85922ca1e8cfe6a81c641989e634d72dcd3a930a4b8cba0fbd298",
+    "pages/calibrate/calibrate.js": "c8e3774e61bdf37584f08d3c66dabd8d095ebe833c1afab2e2776d3061f00ded",
+    "pages/advanced-calibrate/advanced-calibrate.js": "955a60d1b28bcec1866de2f229b2636f4b93177b62477f75fab85519c5e34881",
+    "pages/advanced-calibrate/calibrate/calibrate.js": "45e98cdb30f97c4927fb9347dd14a2030c88b350ec0ffa04c34a3f291f5ba5ba",
+    "pages/phonetic/phonetic.js": "22e96fcb5a57e5b3e87aa44f8cf97a71ae4a3b013bd6204b5ac4da3103707fed",
+    "docs/rc-repair-results.json": "c32fc6dc55478feb2dfc0d04555f871b0965e712898f5ac0da1d03194d76c377",
+    "docs/recorder-usability-results.json": "fe291fde67fbbfd535ae01ae66f33b4fd6651a8e640da19b605be17505cda4f8",
+    "docs/scientific-followup-results.json": "10c7f9cdc507bc290cb709563e5679b73485f6eb5f1a5e0c9fc61be8d928adb0",
+    "docs/scientific-repairs-results.json": "a89aeb912030dcee9f7029307ed779ca00608077fc489029429d197b1eff8580",
+    "docs/revision-regression-results.json": "d5a0ba000f2f0c95d211ae06fb5db931fdc48e86d68f9fc667593c33338d2149",
+    "docs/algorithm-evaluation-results.json": "c7ae1c8bedbcffe9965e5a503df410995cfc477b7fa53325a25cc5199fb46548",
+    "docs/formant-validation-results.json": "cd833808de719340e4474ed336de61a4fb2e9c63f809b18b843c18cf3d0ac0aa",
+    "docs/formant-holdout-results.json": "da4f946963a289a5b066cc26928c83cdd1249dfffdcdf4ca55044218b1299de9",
+    "docs/praat-comparison-results.json": "c1fc9ec8b631eec9ed2aeb838d0f1d29a98c9771d266eb35ccfe572b1bf2f265",
+    "docs/rc-repairs-2026-10-04.md": "775c22fcd4c02ce6bcf7908f1a498288d429e906c48ce56c5b8b5f93681de569",
+    "docs/scientific-followup-2026-10-02.md": "14c522e25efdeceb65c9dc733cf6218b3a8da288e683798cdc89dd26db4932e1"
+  },
+  "differencesFromPaperSnapshot": {
+    "sourceSha256": [],
+    "reportSha256": []
+  },
+  "manuscriptMatchesRecordedHash": true,
+  "originalFilesUnchanged": true,
+  "isolatedWorkingDirectory": "D:\\Temp\\noise-scientific-validation-20261005-ubfi1vg9",
+  "commands": [
+    {
+      "command": [
+        "node",
+        "tests/rc-repairs.cjs"
+      ],
+      "exitCode": 0,
+      "seconds": 1.826403,
+      "log": "rc-repairs.log"
+    },
+    {
+      "command": [
+        "node",
+        "tests/recorder-usability.cjs"
+      ],
+      "exitCode": 0,
+      "seconds": 4.19666,
+      "log": "recorder-usability.log"
+    },
+    {
+      "command": [
+        "node",
+        "tests/scientific-followup.cjs"
+      ],
+      "exitCode": 0,
+      "seconds": 0.898274,
+      "log": "scientific-followup.log"
+    },
+    {
+      "command": [
+        "node",
+        "tests/scientific-repairs.cjs"
+      ],
+      "exitCode": 0,
+      "seconds": 0.579181,
+      "log": "scientific-repairs.log"
+    },
+    {
+      "command": [
+        "node",
+        "tests/revision-regression.cjs"
+      ],
+      "exitCode": 0,
+      "seconds": 5.671801,
+      "log": "revision-regression.log"
+    },
+    {
+      "command": [
+        "node",
+        "tests/package-integrity.cjs"
+      ],
+      "exitCode": 0,
+      "seconds": 5.392171,
+      "log": "package-integrity.log"
+    },
+    {
+      "command": [
+        "node",
+        "tests/algorithm-evaluation.cjs"
+      ],
+      "exitCode": 1,
+      "seconds": 2.588318,
+      "log": "algorithm-evaluation.log"
+    },
+    {
+      "command": [
+        "node",
+        "tests/formant-validation.cjs"
+      ],
+      "exitCode": 1,
+      "seconds": 1.774629,
+      "log": "formant-validation.log"
+    },
+    {
+      "command": [
+        "node",
+        "tests/formant-holdout.cjs"
+      ],
+      "exitCode": 1,
+      "seconds": 1.299748,
+      "log": "formant-holdout.log"
+    },
+    {
+      "command": [
+        "node",
+        "tests/paper-scientific-probes.cjs"
+      ],
+      "exitCode": 0,
+      "seconds": 2.410424,
+      "log": "paper-scientific-probes.log"
+    },
+    {
+      "command": [
+        "C:\\Users\\Shaoyilei\\AppData\\Local\\Temp\\noise-praat-20261002\\Scripts\\python.exe",
+        "tests/praat-comparison.py"
+      ],
+      "exitCode": 1,
+      "seconds": 2.385349,
+      "log": "praat-comparison.log"
+    },
+    {
+      "command": [
+        "node",
+        "tests/paper-scientific-followup-probes.cjs"
+      ],
+      "exitCode": 0,
+      "seconds": 0.959092,
+      "log": "paper-scientific-followup-probes.log"
+    }
+  ],
+  "praatPython": "C:\\Users\\Shaoyilei\\AppData\\Local\\Temp\\noise-praat-20261002\\Scripts\\python.exe",
+  "praatStatus": "executed",
+  "note": "Nonzero scientific gate exits are retained; no gate or production source was modified.",
+  "validationHarnessSha256": {
+    "tests/paper-scientific-validation.py": "fd3fd84abacfbb6970356a8dd6828796946cb05cbe7be0c573c3146c1b064176",
+    "tests/paper-scientific-probes.cjs": "06fc091b1bd940b76befea6c66d7659fbf69c7a03fd3a2092a62fd435c14a2ea",
+    "tests/paper-scientific-summary.py": "ca41d2a020497d5a1c23464f97b6c1dc73c6ebf9144960ab89f6ecf69e7b8cc8",
+    "tests/paper-scientific-followup-probes.cjs": "ff48f4683f4f33cd356a5d0638a08ab4006be68d149f845cb69214b230a31d05"
+  },
+  "verificationReportSha256": "0feeea50afbf9f970644aedac65f77549cd421f488164da133692da10086b446",
+  "documentChecks": {
+    "localLinksExist": true,
+    "displayMathBalanced": true,
+    "noTrailingWhitespace": true
+  }
+}

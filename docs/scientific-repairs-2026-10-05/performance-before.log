@@ -1,0 +1,3 @@
+{"generatedAt":"2026-10-05T07:10:01.125Z","node":"v24.21.0","algorithmVersion":"acoustics-2026-10-04.1","inputSeconds":5,"inputRate":44100,"inputSha256":"b1d5ae9ca3dd7399818455f54741083b94574533580feedd89ea03d810e1d1a3","elapsedSeconds":0.9575204000000002,"realTimeFactor":0.19150408000000002,"heartbeatCount":62,"maxObservedHeartbeatGapMs":24.927599999999984,"peakObservedHeapBytes":20620904,"avgHNR":14.347150740217357,"scope":"Single desktop run; observed timer/heap samples, not worst-case or native-device measurements."}
+
+STDERR:

@@ -1,0 +1,79 @@
+{
+  "generatedAt": "2026-10-04T09:23:40.405Z",
+  "criteria": "Engineering regressions; no clinical or device certification",
+  "summary": {
+    "total": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "results": [
+    {
+      "name": "Near-full quantized 25 Hz sine is usable, without confirmed clipping",
+      "status": "PASS"
+    },
+    {
+      "name": "Sub-rail limiting produces a warning and remains usable",
+      "status": "PASS"
+    },
+    {
+      "name": "Clipping and plateau evidence is invariant under callback partitioning",
+      "status": "PASS"
+    },
+    {
+      "name": "Constant DC is not classified as a limited AC plateau",
+      "status": "PASS"
+    },
+    {
+      "name": "All-invalid selected intensity does not throw or turn null into zero",
+      "status": "PASS"
+    },
+    {
+      "name": "Mixed selected intensity retains the finite maximum",
+      "status": "PASS"
+    },
+    {
+      "name": "HNR excludes unvoiced frames but keeps failed eligible voiced frames in coverage",
+      "status": "PASS"
+    },
+    {
+      "name": "A single HNR frame stays an explicitly partial estimate",
+      "status": "PASS"
+    },
+    {
+      "name": "A new calibration with the same numeric offset rejects obsolete verification",
+      "status": "PASS"
+    },
+    {
+      "name": "Uncertainty never expands the 1 dB drift acceptance limit",
+      "status": "PASS"
+    },
+    {
+      "name": "Manual and historical preset offsets have no invented 1 kHz provenance",
+      "status": "PASS"
+    },
+    {
+      "name": "Unsupported Android source falls back once; subsequent recording is usable",
+      "status": "PASS"
+    },
+    {
+      "name": "Permission errors do not silently trigger a different audio source",
+      "status": "PASS"
+    },
+    {
+      "name": "Android source fallback preserves noise saving and marks the changed calibration profile",
+      "status": "PASS"
+    },
+    {
+      "name": "LTAS omits join windows rather than adding artificial high-frequency energy",
+      "status": "PASS"
+    },
+    {
+      "name": "Segments are analyzed independently before DC removal, resampling and tracking",
+      "status": "PASS"
+    },
+    {
+      "name": "Formant selection distinguishes input support from persistent tracking context",
+      "status": "PASS"
+    }
+  ]
+}

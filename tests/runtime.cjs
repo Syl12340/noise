@@ -2,16 +2,19 @@
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const { computeThirdOctaveBands } = require('../utils/canvas-spectrum');
-function runtime(overrides={}, transform=(file,code)=>code) {
+function runtime(overrides={}, transform=(file,code)=>code, recorderOptions={}) {
   let now=100000,nextTimer=1;
   const timers=new Map(),storage=new Map(),events=new Map(),modals=[],toasts=[],saved=[],logs=[];
   const schedule=(fn,delay,interval=0)=>{const id=nextTimer++;timers.set(id,{fn,at:now+delay,interval});return id;};
   const clock={tick(ms){const end=now+ms;let iterations=0;while(true){let pair=null;for(const entry of timers)if(entry[1].at<=end&&(!pair||entry[1].at<pair[1].at))pair=entry;if(!pair)break;if(++iterations>10000)throw Error('Fake timer loop');const [id,t]=pair;now=t.at;if(t.interval)t.at+=t.interval;else timers.delete(id);t.fn();}now=end;}};
   const emit=(name,arg)=>{for(const fn of [...(events.get(name)||[])])fn(arg);};
-  const recorder={running:false,starts:0,start(){this.running=true;this.starts++;emit('Start',{});},stop(){if(this.running){this.running=false;emit('Stop',{});}}};
+  const recorder={running:false,starts:0,startedAt:null,
+    start(){this.running=true;this.startedAt=now;this.starts++;emit('Start',{});},
+    stop(){if(this.running){this.running=false;emit('Stop',{duration:Math.round(now-this.startedAt)});}}};
   for(const name of ['Start','Stop','FrameRecorded','InterruptionBegin','InterruptionEnd','Pause','Resume','Error']){
-    recorder['on'+name]=fn=>{if(!events.has(name))events.set(name,new Set());events.get(name).add(fn);};
+    recorder['on'+name]=fn=>{if(!events.has(name)||recorderOptions.singleListener)events.set(name,new Set());events.get(name).add(fn);};
     recorder['off'+name]=fn=>{if(events.has(name))events.get(name).delete(fn);};
+    if(recorderOptions.noOff)delete recorder['off'+name];
   }
   const noop=()=>{};
   const wx={getRecorderManager:()=>recorder,getStorageSync:key=>storage.has(key)?storage.get(key):'',setStorageSync:(key,value)=>storage.set(key,value),removeStorageSync:key=>storage.delete(key),getDeviceInfo:()=>({brand:'Test',model:'Device',platform:'android',system:'mock'}),createWebAudioContext:()=>({close:noop}),showModal:opts=>modals.push(opts),showToast:opts=>toasts.push(opts),showLoading:noop,hideLoading:noop,navigateBack:noop,vibrateLong:noop,nextTick:fn=>fn()};

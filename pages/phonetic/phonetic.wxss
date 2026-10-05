@@ -24,6 +24,26 @@ page {
 }
 
 /* ── 图表卡片 ── */
+.settings-card, .note-card { padding: 28rpx 30rpx; }
+.section-title { display: block; font-size: 26rpx; font-weight: 600; color: var(--ecnu-dark-gray); margin-bottom: 16rpx; }
+.body-note { display: block; font-size: 23rpx; color: #888; line-height: 1.75; overflow-wrap: break-word; }
+.option-row { display: flex; justify-content: space-between; align-items: center; gap: 16rpx; padding: 22rpx 0; border-bottom: 1rpx solid #F0F0F0; }
+.option-label { font-size: 25rpx; color: var(--ecnu-dark-gray); }
+.option-value { font-size: 25rpx; color: var(--ecnu-primary); text-align: right; }
+.settings-card .body-note { margin-top: 18rpx; }
+.zoom-tools { padding: 12rpx 30rpx; }
+.zoom-buttons { display: flex; gap: 16rpx; margin-bottom: 12rpx; }
+.zoom-buttons .zoom-button { flex: 1; margin: 0; padding: 0 16rpx; border-radius: 16rpx; background: #F4F5F7; color: var(--ecnu-dark-gray); font-size: 24rpx; line-height: 2.6; }
+.zoom-buttons .zoom-active { background: rgba(var(--ecnu-primary-rgb), var(--alpha-10)); color: var(--ecnu-primary); }
+.zoom-button::after, .selection-apply::after { border: none; }
+.selection-inputs { display: flex; align-items: center; gap: 16rpx; margin-bottom: 18rpx; }
+.time-input { flex: 1; min-width: 0; height: 76rpx; padding: 0 18rpx; background: #F4F5F7; border-radius: 16rpx; font-size: 28rpx; color: var(--ecnu-dark-gray); }
+.range-separator { color: #999; font-size: 24rpx; }
+.selection-apply { margin: 0 0 12rpx; border-radius: 16rpx; background: rgba(var(--ecnu-primary-rgb), var(--alpha-10)); color: var(--ecnu-primary); font-size: 26rpx; line-height: 2.8; }
+.stats-card { min-width: 0; }
+.selection-card .stats-row { flex-wrap: wrap; gap: 12rpx; }
+.selection-card .inner-card { min-width: 140rpx; padding: 20rpx 12rpx; }
+
 .chart-card {
   padding-bottom: 24rpx;
 }

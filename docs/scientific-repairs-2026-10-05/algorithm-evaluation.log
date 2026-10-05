@@ -1,0 +1,4 @@
+{"total":83,"passed":82,"failed":1,"errors":0}
+{"name":"Vowel pipeline F0=400 Hz","criterion":"Resolvable formants within 10% and >=80% coverage; F1 below 1.5*F0 is missing","ok":false,"slots":[{"median":null,"coverage":0,"relativeError":null},{"median":null,"coverage":0,"relativeError":null},{"median":null,"coverage":0,"relativeError":null}],"f1ExpectedMissing":true,"status":"FAIL"}
+
+STDERR:

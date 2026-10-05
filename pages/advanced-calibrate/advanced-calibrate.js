@@ -3,21 +3,46 @@
 const app = getApp();
 const dataModel = require('../../utils/data-model');
 const { OFFSET_IMPORT_RANGE } = require('../../utils/constants');
-const { getMeasurementCaptureProfile, getCurrentDeviceCalibrationId, getCalibrationInstallationId } = require('../../utils/recorder-session');
+const { getMeasurementCaptureProfile, getCurrentDeviceCalibrationId } = require('../../utils/recorder-session');
+const { assessLaboratoryVerification, describeLaboratoryVerification, laboratoryVerificationHistory } = require('../../utils/laboratory-verification');
 Page({
 
   data: {
     currentOffset: dataModel.getOffset(),
+    laboratoryInput: '', laboratorySummary: '',
   },
 
   onShow() {
     const status = dataModel.getOffsetStatus({ captureProfile: getMeasurementCaptureProfile(), deviceId: getCurrentDeviceCalibrationId() });
     this.setData({
       currentOffset: dataModel.getOffset(),
-      calibrationLabel: status.label || status.reason,
+      calibrationLabel: status.label || (status.meta && status.meta.source ? '历史参数估算' : '未校准估算'),
       calibrationDate: status.meta && status.meta.calibratedAt ? new Date(status.meta.calibratedAt).toLocaleDateString() : '--',
       validUntil: status.meta && status.meta.validUntil ? new Date(status.meta.validUntil).toLocaleDateString() : '--',
+      laboratorySummary: status.meta && status.meta.laboratoryVerification
+        ? this.describeLaboratoryVerification(status.meta.laboratoryVerification) +
+          ' 已保留 ' + laboratoryVerificationHistory(status.meta).length + ' 份复核证据。' : '',
     });
+  },
+
+  setLaboratoryInput(e) { this.setData({ laboratoryInput: e.detail.value }); },
+  describeLaboratoryVerification(report, saved = true) {
+    return describeLaboratoryVerification(report, dataModel.getOffset(), getMeasurementCaptureProfile(), saved);
+  },
+  recordLaboratoryVerification() {
+    const expectedOffset = dataModel.getOffset(), expectedMeta = wx.getStorageSync('offsetMeta') || {};
+    try {
+      const report = assessLaboratoryVerification(JSON.parse(this.data.laboratoryInput), expectedOffset, getMeasurementCaptureProfile());
+      let appended;
+      try { appended = dataModel.appendLaboratoryVerification(expectedOffset, report, expectedMeta); }
+      catch (error) {
+        this.setData({ laboratorySummary: this.describeLaboratoryVerification(report, false) + '存储失败，原有证据已保留，请保留输入并重试。' });
+        wx.showToast({ title: '复核证据保存失败，请重试', icon: 'none' }); return;
+      }
+      this.setData({ laboratorySummary: this.describeLaboratoryVerification(report, appended) +
+        (appended ? ' 已保留 ' + laboratoryVerificationHistory(wx.getStorageSync('offsetMeta')).length + ' 份复核证据。' : '当前没有可绑定的校准记录，仅显示复核摘要。') });
+      wx.showToast({ title: appended ? '复核证据已记录' : '复核摘要已生成', icon: 'none' });
+    } catch (error) { wx.showToast({ title: '复核数据格式无效，请核对 JSON 测点', icon: 'none' }); }
   },
 
   invalidateChangedInput() {
@@ -27,9 +52,9 @@ Page({
 
   exportCalibration() {
     const status = dataModel.getOffsetStatus({ captureProfile: getMeasurementCaptureProfile(), deviceId: getCurrentDeviceCalibrationId() });
-    if (!status.valid) { wx.showToast({ title: status.reason, icon: 'none' }); return; }
     // 导出的普通 JSON 同时保留绑定和原日期，不声称 Base64 是加密。
     wx.setClipboardData({ data: JSON.stringify({ ...status.meta, offset: status.offset,
+      calibrationSource: status.meta.source || 'default-estimate',
       source: 'NoiseCalibration', friendlyName: this.getQuickDeviceInfo().friendlyName }) });
   },
 
@@ -99,7 +124,7 @@ Page({
           const data = JSON.parse(decodedJsonString);
 
           // 4. 校验来源并应用数据
-          if (data.source === "NoiCali" || data.source === 'NoiseCalibration') {
+          if (['NoiCali', 'NoiseCalibration', 'laboratory-preset'].includes(data.source)) {
             const offset = typeof data.offset === 'number' || (typeof data.offset === 'string' && data.offset.trim()) ? Number(data.offset) : NaN;
             const deviceName = data.friendlyName;
             const expectedProfile = getMeasurementCaptureProfile();
@@ -108,29 +133,30 @@ Page({
             if (!Number.isFinite(offset) || offset < OFFSET_IMPORT_RANGE.MIN || offset > OFFSET_IMPORT_RANGE.MAX) {
               throw new Error("Invalid offset range");
             }
-            if (data.captureProfile !== expectedProfile || data.deviceId !== expectedDeviceId) {
-              throw new Error('Calibration device or capture profile mismatch');
-            }
-            if (data.installationId !== getCalibrationInstallationId()) {
-              throw new Error('Imported calibration is not bound to this installation; recalibration required');
-            }
-            if (!Number.isFinite(data.calibratedAt) || !Number.isFinite(data.validUntil)
-                || data.validUntil <= Date.now() || data.calibratedAt > Date.now()) {
-              throw new Error('Imported calibration date is missing or expired');
-            }
+            const laboratoryPreset = data.source === 'laboratory-preset' || data.calibrationSource === 'laboratory-preset';
             
             // 存入缓存
             dataModel.setOffset(offset, {
               captureProfile: expectedProfile,
               deviceId: expectedDeviceId,
-              source: 'NoiCali-import',
+              source: laboratoryPreset ? 'laboratory-preset' : 'NoiCali-import',
+              presetCaptureProfile: data.presetCaptureProfile || data.captureProfile,
+              evidence: data.evidence || null,
+              referenceCheck: data.referenceCheck || null,
+              laboratoryVerification: data.laboratoryVerification || null,
+              laboratoryVerificationHistory: data.laboratoryVerificationHistory,
+              inputChain: data.inputChain || '',
+              scope: data.scope || 'single-offset-only',
+              importedFrom: { source: data.calibrationSource || data.source,
+                deviceId: data.deviceId || null, captureProfile: data.captureProfile || null,
+                calibratedAt: data.calibratedAt || null, validUntil: data.validUntil || null },
               calibratedAt: data.calibratedAt,
               validUntil: data.validUntil,
             });
 
             wx.showModal({
               title: '参数导入成功',
-              content: `校准设备：${deviceName}\n偏移量：${offset.toFixed(2)} dB`,
+              content: `参数来源：${deviceName || '历史备份'}\n偏移量：${offset.toFixed(2)} dB\n${laboratoryPreset ? '已保留实验室预校准标记' : '作为估算参数使用，可继续检测和保存'}`,
               showCancel: false
             });
 
@@ -144,7 +170,7 @@ Page({
           }
         } catch (e) {
           console.error("解密或解析失败", e);
-          wx.showToast({ title: '参数无效、过期或未绑定本安装，请重新校准', icon: 'none', duration: 3500 });
+          wx.showToast({ title: '参数格式或偏移量无效，请检查备份内容', icon: 'none', duration: 3500 });
         }
       }
     });
@@ -212,8 +238,7 @@ Page({
     let matchedDevice = null;
     for (let i = 0; i < presetDatabase.length; i++) {
       // 使用 includes 包含匹配，以防微信 API 在型号前后加上品牌名或括号
-      if (currentModel.includes(presetDatabase[i].id)
-        && presetDatabase[i].captureProfile === getMeasurementCaptureProfile()) {
+      if (currentModel.includes(presetDatabase[i].id)) {
         matchedDevice = presetDatabase[i];
         break;
       }
@@ -230,7 +255,8 @@ Page({
             dataModel.setOffset(matchedDevice.offset, {
               captureProfile: getMeasurementCaptureProfile(),
               deviceId: getCurrentDeviceCalibrationId(),
-              source: 'laboratory-preset',
+            source: 'laboratory-preset',
+            presetCaptureProfile: matchedDevice.captureProfile,
             });
             
             // 校准页面上的数值也能立即刷新，可以在这里 setData

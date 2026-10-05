@@ -1,0 +1,133 @@
+{
+  "generatedAt": "2026-10-05T06:29:23.106Z",
+  "algorithmVersion": "acoustics-2026-10-04.1",
+  "environment": "Node + mocked native recorder and Canvas; not real-device or clinical validation",
+  "sourceSha256": {
+    "utils/recorder-session.js": "152e0e0458a4a83763d0eb8b2b644737aeefb10e362120a07a63b31a2c966834",
+    "pages/calibrate/calibrate.js": "c8e3774e61bdf37584f08d3c66dabd8d095ebe833c1afab2e2776d3061f00ded",
+    "pages/phonetic/phonetic.js": "22e96fcb5a57e5b3e87aa44f8cf97a71ae4a3b013bd6204b5ac4da3103707fed",
+    "utils/phonetic/coverage.js": "a5776a1bcf9c209af2875076a661eac510dbd0de525ae86b97969c7e75a9048b",
+    "utils/phonetic/track-display.js": "a27ff17feed34e6508221201f90af06be228a612c904d437d64f986365420948",
+    "utils/laboratory-verification.js": "11c6a54e21323d40839be62be93c1e7889455c94a9a589ba8de04ac560008e17",
+    "utils/data-model.js": "935944d672ee141a8820ab56943caa03f9c976487f4831af356d855da49fb25f",
+    "pages/advanced-calibrate/advanced-calibrate.js": "955a60d1b28bcec1866de2f229b2636f4b93177b62477f75fab85519c5e34881",
+    "pages/main/main.js": "ff5486eb84f85922ca1e8cfe6a81c641989e634d72dcd3a930a4b8cba0fbd298",
+    "pages/advanced-calibrate/calibrate/calibrate.js": "45e98cdb30f97c4927fb9347dd14a2030c88b350ec0ffa04c34a3f291f5ba5ba",
+    "tests/rc-repairs.cjs": "c76b9f20bfb3bc9ce42c6f689e2ea83053989c18cb94d0c3c3477913177a082f"
+  },
+  "summary": {
+    "total": 27,
+    "passed": 27,
+    "failed": 0
+  },
+  "results": [
+    {
+      "name": "Retiring errors and pauses preserve queued start: {}",
+      "status": "PASS"
+    },
+    {
+      "name": "Retiring errors and pauses preserve queued start: {\"singleListener\":true,\"noOff\":true}",
+      "status": "PASS"
+    },
+    {
+      "name": "Handoff interruption waits for recovery and Stop: stopFirst=true",
+      "status": "PASS"
+    },
+    {
+      "name": "Handoff interruption waits for recovery and Stop: stopFirst=false",
+      "status": "PASS"
+    },
+    {
+      "name": "Interruption beginning on A cannot be delivered as a failure to queued B on recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "Canceled handoff stays canceled through interruption recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "Retiring Error without Stop times out instead of assuming hardware idle",
+      "status": "PASS"
+    },
+    {
+      "name": "Current recording errors still reach the owner and permit explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "Actual page handoff does not invalidate a new main record on retired Error/Pause",
+      "status": "PASS"
+    },
+    {
+      "name": "Rough calibration is invariant to tiny truncated tails and callback partition",
+      "status": "PASS"
+    },
+    {
+      "name": "Main startup watchdog pauses through a long system interruption before any received samples",
+      "status": "PASS"
+    },
+    {
+      "name": "Whole-interval calibration still rejects zero and constant DC input",
+      "status": "PASS"
+    },
+    {
+      "name": "Overlay breaks at null intensity, missing frames and segment changes",
+      "status": "PASS"
+    },
+    {
+      "name": "Pitch and formant curves do not bridge a missing segment",
+      "status": "PASS"
+    },
+    {
+      "name": "Independent sensitivity downgrade replaces the accepted overlay with a hollow candidate",
+      "status": "PASS"
+    },
+    {
+      "name": "Selection changes cancel late independent results instead of replacing current statistics",
+      "status": "PASS"
+    },
+    {
+      "name": "Ordinary full selection retains failed windows in the shared denominator",
+      "status": "PASS"
+    },
+    {
+      "name": "Declared matching laboratory conditions retain residuals and level slopes",
+      "status": "PASS"
+    },
+    {
+      "name": "Weighting mismatch and unspecified conditions retain only raw differences",
+      "status": "PASS"
+    },
+    {
+      "name": "Capture and integration mismatch are reported without losing original points",
+      "status": "PASS"
+    },
+    {
+      "name": "An imported derived comparable flag cannot override contradictory declared weighting",
+      "status": "PASS"
+    },
+    {
+      "name": "Subranges and whole selection use stable denominators across input sample rates",
+      "status": "PASS"
+    },
+    {
+      "name": "Historical imported report keeps original values and exposes its original offset",
+      "status": "PASS"
+    },
+    {
+      "name": "Repeated laboratory appends retain earlier evidence and calibration validity",
+      "status": "PASS"
+    },
+    {
+      "name": "Legacy ID-less calibration revisions remain appendable after history growth",
+      "status": "PASS"
+    },
+    {
+      "name": "A laboratory draft without calibration is explicitly unsaved and does not create a recording gate",
+      "status": "PASS"
+    },
+    {
+      "name": "Storage failure preserves prior evidence and displays an unsaved draft",
+      "status": "PASS"
+    }
+  ]
+}

@@ -11,8 +11,30 @@ const KEYS = {
 const { OFFSET_IMPORT_RANGE, STORAGE_DEFAULTS } = require('./constants');
 const { getDefaultRiskConfig, normalizeRiskConfig } = require('./risk-config');
 const { getCalibrationInstallationId } = require('./recorder-session');
+const { laboratoryVerificationHistory } = require('./laboratory-verification');
 
 const DEFAULTS = STORAGE_DEFAULTS;
+let calibrationRevision = 0;
+
+function getCalibrationFrequency(meta = {}) {
+  if (Number.isFinite(meta.calibrationFrequencyHz) && meta.calibrationFrequencyHz > 0) return meta.calibrationFrequencyHz;
+  return meta.source === 'advanced-1khz-calibration' ? 1000 : null;
+}
+
+function evaluateReferenceCheck(residualDb, originalEvidence, checkEvidence, residualLimitDb = 1) {
+  const hasUncertainty = evidence => evidence && Number.isFinite(evidence.uncertaintyDb)
+    && evidence.uncertaintyDb >= 0 && evidence.uncertaintyCoverageFactor === 2;
+  // Conservative sum of declared expanded uncertainties; application drift
+  // check only, not a complete laboratory uncertainty budget.
+  const combinedUncertaintyDb = hasUncertainty(originalEvidence) && hasUncertainty(checkEvidence)
+    ? originalEvidence.uncertaintyDb + checkEvidence.uncertaintyDb : null;
+  const absolute = Math.abs(residualDb);
+  const status = !Number.isFinite(residualDb) || combinedUncertaintyDb === null ? 'inconclusive'
+    : absolute + combinedUncertaintyDb <= residualLimitDb ? 'passed'
+    : absolute - combinedUncertaintyDb > residualLimitDb ? 'failed' : 'inconclusive';
+  return { status, residualDb, residualLimitDb, combinedUncertaintyDb,
+    decisionRule: 'fixed-drift-limit-with-declared-expanded-uncertainty-guard-band' };
+}
 
 /**
  * 数据非空强验证及防篡改容错适配器。
@@ -55,10 +77,27 @@ function getOffset() {
   return offset;
 }
 
+function hasCompleteReferenceEvidence(evidence) {
+  return !!evidence
+    && String(evidence.referenceInstrument || '').trim().length > 0
+    && String(evidence.inputChain || '').trim().length > 0
+    && Number.isFinite(evidence.uncertaintyDb)
+    && evidence.uncertaintyDb >= 0;
+}
+
 function getOffsetStatus(expected = {}) {
   const offset = getOffset();
-  const valid = wx.getStorageSync(KEYS.OFFSET_VALID) === true;
+  const validity = wx.getStorageSync(KEYS.OFFSET_VALID);
+  const valid = validity === true;
   const meta = wx.getStorageSync(KEYS.OFFSET_META) || {};
+  // 已应用的实验室预校准保留可用性；旧日期、安装标识或采集配置
+  // 仅属于历史来源信息，不追加失效拦截，也不改写原始校准记录。
+  if (meta.source === 'laboratory-preset' && validity !== false) {
+    const historical = !Number.isFinite(meta.validUntil) || meta.validUntil <= Date.now();
+    return { valid: true, offset, reason: '', meta, grade: 'estimated', riskEligible: false,
+      laboratoryPreset: true, historical,
+      label: historical ? '实验室预校准（历史参数）' : '实验室预校准' };
+  }
   if (!valid) return { valid: false, offset, reason: '设备尚未完成有效校准', meta };
   if (expected.captureProfile && meta.captureProfile !== expected.captureProfile) {
     return { valid: false, offset, reason: '采集配置已变化，需要重新校准', meta };
@@ -76,9 +115,17 @@ function getOffsetStatus(expected = {}) {
       || meta.calibratedAt > Date.now() + 300000 || meta.validUntil <= Date.now()) {
     return { valid: false, offset, reason: '校准已过期或日期无效，请重新校准', meta };
   }
-  const grade = meta.grade === 'reference' ? 'reference' : 'estimated';
-  return { valid: true, offset, reason: '', meta, grade, riskEligible: grade === 'reference',
-    label: grade === 'reference' ? '参考校准' : '估算参数（非参考校准）' };
+  const evidenceComplete = hasCompleteReferenceEvidence(meta.evidence);
+  const grade = meta.grade === 'reference' && evidenceComplete ? 'reference' : 'estimated';
+  const referenceCheckFailed = !!(meta.referenceCheck && meta.referenceCheck.status === 'failed');
+  const referenceCheckInconclusive = !!(meta.referenceCheck && meta.referenceCheck.status === 'inconclusive');
+  const incompleteReference = meta.source === 'advanced-1khz-calibration' && !evidenceComplete;
+  return { valid: true, offset, reason: '', meta, grade,
+    riskEligible: grade === 'reference' && !referenceCheckFailed && !referenceCheckInconclusive,
+    label: grade === 'reference'
+      ? (referenceCheckFailed ? '1 kHz 参考校准（复测偏差超限）'
+        : referenceCheckInconclusive ? '1 kHz 参考校准（复测证据不足）' : '1 kHz 单点参考校准')
+      : incompleteReference ? '估算参数（参考证据不完整）' : '估算参数（非参考校准）' };
 }
 
 /**
@@ -96,11 +143,26 @@ function setOffset(value, metadata = {}) {
   wx.setStorageSync(KEYS.OFFSET_VALID, false);
   wx.setStorageSync(KEYS.OFFSET, parsed);
   const calibratedAt = Number.isFinite(metadata.calibratedAt) ? metadata.calibratedAt : Date.now();
-  const grade = metadata.source === 'advanced-1khz-calibration' ? 'reference' : 'estimated';
+  const evidenceComplete = hasCompleteReferenceEvidence(metadata.evidence);
+  const grade = metadata.source === 'advanced-1khz-calibration' && evidenceComplete
+    ? 'reference' : 'estimated';
   wx.setStorageSync(KEYS.OFFSET_META, {
+    calibrationId: 'cal-' + Date.now().toString(36) + '-' + (++calibrationRevision) + '-' + Math.random().toString(36).slice(2),
     captureProfile: metadata.captureProfile || null,
     deviceId: metadata.deviceId || null,
     source: metadata.source || 'manual',
+    presetCaptureProfile: metadata.presetCaptureProfile || null,
+    importedFrom: metadata.importedFrom || null,
+    evidence: metadata.evidence || null,
+    evidenceComplete,
+    referenceCheck: metadata.referenceCheck || null,
+    laboratoryVerification: metadata.laboratoryVerification || null,
+    laboratoryVerificationHistory: laboratoryVerificationHistory(metadata),
+    inputChain: metadata.inputChain || '',
+    scope: metadata.scope || 'single-offset-only',
+    calibrationFrequencyHz: getCalibrationFrequency(metadata),
+    frequencyResponseVerification: 'unverified',
+    captureChainVerification: 'unverified',
     calibratedAt,
     installationId: getCalibrationInstallationId(),
     grade,
@@ -110,6 +172,39 @@ function setOffset(value, metadata = {}) {
   });
   wx.setStorageSync(KEYS.OFFSET_VALID, true);
   return parsed;
+}
+
+// A verification run appends evidence only. It must not change the offset,
+// validity flag, installation binding, grade, calibration time, or expiry.
+function appendReferenceCheck(expectedOffset, referenceCheck, expectedMeta) {
+  const currentOffset = getOffset();
+  const meta = wx.getStorageSync(KEYS.OFFSET_META) || {};
+  const revision = value => {
+    if (!value) return null;
+    if (value.calibrationId) return value.calibrationId;
+    const { referenceCheck: ignored, laboratoryVerification: ignoredLaboratory, laboratoryVerificationHistory: ignoredHistory, ...immutable } = value;
+    return JSON.stringify(immutable);
+  };
+  if (!Number.isFinite(expectedOffset) || currentOffset !== expectedOffset || !meta.source
+      || !expectedMeta || revision(meta) !== revision(expectedMeta)) return false;
+  wx.setStorageSync(KEYS.OFFSET_META, { ...meta, referenceCheck });
+  return true;
+}
+
+function appendLaboratoryVerification(expectedOffset, laboratoryVerification, expectedMeta) {
+  const meta = wx.getStorageSync(KEYS.OFFSET_META) || {};
+  const revision = value => {
+    if (!value) return null;
+    if (value.calibrationId) return value.calibrationId;
+    const { referenceCheck, laboratoryVerification: ignored, laboratoryVerificationHistory: ignoredHistory, ...immutable } = value;
+    return JSON.stringify(immutable);
+  };
+  if (getOffset() !== expectedOffset || !expectedMeta || !meta.source
+    || revision(meta) !== revision(expectedMeta)) return false;
+  const history = laboratoryVerificationHistory(meta);
+  history.push(laboratoryVerification);
+  wx.setStorageSync(KEYS.OFFSET_META, { ...meta, laboratoryVerification, laboratoryVerificationHistory: history });
+  return true;
 }
 
 function invalidateOffset() {
@@ -231,6 +326,10 @@ module.exports = {
   getOffset,
   getOffsetStatus,
   setOffset,
+  appendReferenceCheck,
+  appendLaboratoryVerification,
+  evaluateReferenceCheck,
+  getCalibrationFrequency,
   invalidateOffset,
   getExpectedExposureHours,
   getExpectedExposureSeconds,

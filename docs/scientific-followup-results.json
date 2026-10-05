@@ -1,0 +1,99 @@
+{
+  "generatedAt": "2026-10-04T09:22:22.299Z",
+  "criteria": "Engineering regressions; not clinical, laboratory or Android-device certification",
+  "summary": {
+    "total": 22,
+    "passed": 22,
+    "failed": 0
+  },
+  "results": [
+    {
+      "name": "Rail pairs straddling a former 10 ms block are detected at every recording origin and rate",
+      "status": "PASS"
+    },
+    {
+      "name": "Clipping evidence intervals remain identical across callback partitions",
+      "status": "PASS"
+    },
+    {
+      "name": "A clipped local interval does not discard the remaining phonetic recording",
+      "status": "PASS"
+    },
+    {
+      "name": "Sub-rail limiting remains an explicit warning and recording stays analyzable",
+      "status": "PASS"
+    },
+    {
+      "name": "Coverage counts omitted boundary frames in the original continuous denominator",
+      "status": "PASS"
+    },
+    {
+      "name": "A failed segment leaves valid later segment data and its original sample position intact",
+      "status": "PASS"
+    },
+    {
+      "name": "Coverage accounting uses exact sample counts at fractional-second segment boundaries",
+      "status": "PASS"
+    },
+    {
+      "name": "Cancellation propagates through segment isolation",
+      "status": "PASS"
+    },
+    {
+      "name": "Competing close roots get globally unique monotonic matches",
+      "status": "PASS"
+    },
+    {
+      "name": "Cross-model matching does not pair a narrow pole with a nearby very broad pole",
+      "status": "PASS"
+    },
+    {
+      "name": "Independent selection results depend on selected exact PCM, not surrounding DC or pitch",
+      "status": "PASS"
+    },
+    {
+      "name": "Very short selections remain browsable with empty quantitative tracks",
+      "status": "PASS"
+    },
+    {
+      "name": "Optional parameter sensitivity never upgrades a missing value and stores model residual evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "Late independent selection analysis cannot overwrite a hidden page",
+      "status": "PASS"
+    },
+    {
+      "name": "Unknown source startup error offers a choice; a normal retry is still immediately usable",
+      "status": "PASS"
+    },
+    {
+      "name": "Re-recording during selection analysis cancels old work and clears the busy state",
+      "status": "PASS"
+    },
+    {
+      "name": "Explicit compatibility choice applies to the next session and preserves provenance",
+      "status": "PASS"
+    },
+    {
+      "name": "Permission and configuration errors do not invite an unrelated source retry",
+      "status": "PASS"
+    },
+    {
+      "name": "Localized synchronous unsupported-source errors fall back once and capability cache follows the SDK environment",
+      "status": "PASS"
+    },
+    {
+      "name": "Optional laboratory sweep records real points and detects compressed level response without compensation",
+      "status": "PASS"
+    },
+    {
+      "name": "Lab evidence appends to an old preset without changing dates, grade, validity or binding",
+      "status": "PASS"
+    },
+    {
+      "name": "Malformed historical laboratory metadata cannot prevent opening advanced calibration",
+      "status": "PASS"
+    }
+  ]
+}

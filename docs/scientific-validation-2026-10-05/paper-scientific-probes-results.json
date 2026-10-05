@@ -1,0 +1,1090 @@
+{
+  "generatedAt": "2026-10-05T06:29:45.684Z",
+  "seed": 20261005,
+  "scope": "Synthetic numerical diagnostics only. Known periodic inputs, fixed parameters; no tuning or clinical conclusions.",
+  "aWeighting": [
+    {
+      "frequencyHz": 20,
+      "measuredDb": -50.39201767948371,
+      "targetDb": -50.394798413134296,
+      "errorDb": 0.0027807336505887292
+    },
+    {
+      "frequencyHz": 25,
+      "measuredDb": -44.818011008120834,
+      "targetDb": -44.82063629170703,
+      "errorDb": 0.0026252835861981794
+    },
+    {
+      "frequencyHz": 31.5,
+      "measuredDb": -39.526567706777854,
+      "targetDb": -39.52900701094034,
+      "errorDb": 0.0024393041624861667
+    },
+    {
+      "frequencyHz": 40,
+      "measuredDb": -34.53717600787567,
+      "targetDb": -34.53938955470288,
+      "errorDb": 0.0022135468272068692
+    },
+    {
+      "frequencyHz": 63,
+      "measuredDb": -26.221320077687263,
+      "targetDb": -26.222966808831917,
+      "errorDb": 0.0016467311446533017
+    },
+    {
+      "frequencyHz": 100,
+      "measuredDb": -19.144216449478645,
+      "targetDb": -19.145095819012422,
+      "errorDb": 0.0008793695337772078
+    },
+    {
+      "frequencyHz": 200,
+      "measuredDb": -10.847309577831979,
+      "targetDb": -10.847196943272358,
+      "errorDb": -0.00011263455962051694
+    },
+    {
+      "frequencyHz": 500,
+      "measuredDb": -3.2480812423167467,
+      "targetDb": -3.24794903707301,
+      "errorDb": -0.0001322052437364718
+    },
+    {
+      "frequencyHz": 1000,
+      "measuredDb": 1.1334512176300072e-10,
+      "targetDb": 0,
+      "errorDb": 1.1334512176300072e-10
+    },
+    {
+      "frequencyHz": 2000,
+      "measuredDb": 1.201723756683157,
+      "targetDb": 1.2015326483828057,
+      "errorDb": 0.00019110830035118376
+    },
+    {
+      "frequencyHz": 4000,
+      "measuredDb": 0.9653820757056474,
+      "targetDb": 0.9634563775501943,
+      "errorDb": 0.0019256981554530705
+    },
+    {
+      "frequencyHz": 6300,
+      "measuredDb": -0.11131943900139216,
+      "targetDb": -0.11569400550468223,
+      "errorDb": 0.004374566503290073
+    },
+    {
+      "frequencyHz": 8000,
+      "measuredDb": -1.1411073879814442,
+      "targetDb": -1.1470208709791976,
+      "errorDb": 0.005913482997753405
+    },
+    {
+      "frequencyHz": 10000,
+      "measuredDb": -2.484508157227259,
+      "targetDb": -2.4917109523017906,
+      "errorDb": 0.007202795074531476
+    },
+    {
+      "frequencyHz": 12500,
+      "measuredDb": -4.246060219288271,
+      "targetDb": -4.254139250765727,
+      "errorDb": 0.0080790314774557
+    },
+    {
+      "frequencyHz": 16000,
+      "measuredDb": -6.6978558309948575,
+      "targetDb": -6.706259940407929,
+      "errorDb": 0.008404109413071126
+    },
+    {
+      "frequencyHz": 20000,
+      "measuredDb": -9.338748596054312,
+      "targetDb": -9.346935287176466,
+      "errorDb": 0.008186691122153533
+    }
+  ],
+  "chunkInvariance": {
+    "samples": 11025,
+    "maxAbsoluteDifference": 0
+  },
+  "digitalLevel": {
+    "measuredDbfs": -15.051499783199054,
+    "expectedDbfs": -15.051499783199061,
+    "integratedDbfs": -15.051499783199054
+  },
+  "resampling": [
+    {
+      "inputRate": 44100,
+      "frequencyHz": 1000,
+      "outputRate": 12000,
+      "outputRmsGainDb": 9.733466993080887e-7
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 4000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -0.0001244491837455685
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 5000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -0.0011166675207448054
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 5500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -6.02015543627353
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 5800,
+      "outputRate": 12000,
+      "outputRmsGainDb": -31.865929640222657
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 6000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -86.43243720285909
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 6500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -84.91343916164196
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 9000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -118.17536805176277
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 1000,
+      "outputRate": 12000,
+      "outputRmsGainDb": 0.000015935975488953953
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 4000,
+      "outputRate": 12000,
+      "outputRmsGainDb": 0.00028780668225620177
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 5000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -0.002995622075490098
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 5500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -6.0205940649519825
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 5800,
+      "outputRate": 12000,
+      "outputRmsGainDb": -28.373388709596252
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 6000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -76.80466920817244
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 6500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -84.4950308928051
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 9000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -118.13381627530255
+    }
+  ],
+  "hnr": [
+    {
+      "f0": 100,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 100,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 100,
+      "harmonics": 50,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 100,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 100,
+      "harmonics": 50,
+      "inputSnrDb": 10,
+      "noiseless": false,
+      "medianEstimatedF0": 100.0004508625968,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 9.821553314797086,
+        "medianDb": 9.900412727516086,
+        "minimumDb": 9.089438736646658,
+        "maximumDb": 10.304055022284873
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 9.836303101037926,
+        "medianDb": 9.900412727516086,
+        "minimumDb": 9.260709185041353,
+        "maximumDb": 10.304055022284873
+      }
+    },
+    {
+      "f0": 100,
+      "harmonics": 50,
+      "inputSnrDb": 20,
+      "noiseless": false,
+      "medianEstimatedF0": 100.0001887641667,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 19.842841145665194,
+        "medianDb": 19.86883895432047,
+        "minimumDb": 19.139008819654332,
+        "maximumDb": 20.36647481586444
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 19.842841145665194,
+        "medianDb": 19.86883895432047,
+        "minimumDb": 19.139008819654332,
+        "maximumDb": 20.36647481586444
+      }
+    },
+    {
+      "f0": 100,
+      "harmonics": 50,
+      "inputSnrDb": 30,
+      "noiseless": false,
+      "medianEstimatedF0": 100.00012823921737,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 29.687475768195956,
+        "medianDb": 29.67648088128128,
+        "minimumDb": 29.090455185060726,
+        "maximumDb": 30.286786673669134
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 29.687475768195956,
+        "medianDb": 29.67648088128128,
+        "minimumDb": 29.090455185060726,
+        "maximumDb": 30.286786673669134
+      }
+    },
+    {
+      "f0": 173,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 173.00029056254095,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.42818106248911,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 58.207748431701376,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.42818106248911,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 58.207748431701376,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 173,
+      "harmonics": 28,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 173.13508008359946,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 15.227191270032307,
+        "medianDb": 15.224826736243319,
+        "minimumDb": 14.997252903556353,
+        "maximumDb": 15.461174891180637
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 15.227191270032307,
+        "medianDb": 15.224826736243319,
+        "minimumDb": 14.997252903556353,
+        "maximumDb": 15.461174891180637
+      }
+    },
+    {
+      "f0": 173,
+      "harmonics": 28,
+      "inputSnrDb": 10,
+      "noiseless": false,
+      "medianEstimatedF0": 57.67341056671043,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 8.758618080050544,
+        "medianDb": 8.786677093454857,
+        "minimumDb": 8.180558797309901,
+        "maximumDb": 9.229398846220025
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 9.838604570801989,
+        "medianDb": 9.91684594401107,
+        "minimumDb": 9.156584084315451,
+        "maximumDb": 10.390026272490465
+      }
+    },
+    {
+      "f0": 173,
+      "harmonics": 28,
+      "inputSnrDb": 20,
+      "noiseless": false,
+      "medianEstimatedF0": 173.13488470326732,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 13.952150992132431,
+        "medianDb": 13.956407513699883,
+        "minimumDb": 13.730626859541232,
+        "maximumDb": 14.102328182069828
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 13.952150992132431,
+        "medianDb": 13.956407513699883,
+        "minimumDb": 13.730626859541232,
+        "maximumDb": 14.102328182069828
+      }
+    },
+    {
+      "f0": 173,
+      "harmonics": 28,
+      "inputSnrDb": 30,
+      "noiseless": false,
+      "medianEstimatedF0": 173.1351585386421,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 15.073859512187592,
+        "medianDb": 15.078136303555837,
+        "minimumDb": 14.886519696557611,
+        "maximumDb": 15.297255750703725
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 15.073859512187592,
+        "medianDb": 15.078136303555837,
+        "minimumDb": 14.886519696557611,
+        "maximumDb": 15.297255750703725
+      }
+    },
+    {
+      "f0": 200,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 200,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 200,
+      "harmonics": 25,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 200,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 200,
+      "harmonics": 25,
+      "inputSnrDb": 10,
+      "noiseless": false,
+      "medianEstimatedF0": 199.9993185974484,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 10.024193502950428,
+        "medianDb": 10.023005120517789,
+        "minimumDb": 9.578293184701236,
+        "maximumDb": 10.343261205938992
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 10.033140601341774,
+        "medianDb": 10.025308962311762,
+        "minimumDb": 9.671913573036049,
+        "maximumDb": 10.343261205938992
+      }
+    },
+    {
+      "f0": 200,
+      "harmonics": 25,
+      "inputSnrDb": 20,
+      "noiseless": false,
+      "medianEstimatedF0": 200.00088981286132,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 19.98637505007995,
+        "medianDb": 20.03170917992385,
+        "minimumDb": 19.618522626338667,
+        "maximumDb": 20.286358162136082
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 19.98637505007995,
+        "medianDb": 20.03170917992385,
+        "minimumDb": 19.618522626338667,
+        "maximumDb": 20.286358162136082
+      }
+    },
+    {
+      "f0": 200,
+      "harmonics": 25,
+      "inputSnrDb": 30,
+      "noiseless": false,
+      "medianEstimatedF0": 200.00010594038545,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 29.923807091460777,
+        "medianDb": 29.880099942483945,
+        "minimumDb": 29.627209597017846,
+        "maximumDb": 30.30899821052891
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 29.923807091460777,
+        "medianDb": 29.880099942483945,
+        "minimumDb": 29.627209597017846,
+        "maximumDb": 30.30899821052891
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 236.9989970790175,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 54.69900943520937,
+        "medianDb": 54.662472911699815,
+        "minimumDb": 53.18506825284472,
+        "maximumDb": 56.527638994399105
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 54.69900943520937,
+        "medianDb": 54.662472911699815,
+        "minimumDb": 53.18506825284472,
+        "maximumDb": 56.527638994399105
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 236.72993665393253,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 14.349791156307191,
+        "medianDb": 14.35116221451845,
+        "minimumDb": 14.21996386387667,
+        "maximumDb": 14.503622554264599
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 14.349791156307191,
+        "medianDb": 14.35116221451845,
+        "minimumDb": 14.21996386387667,
+        "maximumDb": 14.503622554264599
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": 10,
+      "noiseless": false,
+      "medianEstimatedF0": 78.98529588909695,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 8.59401968282524,
+        "medianDb": 8.611097194393322,
+        "minimumDb": 8.297656308624012,
+        "maximumDb": 8.938634046304786
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 9.882811346560091,
+        "medianDb": 9.87998863572934,
+        "minimumDb": 9.34424204592133,
+        "maximumDb": 10.336249804128903
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": 20,
+      "noiseless": false,
+      "medianEstimatedF0": 236.73179739612567,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 13.295826845901523,
+        "medianDb": 13.294977663325938,
+        "minimumDb": 13.094282097017043,
+        "maximumDb": 13.483068590098394
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 13.295826845901523,
+        "medianDb": 13.294977663325938,
+        "minimumDb": 13.094282097017043,
+        "maximumDb": 13.483068590098394
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": 30,
+      "noiseless": false,
+      "medianEstimatedF0": 236.73114737908992,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 14.235512882393069,
+        "medianDb": 14.231735449627337,
+        "minimumDb": 14.099756482215142,
+        "maximumDb": 14.401172401938613
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 14.235512882393069,
+        "medianDb": 14.231735449627337,
+        "minimumDb": 14.099756482215142,
+        "maximumDb": 14.401172401938613
+      }
+    },
+    {
+      "f0": 389,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 388.9939912009093,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 53.45310132733276,
+        "medianDb": 53.29582838910766,
+        "minimumDb": 51.35400984923556,
+        "maximumDb": 56.176928277696796
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 53.45310132733276,
+        "medianDb": 53.29582838910766,
+        "minimumDb": 51.35400984923556,
+        "maximumDb": 56.176928277696796
+      }
+    },
+    {
+      "f0": 389,
+      "harmonics": 12,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 388.5324449242955,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 21.605488214342884,
+        "medianDb": 21.609579311454613,
+        "minimumDb": 21.470329892461724,
+        "maximumDb": 21.813295034368597
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 21.605488214342884,
+        "medianDb": 21.609579311454613,
+        "minimumDb": 21.470329892461724,
+        "maximumDb": 21.813295034368597
+      }
+    },
+    {
+      "f0": 389,
+      "harmonics": 12,
+      "inputSnrDb": 10,
+      "noiseless": false,
+      "medianEstimatedF0": 64.84278420918649,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 9.697993095856043,
+        "medianDb": 9.688903444431059,
+        "minimumDb": 9.124675849547764,
+        "maximumDb": 10.136096850714347
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 9.814598625100786,
+        "medianDb": 9.814822382947346,
+        "minimumDb": 9.444594757256269,
+        "maximumDb": 10.137808280687395
+      }
+    },
+    {
+      "f0": 389,
+      "harmonics": 12,
+      "inputSnrDb": 20,
+      "noiseless": false,
+      "medianEstimatedF0": 388.5349066092754,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 17.743270290857648,
+        "medianDb": 17.72952035936163,
+        "minimumDb": 17.429415177368504,
+        "maximumDb": 18.061938977267967
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 17.743270290857648,
+        "medianDb": 17.72952035936163,
+        "minimumDb": 17.429415177368504,
+        "maximumDb": 18.061938977267967
+      }
+    },
+    {
+      "f0": 389,
+      "harmonics": 12,
+      "inputSnrDb": 30,
+      "noiseless": false,
+      "medianEstimatedF0": 388.5312508499239,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 21.014397654531148,
+        "medianDb": 21.01639041206161,
+        "minimumDb": 20.862764154592604,
+        "maximumDb": 21.207020157625998
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 21.014397654531148,
+        "medianDb": 21.01639041206161,
+        "minimumDb": 20.862764154592604,
+        "maximumDb": 21.207020157625998
+      }
+    },
+    {
+      "f0": 599,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 599.0081608940799,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 57.78781729072886,
+        "medianDb": 58.41259080640047,
+        "minimumDb": 54.455823792320004,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 57.78781729072886,
+        "medianDb": 58.41259080640047,
+        "minimumDb": 54.455823792320004,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 599,
+      "harmonics": 8,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 599.2860962367927,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 33.44883688143348,
+        "medianDb": 33.444464744505865,
+        "minimumDb": 33.038995747552704,
+        "maximumDb": 33.813262065529265
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 33.44883688143348,
+        "medianDb": 33.444464744505865,
+        "minimumDb": 33.038995747552704,
+        "maximumDb": 33.813262065529265
+      }
+    },
+    {
+      "f0": 599,
+      "harmonics": 8,
+      "inputSnrDb": 10,
+      "noiseless": false,
+      "medianEstimatedF0": 599.3128190914779,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 9.989979742366387,
+        "medianDb": 9.96230092014189,
+        "minimumDb": 9.594046176303042,
+        "maximumDb": 10.43504773687346
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 10.006300475550935,
+        "medianDb": 10.034032999761017,
+        "minimumDb": 9.594046176303042,
+        "maximumDb": 10.43504773687346
+      }
+    },
+    {
+      "f0": 599,
+      "harmonics": 8,
+      "inputSnrDb": 20,
+      "noiseless": false,
+      "medianEstimatedF0": 599.2902654402696,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 19.779455870901312,
+        "medianDb": 19.758876612141194,
+        "minimumDb": 19.464628517765952,
+        "maximumDb": 20.235510645930113
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 19.779455870901312,
+        "medianDb": 19.758876612141194,
+        "minimumDb": 19.464628517765952,
+        "maximumDb": 20.235510645930113
+      }
+    },
+    {
+      "f0": 599,
+      "harmonics": 8,
+      "inputSnrDb": 30,
+      "noiseless": false,
+      "medianEstimatedF0": 599.2864173462688,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 28.334216147720138,
+        "medianDb": 28.307108651969784,
+        "minimumDb": 28.05964547759657,
+        "maximumDb": 28.669964178997557
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 28.334216147720138,
+        "medianDb": 28.307108651969784,
+        "minimumDb": 28.05964547759657,
+        "maximumDb": 28.669964178997557
+      }
+    }
+  ],
+  "productionNoiselessHnr": [
+    {
+      "f0": 200,
+      "inputRate": 44100,
+      "inputQuantizationSnrDb": 74.48766081654648,
+      "avgHNR": 59.99999565692814,
+      "hnr": {
+        "availableFrames": 41,
+        "acceptedFrames": 41,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "pitchCoverage": 0.9807692307692307
+    },
+    {
+      "f0": 237,
+      "inputRate": 44100,
+      "inputQuantizationSnrDb": 75.35732745864009,
+      "avgHNR": 14.350027420355113,
+      "hnr": {
+        "availableFrames": 41,
+        "acceptedFrames": 41,
+        "coverage": 1,
+        "meanDb": 14.35096475873266,
+        "medianDb": 14.35229497110608,
+        "minimumDb": 14.310837900206705,
+        "maximumDb": 14.44891964307276
+      },
+      "pitchCoverage": 0.9807692307692307
+    },
+    {
+      "f0": 389,
+      "inputRate": 44100,
+      "inputQuantizationSnrDb": 77.52120241990836,
+      "avgHNR": 21.60583767960858,
+      "hnr": {
+        "availableFrames": 41,
+        "acceptedFrames": 41,
+        "coverage": 1,
+        "meanDb": 21.60258206815335,
+        "medianDb": 21.609669653561628,
+        "minimumDb": 21.52326567999947,
+        "maximumDb": 21.732795571364377
+      },
+      "pitchCoverage": 0.9807692307692307
+    }
+  ],
+  "f0Boundary": [
+    {
+      "f0": 39,
+      "total": 30,
+      "accepted": 0,
+      "medianHz": null,
+      "maxRelativeError": null
+    },
+    {
+      "f0": 40,
+      "total": 30,
+      "accepted": 6,
+      "medianHz": 40.00000000415207,
+      "maxRelativeError": 1.0380185599956349e-10
+    },
+    {
+      "f0": 40.5,
+      "total": 30,
+      "accepted": 30,
+      "medianHz": 40.500001508342784,
+      "maxRelativeError": 1.9418961927364364e-7
+    },
+    {
+      "f0": 83,
+      "total": 30,
+      "accepted": 30,
+      "medianHz": 82.99999301991386,
+      "maxRelativeError": 3.9287222752815154e-7
+    },
+    {
+      "f0": 137,
+      "total": 30,
+      "accepted": 30,
+      "medianHz": 136.9999216268646,
+      "maxRelativeError": 0.000001922459509473562
+    },
+    {
+      "f0": 331,
+      "total": 30,
+      "accepted": 30,
+      "medianHz": 331.00430887356663,
+      "maxRelativeError": 0.000013639253714003985
+    },
+    {
+      "f0": 479,
+      "total": 30,
+      "accepted": 30,
+      "medianHz": 479.0051799966064,
+      "maxRelativeError": 0.00001081827016879977
+    },
+    {
+      "f0": 1190,
+      "total": 30,
+      "accepted": 30,
+      "medianHz": 1190.3142181351154,
+      "maxRelativeError": 0.0002641703231243131
+    },
+    {
+      "f0": 1200,
+      "total": 30,
+      "accepted": 0,
+      "medianHz": null,
+      "maxRelativeError": null
+    },
+    {
+      "f0": 1210,
+      "total": 30,
+      "accepted": 0,
+      "medianHz": null,
+      "maxRelativeError": null
+    }
+  ]
+}

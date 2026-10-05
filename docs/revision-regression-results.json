@@ -1,24 +1,27 @@
 {
-  "generatedAt": "2026-09-26T17:06:47.925Z",
+  "generatedAt": "2026-10-04T09:23:55.026Z",
   "summary": {
-    "total": 23,
-    "passed": 23,
+    "total": 46,
+    "passed": 46,
     "failed": 0
   },
   "sourceSha256": {
-    "utils/phonetic/analysis.js": "fb91ca673e0df11d4e321079374e6347de4c17cc930df77d638af15c07d82508",
-    "utils/phonetic/formant-extract.js": "f2f3987ce219f20025cff795a6404a6b3d4f21cc421a4529ae5f65ff0c4b0081",
-    "utils/phonetic/yin-pitch.js": "ef2210766e5ce0baece17de7057eb4ee5d95031411a9685befe3be1955373e76",
-    "utils/recorder-session.js": "17b35c9a18267094546455e9e7af3a993b10a8a53f47d0172e37fe024c9136e7",
-    "utils/data-model.js": "ca556cb18aa29698470a8d79aff6d188c8e12188ab960b8c2384ecbd0fc40961",
-    "pages/main/main.js": "6b5e0bac1eab2ff24fa9c42db27686879018ca40afc7ad29964bf337cd51c4e6",
-    "pages/phonetic/phonetic.js": "839e157f7b817e4f5c18d207b911dbc76cda3f1d407fd5fcb80310259c89d542",
-    "pages/result/result.js": "c01d0cc710f86b25f317647c58e7cc0345696f3d66b76091fa1cb09f14276daa",
-    "pages/main/main.wxml": "7c82794494e38778152d612b19a7557ba636516bf922819fbc5b3670963b0ae8",
+    "utils/phonetic/analysis.js": "d7b1f3476de5fd88caa0bf24f7054ca46a9b5c8fd218222b00d4e02aec111d50",
+    "utils/phonetic/formant-extract.js": "d4e01284a0258d178eded9bf47920b65de718453fbe1eae2a0abc2f0bc6ccde9",
+    "utils/phonetic/yin-pitch.js": "838c0fe0d297ac0065ea5ab6f1eed03f293db671477ada0257200192aa9c278e",
+    "utils/phonetic/harmonicity.js": "703eda0587eb332f3636b239436e26b40d99bea87ff37692cb37f3c306cf402b",
+    "utils/recorder-session.js": "152e0e0458a4a83763d0eb8b2b644737aeefb10e362120a07a63b31a2c966834",
+    "utils/data-model.js": "935944d672ee141a8820ab56943caa03f9c976487f4831af356d855da49fb25f",
+    "pages/main/main.js": "ff5486eb84f85922ca1e8cfe6a81c641989e634d72dcd3a930a4b8cba0fbd298",
+    "pages/phonetic/phonetic.js": "22e96fcb5a57e5b3e87aa44f8cf97a71ae4a3b013bd6204b5ac4da3103707fed",
+    "pages/settings/settings.js": "b2496423758ce30fac8903e40ef03da574648773e790916e3ef269a5aa8ee65b",
+    "pages/advanced-calibrate/calibrate/calibrate.js": "45e98cdb30f97c4927fb9347dd14a2030c88b350ec0ffa04c34a3f291f5ba5ba",
+    "pages/result/result.js": "2b61a0fe1bba318716c395822ab5b7042ee3cf9f351589b2a8f2981aa3af6b59",
+    "pages/main/main.wxml": "451b9d53ec094d280a3d0d0248dff370c679a1b47ab69f8fe1ba9a1600cf3e1b",
     "workers/phonetic-analysis/index.js": "6ca8479903c42db65e15e8cf0e8b247bbbdee3040b79ffde85ff829a40da9cf1",
-    "workers/phonetic-analysis/bundle.js": "28f08ada7e006351c355d939295f7d09dcbc778f94847bd32e319f732d1ac74e",
-    "tests/revision-regression.cjs": "1ed1d5cc400406476af269371608a70c164545fea5acaf1540f980f58e461150",
-    "tests/runtime.cjs": "445e11f468d049be3eb7564605cfe2e47fcf57369147b7b309c5ec08e7f9fa80"
+    "workers/phonetic-analysis/bundle.js": "4e14d26d5cdfd9ac41b6eb3ce62106298637a317762c908cd1ff50fe7dbba6de",
+    "tests/revision-regression.cjs": "3437431e7ea13794c6f974edf264b5d063d6f5c1b57d9f577c218f0c53c1656c",
+    "tests/runtime.cjs": "eca5e399e96ae71007bf0ec6628dcefe91088de400f8d770f838fc28f0b67bd0"
   },
   "results": [
     {
@@ -39,6 +42,10 @@
     },
     {
       "name": "Shared analysis rejects invalid parameters and preserves metadata",
+      "status": "PASS"
+    },
+    {
+      "name": "Speech capture accepts recorder stop overrun within the declared tolerance",
       "status": "PASS"
     },
     {
@@ -111,6 +118,94 @@
     },
     {
       "name": "Partial model evidence cannot erase a broad ordinal",
+      "status": "PASS"
+    },
+    {
+      "name": "YIN rejects a single transient with unsupported comparison windows",
+      "status": "PASS"
+    },
+    {
+      "name": "Low-periodicity HNR is missing instead of reporting maximum-noise-peak bias",
+      "status": "PASS"
+    },
+    {
+      "name": "Formant ceiling changes the fitted signal bandwidth and rate",
+      "status": "PASS"
+    },
+    {
+      "name": "Main stop includes a final native PCM block before freezing the snapshot",
+      "status": "PASS"
+    },
+    {
+      "name": "Sparse callbacks cannot masquerade as continuous main or phonetic capture",
+      "status": "PASS"
+    },
+    {
+      "name": "Advanced calibration rejects malformed PCM and cannot later certify the session",
+      "status": "PASS"
+    },
+    {
+      "name": "Stale advanced calibration confirmation cannot overwrite a newer offset",
+      "status": "PASS"
+    },
+    {
+      "name": "Settings reset persists the displayed default offset",
+      "status": "PASS"
+    },
+    {
+      "name": "Quantitative monitoring suppresses haptic contamination and owns vibration timers",
+      "status": "PASS"
+    },
+    {
+      "name": "Production preprocessing never turns isolated clicks into voiced pitch",
+      "status": "PASS"
+    },
+    {
+      "name": "Conservative pitch confidence retains short periodic bursts",
+      "status": "PASS"
+    },
+    {
+      "name": "Live and stopping previews cannot be saved or return to recording",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing loud blocks cannot certify a result biased by over 10 dB",
+      "status": "PASS"
+    },
+    {
+      "name": "Unknown native duration and known mismatches save distinct noncertified records",
+      "status": "PASS"
+    },
+    {
+      "name": "Complete batches tolerate callback jitter and delayed stop acknowledgement",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing stop acknowledgement fails closed and late callback cannot revive result",
+      "status": "PASS"
+    },
+    {
+      "name": "Loud tail updates final risk, colour and levels from the same frozen snapshot",
+      "status": "PASS"
+    },
+    {
+      "name": "Main waits for a delayed first frame without applying the running-stream timeout",
+      "status": "PASS"
+    },
+    {
+      "name": "Historical numeric results remain visible with an old-algorithm label",
+      "status": "PASS"
+    },
+    {
+      "name": "Native startup can await microphone authorization beyond two seconds",
+      "status": "PASS"
+    },
+    {
+      "name": "Historical laboratory presets stay usable without rebinding or expiry gates",
+      "status": "PASS"
+    },
+    {
+      "name": "Discontinuous joins reset DSP and exclude every crossing dependent window",
       "status": "PASS"
     }
   ]

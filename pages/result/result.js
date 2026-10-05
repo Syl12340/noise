@@ -129,16 +129,32 @@ function buildRiskSegmentSummary(record) {
 function normalizeRecordsForDisplay(records) {
   return records.map((value) => {
     const record = value && typeof value === 'object' ? value : {};
-    const valid = record.dataQuality === 'valid' && Number.isFinite(record.cne);
-    const reference = valid && record.calibrationGrade === 'reference';
+    const numericCne = typeof record.cne === 'number' ? record.cne
+      : typeof record.cne === 'string' && record.cne.trim() !== '' ? Number(record.cne) : NaN;
+    // 历史记录缺少新字段时保留原有数值；显式无效/未完成的记录仍如实标记。
+    const valid = (['valid', 'unverified', 'partial'].includes(record.dataQuality) || record.dataQuality == null)
+      && Number.isFinite(numericCne);
+    const legacyAlgorithm = record.algorithmVersion !== require('../../utils/measurement-version').ALGORITHM_VERSION;
+    const reference = valid && record.dataQuality === 'valid' && record.calibrationGrade === 'reference'
+      && record.calibrationVerified !== false;
+    const laboratoryPreset = record.calibration && record.calibration.source === 'laboratory-preset';
     const knownRisk = ['安全', '需要注意', '中风险', '高风险', '高危'].includes(record.threat);
     const qualityLabel = record.dataQuality === 'invalid' ? '无效记录'
-      : !valid ? '旧记录或质量信息缺失，不能确认有效性'
-      : !reference ? '估算记录，不作风险分级' : !knownRisk ? '风险状态未知' : '参考校准记录';
+      : !valid ? '记录数值或质量信息异常'
+      : record.dataQuality === 'partial' ? '已接收片段（不代表完整测量）'
+      : record.dataQuality === 'unverified' ? '已接收音频估算（时长未核验）'
+      : laboratoryPreset ? '实验室预校准记录'
+      : legacyAlgorithm || record.dataQuality == null ? '历史记录（保留原始结果）'
+      : !reference ? (record.calibrationLabel || '估算记录') + '，不作风险分级' : !knownRisk ? '风险状态未知' : '参考校准记录';
     return { ...record, qualityLabel,
-      threatDisplay: reference && knownRisk ? record.threat : qualityLabel,
-      cneDisplay: valid ? record.cne.toFixed(2) : '--',
-      comparisonNote: record.algorithmVersion ? '算法 ' + record.algorithmVersion + '；比较前请核对校准与参数' : '未记录算法版本，不建议直接比较',
+      threatDisplay: valid && record.dataQuality === 'valid' && record.riskEstimate
+        ? record.riskEstimate + '（条件估计；采集链未核验）'
+        : valid && !['unverified', 'partial'].includes(record.dataQuality) && knownRisk && (reference || legacyAlgorithm)
+        ? record.threat + (legacyAlgorithm ? '（历史结果）' : '') : qualityLabel,
+      cneDisplay: valid ? numericCne.toFixed(2) : '--',
+      comparisonNote: legacyAlgorithm
+        ? '过时算法 · ' + (record.algorithmVersion || '版本未记录') + '；保留历史结果'
+        : '算法 ' + record.algorithmVersion + '；比较前请核对校准与参数',
       threatColorClass: reference && knownRisk ? getThreatColorClass(record.threat) : 'bg-unknown',
       threatTextClass: reference && knownRisk ? getThreatTextClass(record.threat) : 'text-unknown',
       riskSegmentSummary: buildRiskSegmentSummary(record) };

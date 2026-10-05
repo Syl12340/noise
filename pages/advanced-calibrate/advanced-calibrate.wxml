@@ -11,19 +11,21 @@
   </view>
 
   <!-- 快捷校准组 -->
-  <view class="status-panel">
-    <text>{{calibrationLabel}}</text>
-    <view><text>校准 {{calibrationDate}} · 应用复核期限 {{validUntil}}</text></view>
-    <view><text>90 天复核是本应用的管理策略。换麦克风、耳机或系统输入后请立即重新校准。</text></view>
-    <button bindtap="invalidateChangedInput">采集条件变化，重新校准</button>
-    <button bindtap="exportCalibration">复制本安装的校准备份</button>
+  <view class="status-panel calibration-summary">
+    <text class="calibration-badge">{{calibrationLabel}}</text>
+    <view class="calibration-dates"><text>参数记录 {{calibrationDate}}</text><text>建议复核 {{validUntil}}</text></view>
+    <text class="calibration-note">没有校准条件也可继续检测和保存估算记录。实验室预校准保留来源标记；更换输入设备后可重新校准。</text>
+    <view class="calibration-actions">
+      <button class="calibration-action" bindtap="invalidateChangedInput">更新采集条件</button>
+      <button class="calibration-action action-secondary" bindtap="exportCalibration">复制校准备份</button>
+    </view>
   </view>
   <view class="group-title">快捷校准</view>
   <view class="action-group">
     <view class="action-cell" hover-class="cell-hover" bindtap="applyPresetCalibration">
       <view class="cell-left">
         <image class="cell-icon" src="../../images/apply.svg" mode="aspectFit" />
-        <text class="cell-text">一键匹配云端预设</text>
+        <text class="cell-text">匹配实验室预校准</text>
       </view>
       <text class="cell-arrow">›</text>
     </view>
@@ -49,6 +51,13 @@
   </view>
 
   <!-- 设备与支持组 -->
+  <view class="group-title">实验室多频、多声级复核（可选）</view>
+  <view class="status-panel calibration-summary">
+    <text class="calibration-note">导入外部实验室测点。points 包含 frequencyHz、referenceLevelDb、measuredDbfs，可附 uncertaintyDb。可比较读数需注明 captureProfile、inputChain、参考/测量计权 referenceWeighting/measuredWeighting（A/C/Z）和共同积分时长 integrationSeconds；时长不同时分别注明 referenceIntegrationSeconds/measuredIntegrationSeconds。条件未说明或不一致时保留原始读数差。只记录实际测点，不推断全频带性能或自动补偿；没有实验室条件可继续检测和保存。</text>
+    <textarea class="laboratory-input" value="{{laboratoryInput}}" bindinput="setLaboratoryInput" maxlength="50000" placeholder="粘贴实验室复核 JSON 数据" />
+    <view class="calibration-actions"><button class="calibration-action" bindtap="recordLaboratoryVerification">记录外部复核证据</button></view>
+    <text class="calibration-note" wx:if="{{laboratorySummary}}">{{laboratorySummary}}</text>
+  </view>
   <view class="group-title">设备与支持</view>
   <view class="action-group">
     <view class="action-cell" hover-class="cell-hover" bindtap="fetchDeviceInfo">

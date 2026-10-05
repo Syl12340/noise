@@ -16,7 +16,7 @@ const { LIMITS, CANVAS_CONFIG, THEME_COLORS, CNE_FORMULA } = require('../../util
 const { computeSpectrum } = require('../../utils/fft');
 const { buildRiskLevels } = require('../../utils/risk-config');
 const dataModel = require('../../utils/data-model');
-const { DCBlocker, inspectPcm } = require('../../utils/audio-quality');
+const { DCBlocker, inspectPcm, PcmQualityInspector } = require('../../utils/audio-quality');
 const resultManager = require('../../utils/result-manager');
 const { RESULT_SCHEMA_VERSION, ALGORITHM_VERSION } = require('../../utils/measurement-version');
 const {
@@ -24,10 +24,12 @@ const {
   cancelRecorderStart,
   isRecorderTransitioning,
   observeRecorderState,
+  observeRecorderEvent,
   safeStartRecorder,
   safeCloseAudioContext,
   createCamcorderRecordParams,
   getMeasurementCaptureProfile,
+  getRecorderCaptureInfo,
   getCurrentDeviceCalibrationId,
   bindRecorderFrameListener,
   bindRecorderListenersOnce,
@@ -94,12 +96,26 @@ const SPECTROGRAM_LABEL_AREA_WIDTH = 38;
 let aWeightingFilter = new AWeightingFilter();
 let dcBlocker = new DCBlocker(CANVAS_CONFIG.FFT.SAMPLE_RATE);
 let inputOverloaded = false;
+let inputNearFullScale = false;
 let calibrationStatus = { valid: false, offset: NaN, reason: '尚未完成有效校准', meta: null };
 let measurementInvalidReason = '';
 let lastValidFrameAt = 0;
 let mainInputWatchdogId = null;
 let inputPlateauSuspected = false;
+let inputQualityInspector = new PcmQualityInspector(CANVAS_CONFIG.FFT.SAMPLE_RATE);
 const MAIN_INPUT_TIMEOUT_MS = 2000;
+const MAIN_START_TIMEOUT_MS = 15000;
+const MAIN_FIRST_FRAME_TIMEOUT_MS = 10000;
+// 仅容纳原生毫秒时长的量化误差和一个样本的舍入，不允许按比例丢帧。
+// 不支持可靠原生时长的平台应保留预览，不能降级为墙钟覆盖率认证。
+const CAPTURE_DURATION_TOLERANCE_SAMPLES = Math.ceil(CANVAS_CONFIG.FFT.SAMPLE_RATE / 1000) + 1;
+let captureIntegrity = { status: 'pending', nativeDurationMs: null, sampleDelta: null };
+let deliveryDelayed = false;
+let silentSampleCount = 0;
+let consecutiveSilentSampleCount = 0;
+let filterTail = null;
+let mainCaptureStartedAt = 0;
+let lastFrameLevels = null;
 
 /**
  * === 高性能帧处理变量（避免 O(n) 频繁重算） ===
@@ -151,9 +167,18 @@ function recordArray(currentTime, dBSPL) {
 function resetMonitorSessionState(page) {
   clearMainInputWatchdog();
   inputOverloaded = false;
+  inputNearFullScale = false;
   inputPlateauSuspected = false;
+  inputQualityInspector = new PcmQualityInspector(CANVAS_CONFIG.FFT.SAMPLE_RATE);
   measurementInvalidReason = '';
   lastValidFrameAt = 0;
+  mainCaptureStartedAt = 0;
+  captureIntegrity = { status: 'pending', nativeDurationMs: null, sampleDelta: null };
+  deliveryDelayed = false;
+  silentSampleCount = 0;
+  consecutiveSilentSampleCount = 0;
+  filterTail = null;
+  lastFrameLevels = null;
   dcBlocker = new DCBlocker(CANVAS_CONFIG.FFT.SAMPLE_RATE);
   monitorSessionId++;
   location = null;
@@ -183,10 +208,13 @@ function resetMonitorSessionState(page) {
   }
   if (page) {
     page._completedSnapshot = null;
+    page._awaitingRecorderRecovery = false;
     page.setData({
       recordingState: 'starting', recordingLabel: '正在启动录音', canSave: false,
       leqA: '--', measurementSeconds: '0.0', exposureHours: (expectedExposure / 3600).toFixed(2),
+      levelScopeLabel: '本次估算 LAeq',
       calibrationLabel: calibrationStatus.label || calibrationStatus.reason,
+      calibrationDateLabel: calibrationStatus.laboratoryPreset ? '参数记录日期' : '校准日期',
       calibrationDate: calibrationStatus.meta && calibrationStatus.meta.calibratedAt
         ? new Date(calibrationStatus.meta.calibratedAt).toLocaleDateString() : '--',
       dbfs: '--',
@@ -230,22 +258,42 @@ function startMainInputWatchdog() {
   const sessionId = monitorSessionId;
   mainInputWatchdogId = setInterval(() => {
     if (sessionId !== monitorSessionId || !isMainMonitoringActive || !currentMainPage) return;
-    if (Date.now() - (lastValidFrameAt || startDate) > MAIN_INPUT_TIMEOUT_MS) {
-      markMainMeasurementInvalid('有效音频输入超时，请重新测量');
+    if (currentMainPage._awaitingRecorderRecovery) return;
+    // 首次授权、原生启动和首帧交付不能套用录音中的 2 秒断流门限。
+    const referenceTime = lastValidFrameAt || mainCaptureStartedAt || startDate;
+    const timeoutMs = lastValidFrameAt ? MAIN_INPUT_TIMEOUT_MS
+      : mainCaptureStartedAt ? MAIN_FIRST_FRAME_TIMEOUT_MS : MAIN_START_TIMEOUT_MS;
+    if (Date.now() - referenceTime > timeoutMs) {
+      if (lastValidFrameAt) {
+        deliveryDelayed = true;
+        currentMainPage.setData({ recordingLabel: '音频交付延迟；停止后按实际样本核验' });
+        return;
+      }
+      markMainMeasurementInvalid(mainCaptureStartedAt
+        ? '有效音频输入超时，请重新测量' : '录音启动超时，请检查麦克风授权');
     }
   }, 250);
 }
 
-function isMainMeasurementValid() {
+function hasUsableMainSamples() {
   if (!isMainMonitoringActive || !calibrationStatus.valid || inputOverloaded || measurementInvalidReason || totalAWeightedSampleCount <= 0
     || !Number.isFinite(totalAWeightedEnergySum) || totalAWeightedEnergySum <= 0) {
     return false;
   }
-  return lastValidFrameAt > 0 && Date.now() - lastValidFrameAt <= MAIN_INPUT_TIMEOUT_MS;
+  return lastValidFrameAt > 0 && (['valid', 'unverified', 'partial'].includes(captureIntegrity.status)
+    || Date.now() - lastValidFrameAt <= MAIN_INPUT_TIMEOUT_MS);
+}
+
+function isMainMeasurementValid() {
+  return captureIntegrity.status === 'valid' && hasUsableMainSamples();
+}
+
+function isMainMeasurementSaveable() {
+  return ['valid', 'unverified', 'partial'].includes(captureIntegrity.status) && hasUsableMainSamples();
 }
 
 function calculateCurrentCne() {
-  if (!isMainMeasurementValid()) {
+  if (!hasUsableMainSamples()) {
     return NaN;
   }
   const cumulativeLeqA = calculateLeqFromEnergy(
@@ -299,7 +347,7 @@ function finalizeMeasurementSecond(page, dbfsZ, dbsplZ) {
         text: measurementInvalidReason || calibrationStatus.reason || (Number.isFinite(cne) ? '估算结果，不作风险分级' : '等待有效采样'),
         bgClass: 'detail-init',
       };
-  threat = riskStatus.text;
+  threat = Number.isFinite(cne) ? '预览：' + riskStatus.text + '（待完整性核验）' : riskStatus.text;
   page.setData({
     leqA: calibrationStatus.valid ? calculateLeqFromEnergy(totalAWeightedEnergySum, totalAWeightedSampleCount, offset).toFixed(2) : '--',
     measurementSeconds: (totalAWeightedSampleCount / CANVAS_CONFIG.FFT.SAMPLE_RATE).toFixed(1),
@@ -307,8 +355,8 @@ function finalizeMeasurementSecond(page, dbfsZ, dbsplZ) {
     dbfs: dbfsZ.toFixed(2),
     dbspl: calibrationStatus.valid && Number.isFinite(dbsplZ) ? dbsplZ.toFixed(2) : '--',
     cne: Number.isFinite(cne) ? cne.toFixed(2) : '--',
-    threat,
-    threatClass: riskStatus.bgClass
+    threat: Number.isFinite(cne) && calibrationStatus.riskEligible ? threat + '；采集链未核验' : threat,
+    threatClass: riskStatus.key === 'SAFE' ? 'detail-init' : riskStatus.bgClass
   });
 
   if (allowAlarm && calibrationStatus.riskEligible && Number.isFinite(cne) && cne >= noiseAlarmLevel && !isAlarming && !hasAlerted) {
@@ -346,7 +394,8 @@ function handleRecordedFrame(page, res) {
   }
   const buffer = new Int16Array(frameBuffer);
   if (!buffer.length || inputOverloaded || measurementInvalidReason) return;
-  const quality = inspectPcm(buffer);
+  const quality = inspectPcm(buffer, inputQualityInspector);
+  inputNearFullScale = inputNearFullScale || quality.nearFullScale;
   inputPlateauSuspected = inputPlateauSuspected || quality.plateauSuspected;
   if (quality.clipped) {
     inputOverloaded = true;
@@ -354,30 +403,36 @@ function handleRecordedFrame(page, res) {
     return;
   }
   if (quality.digitalSilence) {
-    if (totalAWeightedSampleCount > 0) {
-      markMainMeasurementInvalid('录音出现无信号数据，本次结果无效');
-    } else {
-      page.setData({ dbfs: '--', dbspl: '--', cne: '--', threat: '等待有效音频输入', threatClass: 'detail-init' });
+    // 短尾块、过零与真实静音都属于录音；不能由单块幅度证明设备故障。
+    silentSampleCount += buffer.length;
+    consecutiveSilentSampleCount += buffer.length;
+    if (consecutiveSilentSampleCount >= Math.round(CANVAS_CONFIG.FFT.SAMPLE_RATE * 0.05)) {
+      markMainMeasurementInvalid('录音连续输出数字静音，本次结果无效');
+      return;
     }
-    return;
+  } else {
+    consecutiveSilentSampleCount = 0;
   }
 
   const frameReceivedAt = Date.now();
   if (lastValidFrameAt && frameReceivedAt - lastValidFrameAt > MAIN_INPUT_TIMEOUT_MS) {
-    markMainMeasurementInvalid('录音数据出现中断，本次结果无效');
-    return;
+    deliveryDelayed = true;
   }
   lastValidFrameAt = frameReceivedAt;
-  if (page.data.recordingState !== 'recording') page.setData({ recordingState: 'recording', recordingLabel: '正在接收有效音频' });
+  if (!page._mainStopRequested && page.data.recordingState !== 'recording') {
+    page.setData({ recordingState: 'recording', recordingLabel: '实时预览，停止后核验结果' });
+  }
 
   const bufferZ = dcBlocker.process(buffer);
   const energyZ = calculateRMS(bufferZ);
   const dbfsZ = calculateDb(energyZ, 1);
   const dbsplZ = dbfsZ + offset;
+  lastFrameLevels = { dbfs: dbfsZ, dbspl: dbsplZ };
   const bufferA = aWeightingFilter.process(bufferZ, false);
   const sampleRate = CANVAS_CONFIG.FFT.SAMPLE_RATE;
   const fftSize = CANVAS_CONFIG.FFT.SIZE;
   const fftHopSize = CANVAS_CONFIG.FFT.HOP_SIZE || 1600;
+  const spectrumNeeded = currentViewMode === 'spectrum' || currentViewMode === 'spectrogram';
   const uiRefreshSamples = Math.max(1, Math.round(sampleRate / 2));
   let spectrumUpdated = false;
   let uiUpdateDue = false;
@@ -397,16 +452,20 @@ function handleRecordedFrame(page, res) {
     if (pcmBufferedSamples < fftSize) {
       pcmBufferedSamples++;
       if (pcmBufferedSamples === fftSize) {
-        updateSpectrumFromRingBuffer();
-        spectrumUpdated = true;
+        if (spectrumNeeded) {
+          updateSpectrumFromRingBuffer();
+          spectrumUpdated = true;
+        }
         fftSampleCount = 0;
       }
     } else {
       fftSampleCount++;
       if (fftSampleCount >= fftHopSize) {
         fftSampleCount -= fftHopSize;
-        updateSpectrumFromRingBuffer();
-        spectrumUpdated = true;
+        if (spectrumNeeded) {
+          updateSpectrumFromRingBuffer();
+          spectrumUpdated = true;
+        }
       }
     }
 
@@ -456,38 +515,64 @@ function bindMainRecorderLifecycleListeners() {
   bindRecorderListenersOnce(recorderManager, 'main-state-observer', () => {
     observeRecorderState(recorderManager, state => {
       if (!isMainMonitoringActive || !currentMainPage) return;
+      if (state === 'waiting-interruption') {
+        currentMainPage._awaitingRecorderRecovery = true;
+        currentMainPage.setData({ recordingState: 'starting', recordingLabel: '录音被系统占用，等待恢复', canSave: false });
+      } else if (state === 'starting' && currentMainPage._awaitingRecorderRecovery) {
+        currentMainPage._awaitingRecorderRecovery = false;
+        startDate = Date.now();
+        currentMainPage.setData({ recordingLabel: '正在启动录音' });
+      }
+      if (state === 'recording' && mainCaptureStartedAt === 0) mainCaptureStartedAt = Date.now();
       if (state === 'error') markMainMeasurementInvalid('录音器启动或停止失败，请重新测量');
     });
   });
   bindRecorderListenersOnce(recorderManager, 'main-lifecycle-listeners', () => {
-    recorderManager.onStop(() => {
+    observeRecorderEvent(recorderManager, 'Stop', (res) => {
       if (!isMainMonitoringActive || !currentMainPage) {
         return;
       }
 
       if (isRecorderTransitioning(recorderManager)) return;
+      if (currentMainPage._mainStopRequested) {
+        currentMainPage.completeRequestedMainStop(res);
+        return;
+      }
+      const limit = currentMainPage.mainRecordParams.duration;
+      if (res && Number.isFinite(res.duration) && res.duration >= limit - 2) {
+        currentMainPage._mainStopRequested = true;
+        currentMainPage.completeRequestedMainStop(res);
+        return;
+      }
       markMainMeasurementInvalid('录音意外停止，本次结果无效');
     });
 
+    observeRecorderEvent(recorderManager, 'SourceFallback', () => {
+      if (!isMainMonitoringActive || !currentMainPage || calibrationStatus.laboratoryPreset) return;
+      calibrationStatus = { ...calibrationStatus, grade: 'estimated', riskEligible: false,
+        calibrationNote: '录音源不受支持，已回退；本次采集配置与原校准可能不同。', label: '录音源回退，参数估算' };
+      currentMainPage.setData({ calibrationLabel: calibrationStatus.label });
+    });
+
     if (typeof recorderManager.onInterruptionBegin === 'function') {
-      recorderManager.onInterruptionBegin(() => {
+      observeRecorderEvent(recorderManager, 'InterruptionBegin', () => {
         if (isMainMonitoringActive) markMainMeasurementInvalid('录音被系统中断，本次结果无效');
       });
     }
 
     if (typeof recorderManager.onPause === 'function') {
-      recorderManager.onPause(() => {
+      observeRecorderEvent(recorderManager, 'Pause', () => {
         if (isMainMonitoringActive) markMainMeasurementInvalid('录音被暂停，本次结果无效');
       });
     }
 
     if (typeof recorderManager.onError === 'function') {
-      recorderManager.onError(() => {
+      observeRecorderEvent(recorderManager, 'Error', () => {
         if (isMainMonitoringActive) markMainMeasurementInvalid('录音发生错误，本次结果无效');
       });
     }
 
-    recorderManager.onInterruptionEnd(() => {
+    observeRecorderEvent(recorderManager, 'InterruptionEnd', () => {
       if (!isMainMonitoringActive || !currentMainPage) {
         return;
       }
@@ -658,7 +743,7 @@ function getRiskStatusByCNE(cneValue) {
 
   for (let i = 0; i < levels.length; i++) {
     const level = levels[i];
-    if (cneValue < level.upper) {
+    if (level.key === 'SAFE' ? cneValue <= level.upper : cneValue < level.upper) {
       return { key: level.key, text: level.text, bgClass: level.bgClass };
     }
   }
@@ -707,7 +792,7 @@ function getRiskSegmentSnapshot() {
 Page({
   data:{
     recordingState: 'idle', recordingLabel: '尚未启动', canSave: false,
-    leqA: '--', measurementSeconds: '0.0', exposureHours: '--', calibrationLabel: '', calibrationDate: '--',
+    leqA: '--', levelScopeLabel: '本次估算 LAeq', measurementSeconds: '0.0', exposureHours: '--', calibrationLabel: '', calibrationDate: '--', calibrationDateLabel: '校准日期',
     dbfs: '0.00',
     dbspl: '0.00',
     cne: '0.00',
@@ -743,6 +828,7 @@ Page({
           }
 
           if (mode === 'spectrum') {
+            if (pcmBufferedSamples === CANVAS_CONFIG.FFT.SIZE) updateSpectrumFromRingBuffer();
             if (!ctxSpectrum) {
               this.initSpectrumCanvas(drawActiveView);
             } else {
@@ -752,6 +838,7 @@ Page({
           }
 
           if (mode === 'spectrogram') {
+            if (pcmBufferedSamples === CANVAS_CONFIG.FFT.SIZE) updateSpectrumFromRingBuffer();
             if (!ctxSpectrogram) {
               this.initSpectrogramCanvas(drawActiveView);
             } else {
@@ -840,8 +927,9 @@ Page({
   },
 
   onUnload() {
+    const ownsSession = currentMainPage === this;
     this.stopMainMonitoring();
-    this.resetViewCaches();
+    if (ownsSession || !currentMainPage) this.resetViewCaches();
   },
 
   resetViewCaches() {
@@ -870,6 +958,14 @@ Page({
         captureProfile: getMeasurementCaptureProfile(),
         deviceId: getCurrentDeviceCalibrationId(),
       });
+      // 校准决定结果的解释与标记，不决定用户是否能够录音和保存。
+      // 没有校准条件时沿用可解析的偏移量进行估算，不认证为参考声压测量。
+      if (!calibrationStatus.valid) {
+        calibrationStatus = { ...calibrationStatus, valid: true, grade: 'estimated',
+          riskEligible: false, calibrationVerified: false,
+          calibrationNote: calibrationStatus.reason, reason: '',
+          label: calibrationStatus.meta && calibrationStatus.meta.source ? '历史参数估算' : '未校准估算' };
+      }
       offset = calibrationStatus.offset;
       expectedExposure = dataModel.getExpectedExposureSeconds();
       noiseAlarmLevel = dataModel.getNoiseAlarmLevel();
@@ -931,11 +1027,27 @@ Page({
    * Side effect: none.
    */
   archive() {
+    if (this._completedSnapshot) return this._completedSnapshot;
     const currentDate = Date.now();
     const duration = totalAWeightedSampleCount / CANVAS_CONFIG.FFT.SAMPLE_RATE;
+    const captureElapsedSeconds = mainCaptureStartedAt > 0
+      ? Math.max(0, (currentDate - mainCaptureStartedAt) / 1000) : 0;
+    const expectedCaptureSeconds = captureIntegrity.nativeDurationMs !== null
+      ? captureIntegrity.nativeDurationMs / 1000 : captureElapsedSeconds;
+    const captureCoverageRatio = expectedCaptureSeconds > 0
+      ? Math.min(1, duration / expectedCaptureSeconds) : (duration > 0 ? 1 : 0);
     const formattedDate = new Date(currentDate).toLocaleString("zh-CN");
-    const snapshotCne = calculateCurrentCne();
-    const snapshotRiskStatus = calibrationStatus.riskEligible ? getRiskStatusByCNE(snapshotCne) : { text: '估算结果，不作风险分级' };
+    const valid = isMainMeasurementValid();
+    const saveable = isMainMeasurementSaveable();
+    const qualityReason = measurementInvalidReason || calibrationStatus.reason
+      || (captureIntegrity.status === 'partial' ? '音频时长不一致，仅代表已接收片段'
+        : captureIntegrity.status === 'unverified' ? '录音时长未核验，仅代表已接收音频'
+        : valid ? '' : '请停止测量并完成音频完整性核验');
+    const snapshotCne = saveable ? calculateCurrentCne() : NaN;
+    const snapshotRiskStatus = !saveable ? { text: qualityReason, bgClass: 'detail-init' }
+      : !valid ? { text: '片段估算，不作整段风险分级', bgClass: 'detail-init' }
+      : calibrationStatus.riskEligible ? getRiskStatusByCNE(snapshotCne)
+        : { text: '估算结果，不作风险分级', bgClass: 'detail-init' };
     
     const deviceInfo = wx.getDeviceInfo();
     const deviceName = deviceInfo.brand + ' ' + deviceInfo.model;
@@ -949,20 +1061,32 @@ Page({
       endedAt: currentDate,
       sampleRate: CANVAS_CONFIG.FFT.SAMPLE_RATE,
       sampleCount: totalAWeightedSampleCount,
+      measurementScope: valid ? 'whole-recording' : 'received-audio',
       aWeightedEnergy: totalAWeightedEnergySum,
-      leqA: isMainMeasurementValid() ? calculateLeqFromEnergy(totalAWeightedEnergySum, totalAWeightedSampleCount, offset) : null,
+      leqA: saveable ? calculateLeqFromEnergy(totalAWeightedEnergySum, totalAWeightedSampleCount, offset) : null,
       cneUnrounded: Number.isFinite(snapshotCne) ? snapshotCne : null,
       parameters: { dcHighpassHz: 2, referenceExposureSeconds: CNE_FORMULA.REFERENCE_EXPOSURE_SECONDS,
-        fftSize: CANVAS_CONFIG.FFT.SIZE, weighting: 'A' },
+        fftSize: CANVAS_CONFIG.FFT.SIZE, weighting: 'A',
+        boundaryConvention: 'zero-extended-finite-record', filterTail },
       coverage: { receivedSamples: totalAWeightedSampleCount, receivedSeconds: duration,
-        elapsedSeconds: (currentDate - startDate) / 1000, lastFrameAt: lastValidFrameAt },
+        elapsedSeconds: (currentDate - startDate) / 1000,
+        captureElapsedSeconds, captureCoverageRatio,
+        integrityStatus: captureIntegrity.status, nativeDurationMs: captureIntegrity.nativeDurationMs,
+        sampleDelta: captureIntegrity.sampleDelta, toleranceSamples: CAPTURE_DURATION_TOLERANCE_SAMPLES,
+        lastFrameAt: lastValidFrameAt },
       calibrationGrade: calibrationStatus.grade || 'unknown',
+      calibrationLabel: calibrationStatus.label,
+      calibrationNote: calibrationStatus.calibrationNote || '',
+      calibrationVerified: false,
+      calibrationProcessCompleted: !!calibrationStatus.riskEligible,
+      riskEstimate: valid && calibrationStatus.riskEligible ? snapshotRiskStatus.text : null,
       name: null,
       date: formattedDate,
       duration: duration.toFixed(3),
       exposure: expectedExposure,
       cne: Number.isFinite(snapshotCne) ? parseFloat(snapshotCne.toFixed(2)) : null,
-      threat: snapshotRiskStatus.text,
+      threat: valid && calibrationStatus.riskEligible ? snapshotRiskStatus.text + '（条件估计；采集链未核验）' : snapshotRiskStatus.text,
+      threatClass: snapshotRiskStatus.bgClass === 'detail-safe' ? 'detail-init' : snapshotRiskStatus.bgClass,
       location: location,
       extra: null,
       riskSegments: getRiskSegmentSnapshot(),
@@ -970,10 +1094,18 @@ Page({
       system: systemName,
       offset: offset,
       calibration: calibrationStatus.meta,
-      captureProfile: getMeasurementCaptureProfile(),
-      dataQuality: isMainMeasurementValid() ? 'valid' : 'invalid',
+      ...getRecorderCaptureInfo(recorderManager),
+      calibrationFrequencyHz: dataModel.getCalibrationFrequency(calibrationStatus.meta || {}),
+      frequencyResponseVerification: 'unverified',
+      broadbandInterpretation: 'single-point-offset-estimate',
+      dataQuality: valid ? 'valid' : saveable ? captureIntegrity.status : hasUsableMainSamples() ? 'pending' : 'invalid',
       plateauSuspected: inputPlateauSuspected,
-      qualityReason: measurementInvalidReason || calibrationStatus.reason || '',
+      nearFullScaleObserved: inputNearFullScale,
+      deliveryDelayed, silentSampleCount,
+      captureChainVerification: 'unverified',
+      captureChainNote: '录音源请求及回退已记录；平台未提供实际输入路由、AGC 或降噪状态核验。实验室校准须与本次麦克风、连接方式和增益一致。',
+      declaredInputChain: this.data.declaredInputChain || '',
+      qualityReason,
       vstamp: app.globalData.vstamp,
     };
   },
@@ -984,8 +1116,8 @@ Page({
    */
   saveResult(){
     const archivedSnapshot = this._completedSnapshot || this.archive();
-    if (archivedSnapshot.dataQuality !== 'valid' || !Number.isFinite(archivedSnapshot.cne)) {
-      const reason = measurementInvalidReason || calibrationStatus.reason || '缺少近期有效采样';
+    if (!['valid', 'unverified', 'partial'].includes(archivedSnapshot.dataQuality) || !Number.isFinite(archivedSnapshot.cne)) {
+      const reason = archivedSnapshot.qualityReason || '请停止测量并完成音频完整性核验';
       wx.showToast({ title: reason, icon: 'none', duration: 3000 });
       return;
     }
@@ -1020,14 +1152,26 @@ Page({
    * 停止 main 页监测会话并释放资源。
    * 终止录音、关闭音频上下文，并阻断后续帧回调写入。
    */
-  stopMainMonitoring: function() {
+  releaseMainMonitoringResources(stopNativeRecorder = true) {
     isMainMonitoringActive = false;
     clearMainInputWatchdog();
     currentMainPage = null;
     cancelPendingMainRecorderStart();
-    safeStopRecorder(recorderManager);
+    if (stopNativeRecorder) safeStopRecorder(recorderManager);
     clearRecorderFrameListener(recorderManager);
     audioCtx = safeCloseAudioContext(audioCtx);
+    this.cancelVibration();
+  },
+
+  stopMainMonitoring: function() {
+    this.cancelVibration();
+    this._mainStopRequested = false;
+    if (this._mainStopFallbackTimer) {
+      clearTimeout(this._mainStopFallbackTimer);
+      this._mainStopFallbackTimer = null;
+    }
+    if (currentMainPage !== this) return;
+    this.releaseMainMonitoringResources(true);
   },
 
   cleanupMonitoring: function() {
@@ -1035,11 +1179,53 @@ Page({
   },
 
   stopNoiseMonitoring: function() {
+    if (!isMainMonitoringActive || currentMainPage !== this || this._mainStopRequested) return;
+    this._mainStopRequested = true;
+    clearMainInputWatchdog();
+    cancelPendingMainRecorderStart();
+    this.setData({ recordingState: 'stopping', recordingLabel: '正在完成录音并接收尾帧', canSave: false });
+    this._mainStopFallbackTimer = setTimeout(() => {
+      this._mainStopFallbackTimer = null;
+      if (!this._mainStopRequested) return;
+      if (!measurementInvalidReason) measurementInvalidReason = '录音停止未确认，本次结果无效';
+      this.completeRequestedMainStop();
+    }, 2250);
+    safeStopRecorder(recorderManager);
+  },
+
+  completeRequestedMainStop(res) {
+    if (!this._mainStopRequested) return;
+    this._mainStopRequested = false;
+    if (this._mainStopFallbackTimer) {
+      clearTimeout(this._mainStopFallbackTimer);
+      this._mainStopFallbackTimer = null;
+    }
+    const nativeDurationMs = res && res.duration;
+    const durationAvailable = Number.isFinite(nativeDurationMs) && nativeDurationMs > 0;
+    const sampleDelta = durationAvailable
+      ? totalAWeightedSampleCount - nativeDurationMs * CANVAS_CONFIG.FFT.SAMPLE_RATE / 1000 : null;
+    const complete = durationAvailable && Math.abs(sampleDelta) <= CAPTURE_DURATION_TOLERANCE_SAMPLES;
+    captureIntegrity = { status: complete ? 'valid' : durationAvailable ? 'partial' : 'unverified',
+      nativeDurationMs: durationAvailable ? nativeDurationMs : null, sampleDelta };
+    if (!filterTail && totalAWeightedSampleCount > 0 && !measurementInvalidReason) {
+      filterTail = require('../../utils/audio-math').integrateFilterTail(
+        aWeightingFilter, totalAWeightedEnergySum, CANVAS_CONFIG.FFT.SAMPLE_RATE);
+      totalAWeightedEnergySum += filterTail.energy;
+    }
     this._completedSnapshot = this.archive();
-    this.stopMainMonitoring();
-    this.setData({ recordingState: 'stopped', recordingLabel: '测量已停止，以下为本次摘要',
-      canSave: this._completedSnapshot.dataQuality === 'valid',
+    this.releaseMainMonitoringResources(false);
+    const valid = ['valid', 'unverified', 'partial'].includes(this._completedSnapshot.dataQuality);
+    this.setData({ recordingState: valid ? 'stopped' : 'invalid',
+      recordingLabel: !valid ? '测量未通过核验，请重新测量'
+        : this._completedSnapshot.dataQuality === 'partial' ? '录音时长不一致，可保存已接收片段'
+        : this._completedSnapshot.dataQuality === 'unverified' ? '录音已停止，时长未核验，可保存估算记录' : '测量已停止，以下为本次摘要',
+      canSave: valid,
+      levelScopeLabel: this._completedSnapshot.dataQuality === 'valid' ? '本次估算 LAeq' : '片段估算 LAeq',
       measurementSeconds: this._completedSnapshot.duration,
+      dbfs: valid && lastFrameLevels ? lastFrameLevels.dbfs.toFixed(2) : '--',
+      dbspl: valid && lastFrameLevels ? lastFrameLevels.dbspl.toFixed(2) : '--',
+      threat: this._completedSnapshot.threat,
+      threatClass: this._completedSnapshot.threatClass,
       leqA: Number.isFinite(this._completedSnapshot.leqA) ? this._completedSnapshot.leqA.toFixed(1) : '--',
       cne: Number.isFinite(this._completedSnapshot.cne) ? this._completedSnapshot.cne.toFixed(1) : '--' });
   },
@@ -1047,6 +1233,11 @@ Page({
   restartMeasurement() {
     this.stopMainMonitoring();
     this.startMainMonitoring();
+  },
+
+  setInputChainNote(e) {
+    if (this._completedSnapshot) return;
+    this.setData({ declaredInputChain: String(e.detail.value).slice(0, 200) });
   },
 
   leaveMeasurement() {
@@ -1091,17 +1282,27 @@ Page({
    * Side effect: 调用系统震动能力。
    */
   doVibrate(count, interval = 600) {
-    if (count <= 0) return;
+    // 机身振动会机械耦合到麦克风，定量采集期间仅保留视觉告警。
+    if (count <= 0 || isMainMonitoringActive) return false;
+    this.cancelVibration();
     wx.vibrateLong(); // 触发长震动 (约400ms)
     let currentCount = 1;
-    const timer = setInterval(() => {
+    this._vibrationTimer = setInterval(() => {
       if (currentCount >= count) {
-        clearInterval(timer);
+        this.cancelVibration();
         return;
       }
       wx.vibrateLong();
       currentCount++;
     }, interval);
+    return true;
+  },
+
+  cancelVibration() {
+    if (this._vibrationTimer) {
+      clearInterval(this._vibrationTimer);
+      this._vibrationTimer = null;
+    }
   },
 
   /**

@@ -163,7 +163,29 @@ class AWeightingFilter {
   }
 }
 
+// 有限录音采用零延拓边界：收集滤波器中尚未释放的能量，分母仍为真实 PCM 数。
+// 连续八块低于累计能量的 1e-12 后结束，最多两秒；零样本不是实际录音。
+function integrateFilterTail(weighting, referenceEnergy, sampleRate) {
+  const zeros = new Float32Array(256);
+  let energy = 0, samples = 0, quietBlocks = 0;
+  const threshold = Math.max(referenceEnergy, 1e-24) * 1e-12;
+  while (samples < 2 * sampleRate && quietBlocks < 8) {
+    const input = zeros.subarray(0, Math.min(256, 2 * sampleRate - samples));
+    // Feeding the DC blocker a new zero level creates an artificial step when
+    // the recording ends with DC offset. Flush only the A-weighting state that
+    // was produced by real samples.
+    const output = weighting.process(input, false);
+    let blockEnergy = 0;
+    for (const value of output) blockEnergy += value * value;
+    energy += blockEnergy;
+    samples += input.length;
+    quietBlocks = blockEnergy <= threshold ? quietBlocks + 1 : 0;
+  }
+  return { energy, paddingSamples: samples, converged: quietBlocks >= 8 };
+}
+
 module.exports = {
+  integrateFilterTail,
   calculateRMS,
   calculateDb,
   calculateLeqFromEnergy,

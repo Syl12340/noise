@@ -1,0 +1,107 @@
+{
+  "generatedAt": "2026-10-05T07:05:57.590Z",
+  "source": "Known stationary 237 Hz, 21 harmonics, independent Gaussian noise seeds, full production Int16 pipeline.",
+  "note": "10 and 20 dB refer to full 44.1 kHz input SNR; low-pass changes in-band SNR. This is a numerical stress test, not a clinical corpus.",
+  "rows": [
+    {
+      "sourceF0": 237,
+      "inputRate": 44100,
+      "inputSnrDb": 10,
+      "seed": 26100501,
+      "totalFrames": 30,
+      "acceptedFrames": 30,
+      "medianHz": 236.7340469630302,
+      "correctWithinOnePercent": 30,
+      "medianAperiodicity": 0.08450074048623815,
+      "clipped": false,
+      "avgHNR": 16.21252141047898
+    },
+    {
+      "sourceF0": 237,
+      "inputRate": 44100,
+      "inputSnrDb": 10,
+      "seed": 26100502,
+      "totalFrames": 30,
+      "acceptedFrames": 30,
+      "medianHz": 236.71575972647074,
+      "correctWithinOnePercent": 30,
+      "medianAperiodicity": 0.0855060136155401,
+      "clipped": false,
+      "avgHNR": 16.329742813025636
+    },
+    {
+      "sourceF0": 237,
+      "inputRate": 44100,
+      "inputSnrDb": 10,
+      "seed": 26100503,
+      "totalFrames": 30,
+      "acceptedFrames": 30,
+      "medianHz": 236.72236682395734,
+      "correctWithinOnePercent": 30,
+      "medianAperiodicity": 0.08701640462562436,
+      "clipped": false,
+      "avgHNR": 15.980164452898917
+    },
+    {
+      "sourceF0": 237,
+      "inputRate": 44100,
+      "inputSnrDb": 20,
+      "seed": 26100501,
+      "totalFrames": 30,
+      "acceptedFrames": 30,
+      "medianHz": 236.7309012779389,
+      "correctWithinOnePercent": 30,
+      "medianAperiodicity": 0.06506883826656114,
+      "clipped": false,
+      "avgHNR": 26.22255581779693
+    },
+    {
+      "sourceF0": 237,
+      "inputRate": 44100,
+      "inputSnrDb": 20,
+      "seed": 26100502,
+      "totalFrames": 30,
+      "acceptedFrames": 30,
+      "medianHz": 236.72706275593345,
+      "correctWithinOnePercent": 30,
+      "medianAperiodicity": 0.06519338694633174,
+      "clipped": false,
+      "avgHNR": 26.345501431401043
+    },
+    {
+      "sourceF0": 237,
+      "inputRate": 44100,
+      "inputSnrDb": 20,
+      "seed": 26100503,
+      "totalFrames": 30,
+      "acceptedFrames": 30,
+      "medianHz": 236.72923690992792,
+      "correctWithinOnePercent": 30,
+      "medianAperiodicity": 0.06551168395982901,
+      "clipped": false,
+      "avgHNR": 25.976553526573433
+    }
+  ],
+  "boundary": [
+    {
+      "f0": 40,
+      "total": 30,
+      "accepted": 30,
+      "reasons": {
+        "accepted": 30
+      },
+      "rawMinimum": 39.99999999376347,
+      "rawMaximum": 40.00000000590957
+    },
+    {
+      "f0": 1200,
+      "total": 30,
+      "accepted": 30,
+      "reasons": {
+        "accepted": 30
+      },
+      "rawMinimum": 1200.0000000998775,
+      "rawMaximum": 1200.0000000998775
+    }
+  ]
+}

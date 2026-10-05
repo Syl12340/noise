@@ -1,0 +1,128 @@
+{
+  "generatedAt": "2026-10-04T09:22:24.494Z",
+  "environment": "Simulated native recorder: single/multiple listeners and no off methods; no physical device",
+  "algorithmVersion": "acoustics-2026-10-04.1",
+  "summary": {
+    "total": 26,
+    "passed": 26,
+    "failed": 0
+  },
+  "sourceSha256": {
+    "utils/recorder-session.js": "152e0e0458a4a83763d0eb8b2b644737aeefb10e362120a07a63b31a2c966834",
+    "utils/data-model.js": "935944d672ee141a8820ab56943caa03f9c976487f4831af356d855da49fb25f",
+    "pages/main/main.js": "ff5486eb84f85922ca1e8cfe6a81c641989e634d72dcd3a930a4b8cba0fbd298",
+    "pages/result/result.js": "2b61a0fe1bba318716c395822ab5b7042ee3cf9f351589b2a8f2981aa3af6b59",
+    "pages/calibrate/calibrate.js": "c8e3774e61bdf37584f08d3c66dabd8d095ebe833c1afab2e2776d3061f00ded",
+    "pages/phonetic/phonetic.js": "22e96fcb5a57e5b3e87aa44f8cf97a71ae4a3b013bd6204b5ac4da3103707fed",
+    "pages/advanced-calibrate/advanced-calibrate.js": "955a60d1b28bcec1866de2f229b2636f4b93177b62477f75fab85519c5e34881",
+    "pages/advanced-calibrate/calibrate/calibrate.js": "45e98cdb30f97c4927fb9347dd14a2030c88b350ec0ffa04c34a3f291f5ba5ba",
+    "tests/runtime.cjs": "eca5e399e96ae71007bf0ec6628dcefe91088de400f8d770f838fc28f0b67bd0",
+    "tests/recorder-usability.cjs": "75463115700bb702878e792c8801ade6b417be90457c998040cf241e46208f18"
+  },
+  "results": [
+    {
+      "name": "Main records twice with multiple native listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Rough calibration re-enters twice with multiple native listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Advanced calibration completes twice with multiple native listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Speech records twice without native off methods with multiple native listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Main records twice with single native listener",
+      "status": "PASS"
+    },
+    {
+      "name": "Rough calibration re-enters twice with single native listener",
+      "status": "PASS"
+    },
+    {
+      "name": "Advanced calibration completes twice with single native listener",
+      "status": "PASS"
+    },
+    {
+      "name": "Speech records twice without native off methods with single native listener",
+      "status": "PASS"
+    },
+    {
+      "name": "Late unload cannot stop a newer page: pages/main/main.js",
+      "status": "PASS"
+    },
+    {
+      "name": "Late unload cannot stop a newer page: pages/calibrate/calibrate.js",
+      "status": "PASS"
+    },
+    {
+      "name": "Late unload cannot stop a newer page: pages/advanced-calibrate/calibrate/calibrate.js",
+      "status": "PASS"
+    },
+    {
+      "name": "Late unload cannot stop a newer page: pages/phonetic/phonetic.js",
+      "status": "PASS"
+    },
+    {
+      "name": "No calibration and expired calibration both save labelled estimates",
+      "status": "PASS"
+    },
+    {
+      "name": "Delayed calibration startup does not spend integration time before native Start",
+      "status": "PASS"
+    },
+    {
+      "name": "Native stop dispatch finishes before the next start",
+      "status": "PASS"
+    },
+    {
+      "name": "Speech uses native audio duration rather than delayed JS stop callback time",
+      "status": "PASS"
+    },
+    {
+      "name": "Old laboratory backups import and export with provenance intact",
+      "status": "PASS"
+    },
+    {
+      "name": "An old calibration modal cannot restart a newer calibration session",
+      "status": "PASS"
+    },
+    {
+      "name": "A rough calibration can retry after a native startup error without leaving the page",
+      "status": "PASS"
+    },
+    {
+      "name": "A stopped partial record keeps its scope and neutral risk presentation in history",
+      "status": "PASS"
+    },
+    {
+      "name": "Native duration limit completes as a saveable received-audio record",
+      "status": "PASS"
+    },
+    {
+      "name": "A tiny silent tail does not invalidate an otherwise complete capture",
+      "status": "PASS"
+    },
+    {
+      "name": "Saved calibrated records disclose unverified capture chain without blocking save",
+      "status": "PASS"
+    },
+    {
+      "name": "Reference evidence and verification cannot silently promote or re-enable calibration",
+      "status": "PASS"
+    },
+    {
+      "name": "Advanced calibration restarts its countdown after interruption during preparation",
+      "status": "PASS"
+    },
+    {
+      "name": "Advanced calibration stores actual reference evidence and input declaration",
+      "status": "PASS"
+    }
+  ]
+}

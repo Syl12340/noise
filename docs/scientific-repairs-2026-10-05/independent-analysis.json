@@ -1,0 +1,596 @@
+{
+  "formant-validation-results.json": {
+    "withinDeclaredPerPoleDomain": [
+      {
+        "formant": 1,
+        "conditions": 17,
+        "truthFrames": 510,
+        "acceptedFrames": 334,
+        "coverage": 0.6549019607843137,
+        "wrongAcceptedFrames": 30,
+        "maxRelativeError": 0.13039473684210534
+      },
+      {
+        "formant": 2,
+        "conditions": 25,
+        "truthFrames": 750,
+        "acceptedFrames": 377,
+        "coverage": 0.5026666666666667,
+        "wrongAcceptedFrames": 30,
+        "maxRelativeError": 0.10962962962962952
+      },
+      {
+        "formant": 3,
+        "conditions": 25,
+        "truthFrames": 750,
+        "acceptedFrames": 347,
+        "coverage": 0.46266666666666667,
+        "wrongAcceptedFrames": 0,
+        "maxRelativeError": 0.03612903225806452
+      }
+    ],
+    "note": "Post hoc descriptive stratification, not replacement acceptance gate; F2/F3 may still depend on a rejected lower pole.",
+    "allConditionsHave30Rows": true
+  },
+  "formant-holdout-results.json": {
+    "withinDeclaredPerPoleDomain": [
+      {
+        "formant": 1,
+        "conditions": 10,
+        "truthFrames": 300,
+        "acceptedFrames": 192,
+        "coverage": 0.64,
+        "wrongAcceptedFrames": 0,
+        "maxRelativeError": 0.08714285714285708
+      },
+      {
+        "formant": 2,
+        "conditions": 16,
+        "truthFrames": 480,
+        "acceptedFrames": 312,
+        "coverage": 0.65,
+        "wrongAcceptedFrames": 0,
+        "maxRelativeError": 0.06583333333333341
+      },
+      {
+        "formant": 3,
+        "conditions": 16,
+        "truthFrames": 480,
+        "acceptedFrames": 312,
+        "coverage": 0.65,
+        "wrongAcceptedFrames": 0,
+        "maxRelativeError": 0.037142857142857144
+      }
+    ],
+    "note": "Post hoc descriptive stratification, not replacement acceptance gate; F2/F3 may still depend on a rejected lower pole.",
+    "allConditionsHave30Rows": true
+  },
+  "analyticPeriodicAutocorrelation": [
+    {
+      "f0": 100,
+      "harmonics": 50,
+      "truePeriodSamples": 120.0,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 1.0,
+      "impliedHnrDb": 59.99999565692812
+    },
+    {
+      "f0": 173,
+      "harmonics": 28,
+      "truePeriodSamples": 69.36416184971098,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 0.970882980479463,
+      "impliedHnrDb": 15.23019970380039
+    },
+    {
+      "f0": 200,
+      "harmonics": 25,
+      "truePeriodSamples": 60.0,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 1.0,
+      "impliedHnrDb": 59.99999565692812
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "truePeriodSamples": 50.63291139240506,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 0.9645502967626925,
+      "impliedHnrDb": 14.347122750924148
+    },
+    {
+      "f0": 389,
+      "harmonics": 12,
+      "truePeriodSamples": 30.848329048843187,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 0.9931407040476513,
+      "impliedHnrDb": 21.60731240485486
+    },
+    {
+      "f0": 599,
+      "harmonics": 8,
+      "truePeriodSamples": 20.03338898163606,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 0.9995495112033362,
+      "impliedHnrDb": 33.46120316266073
+    }
+  ],
+  "noiselessFloatHnr": [
+    {
+      "f0": 100,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 100,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 100,
+      "harmonics": 50,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 100,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 173,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 173.00029056254095,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 173,
+      "harmonics": 28,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 173.13508008359946,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 200,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 200,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 200,
+      "harmonics": 25,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 200,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 236.9989970790175,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 236.72993665393253,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 389,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 388.9939912009093,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 389,
+      "harmonics": 12,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 388.5324449242955,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 599,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 599.0081608940799,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 599,
+      "harmonics": 8,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 599.2860962367927,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    }
+  ],
+  "noisyHnr": [
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": 10,
+      "noiseless": false,
+      "medianEstimatedF0": 78.98529588909695,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 10.11649381089808,
+        "medianDb": 10.125596322317127,
+        "minimumDb": 9.545676213227098,
+        "maximumDb": 10.634719606875812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 10.055349541013765,
+        "medianDb": 10.062898536928092,
+        "minimumDb": 9.555109074862525,
+        "maximumDb": 10.52563864021761
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": 20,
+      "noiseless": false,
+      "medianEstimatedF0": 236.73179739612567,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 20.109651134870465,
+        "medianDb": 20.099362036339773,
+        "minimumDb": 19.698047687529176,
+        "maximumDb": 20.730908162115792
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 20.109651134870465,
+        "medianDb": 20.099362036339773,
+        "minimumDb": 19.698047687529176,
+        "maximumDb": 20.730908162115792
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": 30,
+      "noiseless": false,
+      "medianEstimatedF0": 236.73114737908992,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 30.03517018439524,
+        "medianDb": 30.065209512871828,
+        "minimumDb": 29.212027204332397,
+        "maximumDb": 30.68608267417174
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 30.03517018439524,
+        "medianDb": 30.065209512871828,
+        "minimumDb": 29.212027204332397,
+        "maximumDb": 30.68608267417174
+      }
+    }
+  ],
+  "resampling": [
+    {
+      "inputRate": 44100,
+      "frequencyHz": 1000,
+      "outputRate": 12000,
+      "outputRmsGainDb": 9.733466993080887e-07
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 4000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -0.0001244491837455685
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 5000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -0.0011166675207448054
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 5500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -6.02015543627353
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 5800,
+      "outputRate": 12000,
+      "outputRmsGainDb": -31.865929640222657
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 6000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -86.43243720285909
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 6500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -84.91343916164196
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 9000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -118.17536805176277
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 1000,
+      "outputRate": 12000,
+      "outputRmsGainDb": 1.5935975488953953e-05
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 4000,
+      "outputRate": 12000,
+      "outputRmsGainDb": 0.00028780668225620177
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 5000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -0.002995622075490098
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 5500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -6.0205940649519825
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 5800,
+      "outputRate": 12000,
+      "outputRmsGainDb": -28.373388709596252
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 6000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -76.80466920817244
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 6500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -84.4950308928051
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 9000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -118.13381627530255
+    }
+  ],
+  "limits": "Synthetic diagnostics; no significance tests; overlapping frames are dependent; no IEC or clinical claim."
+}

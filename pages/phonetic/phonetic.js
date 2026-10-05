@@ -4,12 +4,18 @@
 
 const { PHONETIC_CONFIG } = require('../../utils/phonetic/phonetic-config');
 const { analyzePcm } = require('../../utils/phonetic/analysis');
+const { containedFrames, spectrumFramesAtTime } = require('../../utils/phonetic/time-support');
+const { selectionCoverage } = require('../../utils/phonetic/coverage');
+const { overlayTracks, canConnectFrames } = require('../../utils/phonetic/track-display');
+const { summarizeHarmonicity } = require('../../utils/phonetic/harmonicity');
 const {
   safeStartRecorder,
   isRecorderTransitioning,
   observeRecorderState,
+  observeRecorderEvent,
   safeStopRecorder,
   getPreferredAudioSource,
+  getRecorderCaptureInfo,
   bindRecorderFrameListener,
   clearRecorderFrameListener,
 } = require('../../utils/recorder-session');
@@ -36,6 +42,8 @@ let recordingInterrupted = false;
 let canvasSpectrogram = null, ctxSpectrogram = null;
 let canvasOverlay = null, ctxOverlay = null;
 let analysisResult = null;
+let rawPcm = null; // Ephemeral exact Int16 input; never reconstructed from centered floats.
+let selectionGeneration = 0;
 let cachedSpectrogramImage = null; // OffscreenCanvas 缓存，避免切回时重算
 let cachedSpectrogramSize = null;
 let dragStartX = null;
@@ -61,6 +69,7 @@ Page({
     f3: '--',
     hnr: '--',
     analysisNote: '',
+    captureNote: '',
     jitter: '--',
     intensity: '--',
     selectedTime: null,
@@ -69,30 +78,46 @@ Page({
     selectionEnd: null,
     selDuration: '--',
     selMeanF0: '--',
+    selMeanHnr: '--',
+    selHnrNote: '',
     selMaxIntensity: '--',
     taskOptions: ['持续元音', '连续言语'], taskIndex: 0,
     orderOptions: [8, 10, 12, 14], orderIndex: 2,
-    maxFormantOptions: [4000, 4500, 5000], maxFormantIndex: 2,
+    maxFormantOptions: [4000, 4500, 5000, 5500, 6000, 7000, 8000], maxFormantIndex: 2,
     windowOptions: [25, 40], windowIndex: 0,
     pointNote: '', selectionCoverage: '', selectionInputStart: '0', selectionInputEnd: '1',
     zoom: 1, chartWidth: '100%',
+    selectionBusy: false, selectionStage: '',
   },
 
   onUnload() {
     this.cleanup();
   },
 
+  onShow() {
+    currentPhoneticPage = this;
+    if (this.data.state === 'result' && analysisResult) this.renderResult();
+  },
+
   onHide() {
+    if (currentPhoneticPage !== this) return;
+    selectionGeneration++;
+    this.setData({ selectionBusy: false, selectionStage: '' });
     // 页面离开后，不允许迟到的 onStop 再启动分析或回写结果。
     if (isRecording) this.abortInterruptedRecording('页面已离开，请重新录制');
     if (this.data.state === 'analyzing') this.resetToIdle();
+    if (this._stateUnsubscribe) this._stateUnsubscribe();
+    this._stateUnsubscribe = null;
+    currentPhoneticPage = null;
   },
 
   bindRecorderLifecycleListeners() {
     this.clearRecorderLifecycleListeners();
 
-    this._stopListener = () => {
+    this._stopListener = (res) => {
       if (isRecorderTransitioning(recorderManager) || !isRecording || currentPhoneticPage !== this) return;
+      this._recordEndedAt = Date.now();
+      this._nativeDurationMs = res && res.duration;
       isRecording = false;
       this.clearRecorderLifecycleListeners();
       this.onRecordingComplete();
@@ -115,31 +140,18 @@ Page({
       this.abortInterruptedRecording('录音发生错误，请重新录制');
     };
 
-    recorderManager.onStop(this._stopListener);
-    recorderManager.onInterruptionEnd(this._interruptionEndListener);
-    if (typeof recorderManager.onInterruptionBegin === 'function') recorderManager.onInterruptionBegin(this._interruptionBeginListener);
-    if (typeof recorderManager.onPause === 'function') recorderManager.onPause(this._pauseListener);
-    if (typeof recorderManager.onError === 'function') {
-      recorderManager.onError(this._errorListener);
-    }
+    this._recorderSubscriptions = [
+      observeRecorderEvent(recorderManager, 'Stop', this._stopListener),
+      observeRecorderEvent(recorderManager, 'InterruptionEnd', this._interruptionEndListener),
+      observeRecorderEvent(recorderManager, 'InterruptionBegin', this._interruptionBeginListener),
+      observeRecorderEvent(recorderManager, 'Pause', this._pauseListener),
+      observeRecorderEvent(recorderManager, 'Error', this._errorListener),
+    ];
   },
 
   clearRecorderLifecycleListeners() {
-    if (this._stopListener && typeof recorderManager.offStop === 'function') {
-      recorderManager.offStop(this._stopListener);
-    }
-    if (this._interruptionEndListener && typeof recorderManager.offInterruptionEnd === 'function') {
-      recorderManager.offInterruptionEnd(this._interruptionEndListener);
-    }
-    if (this._errorListener && typeof recorderManager.offError === 'function') {
-      recorderManager.offError(this._errorListener);
-    }
-    if (this._interruptionBeginListener && typeof recorderManager.offInterruptionBegin === 'function') {
-      recorderManager.offInterruptionBegin(this._interruptionBeginListener);
-    }
-    if (this._pauseListener && typeof recorderManager.offPause === 'function') {
-      recorderManager.offPause(this._pauseListener);
-    }
+    for (const unsubscribe of this._recorderSubscriptions || []) unsubscribe();
+    this._recorderSubscriptions = [];
     this._stopListener = null;
     this._interruptionEndListener = null;
     this._errorListener = null;
@@ -157,6 +169,9 @@ Page({
     safeStopRecorder(recorderManager);
     pcmChunks = [];
     totalSamples = 0;
+    this._recordStartedAt = null;
+    this._recordEndedAt = null;
+    this._nativeDurationMs = null;
     this.setData({ state: 'idle', recordTime: 0 });
     wx.showToast({ title: message, icon: 'none', duration: 2500 });
   },
@@ -170,6 +185,10 @@ Page({
     pcmChunks = [];
     totalSamples = 0;
     analysisResult = null;
+    rawPcm = null;
+    selectionGeneration++;
+    this._independentSelection = null;
+    this.setData({ selectionBusy: false, selectionStage: '' });
     isRecording = false;
     recordingInterrupted = false;
 
@@ -199,6 +218,7 @@ Page({
     });
     isRecording = true;
     this._recordStartedAt = null;
+    this._recordEndedAt = null;
     this.setData({ state: 'starting' });
     const startResult = safeStartRecorder(recorderManager, recordParams);
     if (startResult === false) {
@@ -219,7 +239,8 @@ Page({
       f0: '--', f1: '--', f2: '--', f3: '--',
       hnr: '--', jitter: '--', intensity: '--',
       selectedTime: null,
-      selectionStart: null, selectionEnd: null, analysisNote: '',
+      selectionStart: null, selectionEnd: null, analysisNote: '', captureNote: '',
+      selDuration: '--', selMeanF0: '--', selMeanHnr: '--', selMaxIntensity: '--',
     });
     this._recordTimer = setInterval(() => {
       if (!isRecording) return;
@@ -259,18 +280,41 @@ Page({
       return;
     }
 
+    // JS 回调延迟不是丢帧证据。以原生时长辅助标记，不丢弃已经录到的语音。
+    const nativeDurationKnown = Number.isFinite(this._nativeDurationMs) && this._nativeDurationMs > 0;
+    const discontinuous = nativeDurationKnown && Math.abs(totalSamples - this._nativeDurationMs * SAMPLE_RATE / 1000)
+      > Math.ceil(SAMPLE_RATE / 1000) + 1;
+    let captureNote = discontinuous ? '音频时长不一致：仅分析已接收片段，时间按样本计算；全段 HNR 和周期变化率不显示。'
+      : nativeDurationKnown ? '' : '原生时长未提供：以下为已接收音频的分析结果。';
+    const capture = { ...getRecorderCaptureInfo(recorderManager),
+      nativeDurationSeconds: nativeDurationKnown ? this._nativeDurationMs / 1000 : null,
+      receivedDurationSeconds: totalSamples / SAMPLE_RATE,
+      continuity: discontinuous ? 'uncertain' : nativeDurationKnown ? 'duration-consistent-not-proven' : 'unverified',
+      missingSampleLocation: discontinuous ? 'unknown' : null,
+      analysisTimeAxis: 'received-samples' };
+    captureNote += (capture.sourceFallback ? ' 录音源不受支持，已回退到兼容配置。' : ' ')
+      + '实际增益控制、降噪和输入路由未核验。';
+    if (totalSamples > PHONETIC_CONFIG.MAX_RECORD_SEC * SAMPLE_RATE) {
+      captureNote += '录音结束边界超过目标 5 秒，保留真实样本并按实际时长分析。';
+    }
+    this.setData({ captureNote });
+
     this.setData({ state: 'analyzing', progress: 5, progressStage: '合并音频数据...' });
 
     // 合并 PCM 块
     const pcm = new Int16Array(totalSamples);
     let offset = 0;
-    for (const chunk of pcmChunks) {
+    const discontinuityBoundariesSeconds = [];
+    for (let chunkIndex = 0; chunkIndex < pcmChunks.length; chunkIndex++) {
+      const chunk = pcmChunks[chunkIndex];
+      if (discontinuous && chunkIndex > 0) discontinuityBoundariesSeconds.push(offset / SAMPLE_RATE);
       pcm.set(chunk, offset);
       offset += chunk.length;
     }
     pcmChunks = [];
 
     const generation = ++analysisGeneration;
+    rawPcm = pcm;
     const isCancelled = () => generation !== analysisGeneration || currentPhoneticPage !== this;
     const parameters = {
       task: this.data.taskIndex === 0 ? 'sustained' : 'connected',
@@ -278,31 +322,38 @@ Page({
       maxFormant: this.data.maxFormantOptions[this.data.maxFormantIndex],
       windowMs: this.data.windowOptions[this.data.windowIndex],
     };
-    analyzePcm(pcm, SAMPLE_RATE, { parameters, isCancelled,
+    analyzePcm(pcm, SAMPLE_RATE, { parameters, isCancelled, discontinuityBoundariesSeconds,
       onProgress: (progressStage, progress) => { if (!isCancelled()) this.setData({ progressStage, progress }); },
     }).then(result => {
       if (isCancelled()) return;
-      analysisResult = result;
+      analysisResult = { ...result, capture };
       const { harmonicity: h, coverage: c } = result;
       this.setData({
         state: 'result', progress: 100, progressStage: '分析完成',
-        hnr: Number.isFinite(result.avgHNR) ? result.avgHNR.toFixed(1) : '--',
-        jitter: Number.isFinite(result.jitter) ? (result.jitter * 100).toFixed(2) : '--',
-        selectionInputEnd: result.duration.toFixed(3),
+        hnr: !discontinuous && Number.isFinite(result.avgHNR) ? result.avgHNR.toFixed(1) : '--',
+        jitter: !discontinuous && Number.isFinite(result.jitter) ? (result.jitter * 100).toFixed(2) : '--',
+        selectionInputEnd: (Math.floor(result.duration * 1000) / 1000).toFixed(3),
         analysisNote: 'F0 有效帧 ' + c.pitchAccepted + '/' + c.pitchTotal +
-          '；F1/F2/F3 有效帧 ' + c.formantsAccepted.join('/') + '，各自总帧数 ' + c.formantTotal +
-          '。HNR 全段限带自相关估计：' + h.validFrames + '/' + h.activeFrames + ' 有效活动帧。' +
+          '；F1/F2/F3 模型接受帧 ' + c.formantsAccepted.join('/') + '，各自总帧数 ' + c.formantTotal +
+          '；边界排除 F0/共振峰 ' + c.pitchExcludedBoundary + '/' + c.formantExcludedBoundary +
+          '，失败片段排除 ' + c.pitchFailedSegment + '/' + c.formantFailedSegment +
+          (result.inputQuality.clipped ? '。达到满幅的区间已排除，保留其余片段。' : result.inputQuality.plateauSuspected ? '。疑似限幅，结果需审慎解释。' : '') +
+          '；待审候选 ' + (c.formantsExploratory || [0, 0, 0]).join('/') +
+          '。HNR 为实验性限带分数延迟相关估计（5.5 kHz 低通、12 kHz 分析率、约 85.3 ms 窗）：' + h.validFrames + '/' + h.activeFrames + ' 可评估有声帧，有效时长 ' + h.validDurationSeconds.toFixed(2) + 's；均值要求覆盖率 ≥50% 且有效时长 ≥0.10s，不可直接与宽带 HNR 比较。' +
           (h.cappedFrames ? '部分 HNR 达到 60 dB 估计上限。' : '') +
           '缺失值不填零；跨模型一致性不是准确率或临床置信区间。' +
           (parameters.task === 'connected' ? '连续言语的全段周期变化包含韵律变化，不能当作持续元音的扰动指标。' : '请在稳定元音内选区比较。') +
           '设备增益、降噪等处理可能影响强度、HNR 和频谱。' +
-          '参数：LPC ' + parameters.lpcOrder + '，上限 ' + parameters.maxFormant + ' Hz，窗长 ' + parameters.windowMs + ' ms。',
+          '参数：LPC 基准阶数 ' + parameters.lpcOrder
+          + '（实际 ' + result.parameters.effectiveFormantOrder + '），上限 '
+          + parameters.maxFormant + ' Hz，窗长 ' + parameters.windowMs + ' ms。',
       });
       this.renderResult();
     }).catch(error => {
       if (isCancelled() || error.name === 'AbortError') return;
       console.error('[phonetic-analysis] failed:', error);
       this.setData({ state: 'idle', progress: 0, progressStage: '' });
+      rawPcm = null;
       wx.showToast({ title: error.message || '分析失败，请重新录音', icon: 'none' });
     });
   },
@@ -315,7 +366,10 @@ Page({
 
   setSelectionInput(e) {
     const key = e.currentTarget.dataset.key;
-    if (['selectionInputStart', 'selectionInputEnd'].includes(key)) this.setData({ [key]: e.detail.value });
+    if (['selectionInputStart', 'selectionInputEnd'].includes(key)) {
+      selectionGeneration++;
+      this.setData({ [key]: e.detail.value, selectionBusy: false, selectionStage: '' });
+    }
   },
 
   applySelection() {
@@ -329,6 +383,36 @@ Page({
     dragEndX = 34 + end / analysisResult.duration * (this._sgWidth - 44);
     this.drawOverlay(); this.drawSelection();
     if (this.data.viewMode === 'vowel') this.drawVowelSpace();
+  },
+
+  async reanalyzeSelection(e) {
+    if (!analysisResult || !rawPcm || this.data.selectionBusy) return;
+    const start = Number(this.data.selectionInputStart), end = Number(this.data.selectionInputEnd);
+    if (!Number.isFinite(start) || !Number.isFinite(end) || start < 0 || end > analysisResult.duration || end - start < .01) {
+      wx.showToast({ title: '选区需在录音内且至少 0.01 秒', icon: 'none' }); return;
+    }
+    const source = analysisResult, generation = ++selectionGeneration;
+    const isCancelled = () => selectionGeneration !== generation || analysisResult !== source || currentPhoneticPage !== this;
+    this.setData({ selectionBusy: true, selectionStage: '独立分析选区…' });
+    try {
+      const { analyzeSelection } = require('../../utils/phonetic/selection-analysis');
+      const result = await analyzeSelection(rawPcm, SAMPLE_RATE, start, end, {
+        parameters: source.parameters, discontinuityBoundariesSeconds: source.parameters.discontinuityBoundariesSeconds,
+        includeSensitivity: !!(e && e.currentTarget && e.currentTarget.dataset.sensitivity), isCancelled,
+        onProgress: stage => { if (!isCancelled()) this.setData({ selectionStage: stage }); },
+      });
+      if (isCancelled()) return;
+      this._independentSelection = result;
+      this.computeSelectionStats(result.selection.start, result.selection.end, result);
+      dragStartX = 34 + result.selection.start / source.duration * (this._sgWidth - 44);
+      dragEndX = 34 + result.selection.end / source.duration * (this._sgWidth - 44);
+      this.drawOverlay(); this.drawSelection();
+      if (this.data.viewMode === 'vowel') this.drawVowelSpace();
+    } catch (error) {
+      if (!isCancelled() && error.name !== 'AbortError') wx.showToast({ title: '选区分析失败，可继续浏览或重新录制', icon: 'none' });
+    } finally {
+      if (!isCancelled()) this.setData({ selectionBusy: false, selectionStage: '' });
+    }
   },
 
   changeZoom(e) {
@@ -420,7 +504,10 @@ Page({
       this.initOverlayCanvas(() => {
         this.drawSpectrogram();
         this.drawOverlay();
-        this.updateValueCards(Math.min(analysisResult.duration / 2, 0.1));
+        if (this._vowelSelection) {
+          this.computeSelectionStats(this._vowelSelection.start, this._vowelSelection.end, this._independentSelection || null);
+          this.drawSelection();
+        } else this.updateValueCards(Math.min(analysisResult.duration / 2, 0.1));
       });
     });
   },
@@ -428,7 +515,7 @@ Page({
   drawSpectrogram() {
     if (!analysisResult || !ctxSpectrogram) return;
     const { spectrogram } = analysisResult;
-    const { data, width, height } = spectrogram;
+    const { data, height, times } = spectrogram;
     const canvasW = this._sgWidth;
     const canvasH = this._sgHeight;
     const plotHeight = Math.max(1, canvasH - SPECTROGRAM_TIME_AXIS_HEIGHT);
@@ -441,23 +528,24 @@ Page({
     offCtx.imageSmoothingEnabled = false;
     const imageData = offCtx.createImageData(plotWidth, plotHeight);
     const pixels = imageData.data;
+    pixels.fill(255);
 
     const fMin = 50;
     const fMax = SAMPLE_RATE / 2;
     const logRatio = Math.log(fMax / fMin);
 
     for (let px = 0; px < plotWidth; px++) {
-      const firstFrame = Math.floor((px / plotWidth) * width);
-      const nextFrame = Math.max(firstFrame + 1, Math.floor(((px + 1) / plotWidth) * width));
-      const lastFrameExclusive = Math.min(data.length, nextFrame);
+      const [firstFrame, lastFrameExclusive] = spectrumFramesAtTime(times,
+        px / plotWidth * analysisResult.duration, (px + 1) / plotWidth * analysisResult.duration);
       if (firstFrame >= lastFrameExclusive) continue;
       for (let py = 0; py < plotHeight; py++) {
         const freqRatio = 1 - py / plotHeight;
         const freq = fMin * Math.exp(freqRatio * logRatio);
-        const binIdx = Math.floor((freq / fMax) * (height - 1));
+        const binIdx = Math.round(freq * PHONETIC_CONFIG.SGRAM_FFT_SIZE / SAMPLE_RATE);
         const clampedBin = Math.max(0, Math.min(height - 1, binIdx));
         let intensity = 0;
         for (let frameIdx = firstFrame; frameIdx < lastFrameExclusive; frameIdx++) {
+          if (spectrogram.invalidFrames && spectrogram.invalidFrames[frameIdx]) continue;
           const value = data[frameIdx][clampedBin];
           if (value > intensity) intensity = value;
         }
@@ -530,7 +618,8 @@ Page({
     const w = this._sgWidth;
     const h = this._sgHeight;
     const plotHeight = Math.max(1, h - SPECTROGRAM_TIME_AXIS_HEIGHT);
-    const { duration, pitchTrack, formantTracks, intensityTrack } = analysisResult;
+    const { duration } = analysisResult;
+    const { pitchTrack, formantTracks, intensityTrack } = overlayTracks(analysisResult, this._independentSelection);
     ctxOverlay.clearRect(0, 0, w, h);
 
     const fMin = 50;
@@ -556,12 +645,14 @@ Page({
       ctxOverlay.lineWidth = 1.2;
       ctxOverlay.globalAlpha = 0.6;
       ctxOverlay.beginPath();
-      let iStarted = false;
+      let previous = null;
       for (const pt of intensityTrack) {
+        if (!Number.isFinite(pt.db) || !Number.isFinite(pt.time)) { previous = null; continue; }
         const x = timeToX(pt.time);
         const y = intensityToY(pt.db);
-        if (!iStarted) { ctxOverlay.moveTo(x, y); iStarted = true; }
+        if (!canConnectFrames(previous, pt)) ctxOverlay.moveTo(x, y);
         else ctxOverlay.lineTo(x, y);
+        previous = pt;
       }
       ctxOverlay.stroke();
       ctxOverlay.globalAlpha = 1;
@@ -571,13 +662,14 @@ Page({
     ctxOverlay.strokeStyle = THEME_COLORS.SAFE_ASSIST;
     ctxOverlay.lineWidth = 1.5;
     ctxOverlay.beginPath();
-    let started = false;
+    let previousPitch = null;
     for (const pt of pitchTrack) {
-      if (pt.f0 <= 0) { started = false; continue; }
+      if (!Number.isFinite(pt.f0) || pt.f0 <= 0 || !Number.isFinite(pt.time)) { previousPitch = null; continue; }
       const x = timeToX(pt.time);
       const y = freqToY(pt.f0);
-      if (!started) { ctxOverlay.moveTo(x, y); started = true; }
+      if (!canConnectFrames(previousPitch, pt)) ctxOverlay.moveTo(x, y);
       else ctxOverlay.lineTo(x, y);
+      previousPitch = pt;
     }
     ctxOverlay.stroke();
 
@@ -591,27 +683,30 @@ Page({
       ctxOverlay.strokeStyle = color;
       ctxOverlay.lineWidth = 1.2;
       ctxOverlay.beginPath();
-      let lineStarted = false;
+      let previousFormant = null;
       for (const ft of formantTracks) {
         const formant = ft[formantKeys[fi]];
-        if (!formant || formant.freq <= 0) { lineStarted = false; continue; }
+        if (!formant || !Number.isFinite(formant.freq) || formant.freq <= 0 || !Number.isFinite(ft.time)) { previousFormant = null; continue; }
         const x = timeToX(ft.time);
         const y = freqToY(formant.freq);
-        if (!lineStarted) { ctxOverlay.moveTo(x, y); lineStarted = true; }
+        if (!canConnectFrames(previousFormant, ft)) ctxOverlay.moveTo(x, y);
         else ctxOverlay.lineTo(x, y);
+        previousFormant = ft;
       }
       ctxOverlay.stroke();
 
       // 节点标记
       ctxOverlay.fillStyle = color;
       for (const ft of formantTracks) {
-        const formant = ft[formantKeys[fi]];
-        if (!formant || formant.freq <= 0) continue;
+        const accepted = ft[formantKeys[fi]];
+        const formant = accepted && accepted.freq > 0 ? accepted : ft.exploratory && ft.exploratory[formantKeys[fi]];
+        if (!formant || !Number.isFinite(formant.freq) || formant.freq <= 0 || !Number.isFinite(ft.time)) continue;
         const x = timeToX(ft.time);
         const y = freqToY(formant.freq);
         ctxOverlay.beginPath();
         ctxOverlay.arc(x, y, 1.5, 0, Math.PI * 2);
-        ctxOverlay.fill();
+        if (accepted && accepted.freq > 0) ctxOverlay.fill();
+        else ctxOverlay.stroke();
       }
     }
 
@@ -650,11 +745,16 @@ Page({
     if (x2 - x1 < 8) {
       this._vowelSelection = null;
       const time = (time1 + time2) / 2;
+      selectionGeneration++;
+      this._independentSelection = null;
+      this._vowelSelection = null;
+      this.setData({ selectionBusy: false, selectionStage: '' });
       this.updateValueCards(time);
       this.setData({
         selectedTime: Math.round(time * 1000) / 1000,
         selectionStart: null,
         selectionEnd: null,
+        selectionCoverage: '',
       });
       this.drawOverlay();
       const ctx = ctxOverlay;
@@ -697,21 +797,48 @@ Page({
     ctx.stroke();
   },
 
-  computeSelectionStats(t1, t2) {
+  computeSelectionStats(t1, t2, independent = null) {
     if (!analysisResult) return;
+    if (!independent) {
+      selectionGeneration++;
+      this._independentSelection = null;
+      this.setData({ selectionBusy: false, selectionStage: '' });
+    }
+    const selectedResult = independent || analysisResult;
     this._vowelSelection = { start: t1, end: t2 };
-    const selectedPitch = analysisResult.pitchTrack.filter(row => row.time >= t1 && row.time <= t2);
-    const selectedFormants = analysisResult.formantTracks.filter(row => row.time >= t1 && row.time <= t2);
+    const selectedPitch = containedFrames(selectedResult.pitchTrack, t1, t2,
+      PHONETIC_CONFIG.PITCH_FRAME_SIZE / PHONETIC_CONFIG.ANALYSIS_SAMPLE_RATE);
+    const selectedFormants = containedFrames(selectedResult.formantTracks, t1, t2,
+      ((selectedResult.parameters || {}).windowMs || 25) / 1000);
+    const contextualFormants = selectedFormants.filter(row => row.decisionSupport
+      && (row.decisionSupport.start < t1 || row.decisionSupport.end > t2)).length;
+    const coverage = independent ? independent.coverage : selectionCoverage(selectedResult, t1, t2);
+    const countLabel = value => Number.isFinite(value) ? value : '未记录';
+    const pitchDenominator = countLabel(coverage.pitchTotal);
+    const formantDenominator = countLabel(coverage.formantTotal);
     this.setData({
       selectedTime: null, f0: '--', f1: '--', f2: '--', f3: '--', intensity: '--',
-      pointNote: '当前为选区统计；点击语谱图可查看单点数值。',
+      pointNote: independent ? '选区已从原始 PCM 独立重分析，已重置滤波与跟踪上下文。' +
+        (independent.modelSensitivity ? '已复核分析上限和窗长；参数不稳定值保留为待审候选。' : '') + '选区内轨迹和元音图使用此次结果，选区外轨迹沿用全段结果；空心点为待审候选。共振峰仍为实验性结果。'
+        : '选区按完整声学输入窗统计；共振峰沿用录音片段的跟踪上下文，' + contextualFormants + ' 帧使用了选区外上下文，未做独立选区重分析。过短选区可能没有完整窗。',
       selectionStart: t1.toFixed(3), selectionEnd: t2.toFixed(3),
       selectionInputStart: t1.toFixed(3), selectionInputEnd: t2.toFixed(3),
-      selectionCoverage: 'F0 有效帧 ' + selectedPitch.filter(row => row.f0 > 0).length + '/' + selectedPitch.length +
+      selectionCoverage: 'F0 有效帧 ' + selectedPitch.filter(row => row.f0 > 0).length + '/' + pitchDenominator +
         '；F1/F2/F3 有效帧 ' + ['F1', 'F2', 'F3'].map(key => selectedFormants.filter(row => row[key].freq > 0).length).join('/') +
-        '，各自总帧数 ' + selectedFormants.length,
+        '，各自总帧数 ' + formantDenominator + '；待审候选 ' +
+        ['F1', 'F2', 'F3'].map(key => selectedFormants.filter(row => row.exploratory && row.exploratory[key]).length).join('/') +
+        '。F0/共振峰实际计算 ' + coverage.pitchComputed + '/' + coverage.formantComputed +
+        '，边界及窗口对齐排除 ' + countLabel(coverage.pitchExcludedBoundary) + '/' + countLabel(coverage.formantExcludedBoundary) +
+        '，失败片段窗口 ' + countLabel(coverage.pitchFailedSegment) + '/' + countLabel(coverage.formantFailedSegment) +
+        '，无效输入帧 ' + countLabel(coverage.pitchInvalidInput) + '/' + countLabel(coverage.formantInvalidInput) +
+        (coverage.denominator === 'unavailable-metadata' ? '；缺少原分析元数据，无法还原理论总帧数。' : '；总数按连续已接收 PCM 的理论完整窗计算。'),
     });
-    const { pitchTrack, intensityTrack } = analysisResult;
+    const pitchTrack = selectedPitch;
+    const intensityTrack = containedFrames(selectedResult.intensityTrack, t1, t2, .025);
+    const hnrTrack = containedFrames(selectedResult.harmonicity ? selectedResult.harmonicity.track : [], t1, t2,
+      selectedResult.parameters ? selectedResult.parameters.hnrFrameSeconds : 0);
+    const hnrHop = selectedResult.parameters && selectedResult.parameters.hopSize / selectedResult.parameters.analysisRate;
+    const hnrSummary = summarizeHarmonicity(hnrTrack, Number.isFinite(hnrHop) && hnrHop > 0 ? hnrHop : .01);
 
     // 选区内 F0 均值
     let f0Sum = 0, f0Count = 0;
@@ -722,18 +849,24 @@ Page({
       }
     }
     const meanF0 = f0Count > 0 ? (f0Sum / f0Count).toFixed(1) : '--';
+    const meanHnr = Number.isFinite(hnrSummary.avgHNR) ? hnrSummary.avgHNR.toFixed(1)
+      : Number.isFinite(hnrSummary.partialMeanHNR) ? '~' + hnrSummary.partialMeanHNR.toFixed(1) : '--';
 
     // 选区内最大声强
     let maxInt = -Infinity;
     if (intensityTrack) {
       for (const it of intensityTrack) {
-        if (it.time >= t1 && it.time <= t2 && it.db > maxInt) maxInt = it.db;
+        if (it.time >= t1 && it.time <= t2 && Number.isFinite(it.db) && it.db > maxInt) maxInt = it.db;
       }
     }
 
     this.setData({
       selDuration: (t2 - t1).toFixed(2),
       selMeanF0: meanF0,
+      selMeanHnr: meanHnr,
+      selHnrNote: 'HNR 有效/可评估有声帧 ' + hnrSummary.validFrames + '/' + hnrSummary.activeFrames
+        + '，覆盖率 ' + (hnrSummary.coverage * 100).toFixed(0) + '%，有效时长 ' + hnrSummary.validDurationSeconds.toFixed(2)
+        + 's。~ 为覆盖率低于 50% 或有效时长不足 0.10s 的局部参考均值。',
       selMaxIntensity: maxInt > -Infinity ? maxInt.toFixed(1) : '--',
     });
   },
@@ -760,21 +893,28 @@ Page({
       'sparse-harmonics': '谐波稀疏', 'model-disagreement': '模型频率不一致',
       'model-bandwidth-disagreement': '模型带宽不一致', 'no-candidate': '无可用候选',
       'unvoiced-or-uncertain': '非有声或基频不可靠', 'numerical-failure': '数值求解失败',
-      'boundary-uncertain': '基频边界不确定', 'out-of-range': '基频越界' };
+      'boundary-uncertain': '基频边界不确定', 'out-of-range': '基频越界',
+      'capture-gap-boundary': '录音片段边界，输入窗不完整', 'incomplete-filter-support': '录音边缘滤波输入不完整',
+      'clipped-input': '输入达到满幅，已排除', 'parameter-sensitive': '参数变化时不稳定' };
     const reasons = ['F1', 'F2', 'F3'].map(key => {
       const reason = closestFormant && (closestFormant.reason || (closestFormant.quality && closestFormant.quality[key].reason));
       return key + '：' + (labels[reason] || '该时间无完整分析窗');
     });
+    const formantValue = key => {
+      if (closestFormant && closestFormant[key].freq > 0) return closestFormant[key].freq.toFixed(1);
+      const exploratory = closestFormant && closestFormant.exploratory && closestFormant.exploratory[key];
+      return exploratory ? '~' + exploratory.freq.toFixed(1) : '--';
+    };
     this.setData({
       selectedTime: time.toFixed(3),
       pointNote: '单点 t=' + time.toFixed(3) + 's；F0：' +
         (closestPitch && closestPitch.f0 > 0 ? '有效候选' : labels[closestPitch && closestPitch.reason] || '无可信周期或完整分析窗') +
         '；' + reasons.join('；'),
       f0: closestPitch && closestPitch.f0 > 0 ? closestPitch.f0.toFixed(1) : '--',
-      f1: closestFormant && closestFormant.F1.freq > 0 ? closestFormant.F1.freq.toFixed(1) : '--',
-      f2: closestFormant && closestFormant.F2.freq > 0 ? closestFormant.F2.freq.toFixed(1) : '--',
-      f3: closestFormant && closestFormant.F3.freq > 0 ? closestFormant.F3.freq.toFixed(1) : '--',
-      intensity: closestIntensity ? closestIntensity.db.toFixed(1) : '--',
+      f1: formantValue('F1'),
+      f2: formantValue('F2'),
+      f3: formantValue('F3'),
+      intensity: closestIntensity && Number.isFinite(closestIntensity.db) ? closestIntensity.db.toFixed(1) : '--',
     });
   },
 
@@ -783,6 +923,9 @@ Page({
     this._vowelSelection = null;
     analysisGeneration++;
     analysisResult = null;
+    rawPcm = null;
+    selectionGeneration++;
+    this._independentSelection = null;
     pcmChunks = [];
     totalSamples = 0;
     this.setData({
@@ -792,7 +935,8 @@ Page({
       hnr: '--', jitter: '--', intensity: '--',
       selectedTime: null,
       selectionStart: null, selectionEnd: null,
-      selDuration: '--', selMeanF0: '--', selMaxIntensity: '--',
+      selDuration: '--', selMeanF0: '--', selMeanHnr: '--', selMaxIntensity: '--',
+      selectionBusy: false, selectionStage: '',
     });
     if (ctxSpectrogram) ctxSpectrogram.clearRect(0, 0, this._sgWidth, this._sgHeight);
     if (ctxOverlay) ctxOverlay.clearRect(0, 0, this._sgWidth, this._sgHeight);
@@ -883,7 +1027,7 @@ Page({
 
       // 直接从信号计算 LTAS，绕过语谱图归一化数据
       const { signal, duration } = analysisResult;
-      const sampleRate = SAMPLE_RATE;
+      const sampleRate = analysisResult.sampleRate || SAMPLE_RATE;
       const fftSize = 2048;
       const windowLen = fftSize;
       const hopLen = Math.floor(fftSize / 2);
@@ -902,6 +1046,11 @@ Page({
       const im = new Float64Array(fftSize);
 
       for (let start = 0; start + windowLen <= signal.length; start += hopLen) {
+        const boundaries = analysisResult.parameters && analysisResult.parameters.discontinuityBoundariesSeconds || [];
+        if (boundaries.some(boundary => start / sampleRate < boundary
+          && (start + windowLen) / sampleRate > boundary)) continue;
+        if ((analysisResult.invalidIntervals || []).some(interval => start / sampleRate < interval.end
+          && (start + windowLen) / sampleRate > interval.start)) continue;
         for (let i = 0; i < windowLen; i++) { re[i] = signal[start + i] * hann[i]; im[i] = 0; }
         for (let i = windowLen; i < fftSize; i++) { re[i] = 0; im[i] = 0; }
         this._fftInPlace(re, im, fftSize);
@@ -909,7 +1058,12 @@ Page({
         frameCount++;
       }
 
-      if (frameCount === 0) return;
+      if (frameCount === 0) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = THEME_COLORS.DARK_GRAY;
+        ctx.fillText('没有完整连续的频谱分析窗', 16, 30);
+        return;
+      }
       const invFrames = 1 / frameCount;
 
       // 一侧功率谱密度：按采样率和窗能量归一化，单位为 dBFS/Hz。
@@ -1068,15 +1222,18 @@ Page({
       const ctx = this._vowelCtx;
       const w = this._vowelW;
       const h = this._vowelH;
-      const { formantTracks } = analysisResult;
+      const { formantTracks } = this._independentSelection || analysisResult;
 
       // 收集有效 F1/F2 数据点
       const points = [];
-      for (const ft of formantTracks) {
-        if (this._vowelSelection && ft.time >= this._vowelSelection.start && ft.time <= this._vowelSelection.end
-            && ft.F1.freq > 0 && ft.F2.freq > 0) {
-          points.push({ f1: ft.F1.freq, f2: ft.F2.freq });
-        }
+      const selected = this._vowelSelection ? containedFrames(formantTracks,
+        this._vowelSelection.start, this._vowelSelection.end,
+        ((analysisResult.parameters || {}).windowMs || 25) / 1000) : [];
+      for (const ft of selected) {
+        const f1 = ft.F1.freq > 0 ? ft.F1 : ft.exploratory && ft.exploratory.F1;
+        const f2 = ft.F2.freq > 0 ? ft.F2 : ft.exploratory && ft.exploratory.F2;
+        if (f1 && f2) points.push({ f1: f1.freq, f2: f2.freq,
+          exploratory: ft.F1.freq <= 0 || ft.F2.freq <= 0 });
       }
 
       const plotLeft = 50;
@@ -1155,7 +1312,8 @@ Page({
         if (x >= plotLeft && x <= plotRight && y >= plotTop && y <= plotBottom) {
           ctx.beginPath();
           ctx.arc(x, y, 2, 0, Math.PI * 2);
-          ctx.fill();
+          if (pt.exploratory) { ctx.strokeStyle = THEME_COLORS.PRIMARY; ctx.stroke(); }
+          else ctx.fill();
         }
       }
 
@@ -1164,19 +1322,26 @@ Page({
       ctx.font = '11px Arial';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      ctx.fillText('元音空间图 (F1-F2)', w / 2, 4);
+      ctx.fillText('元音空间 (空心点为待审候选)', w / 2, 4);
       if (!points.length) ctx.fillText(this._vowelSelection ? '选区没有可信的 F1 / F2 候选' : '请先在语谱图框选稳定元音', w / 2, h / 2);
     });
   },
 
   cleanup() {
+    const ownsSession = currentPhoneticPage === this;
+    if (currentPhoneticPage && !ownsSession) return;
     if (this._stateUnsubscribe) this._stateUnsubscribe();
     analysisGeneration++;
+    selectionGeneration++;
+    rawPcm = null;
+    this._independentSelection = null;
     this.clearCanvasRetryTimers();
     isRecording = false;
     if (this._recordTimer) { clearInterval(this._recordTimer); this._recordTimer = null; }
-    safeStopRecorder(recorderManager);
-    clearRecorderFrameListener(recorderManager);
+    if (ownsSession) {
+      safeStopRecorder(recorderManager);
+      clearRecorderFrameListener(recorderManager);
+    }
     this.clearRecorderLifecycleListeners();
     if (currentPhoneticPage === this) currentPhoneticPage = null;
     pcmChunks = [];

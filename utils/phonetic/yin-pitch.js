@@ -28,15 +28,23 @@ function yinPitchFrame(frame, sampleRate, threshold = 0.1, fmin = 60, fmax = 500
 
   // 1. 差分函数 d(tau) = sum( (x[j] - x[j+tau])^2 )
   const diff = new Float64Array(tauMax + 1);
+  const supported = new Uint8Array(tauMax + 1);
   for (let tau = 1; tau <= tauMax; tau++) {
     let sum = 0;
+    let comparedEnergy = 0;
     // 延迟两端围绕同一帧中心，保证轨迹时间不随 F0 改变。
     const offset = Math.floor((frame.length - halfLen - tau) / 2);
     for (let j = 0; j < halfLen; j++) {
-      const d = frame[offset + j] - frame[offset + j + tau];
+      const left = frame[offset + j];
+      const right = frame[offset + j + tau];
+      const d = left - right;
       sum += d * d;
+      comparedEnergy += left * left + right * right;
     }
     diff[tau] = sum;
+    // 瞬态可能完全落在当前比较区间之外，此时 d(tau)=0 并不表示周期。
+    // 只有比较区间实际覆盖了本帧能量，才允许该延迟参与候选选择。
+    supported[tau] = comparedEnergy >= frameEnergy * 1e-6 ? 1 : 0;
   }
 
   // 2. 累积均值归一化差分函数 (CMNDF)
@@ -51,14 +59,14 @@ function yinPitchFrame(frame, sampleRate, threshold = 0.1, fmin = 60, fmax = 500
   // 3. 保留范围内外的局部谷；不能在搜索边界截断一个仍在下降的谷。
   const candidates = [];
   for (let tau = 2; tau < tauMax; tau++) {
+    if (!supported[tau]) continue;
     const s0 = cmndf[tau - 1];
     const s1 = cmndf[tau];
     const s2 = cmndf[tau + 1];
     if (s1 > s0 || s1 > s2 || (s1 === s0 && s1 === s2)) continue;
-    const denom = s0 - 2 * s1 + s2;
-    const rawShift = denom > 1e-12 ? 0.5 * (s0 - s2) / denom : 0;
-    const shift = Math.max(-0.5, Math.min(0.5, rawShift));
-    // CMNDF 用于选谷与置信指标；最终周期在原始差分谷上插值。
+    // 周期证据取实际计算的 CMNDF 谷值。对不对称/突变的三点谷做
+    // 抛物线插值可能得到负值，不能将其钳成 0（虚假的完美周期）。
+    // 只对最终周期在原始差分谷上插值，不用插值创造置信证据。
     // 避免归一化分母的斜率将短周期系统性推向过高频率。
     const rawDenom = diff[tau - 1] - 2 * diff[tau] + diff[tau + 1];
     let periodShift = rawDenom > 1e-12
@@ -69,22 +77,27 @@ function yinPitchFrame(frame, sampleRate, threshold = 0.1, fmin = 60, fmax = 500
     candidates.push({
       period,
       f0: sampleRate / period,
-      aperiodicity: Math.max(0, Math.min(1, s1 - 0.25 * (s0 - s2) * shift)),
+      aperiodicity: Math.min(1, s1),
     });
   }
 
   // 优先最短的阈值内周期；较弱的范围外伪谷不阻断后续有效候选。
   // 上限附近保留候选证据；插值越界时明确拒绝，不钳位成有效边界值。
   const upperTolerance = fmax * 0.005;
+  // Sub-microhertz floating/resampling error at an exact configured boundary
+  // must not discard a valid frame. Keep rawF0; this is not the 0.5% search band.
+  const numericTolerance = Math.max(1e-6, Math.max(fmin, fmax) * 1e-9);
   const inRange = candidates.filter(candidate => (
-    candidate.f0 >= fmin && candidate.f0 <= fmax + upperTolerance
+    candidate.f0 >= fmin - numericTolerance && candidate.f0 <= fmax + upperTolerance
   ));
   let chosen = inRange.find(candidate => candidate.aperiodicity < threshold);
   if (!chosen) {
     chosen = inRange.reduce((best, candidate) => (
       !best || candidate.aperiodicity < best.aperiodicity ? candidate : best
     ), null);
-    if (chosen && chosen.aperiodicity > 0.5) chosen = null;
+    // 阈值未命中时只允许中等强度的周期证据；更高 CMNDF 谷在瞬态
+    // 与噪声中很容易由“从许多延迟里挑最小值”产生选择偏差。
+    if (chosen && chosen.aperiodicity > 0.3) chosen = null;
   }
   if (!chosen) {
     const outside = candidates.find(candidate => (
@@ -95,21 +108,23 @@ function yinPitchFrame(frame, sampleRate, threshold = 0.1, fmin = 60, fmax = 500
       : { f0: 0, aperiodicity: 1 };
   }
 
-  // 如果所选周期只是同样可信的超上限短周期的整数倍，不能回填低八度。
-  // 保留 0.01 的数值余量；无法消除倍周期歧义时输出缺失，不宣称有效 F0。
+  // 如果超上限短周期也满足绝对周期阈值，不能将其整数倍回填为低八度。
+  // 离散 CMNDF 在短周期处的采样误差更大，不能要求它与长周期谷仅差
+  // 0.01；存在两个均通过阈值的倍周期解释时，保守地报告范围外。
   const shorter = candidates.find(candidate => {
-    if (candidate.f0 <= fmax || candidate.aperiodicity >= threshold
-      || candidate.aperiodicity > chosen.aperiodicity + 0.01) return false;
+    if (candidate.f0 <= fmax + numericTolerance || candidate.aperiodicity >= threshold) return false;
     const ratio = chosen.period / candidate.period;
     const multiple = Math.round(ratio);
     return multiple >= 2 && Math.abs(ratio - multiple) <= 0.05;
   });
   if (shorter) return { f0: 0, rawF0: shorter.f0, aperiodicity: shorter.aperiodicity, reason: 'out-of-range' };
-  if (chosen.f0 > fmax) {
+  if (chosen.f0 > fmax + numericTolerance) {
     return { f0: 0, rawF0: chosen.f0, aperiodicity: chosen.aperiodicity,
       reason: 'boundary-uncertain', range: { min: fmin, max: fmax } };
   }
-  return { f0: chosen.f0, rawF0: chosen.f0, aperiodicity: chosen.aperiodicity };
+  const f0 = Math.max(fmin, Math.min(fmax, chosen.f0));
+  return { f0, rawF0: chosen.f0, aperiodicity: chosen.aperiodicity,
+    ...(f0 !== chosen.f0 ? { rangeBoundaryAdjusted: true, numericToleranceHz: numericTolerance } : {}) };
 }
 
 /**

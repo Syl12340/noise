@@ -1,0 +1,212 @@
+{
+  "generatedAt": "2026-10-05T06:29:34.475Z",
+  "summary": {
+    "total": 46,
+    "passed": 46,
+    "failed": 0
+  },
+  "sourceSha256": {
+    "utils/phonetic/analysis.js": "d7b1f3476de5fd88caa0bf24f7054ca46a9b5c8fd218222b00d4e02aec111d50",
+    "utils/phonetic/formant-extract.js": "d4e01284a0258d178eded9bf47920b65de718453fbe1eae2a0abc2f0bc6ccde9",
+    "utils/phonetic/yin-pitch.js": "838c0fe0d297ac0065ea5ab6f1eed03f293db671477ada0257200192aa9c278e",
+    "utils/phonetic/harmonicity.js": "703eda0587eb332f3636b239436e26b40d99bea87ff37692cb37f3c306cf402b",
+    "utils/recorder-session.js": "152e0e0458a4a83763d0eb8b2b644737aeefb10e362120a07a63b31a2c966834",
+    "utils/data-model.js": "935944d672ee141a8820ab56943caa03f9c976487f4831af356d855da49fb25f",
+    "pages/main/main.js": "ff5486eb84f85922ca1e8cfe6a81c641989e634d72dcd3a930a4b8cba0fbd298",
+    "pages/phonetic/phonetic.js": "22e96fcb5a57e5b3e87aa44f8cf97a71ae4a3b013bd6204b5ac4da3103707fed",
+    "pages/settings/settings.js": "b2496423758ce30fac8903e40ef03da574648773e790916e3ef269a5aa8ee65b",
+    "pages/advanced-calibrate/calibrate/calibrate.js": "45e98cdb30f97c4927fb9347dd14a2030c88b350ec0ffa04c34a3f291f5ba5ba",
+    "pages/result/result.js": "2b61a0fe1bba318716c395822ab5b7042ee3cf9f351589b2a8f2981aa3af6b59",
+    "pages/main/main.wxml": "451b9d53ec094d280a3d0d0248dff370c679a1b47ab69f8fe1ba9a1600cf3e1b",
+    "workers/phonetic-analysis/index.js": "6ca8479903c42db65e15e8cf0e8b247bbbdee3040b79ffde85ff829a40da9cf1",
+    "workers/phonetic-analysis/bundle.js": "4e14d26d5cdfd9ac41b6eb3ce62106298637a317762c908cd1ff50fe7dbba6de",
+    "tests/revision-regression.cjs": "3437431e7ea13794c6f974edf264b5d063d6f5c1b57d9f577c218f0c53c1656c",
+    "tests/runtime.cjs": "eca5e399e96ae71007bf0ec6628dcefe91088de400f8d770f838fc28f0b67bd0"
+  },
+  "results": [
+    {
+      "name": "Broad true pole retains ordinal slots",
+      "status": "PASS"
+    },
+    {
+      "name": "Upper boundary never clamped into an accepted 1200 Hz",
+      "status": "PASS"
+    },
+    {
+      "name": "Sync/async numerical equality across all long stages",
+      "status": "PASS"
+    },
+    {
+      "name": "Cancellation can interrupt within pitch tracking",
+      "status": "PASS"
+    },
+    {
+      "name": "Shared analysis rejects invalid parameters and preserves metadata",
+      "status": "PASS"
+    },
+    {
+      "name": "Speech capture accepts recorder stop overrun within the declared tolerance",
+      "status": "PASS"
+    },
+    {
+      "name": "Worker and foreground return identical full results",
+      "status": "PASS"
+    },
+    {
+      "name": "Native stop acknowledgement precedes next start",
+      "status": "PASS"
+    },
+    {
+      "name": "Stale callbacks are inert without native offFrameRecorded",
+      "status": "PASS"
+    },
+    {
+      "name": "Cancelling pending start prevents restart on late stop",
+      "status": "PASS"
+    },
+    {
+      "name": "Calibration grades, installation binding and expiry are enforced",
+      "status": "PASS"
+    },
+    {
+      "name": "Frozen stopped summary remains saveable after input timeout",
+      "status": "PASS"
+    },
+    {
+      "name": "Restart discards stopped snapshot and disables saving until new input",
+      "status": "PASS"
+    },
+    {
+      "name": "Invalid and legacy records never receive safe colors",
+      "status": "PASS"
+    },
+    {
+      "name": "Selecting a range clears old point values and exposes coverage",
+      "status": "PASS"
+    },
+    {
+      "name": "Phonetic recorder can retry a synchronous native start error",
+      "status": "PASS"
+    },
+    {
+      "name": "Risk color belongs to projected exposure, not current Z level",
+      "status": "PASS"
+    },
+    {
+      "name": "Order-specific broad root does not displace stable higher formants",
+      "status": "PASS"
+    },
+    {
+      "name": "Cross-order broad root retains its ordinal position",
+      "status": "PASS"
+    },
+    {
+      "name": "Narrow pole matches by radius as well as frequency",
+      "status": "PASS"
+    },
+    {
+      "name": "Track continuity cannot substitute a different ordinal",
+      "status": "PASS"
+    },
+    {
+      "name": "Leaving phonetic page cancels before delayed native stop",
+      "status": "PASS"
+    },
+    {
+      "name": "Malformed PCM invalidates a live measurement without throwing",
+      "status": "PASS"
+    },
+    {
+      "name": "Partial model evidence cannot erase a broad ordinal",
+      "status": "PASS"
+    },
+    {
+      "name": "YIN rejects a single transient with unsupported comparison windows",
+      "status": "PASS"
+    },
+    {
+      "name": "Low-periodicity HNR is missing instead of reporting maximum-noise-peak bias",
+      "status": "PASS"
+    },
+    {
+      "name": "Formant ceiling changes the fitted signal bandwidth and rate",
+      "status": "PASS"
+    },
+    {
+      "name": "Main stop includes a final native PCM block before freezing the snapshot",
+      "status": "PASS"
+    },
+    {
+      "name": "Sparse callbacks cannot masquerade as continuous main or phonetic capture",
+      "status": "PASS"
+    },
+    {
+      "name": "Advanced calibration rejects malformed PCM and cannot later certify the session",
+      "status": "PASS"
+    },
+    {
+      "name": "Stale advanced calibration confirmation cannot overwrite a newer offset",
+      "status": "PASS"
+    },
+    {
+      "name": "Settings reset persists the displayed default offset",
+      "status": "PASS"
+    },
+    {
+      "name": "Quantitative monitoring suppresses haptic contamination and owns vibration timers",
+      "status": "PASS"
+    },
+    {
+      "name": "Production preprocessing never turns isolated clicks into voiced pitch",
+      "status": "PASS"
+    },
+    {
+      "name": "Conservative pitch confidence retains short periodic bursts",
+      "status": "PASS"
+    },
+    {
+      "name": "Live and stopping previews cannot be saved or return to recording",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing loud blocks cannot certify a result biased by over 10 dB",
+      "status": "PASS"
+    },
+    {
+      "name": "Unknown native duration and known mismatches save distinct noncertified records",
+      "status": "PASS"
+    },
+    {
+      "name": "Complete batches tolerate callback jitter and delayed stop acknowledgement",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing stop acknowledgement fails closed and late callback cannot revive result",
+      "status": "PASS"
+    },
+    {
+      "name": "Loud tail updates final risk, colour and levels from the same frozen snapshot",
+      "status": "PASS"
+    },
+    {
+      "name": "Main waits for a delayed first frame without applying the running-stream timeout",
+      "status": "PASS"
+    },
+    {
+      "name": "Historical numeric results remain visible with an old-algorithm label",
+      "status": "PASS"
+    },
+    {
+      "name": "Native startup can await microphone authorization beyond two seconds",
+      "status": "PASS"
+    },
+    {
+      "name": "Historical laboratory presets stay usable without rebinding or expiry gates",
+      "status": "PASS"
+    },
+    {
+      "name": "Discontinuous joins reset DSP and exclude every crossing dependent window",
+      "status": "PASS"
+    }
+  ]
+}

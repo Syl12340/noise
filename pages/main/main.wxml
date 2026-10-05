@@ -9,16 +9,25 @@
     
     <view class="main-value">
       <text class="db-num">{{dbspl}}</text>
-      <text class="db-unit">dB SPL（当前短时 Z 计权）</text>
+      <text class="db-unit">估算 dB SPL（当前短时 Z 计权；1 kHz 单点偏移）</text>
     </view>
 
   </view>
 
-  <view class="card">
-    <text>{{calibrationLabel}} · 校准日期 {{calibrationDate}}</text>
-    <view><text>本次有效采样 {{measurementSeconds}} 秒 · 预计暴露 {{exposureHours}} 小时</text></view>
-    <view><text>本次 LAeq：{{leqA}} dB(A)</text></view>
-    <view><text>换算结果假设预计暴露期间声级与本次测量相同。</text></view>
+  <view class="card measurement-summary">
+    <view class="summary-header">
+      <text class="calibration-badge">{{calibrationLabel}}</text>
+      <text class="summary-date">{{calibrationDateLabel}} {{calibrationDate}}</text>
+    </view>
+    <view class="summary-metrics">
+      <view class="summary-metric"><text class="summary-caption">已接收采样</text><text class="summary-number">{{measurementSeconds}}<text class="summary-unit"> 秒</text></text></view>
+      <view class="summary-metric"><text class="summary-caption">预计暴露</text><text class="summary-number">{{exposureHours}}<text class="summary-unit"> 小时</text></text></view>
+      <view class="summary-metric"><text class="summary-caption">{{levelScopeLabel}}</text><text class="summary-number">{{leqA}}<text class="summary-unit"> dB(A)</text></text></view>
+    </view>
+    <view class="summary-preview" wx:if="{{recordingState === 'recording' || recordingState === 'starting' || recordingState === 'stopping'}}"><text>实时预览 · 停止核验后可保存</text></view>
+    <view class="summary-note"><text>换算结果假设预计暴露期间声级与本次测量相同。</text></view>
+    <view class="summary-note"><text>采集链未自动核验。更换麦克风、连接或增益后，数值仍可保存为条件估计。</text></view>
+    <input class="capture-note-input" placeholder="本次麦克风 / 连接 / 增益（选填）" value="{{declaredInputChain}}" bindinput="setInputChainNote" disabled="{{recordingState === 'stopped' || recordingState === 'invalid'}}" maxlength="200" />
   </view>
 
   <!-- 辅助数据两列 -->
@@ -47,7 +56,7 @@
     <view class="chart-header">
       <text class="chart-title">
         {{viewMode === 'waveform' ? '每秒声级 [Z计权，无风险配色]' :
-          viewMode === 'spectrum' ? '频谱柱图 [1/3倍频程]' :
+          viewMode === 'spectrum' ? '相对频带估算 [1/3倍频程]' :
           '时频热力图 [时间-频率]' }}
       </text>
     </view>
@@ -89,7 +98,8 @@
   <!-- 占据主要空间的两个平分按钮 -->
    <button class="btn-main btn-save" bindtap="_saveResult" disabled="{{!canSave}}">保存记录</button>
    <button wx:if="{{recordingState === 'recording' || recordingState === 'starting'}}" class="btn-main btn-stop" bindtap="stopNoiseMonitoring">停止并查看</button>
-   <button wx:else class="btn-main" bindtap="restartMeasurement">重新测量</button>
+    <button wx:elif="{{recordingState === 'stopping'}}" class="btn-main" disabled="{{true}}">正在核验</button>
+    <button wx:else class="btn-main" bindtap="restartMeasurement">重新测量</button>
    <button wx:if="{{recordingState === 'invalid' || recordingState === 'stopped'}}" class="btn-mini" bindtap="leaveMeasurement">退出</button>
   </view>
 </view>

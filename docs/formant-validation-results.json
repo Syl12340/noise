@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-26T17:06:49.075Z",
+  "generatedAt": "2026-10-02T13:28:40.781Z",
   "seed": 270927,
   "criterion": "Independent known-pole synthetic signals; 10% frequency tolerance, 80% coverage. Missing is counted separately, never as accurate. Not a clinical benchmark.",
   "sourceSha256": {
-    "utils/phonetic/analysis.js": "fb91ca673e0df11d4e321079374e6347de4c17cc930df77d638af15c07d82508",
-    "utils/phonetic/yin-pitch.js": "ef2210766e5ce0baece17de7057eb4ee5d95031411a9685befe3be1955373e76",
-    "utils/phonetic/formant-extract.js": "f2f3987ce219f20025cff795a6404a6b3d4f21cc421a4529ae5f65ff0c4b0081",
+    "utils/phonetic/analysis.js": "bcf4d7915af4c178c83337f48646ba700451615fc616832d8ce53117f98b8c1b",
+    "utils/phonetic/yin-pitch.js": "838c0fe0d297ac0065ea5ab6f1eed03f293db671477ada0257200192aa9c278e",
+    "utils/phonetic/formant-extract.js": "d4e01284a0258d178eded9bf47920b65de718453fbe1eae2a0abc2f0bc6ccde9",
     "utils/phonetic/burg-lpc.js": "1cc087f0e0c058bba155b07b5224088d793947d1667cbc658dc1ada9821a76b0",
     "utils/phonetic/resample.js": "2bb24d483f60643d18a220e8a7ebd87b523b9f564fa2f8befd28de1dfb5d43e0",
     "tests/formant-validation.cjs": "5c76b7d4dcc995a30b5c19a83d586b2f5be4b59790ec86088184c32d48ae982e"
@@ -13,38 +13,38 @@
   "aggregate": [
     {
       "truthFrames": 750,
-      "acceptedFrames": 358,
-      "coverage": 0.47733333333333333,
-      "missingFrames": 392,
-      "missingRate": 0.5226666666666666,
+      "acceptedFrames": 364,
+      "coverage": 0.48533333333333334,
+      "missingFrames": 386,
+      "missingRate": 0.5146666666666667,
       "wrongAcceptedFrames": 60,
       "falseAcceptancePerTruthFrame": 0.08,
-      "wrongFractionAmongAccepted": 0.16759776536312848,
-      "meanRelativeErrorAmongAccepted": 0.057641328095413294,
+      "wrongFractionAmongAccepted": 0.16483516483516483,
+      "meanRelativeErrorAmongAccepted": 0.05685547156750581,
       "maxRelativeErrorAmongAccepted": 0.17500000000000004
     },
     {
       "truthFrames": 750,
-      "acceptedFrames": 336,
-      "coverage": 0.448,
-      "missingFrames": 414,
-      "missingRate": 0.552,
+      "acceptedFrames": 377,
+      "coverage": 0.5026666666666667,
+      "missingFrames": 373,
+      "missingRate": 0.49733333333333335,
       "wrongAcceptedFrames": 30,
       "falseAcceptancePerTruthFrame": 0.04,
-      "wrongFractionAmongAccepted": 0.08928571428571429,
-      "meanRelativeErrorAmongAccepted": 0.023394334151465412,
+      "wrongFractionAmongAccepted": 0.07957559681697612,
+      "meanRelativeErrorAmongAccepted": 0.022941600908863255,
       "maxRelativeErrorAmongAccepted": 0.10962962962962952
     },
     {
       "truthFrames": 750,
-      "acceptedFrames": 306,
-      "coverage": 0.408,
-      "missingFrames": 444,
-      "missingRate": 0.592,
+      "acceptedFrames": 347,
+      "coverage": 0.46266666666666667,
+      "missingFrames": 403,
+      "missingRate": 0.5373333333333333,
       "wrongAcceptedFrames": 0,
       "falseAcceptancePerTruthFrame": 0,
       "wrongFractionAmongAccepted": 0,
-      "meanRelativeErrorAmongAccepted": 0.010399315959958334,
+      "meanRelativeErrorAmongAccepted": 0.009499598483254008,
       "maxRelativeErrorAmongAccepted": 0.03612903225806452
     }
   ],
@@ -92,33 +92,31 @@
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 27,
-          "coverage": 0.9,
-          "missingFrames": 3,
-          "missingRate": 0.1,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.0009694041867954915,
-          "maxRelativeErrorAmongAccepted": 0.002695652173912988
+          "meanRelativeErrorAmongAccepted": 0.0011710144927536304,
+          "maxRelativeErrorAmongAccepted": 0.003391304347826196
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 27,
-          "coverage": 0.9,
-          "missingFrames": 3,
-          "missingRate": 0.1,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.008151340996168556,
+          "meanRelativeErrorAmongAccepted": 0.008416666666666643,
           "maxRelativeErrorAmongAccepted": 0.011551724137931041
         }
       ],
       "reasons": {
-        "accepted": 84,
-        "model-disagreement": 5,
-        "ambiguous-numbering": 1
+        "accepted": 90
       }
     },
     {
@@ -160,32 +158,32 @@
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 26,
-          "coverage": 0.8666666666666667,
-          "missingFrames": 4,
-          "missingRate": 0.13333333333333333,
+          "acceptedFrames": 28,
+          "coverage": 0.9333333333333333,
+          "missingFrames": 2,
+          "missingRate": 0.06666666666666667,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.006949832775919728,
-          "maxRelativeErrorAmongAccepted": 0.008260869565217432
+          "meanRelativeErrorAmongAccepted": 0.0070186335403726674,
+          "maxRelativeErrorAmongAccepted": 0.008608695652174037
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 26,
-          "coverage": 0.8666666666666667,
-          "missingFrames": 4,
-          "missingRate": 0.13333333333333333,
+          "acceptedFrames": 28,
+          "coverage": 0.9333333333333333,
+          "missingFrames": 2,
+          "missingRate": 0.06666666666666667,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.008693633952254651,
-          "maxRelativeErrorAmongAccepted": 0.010172413793103408
+          "meanRelativeErrorAmongAccepted": 0.008768472906403948,
+          "maxRelativeErrorAmongAccepted": 0.010818965517241264
         }
       ],
       "reasons": {
-        "accepted": 80,
-        "model-disagreement": 10
+        "accepted": 84,
+        "model-disagreement": 6
       }
     },
     {
@@ -215,44 +213,45 @@
       "stats": [
         {
           "truthFrames": 30,
-          "acceptedFrames": 25,
-          "coverage": 0.8333333333333334,
-          "missingFrames": 5,
-          "missingRate": 0.16666666666666666,
+          "acceptedFrames": 20,
+          "coverage": 0.6666666666666666,
+          "missingFrames": 10,
+          "missingRate": 0.3333333333333333,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.022888888888888844,
+          "meanRelativeErrorAmongAccepted": 0.02263888888888884,
           "maxRelativeErrorAmongAccepted": 0.026111111111110974
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 25,
-          "coverage": 0.8333333333333334,
-          "missingFrames": 5,
-          "missingRate": 0.16666666666666666,
+          "acceptedFrames": 20,
+          "coverage": 0.6666666666666666,
+          "missingFrames": 10,
+          "missingRate": 0.3333333333333333,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.02358608695652173,
+          "meanRelativeErrorAmongAccepted": 0.023647826086956508,
           "maxRelativeErrorAmongAccepted": 0.024521739130434872
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 25,
-          "coverage": 0.8333333333333334,
-          "missingFrames": 5,
-          "missingRate": 0.16666666666666666,
+          "acceptedFrames": 20,
+          "coverage": 0.6666666666666666,
+          "missingFrames": 10,
+          "missingRate": 0.3333333333333333,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.005539655172413793,
+          "meanRelativeErrorAmongAccepted": 0.00564439655172414,
           "maxRelativeErrorAmongAccepted": 0.0070689655172413435
         }
       ],
       "reasons": {
-        "accepted": 75,
-        "model-disagreement": 15
+        "model-disagreement": 26,
+        "ambiguous-numbering": 4,
+        "accepted": 60
       }
     },
     {
@@ -387,7 +386,8 @@
       ],
       "reasons": {
         "sparse-harmonics": 30,
-        "model-disagreement": 60
+        "model-disagreement": 30,
+        "ambiguous-numbering": 30
       }
     },
     {
@@ -485,44 +485,43 @@
       "stats": [
         {
           "truthFrames": 30,
-          "acceptedFrames": 29,
-          "coverage": 0.9666666666666667,
-          "missingFrames": 1,
-          "missingRate": 0.03333333333333333,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.019266457680250794,
+          "meanRelativeErrorAmongAccepted": 0.019260606060606072,
           "maxRelativeErrorAmongAccepted": 0.019636363636363563
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 29,
-          "coverage": 0.9666666666666667,
-          "missingFrames": 1,
-          "missingRate": 0.03333333333333333,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.008320561941251598,
+          "meanRelativeErrorAmongAccepted": 0.008318930041152266,
           "maxRelativeErrorAmongAccepted": 0.008456790123456903
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 29,
-          "coverage": 0.9666666666666667,
-          "missingFrames": 1,
-          "missingRate": 0.03333333333333333,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.006159930787294545,
+          "meanRelativeErrorAmongAccepted": 0.0061577060931899815,
           "maxRelativeErrorAmongAccepted": 0.006272401433691677
         }
       ],
       "reasons": {
-        "accepted": 87,
-        "model-disagreement": 3
+        "accepted": 90
       }
     },
     {
@@ -752,45 +751,45 @@
       "stats": [
         {
           "truthFrames": 30,
-          "acceptedFrames": 4,
-          "coverage": 0.13333333333333333,
-          "missingFrames": 26,
-          "missingRate": 0.8666666666666667,
+          "acceptedFrames": 12,
+          "coverage": 0.4,
+          "missingFrames": 18,
+          "missingRate": 0.6,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.016743421052631602,
-          "maxRelativeErrorAmongAccepted": 0.018289473684210522
+          "meanRelativeErrorAmongAccepted": 0.016513157894736858,
+          "maxRelativeErrorAmongAccepted": 0.01881578947368412
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 4,
-          "coverage": 0.13333333333333333,
-          "missingFrames": 26,
-          "missingRate": 0.8666666666666667,
+          "acceptedFrames": 12,
+          "coverage": 0.4,
+          "missingFrames": 18,
+          "missingRate": 0.6,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.0014492753623187582,
-          "maxRelativeErrorAmongAccepted": 0.0020289855072463947
+          "meanRelativeErrorAmongAccepted": 0.0016243961352656784,
+          "maxRelativeErrorAmongAccepted": 0.0021739130434783593
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 4,
-          "coverage": 0.13333333333333333,
-          "missingFrames": 26,
-          "missingRate": 0.8666666666666667,
+          "acceptedFrames": 12,
+          "coverage": 0.4,
+          "missingFrames": 18,
+          "missingRate": 0.6,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.003420634920634935,
+          "meanRelativeErrorAmongAccepted": 0.0033412698412698303,
           "maxRelativeErrorAmongAccepted": 0.003555555555555534
         }
       ],
       "reasons": {
-        "model-disagreement": 50,
-        "ambiguous-numbering": 28,
-        "accepted": 12
+        "model-disagreement": 44,
+        "ambiguous-numbering": 10,
+        "accepted": 36
       }
     },
     {
@@ -899,32 +898,31 @@
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 0,
-          "coverage": 0,
-          "missingFrames": 30,
-          "missingRate": 1,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
-          "wrongFractionAmongAccepted": null,
-          "meanRelativeErrorAmongAccepted": null,
-          "maxRelativeErrorAmongAccepted": null
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.028161835748792264,
+          "maxRelativeErrorAmongAccepted": 0.028405797101449304
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 0,
-          "coverage": 0,
-          "missingFrames": 30,
-          "missingRate": 1,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
-          "wrongFractionAmongAccepted": null,
-          "meanRelativeErrorAmongAccepted": null,
-          "maxRelativeErrorAmongAccepted": null
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.0014592592592592194,
+          "maxRelativeErrorAmongAccepted": 0.0015555555555555323
         }
       ],
       "reasons": {
-        "accepted": 30,
-        "model-disagreement": 60
+        "accepted": 90
       }
     },
     {
@@ -1056,8 +1054,8 @@
         }
       ],
       "reasons": {
-        "model-disagreement": 30,
-        "ambiguous-numbering": 60
+        "model-disagreement": 60,
+        "ambiguous-numbering": 30
       }
     },
     {
@@ -1087,45 +1085,45 @@
       "stats": [
         {
           "truthFrames": 30,
-          "acceptedFrames": 13,
-          "coverage": 0.43333333333333335,
-          "missingFrames": 17,
-          "missingRate": 0.5666666666666667,
+          "acceptedFrames": 15,
+          "coverage": 0.5,
+          "missingFrames": 15,
+          "missingRate": 0.5,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.01408488063660477,
-          "maxRelativeErrorAmongAccepted": 0.01551724137931032
+          "meanRelativeErrorAmongAccepted": 0.014137931034482753,
+          "maxRelativeErrorAmongAccepted": 0.01586206896551723
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 13,
-          "coverage": 0.43333333333333335,
-          "missingFrames": 17,
-          "missingRate": 0.5666666666666667,
+          "acceptedFrames": 15,
+          "coverage": 0.5,
+          "missingFrames": 15,
+          "missingRate": 0.5,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.006591390261115027,
-          "maxRelativeErrorAmongAccepted": 0.007201834862385237
+          "meanRelativeErrorAmongAccepted": 0.006617737003058099,
+          "maxRelativeErrorAmongAccepted": 0.007293577981651422
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 13,
-          "coverage": 0.43333333333333335,
-          "missingFrames": 17,
-          "missingRate": 0.5666666666666667,
+          "acceptedFrames": 15,
+          "coverage": 0.5,
+          "missingFrames": 15,
+          "missingRate": 0.5,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.005554106910039103,
-          "maxRelativeErrorAmongAccepted": 0.006135593220338853
+          "meanRelativeErrorAmongAccepted": 0.00558644067796609,
+          "maxRelativeErrorAmongAccepted": 0.006203389830508499
         }
       ],
       "reasons": {
-        "model-disagreement": 41,
+        "model-disagreement": 35,
         "ambiguous-numbering": 10,
-        "accepted": 39
+        "accepted": 45
       }
     },
     {
@@ -1191,8 +1189,8 @@
         }
       ],
       "reasons": {
-        "model-disagreement": 60,
-        "ambiguous-numbering": 30
+        "model-disagreement": 30,
+        "ambiguous-numbering": 60
       }
     },
     {
@@ -1324,8 +1322,8 @@
         }
       ],
       "reasons": {
-        "model-disagreement": 60,
-        "ambiguous-numbering": 30
+        "model-disagreement": 30,
+        "ambiguous-numbering": 60
       }
     },
     {
@@ -1661,8 +1659,8 @@
         }
       ],
       "reasons": {
-        "model-disagreement": 60,
-        "ambiguous-numbering": 30
+        "model-disagreement": 30,
+        "ambiguous-numbering": 60
       }
     },
     {

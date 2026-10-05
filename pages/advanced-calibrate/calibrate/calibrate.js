@@ -1,20 +1,22 @@
 // pages/advanced-calibrate/calibrate/calibrate.js
 // 作用：专业环境声学校准，通过标准 1kHz 纯音和长时间能量积分算法，计算设备麦克风偏移量。
 /**
- * 仅保留 1kHz 纯音标准校准 (80dB SPL)
+ * 仅保留 1 kHz 纯音单点参考校准（参考声级由用户按仪器读数填写）
  * 采用 3秒倒计时(防震防遮挡) + 5秒等效连续声级(Leq)积分算法
  */
 
 const recorderManager = wx.getRecorderManager();
 const { calculateRMS, calculateDb } = require('../../../utils/audio-math');
-const { LIMITS, OFFSET_IMPORT_RANGE, THEME_COLORS } = require('../../../utils/constants');
+const { OFFSET_IMPORT_RANGE, THEME_COLORS } = require('../../../utils/constants');
 const dataModel = require('../../../utils/data-model');
-const { DCBlocker, inspectPcm } = require('../../../utils/audio-quality');
+const { DCBlocker, inspectPcm, PcmQualityInspector } = require('../../../utils/audio-quality');
 const { inspectCalibrationTone } = require('../../../utils/calibration-quality');
 const {
   safeStopRecorder,
   cancelRecorderStart,
   isRecorderTransitioning,
+  observeRecorderEvent,
+  observeRecorderState,
   safeCloseAudioContext,
   createCamcorderRecordParams,
   getMeasurementCaptureProfile,
@@ -41,9 +43,9 @@ const CALIB_REQUIRED_SAMPLES = CALIB_SAMPLE_RATE * 5;
 let dcBlocker = new DCBlocker(CALIB_SAMPLE_RATE);
 let calibSignal = null;
 let calibrationClipped = false;
+let calibrationQualityInspector = new PcmQualityInspector(44100);
 let calibrationInterrupted = false;
 let advancedMonitoringPaused = false;
-const CALIB_TARGET_SPL = LIMITS.CALIB_TARGET_SPL; // 固定的 1kHz 纯音参考标准
 const MIN_CALIBRATION_RMS = 1e-6;
 let currentAdvancedCalibratePage = null;
 let isAdvancedMonitoringActive = false;
@@ -89,6 +91,8 @@ Page({
     dbfs: '0.00',
     dbspl: '0.00',
     newOffset: '0.00',
+    referenceLevel: '80', referenceInstrument: '', inputChain: '',
+    referenceUncertainty: '', verificationResidual: '--',
     
     // --- 新增：专门用于大字提示的 UI 状态 ---
     statusText: '等待开始...\n请将麦克风靠近声级计',
@@ -96,13 +100,16 @@ Page({
     isCalibratingUI: false // 处于校准流程中时，为 true (可用于隐藏 Canvas)
   },
   isPageActive: false,
+  _calibrationGeneration: 0,
+  _pendingCalibrationResult: null,
   // 核心录音配置：与主测量使用相同的平台采集配置。
   advancedCalibrateRecordParams: {
     ...createCamcorderRecordParams(),
-    duration: 10000,
+    duration: 600000,
   },
   
   onShow() {
+    this.invalidateCalibrationResult();
     advancedMonitoringPaused = false;
     this.isPageActive = true;
     isAdvancedMonitoringActive = true;
@@ -114,20 +121,15 @@ Page({
 
   onHide() { 
     this.isPageActive = false;
-    isAdvancedMonitoringActive = false;
     if (currentAdvancedCalibratePage === this) {
+      this.stopNoiseMonitoring();
+      isAdvancedMonitoringActive = false;
       currentAdvancedCalibratePage = null;
     }
-    this.stopNoiseMonitoring(); 
   },
   
   onUnload() { 
-    this.isPageActive = false;
-    isAdvancedMonitoringActive = false;
-    if (currentAdvancedCalibratePage === this) {
-      currentAdvancedCalibratePage = null;
-    }
-    this.stopNoiseMonitoring(); 
+    this.onHide();
   },
 
   initMonitor() {
@@ -143,6 +145,12 @@ Page({
     } catch(e) { console.error(e); }
   },
 
+  invalidateCalibrationResult() {
+    this._calibrationGeneration = (this._calibrationGeneration || 0) + 1;
+    this._pendingCalibrationResult = null;
+    this._calibrationStartPending = false;
+  },
+
   /**
    * 初始化并绑定录音相关的事件监听器，处理由于系统中断或异常导致的录音停止。
    * 在发生中断（如电话接入）或意外结束时，尝试自动恢复或重启录音流程，以确保校准数据的连续性。
@@ -151,15 +159,25 @@ Page({
    */
   setupRecorderListeners() {
     bindRecorderListenersOnce(recorderManager, 'advanced-calibrate-listeners', () => {
+      observeRecorderState(recorderManager, state => {
+        const page = currentAdvancedCalibratePage;
+        if (!isAdvancedMonitoringActive || !page || advancedMonitoringPaused) return;
+        if (state === 'waiting-interruption' && page._calibrationStartPending) {
+          page.setData({ statusText: '录音被系统占用，等待恢复…', statusColor: THEME_COLORS.DARK_GRAY });
+        } else if (state === 'recording' && page._calibrationStartPending) {
+          page._calibrationStartPending = false;
+          page.beginCalibrationCountdown();
+        } else if (state === 'error') page.failCalibration('录音启动或停止失败，请重试');
+      });
       // 1. 监听意外停止
-      recorderManager.onStop((res) => {
+      observeRecorderEvent(recorderManager, 'Stop', (res) => {
         if (isRecorderTransitioning(recorderManager)) return;
         const page = currentAdvancedCalibratePage;
         if (!isAdvancedMonitoringActive || !page || advancedMonitoringPaused) {
           return;
         }
         console.log('[Recorder] Stopped', res);
-        if (isCalibrating) {
+        if (isCalibrating || page.data.isCalibratingUI) {
           calibrationInterrupted = true;
           page.failCalibration('录音中断，请重新校准');
         }
@@ -176,10 +194,10 @@ Page({
       });
 
       // 2. 监听系统级打断恢复 (如接完电话切回)
-      recorderManager.onInterruptionEnd(() => {
+      observeRecorderEvent(recorderManager, 'InterruptionEnd', () => {
         const page = currentAdvancedCalibratePage;
         if (isAdvancedMonitoringActive && page && page.isPageActive && !advancedMonitoringPaused) {
-          if (isCalibrating) {
+          if (isCalibrating || page.data.isCalibratingUI) {
             calibrationInterrupted = true;
             page.failCalibration('录音中断，请重新校准');
           }
@@ -194,13 +212,14 @@ Page({
 
       const failInterruptedCalibration = () => {
         const page = currentAdvancedCalibratePage;
-        if (isAdvancedMonitoringActive && page && isCalibrating) {
+        if (isAdvancedMonitoringActive && page && (isCalibrating || page.data.isCalibratingUI)) {
           calibrationInterrupted = true;
           page.failCalibration('录音中断或出错，请重新校准');
         }
       };
-      if (typeof recorderManager.onInterruptionBegin === 'function') recorderManager.onInterruptionBegin(failInterruptedCalibration);
-      if (typeof recorderManager.onError === 'function') recorderManager.onError(failInterruptedCalibration);
+      observeRecorderEvent(recorderManager, 'InterruptionBegin', failInterruptedCalibration);
+      observeRecorderEvent(recorderManager, 'Pause', failInterruptedCalibration);
+      observeRecorderEvent(recorderManager, 'Error', failInterruptedCalibration);
 
     });
 
@@ -210,7 +229,15 @@ Page({
         return;
       }
 
-      const pcm = new Int16Array(res.frameBuffer);
+      const frameBuffer = res && res.frameBuffer;
+      if (!frameBuffer || !Number.isFinite(frameBuffer.byteLength) || frameBuffer.byteLength % 2 !== 0) {
+        if (isCalibrating) {
+          calibrationInterrupted = true;
+          page.failCalibration('音频数据格式无效，请重新校准');
+        }
+        return;
+      }
+      const pcm = new Int16Array(frameBuffer);
       if (!pcm.length) return;
       const buffer = dcBlocker.process(pcm);
       
@@ -230,7 +257,7 @@ Page({
       // -- 核心优化：校准能量积分 (Leq) --
       if (isCalibrating) {
         const count = Math.min(buffer.length, CALIB_REQUIRED_SAMPLES - calibSamples);
-        calibrationClipped = calibrationClipped || inspectPcm(pcm.subarray(0, count)).clipped;
+        calibrationClipped = calibrationClipped || inspectPcm(pcm.subarray(0, count), calibrationQualityInspector).clipped;
         for (let i = 0; i < count; i++) {
           const sample = buffer[i];
           calibEnergySum += (sample * sample);
@@ -251,7 +278,9 @@ Page({
   },
 
   //停止录音、移除帧监听、清理音频上下文与重启定时器。
-  stopNoiseMonitoring() {
+  stopNoiseMonitoring(options = {}) {
+    if (currentAdvancedCalibratePage !== this) return;
+    if (!options.preserveCalibrationResult) this.invalidateCalibrationResult();
     advancedMonitoringPaused = true;
     clearAdvancedRecorderRestartTimer();
     clearCalibrationTimers();
@@ -262,16 +291,52 @@ Page({
 
   // ================= 严格校准交互流程 =================
 
-  // 1. 唯一校准入口 (仅 1kHz, 80dB)
-  startCalibrationProcess() {
+  // 1. 单点参考校准入口（仅 1 kHz，参考声级由用户填写）
+  setReferenceField(e) {
+    if (this.data.isCalibratingUI) return;
+    const key = e.currentTarget.dataset.key;
+    if (['referenceLevel', 'referenceInstrument', 'inputChain', 'referenceUncertainty'].includes(key)) {
+      this.setData({ [key]: e.detail.value });
+    }
+  },
+
+  verifyCurrentCalibration() {
+    const meta = wx.getStorageSync('offsetMeta') || {};
+    if (!meta.source) {
+      wx.showToast({ title: '没有可复测的校准记录', icon: 'none' });
+      return;
+    }
+    this.startCalibrationProcess({ verification: true });
+  },
+
+  startCalibrationProcess(options = {}) {
     if (isCalibrating || this.data.isCalibratingUI) return;
+    const referenceLevelDb = Number(this.data.referenceLevel);
+    const uncertaintyText = String(this.data.referenceUncertainty).trim();
+    const uncertaintyDb = uncertaintyText ? Number(uncertaintyText) : null;
+    if (!String(this.data.referenceLevel).trim() || !Number.isFinite(referenceLevelDb)
+        || referenceLevelDb < 40 || referenceLevelDb > 120
+        || (uncertaintyDb !== null && (!Number.isFinite(uncertaintyDb) || uncertaintyDb < 0))) {
+      wx.showToast({ title: '请输入 40–120 dB 参考读数及有效不确定度', icon: 'none' });
+      return;
+    }
+    this._referenceEvidence = { referenceLevelDb, frequencyHz: 1000, integrationSeconds: 5,
+      referenceInstrument: String(this.data.referenceInstrument).trim(), uncertaintyDb, uncertaintyCoverageFactor: 2,
+      inputChain: String(this.data.inputChain).trim() };
+    this._verificationMode = options.verification === true;
+    this._verificationOffset = dataModel.getOffset();
+    this._verificationMeta = wx.getStorageSync('offsetMeta') || {};
+    this.invalidateCalibrationResult();
     clearCalibrationTimers();
     clearAdvancedRecorderRestartTimer();
     advancedMonitoringPaused = false;
     this.setupRecorderListeners();
+    this._calibrationStartPending = true;
+    this.setData({ isCalibratingUI: true, statusText: '正在启动录音…', statusColor: THEME_COLORS.DARK_GRAY });
     advancedRecorderRestartTimerId = restartRecorderSession(recorderManager, this.advancedCalibrateRecordParams, 0);
-    this.setData({ isCalibratingUI: true });
+  },
 
+  beginCalibrationCountdown() {
     let countdown = 3;
     const showCountdown = () => {
       calibrationCountdownTimerId = null;
@@ -281,7 +346,7 @@ Page({
       if (countdown > 0) {
         // 倒数标红，提示退后
         this.setData({
-          statusText: `准备中：${countdown} 秒\n请松开手机，后退并保持绝对安静！`,
+          statusText: `准备中：${countdown} 秒\n保持参考纯音稳定，请勿触碰设备`,
           statusColor: THEME_COLORS.PRIMARY
         });
         countdown--;
@@ -302,12 +367,13 @@ Page({
     calibSamples = 0;
     calibSignal = new Float32Array(CALIB_REQUIRED_SAMPLES);
     calibrationClipped = false;
+    calibrationQualityInspector = new PcmQualityInspector(CALIB_SAMPLE_RATE);
     calibrationInterrupted = false;
     isCalibrating = true;
 
     // 录制标绿
     this.setData({
-      statusText: `正在采集中 (5秒)...\n请勿发出任何声响`,
+      statusText: `正在采集中 (5秒)...\n保持参考纯音稳定，避免其他声响`,
       statusColor: THEME_COLORS.WARN
     });
 
@@ -322,6 +388,7 @@ Page({
   },
 
   failCalibration(message) {
+    this.invalidateCalibrationResult();
     clearCalibrationTimers();
     calibSignal = null;
     this.setData({ newOffset: '--', statusText: message, statusColor: THEME_COLORS.PRIMARY, isCalibratingUI: false });
@@ -343,14 +410,15 @@ Page({
     const rms = Math.sqrt(meanSquare);
     const leqDbfs = calculateDb(rms, 1.0);
     
-    // 偏移量 = 真实基准声压(80) - 测得数字分贝
-    const calibrationOffset = CALIB_TARGET_SPL - leqDbfs;
+    // 偏移量 = 用户填写的参考声级 - 测得数字分贝。
+    const calibrationOffset = this._referenceEvidence.referenceLevelDb - leqDbfs;
+    const toneQuality = inspectCalibrationTone(calibSignal, CALIB_SAMPLE_RATE);
 
     const hasValidSignal = Number.isFinite(meanSquare)
       && Number.isFinite(rms)
       && rms > MIN_CALIBRATION_RMS
       && !calibrationClipped
-      && inspectCalibrationTone(calibSignal, CALIB_SAMPLE_RATE).valid;
+      && toneQuality.valid;
     const hasValidOffset = Number.isFinite(calibrationOffset)
       && calibrationOffset >= OFFSET_IMPORT_RANGE.MIN
       && calibrationOffset <= OFFSET_IMPORT_RANGE.MAX;
@@ -360,23 +428,53 @@ Page({
       return;
     }
 
+    const evidence = { ...this._referenceEvidence, measuredDbfs: leqDbfs,
+      measuredAt: Date.now(), samples: calibSamples, sampleRate: CALIB_SAMPLE_RATE,
+      toneQuality, scope: '1-kHz-at-reference-level' };
+    if (this._verificationMode) {
+      const residualDb = leqDbfs + this._verificationOffset - evidence.referenceLevelDb;
+      const decision = dataModel.evaluateReferenceCheck(residualDb, this._verificationMeta.evidence, evidence);
+      if (this._verificationMeta.source !== 'laboratory-preset'
+          && this._verificationMeta.captureProfile !== getMeasurementCaptureProfile()) decision.status = 'inconclusive';
+      const verificationStatus = decision.status;
+      this.stopNoiseMonitoring();
+      calibSignal = null;
+      // 复测只追加证据，不改变偏移量、有效状态、等级、绑定或有效期。
+      const appended = dataModel.appendReferenceCheck(this._verificationOffset,
+        { ...evidence, ...decision, captureProfile: getMeasurementCaptureProfile(), status: verificationStatus }, this._verificationMeta);
+      this.setData({ verificationResidual: residualDb.toFixed(2), isCalibratingUI: false,
+        statusText: appended
+          ? `复测完成：残差 ${residualDb.toFixed(2)} dB，漂移限值 ±${decision.residualLimitDb.toFixed(2)} dB，${{ passed: '通过', failed: '超限', inconclusive: '证据不足' }[verificationStatus]}；不验证全频带准确度，可继续检测和保存。`
+          : '复测完成，但原校准已变化，复测证据未写入。' });
+      return;
+    }
+
     this.setData({
       newOffset: calibrationOffset.toFixed(2),
       statusText: `校准完成！\nLeq dBFS: ${leqDbfs.toFixed(2)}\n计算偏移量: ${calibrationOffset.toFixed(2)} dB`,
       statusColor: THEME_COLORS.SAFE_ASSIST,
       isCalibratingUI: false
     });
-    this.stopNoiseMonitoring();
+    const candidate = {
+      generation: this._calibrationGeneration,
+      offset: calibrationOffset,
+      captureProfile: getMeasurementCaptureProfile(),
+      deviceId: getCurrentDeviceCalibrationId(),
+      evidence,
+    };
+    this._pendingCalibrationResult = candidate;
+    this.stopNoiseMonitoring({ preserveCalibrationResult: true });
     calibSignal = null;
-    this.saveOffset();
+    this.saveOffset(candidate);
   },
 
   // 4. 保存并应用逻辑
-  saveOffset() {
+  saveOffset(candidate = this._pendingCalibrationResult) {
     let that = this;
-    let offsetVal = parseFloat(this.data.newOffset);
+    let offsetVal = candidate && candidate.offset;
 
-    if (!Number.isFinite(offsetVal)
+    if (!candidate || candidate !== this._pendingCalibrationResult
+      || !Number.isFinite(offsetVal)
       || offsetVal < OFFSET_IMPORT_RANGE.MIN
       || offsetVal > OFFSET_IMPORT_RANGE.MAX) {
       wx.showToast({ title: '校准结果无效，请重新校准', icon: 'none' });
@@ -387,18 +485,29 @@ Page({
       title: "应用校准结果",
       content: `1kHz基准计算偏移量为：${offsetVal} dB\n是否立即覆盖当前设备配置？`,
       success(res) {
-        if (res.confirm) {
+        const stillCurrent = that.isPageActive
+          && currentAdvancedCalibratePage === that
+          && that._pendingCalibrationResult === candidate
+          && that._calibrationGeneration === candidate.generation;
+        if (res.confirm && stillCurrent) {
           dataModel.setOffset(offsetVal, {
-            captureProfile: getMeasurementCaptureProfile(),
-            deviceId: getCurrentDeviceCalibrationId(),
+            captureProfile: candidate.captureProfile,
+            deviceId: candidate.deviceId,
             source: 'advanced-1khz-calibration',
+            evidence: candidate.evidence,
+            inputChain: candidate.evidence.inputChain,
+            scope: '1-kHz-at-reference-level',
           });
           offset = offsetVal; 
           wx.showToast({ title: '校准已生效', icon: 'success' });
+        } else if (res.confirm) {
+          wx.showToast({ title: '校准结果已过期，请重新校准', icon: 'none' });
         }
+        if (that._pendingCalibrationResult === candidate) that._pendingCalibrationResult = null;
       },
       complete() {
-        if (isAdvancedMonitoringActive && that.isPageActive) {
+        if (isAdvancedMonitoringActive && that.isPageActive
+          && currentAdvancedCalibratePage === that && that._calibrationGeneration === candidate.generation) {
           advancedMonitoringPaused = false;
           that.setupRecorderListeners();
           clearAdvancedRecorderRestartTimer();

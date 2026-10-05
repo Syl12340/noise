@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-26T17:06:50.064Z",
+  "generatedAt": "2026-10-02T13:28:39.559Z",
   "seed": 260926,
   "criterion": "Extended known-pole regression (used during debugging); 10% frequency tolerance, 80% coverage. Missing is counted separately, never as accurate. Not a clinical benchmark.",
   "sourceSha256": {
-    "utils/phonetic/analysis.js": "fb91ca673e0df11d4e321079374e6347de4c17cc930df77d638af15c07d82508",
-    "utils/phonetic/yin-pitch.js": "ef2210766e5ce0baece17de7057eb4ee5d95031411a9685befe3be1955373e76",
-    "utils/phonetic/formant-extract.js": "f2f3987ce219f20025cff795a6404a6b3d4f21cc421a4529ae5f65ff0c4b0081",
+    "utils/phonetic/analysis.js": "bcf4d7915af4c178c83337f48646ba700451615fc616832d8ce53117f98b8c1b",
+    "utils/phonetic/yin-pitch.js": "838c0fe0d297ac0065ea5ab6f1eed03f293db671477ada0257200192aa9c278e",
+    "utils/phonetic/formant-extract.js": "d4e01284a0258d178eded9bf47920b65de718453fbe1eae2a0abc2f0bc6ccde9",
     "utils/phonetic/burg-lpc.js": "1cc087f0e0c058bba155b07b5224088d793947d1667cbc658dc1ada9821a76b0",
     "utils/phonetic/resample.js": "2bb24d483f60643d18a220e8a7ebd87b523b9f564fa2f8befd28de1dfb5d43e0",
     "tests/formant-holdout.cjs": "c2dca164370cec830a6c5117f6cef8b8d0bf3e58007b1316a66a988b216d578d"
@@ -25,26 +25,26 @@
     },
     {
       "truthFrames": 480,
-      "acceptedFrames": 242,
-      "coverage": 0.5041666666666667,
-      "missingFrames": 238,
-      "missingRate": 0.49583333333333335,
+      "acceptedFrames": 312,
+      "coverage": 0.65,
+      "missingFrames": 168,
+      "missingRate": 0.35,
       "wrongAcceptedFrames": 0,
       "falseAcceptancePerTruthFrame": 0,
       "wrongFractionAmongAccepted": 0,
-      "meanRelativeErrorAmongAccepted": 0.022020271346595226,
+      "meanRelativeErrorAmongAccepted": 0.02200615579087532,
       "maxRelativeErrorAmongAccepted": 0.06583333333333341
     },
     {
       "truthFrames": 480,
-      "acceptedFrames": 212,
-      "coverage": 0.44166666666666665,
-      "missingFrames": 268,
-      "missingRate": 0.5583333333333333,
+      "acceptedFrames": 312,
+      "coverage": 0.65,
+      "missingFrames": 168,
+      "missingRate": 0.35,
       "wrongAcceptedFrames": 0,
       "falseAcceptancePerTruthFrame": 0,
       "wrongFractionAmongAccepted": 0,
-      "meanRelativeErrorAmongAccepted": 0.00978850813235058,
+      "meanRelativeErrorAmongAccepted": 0.008054759064098109,
       "maxRelativeErrorAmongAccepted": 0.037142857142857144
     }
   ],
@@ -159,32 +159,31 @@
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 22,
-          "coverage": 0.7333333333333333,
-          "missingFrames": 8,
-          "missingRate": 0.26666666666666666,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.011776859504132214,
+          "meanRelativeErrorAmongAccepted": 0.011742424242424231,
           "maxRelativeErrorAmongAccepted": 0.011969696969696964
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 22,
-          "coverage": 0.7333333333333333,
-          "missingFrames": 8,
-          "missingRate": 0.26666666666666666,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.003486550902281267,
+          "meanRelativeErrorAmongAccepted": 0.003450686641697905,
           "maxRelativeErrorAmongAccepted": 0.003632958801498054
         }
       ],
       "reasons": {
-        "accepted": 74,
-        "model-disagreement": 16
+        "accepted": 90
       }
     },
     {
@@ -226,34 +225,32 @@
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 13,
-          "coverage": 0.43333333333333335,
-          "missingFrames": 17,
-          "missingRate": 0.5666666666666667,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.013339160839160749,
-          "maxRelativeErrorAmongAccepted": 0.013484848484848433
+          "meanRelativeErrorAmongAccepted": 0.01338636363636357,
+          "maxRelativeErrorAmongAccepted": 0.013712121212121176
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 13,
-          "coverage": 0.43333333333333335,
-          "missingFrames": 17,
-          "missingRate": 0.5666666666666667,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.0023105733218092327,
-          "maxRelativeErrorAmongAccepted": 0.0023970037453183712
+          "meanRelativeErrorAmongAccepted": 0.002379525593008706,
+          "maxRelativeErrorAmongAccepted": 0.002584269662921357
         }
       ],
       "reasons": {
         "sparse-harmonics": 30,
-        "accepted": 26,
-        "model-disagreement": 31,
-        "ambiguous-numbering": 3
+        "accepted": 60
       }
     },
     {
@@ -307,21 +304,20 @@
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 0,
-          "coverage": 0,
-          "missingFrames": 30,
-          "missingRate": 1,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
-          "wrongFractionAmongAccepted": null,
-          "meanRelativeErrorAmongAccepted": null,
-          "maxRelativeErrorAmongAccepted": null
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.004486891385767792,
+          "maxRelativeErrorAmongAccepted": 0.006516853932584277
         }
       ],
       "reasons": {
         "sparse-harmonics": 30,
-        "accepted": 30,
-        "model-disagreement": 30
+        "accepted": 60
       }
     },
     {
@@ -453,8 +449,8 @@
         }
       ],
       "reasons": {
-        "model-disagreement": 47,
-        "ambiguous-numbering": 43
+        "model-disagreement": 30,
+        "ambiguous-numbering": 60
       }
     },
     {
@@ -496,32 +492,31 @@
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 0,
-          "coverage": 0,
-          "missingFrames": 30,
-          "missingRate": 1,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
-          "wrongFractionAmongAccepted": null,
-          "meanRelativeErrorAmongAccepted": null,
-          "maxRelativeErrorAmongAccepted": null
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.026823970037453144,
+          "maxRelativeErrorAmongAccepted": 0.026853932584269602
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 0,
-          "coverage": 0,
-          "missingFrames": 30,
-          "missingRate": 1,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
-          "wrongFractionAmongAccepted": null,
-          "meanRelativeErrorAmongAccepted": null,
-          "maxRelativeErrorAmongAccepted": null
+          "wrongFractionAmongAccepted": 0,
+          "meanRelativeErrorAmongAccepted": 0.005014789533560804,
+          "maxRelativeErrorAmongAccepted": 0.005085324232081967
         }
       ],
       "reasons": {
-        "accepted": 30,
-        "model-disagreement": 60
+        "accepted": 90
       }
     },
     {
@@ -765,32 +760,31 @@
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 15,
-          "coverage": 0.5,
-          "missingFrames": 15,
-          "missingRate": 0.5,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.02751412429378536,
+          "meanRelativeErrorAmongAccepted": 0.027454802259887043,
           "maxRelativeErrorAmongAccepted": 0.02762711864406775
         },
         {
           "truthFrames": 30,
-          "acceptedFrames": 15,
-          "coverage": 0.5,
-          "missingFrames": 15,
-          "missingRate": 0.5,
+          "acceptedFrames": 30,
+          "coverage": 1,
+          "missingFrames": 0,
+          "missingRate": 0,
           "wrongAcceptedFrames": 0,
           "falseAcceptancePerTruthFrame": 0,
           "wrongFractionAmongAccepted": 0,
-          "meanRelativeErrorAmongAccepted": 0.005400560224089612,
-          "maxRelativeErrorAmongAccepted": 0.005546218487394894
+          "meanRelativeErrorAmongAccepted": 0.005523809523809509,
+          "maxRelativeErrorAmongAccepted": 0.005840336134453783
         }
       ],
       "reasons": {
-        "accepted": 60,
-        "model-disagreement": 30
+        "accepted": 90
       }
     },
     {

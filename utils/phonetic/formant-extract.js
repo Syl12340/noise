@@ -90,7 +90,14 @@ function isUsableFormant(candidate, maxBandwidth) {
  */
 function extractFormants(frame, lpcOrder, sampleRate, options = {}) {
   const { a } = burgLPC(frame, lpcOrder);
-  return extractFormantsFromLPC(a, sampleRate, options);
+  let residual = 0, energy = 0;
+  for (let i = lpcOrder; i < frame.length; i++) {
+    let predictionError = frame[i];
+    for (let k = 1; k <= lpcOrder; k++) predictionError += a[k] * frame[i - k];
+    residual += predictionError * predictionError; energy += frame[i] * frame[i];
+  }
+  return { ...extractFormantsFromLPC(a, sampleRate, options),
+    normalizedPredictionError: energy > 1e-20 ? residual / energy : null };
 }
 
 /**
@@ -112,6 +119,7 @@ function* iterateFormants(signal, sampleRate, options = {}) {
     pitchTrack = [],
     compareOrders = true,
     minFundamentalRatio = 1.5,
+    filterMarginSeconds = 0,
   } = options;
 
   const { segmentFrames } = require('./frame-segment');
@@ -119,26 +127,36 @@ function* iterateFormants(signal, sampleRate, options = {}) {
   const track = [];
   let pitchIndex = 0;
   let anchors = null;
+  let trackingContextStart = null;
   const pendingReacquisition = [null, null, null];
 
   for (let i = 0; i < frames.length; i++) {
     const time = (i * hopSize + frameSize / 2) / sampleRate;
-    const empty = () => ({ time, F1: { freq: 0, bandwidth: 0 }, F2: { freq: 0, bandwidth: 0 }, F3: { freq: 0, bandwidth: 0 } });
     while (pitchIndex + 1 < pitchTrack.length && Math.abs(pitchTrack[pitchIndex + 1].time - time) < Math.abs(pitchTrack[pitchIndex].time - time)) pitchIndex++;
     const pitch = pitchTrack[pitchIndex];
+    const pitchSupport = pitch && pitch.support || (pitch ? { start: pitch.time - 1024 / 12000 / 2,
+      end: pitch.time + 1024 / 12000 / 2 } : null);
+    const support = { start: Math.min(i * hopSize / sampleRate - filterMarginSeconds,
+      pitchSupport ? pitchSupport.start : Infinity),
+      end: Math.max((i * hopSize + frameSize) / sampleRate + filterMarginSeconds,
+        pitchSupport ? pitchSupport.end : -Infinity) };
+    const empty = () => ({ time, support, F1: { freq: 0, bandwidth: 0 }, F2: { freq: 0, bandwidth: 0 }, F3: { freq: 0, bandwidth: 0 } });
     if (!pitch || pitch.f0 <= 0 || pitch.aperiodicity > 0.3 || Math.abs(pitch.time - time) > hopSize / sampleRate) {
       track.push({ ...empty(), reason: 'unvoiced-or-uncertain' });
       anchors = null;
+      trackingContextStart = null;
       pendingReacquisition.fill(null);
       yield;
       continue;
     }
     try {
+      if (trackingContextStart === null) trackingContextStart = support.start;
       const result = extractFormants(frames[i], lpcOrder, sampleRate, { minFreq, maxFreq, maxBandwidth });
       const candidates = result._candidates;
       const alternativeOrders = compareOrders ? [lpcOrder - 2, lpcOrder + 2].filter(order => order >= 4 && order < frameSize - 1) : [];
-      const alternatives = alternativeOrders.map(order => extractFormants(frames[i], order, sampleRate,
-        { minFreq, maxFreq, maxBandwidth })._candidates);
+      const alternativeResults = alternativeOrders.map(order => extractFormants(frames[i], order, sampleRate,
+        { minFreq, maxFreq, maxBandwidth }));
+      const alternatives = alternativeResults.map(model => model._candidates);
       // 只把在相邻阶数中均有同频证据的根用于共振峰编号。单一阶数新增的
       // 宽带根仍保留在 candidates/modelCandidates 中，但不再挤占后续稳定峰。
       // 若宽带根跨阶数稳定存在，它仍占用自身编号，不能被静默删除。
@@ -177,11 +195,13 @@ function* iterateFormants(signal, sampleRate, options = {}) {
         }
       }
       const row = empty();
+      row.decisionSupport = { start: Math.min(support.start, trackingContextStart), end: support.end };
       row.candidates = candidates;
-      row.modelCandidates = [{ order: lpcOrder, candidates }, ...alternativeOrders.map((order, index) => (
-        { order, candidates: alternatives[index] }
+      row.modelCandidates = [{ order: lpcOrder, candidates, normalizedPredictionError: result.normalizedPredictionError }, ...alternativeOrders.map((order, index) => (
+        { order, candidates: alternatives[index], normalizedPredictionError: alternativeResults[index].normalizedPredictionError }
       ))];
       row.quality = {};
+      row.exploratory = {};
       row.orders = [lpcOrder, ...alternativeOrders];
       ['F1', 'F2', 'F3'].forEach((key, slot) => {
         const candidate = matched[slot];
@@ -201,6 +221,8 @@ function* iterateFormants(signal, sampleRate, options = {}) {
           : alternatives.length && !usableAcrossOrders ? 'model-bandwidth-disagreement'
           : !resolvedAboveFundamental ? 'sparse-harmonics' : 'accepted';
         row.quality[key] = { reason, candidate: candidate || fallback,
+          acceptanceScope: 'model-correspondence-only', quantitativeUseValidated: false,
+          harmonicsBelowCandidate: candidate ? candidate.freq / pitch.f0 : null,
           identification: evidence && alternatives.length
             ? (evidence.stable ? 'cross-order-consensus' : 'unresolved-ordinal') : 'single-model',
           rawOrdinal: evidence ? evidence.rawIndex + 1 : null,
@@ -211,10 +233,15 @@ function* iterateFormants(signal, sampleRate, options = {}) {
         if (reason === 'accepted') {
           anchors[slot] = candidate.freq;
           row[key] = candidate;
+        } else if (reason === 'sparse-harmonics') {
+          // 保留跨模型支持的低 F1 候选供人工审查；不冒充已接受值或加入定量统计。
+          row.exploratory[key] = { ...candidate, reason, quantitativeUseValidated: false };
         }
       });
       track.push(row);
     } catch (error) {
+      anchors = null;
+      trackingContextStart = null;
       pendingReacquisition.fill(null);
       // 单帧数值失败不丢弃已得到的 F0、声强与其余帧。
       track.push({ ...empty(), reason: 'numerical-failure' });
@@ -225,51 +252,52 @@ function* iterateFormants(signal, sampleRate, options = {}) {
   return track;
 }
 
-function nearestPoleCandidate(candidate, roots, sampleRate, tolerance = Math.log(1.1)) {
-  let best = null, bestDistance = Infinity;
-  const radius = Math.exp(-Math.PI * candidate.bandwidth / sampleRate);
-  const angle = 2 * Math.PI * candidate.freq / sampleRate;
-  for (const root of roots) {
-    if (Math.abs(Math.log(root.freq / candidate.freq)) > tolerance) continue;
-    // 同频率的宽带根与窄带根不是同一极点。以 z 平面的距离匹配，
-    // 同时利用角度（频率）与半径（带宽），不优先删除任一类根。
-    const otherRadius = Math.exp(-Math.PI * root.bandwidth / sampleRate);
-    const otherAngle = 2 * Math.PI * root.freq / sampleRate;
-    const distance = Math.hypot(radius * Math.cos(angle) - otherRadius * Math.cos(otherAngle),
-      radius * Math.sin(angle) - otherRadius * Math.sin(otherAngle));
-    if (distance < bestDistance) {
-      best = root;
-      bestDistance = distance;
-    }
+// Frequency and damping have separate, sample-rate-independent tolerances.
+// This is a conservative correspondence rule, not an accuracy certificate.
+function poleMatchCost(left, right) {
+  const frequency = Math.abs(Math.log(right.freq / left.freq)) / Math.log(1.1);
+  const bandwidth = Math.abs(right.bandwidth - left.bandwidth) / 350;
+  return frequency <= 1 && bandwidth <= 1 ? frequency * .75 + bandwidth * .25 : Infinity;
+}
+
+function alignPoleCandidates(candidates, roots) {
+  const n = candidates.length, m = roots.length, gap = .6;
+  const costs = Array.from({ length: n + 1 }, () => new Float64Array(m + 1));
+  const moves = Array.from({ length: n + 1 }, () => new Uint8Array(m + 1));
+  for (let i = 1; i <= n; i++) { costs[i][0] = i * gap; moves[i][0] = 1; }
+  for (let j = 1; j <= m; j++) { costs[0][j] = j * gap; moves[0][j] = 2; }
+  for (let i = 1; i <= n; i++) for (let j = 1; j <= m; j++) {
+    const match = costs[i - 1][j - 1] + poleMatchCost(candidates[i - 1], roots[j - 1]);
+    const missing = costs[i - 1][j] + gap, extra = costs[i][j - 1] + gap;
+    if (match <= missing && match <= extra) { costs[i][j] = match; moves[i][j] = 0; }
+    else if (missing <= extra) { costs[i][j] = missing; moves[i][j] = 1; }
+    else { costs[i][j] = extra; moves[i][j] = 2; }
   }
-  return best;
+  const matches = new Array(n).fill(null);
+  let i = n, j = m;
+  while (i || j) {
+    const move = moves[i][j];
+    if (move === 0) { matches[--i] = roots[--j]; }
+    else if (move === 1) i--;
+    else j--;
+  }
+  return matches;
 }
 
 function buildCrossOrderNumbering(candidates, alternatives, maxBandwidth, sampleRate) {
   if (!alternatives.length) return candidates.map((candidate, rawIndex) => (
     { candidate, rawIndex, matches: [], stable: true }
   ));
+  const alignments = alternatives.map(roots => alignPoleCandidates(candidates, roots));
   const evidence = candidates.map((candidate, rawIndex) => ({
     candidate,
     rawIndex,
-    matches: alternatives.map(roots => nearestPoleCandidate(candidate, roots, sampleRate)),
+    matches: alignments.map(matches => matches[rawIndex]),
   }));
-  const duplicateMatches = new Set();
-  for (let model = 0; model < alternatives.length; model++) {
-    const seen = new Map();
-    for (const item of evidence) {
-      const root = item.matches[model];
-      if (!root) continue;
-      if (seen.has(root)) {
-        duplicateMatches.add(item);
-        duplicateMatches.add(seen.get(root));
-      } else seen.set(root, item);
-    }
-  }
   let hasStableLowerRoot = false;
   const numbered = [];
   for (const item of evidence) {
-    item.stable = item.matches.every(Boolean) && !duplicateMatches.has(item);
+    item.stable = item.matches.every(Boolean);
     // 只允许跳过位于已确认低阶峰之后、且本身带宽超限的非共识根。
     // 最低根和任何可用但模型不一致的根仍占位并输出缺失，防止整列错号。
     const maySkipAsOrderSpecificBroadRoot = hasStableLowerRoot && !item.matches.some(Boolean)
@@ -308,4 +336,4 @@ function formantTrack(signal, sampleRate, options = {}) {
 function formantTrackAsync(signal, sampleRate, options = {}) {
   return consumeAsync(iterateFormants(signal, sampleRate, options), options);
 }
-module.exports = { extractFormantsFromLPC, extractFormants, formantTrack, formantTrackAsync };
+module.exports = { extractFormantsFromLPC, extractFormants, formantTrack, formantTrackAsync, alignPoleCandidates };

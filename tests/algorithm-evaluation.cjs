@@ -12,7 +12,8 @@ const { extractFormantsFromLPC, extractFormants, formantTrack } = load('utils/ph
 const { estimateHarmonicity } = load('utils/phonetic/harmonicity');
 const { resampleLowPass, emphasizeFloat } = load('utils/phonetic/resample');
 const { calculateIntensity, calculatePitchPeriodVariability } = load('utils/phonetic/voice-metrics');
-const { AWeightingFilter, calculateLeqFromEnergy, calculateCNEFromLeq } = load('utils/audio-math');
+const { AWeightingFilter, calculateLeqFromEnergy, calculateCNEFromLeq, integrateFilterTail } = load('utils/audio-math');
+const { containedFrames, spectrumFramesAtTime } = load('utils/phonetic/time-support');
 const { computeSpectrum, FFT_CONFIG } = load('utils/fft');
 const { computeThirdOctaveBands, BAND_BIN_RANGES, THIRD_OCTAVE_CENTERS } = load('utils/canvas-spectrum');
 const { inspectPcm, DCBlocker, centeredSignal } = load('utils/audio-quality');
@@ -123,6 +124,15 @@ for(const f0 of [100,200,400]) {
     return {ok:f1Ok&&slots.slice(1).every(x=>x.coverage>=.8&&x.relativeError<=.1),slots,f1ExpectedMissing};
   });
 }
+check('Sparse-harmonic formant evidence is retained separately','Rejected high-F0 candidates remain inspectable but never count as accepted quantitative frames',()=>{
+  const f0=400,n=12000,source=Float64Array.from({length:n},(_,i)=>i%(12000/f0)===0?1:0);
+  const x=allPole(source,polynomial([[500,80],[1500,120],[2500,180]]));
+  const tilted=new Float64Array(n);for(let i=0;i<n;i++) tilted[i]=x[i]+(i?.97*tilted[i-1]:0);
+  const pitch=yinPitchTrack(tilted,12000,{frameSize:1024,hopSize:120,fmin:40,fmax:1200});
+  const track=formantTrack(emphasizeFloat(tilted),12000,{pitchTrack:pitch});
+  const exploratory=track.flatMap(row=>Object.values(row.exploratory||{}));
+  return {ok:exploratory.length>0&&exploratory.every(v=>v.quantitativeUseValidated===false),count:exploratory.length};
+});
 
 const aFilter=new AWeightingFilter(44100);
 check('A-weighting transfer response','20..20000 Hz, <= 0.5 dB from normalized analog target',()=>{
@@ -137,6 +147,26 @@ check('A-weighting time-domain level and chunk invariance','1 kHz level error < 
   let maxSampleError=0;for(let i=0;i<whole.length;i++)maxSampleError=Math.max(maxSampleError,Math.abs(whole[i]-parts[i]));
   const error=20*Math.log10(rms(whole.slice(44100))/(.1/Math.sqrt(2)));
   return {ok:Math.abs(error)<.02&&maxSampleError===0,error,maxSampleError};
+});
+check('Finite-record A-weighting boundary','Zero-extension releases filter state without increasing the recorded-sample denominator',()=>{
+  const input=pcm(tone(1000,44100,400,.8)),dc=new DCBlocker(44100),filter=new AWeightingFilter(44100);
+  const weighted=filter.process(dc.process(input),false);
+  const headEnergy=weighted.reduce((sum,value)=>sum+value*value,0);
+  const tail=integrateFilterTail(filter,headEnergy,44100);
+  const referenceDc=new DCBlocker(44100),referenceFilter=new AWeightingFilter(44100);
+  const referenceHead=referenceFilter.process(referenceDc.process(input),false);
+  const referenceTail=referenceFilter.process(new Float32Array(tail.paddingSamples),false);
+  const expected=referenceHead.reduce((sum,value)=>sum+value*value,0)
+    +referenceTail.reduce((sum,value)=>sum+value*value,0);
+  return {ok:tail.energy>0&&tail.converged&&Math.abs(headEnergy+tail.energy-expected)<=expected*1e-10,
+    headEnergy,tailEnergy:tail.energy,expected,recordedSamples:input.length,paddingSamples:tail.paddingSamples};
+});
+check('Selection support and spectrogram time mapping','Only complete windows are selected and STFT edge padding is not stretched across the recording',()=>{
+  const track=[{time:.05,support:{start:0,end:.1}},{time:.1,support:{start:.05,end:.15}}];
+  const contained=containedFrames(track,.04,.11);
+  const emptyEdge=spectrumFramesAtTime(Float64Array.from([.0025,.0045,.0065]),0,.001);
+  const first=spectrumFramesAtTime(Float64Array.from([.0025,.0045,.0065]),.002,.003);
+  return {ok:contained.length===0&&emptyEdge[0]===emptyEdge[1]&&first[0]===0&&first[1]===1,contained,emptyEdge,first};
 });
 check('Leq and exposure energy weighting','Unequal durations integrated by energy; 2h vs 8h = -6.0206 dB',()=>{
   const expected=10*Math.log10((100*10**(60/10)+300*10**(80/10))/400);
@@ -182,9 +212,9 @@ check('PCM quantized low-frequency plateau','100 Hz, amplitude 2000 PCM, must no
   const quality=inspectPcm(Int16Array.from({length:8192},(_,i)=>Math.round(2000*Math.cos(2*Math.PI*100*i/44100))));
   return {ok:!quality.clipped&&!quality.digitalSilence,quality};
 });
-check('PCM rails, near-full, constant DC','Rails/near-full clipped; constant nonzero PCM invalid AC',()=>{
+check('PCM rails, near-full, constant DC','Repeated rails clipped; near-full is warning-only; constant nonzero PCM invalid AC',()=>{
   const rail=inspectPcm(Int16Array.from([0,32767,-32768,0])),near=inspectPcm(pcm(tone(1000,44100,8192,.99))),dc=inspectPcm(new Int16Array(8192).fill(1234));
-  return {ok:rail.clipped&&near.clipped&&dc.digitalSilence&&dc.noAcSignal,rail,near,dc};
+  return {ok:rail.clipped&&!near.clipped&&near.nearFullScale&&dc.digitalSilence&&dc.noAcSignal,rail,near,dc};
 });
 for(const [name,make,expected] of [
   ['stable 1 kHz',()=>tone(1000,44100,88200),true],
@@ -200,7 +230,7 @@ const { runtime } = require('./runtime.cjs');
 function preparePage(file,calibrated=false){
   const env=runtime();
   if(calibrated){const session=env.load('utils/recorder-session.js');env.load('utils/data-model.js').setOffset(100,{captureProfile:session.getMeasurementCaptureProfile(),deviceId:session.getCurrentDeviceCalibrationId()});env.storage.set('alarm',false);}
-  env.load(file);env.page.onShow();env.clock.tick(50);return env;
+  env.load(file);env.page.onShow();if(file!=='pages/main/main.js')env.clock.tick(50);return env;
 }
 function feed(env,count=6,amp=.1){
   for(let j=0;j<count;j++){env.clock.tick(8192/44100*1000);env.emit('FrameRecorded',{frameBuffer:pcm(tone(1000,44100,8192,amp,2*Math.PI*1000*j*8192/44100)).buffer});}
@@ -243,26 +273,33 @@ check('Rough calibration timeout / interruption / stale modal','All three cases 
   return {ok:[env1,env2,env3].every(e=>e.storage.get('offsetValid')!==true&&!e.page.data.canSaveCalibration)&&env1.modals.length===0&&env2.modals.length===0&&!!modal,timeout:env1.page.data,interruption:env2.page.data,staleModalOpened:!!modal};
 });
 check('Main valid tone through real energy pipeline','Known 1 kHz input: CNE +/-0.05 dB, actual sample duration, save allowed',()=>{
-  const env=preparePage('pages/main/main.js',true);feed(env);const archive=env.page.archive();env.page.saveResult();
+  const env=preparePage('pages/main/main.js',true);feed(env);env.page.stopNoiseMonitoring();const archive=env.page.archive();env.page.saveResult();
   const expected=100+20*Math.log10(.1/Math.sqrt(2))+10*Math.log10(2/8);
   return {ok:archive.dataQuality==='valid'&&Math.abs(archive.cne-expected)<.05&&Math.abs(Number(archive.duration)-49152/44100)<.001&&env.saved.length===1,archive,expected,saved:env.saved.length};
 });
-check('Main stops receiving frames','After <=2250 ms stale UI cleared, archive invalid, save blocked; resumed frame does not revive session',()=>{
-  const env=preparePage('pages/main/main.js',true);feed(env);const before=env.page.archive();env.clock.tick(2250);const stale={...env.page.data};env.page.saveResult();const archive=env.page.archive();feed(env,1);
-  return {ok:before.dataQuality==='valid'&&['dbfs','dbspl','cne'].every(k=>stale[k]==='--')&&archive.dataQuality==='invalid'&&env.saved.length===0&&env.page.archive().dataQuality==='invalid',beforeCne:before.cne,stale,archive,saved:env.saved.length};
+check('Main stops receiving frames','JS delivery latency is flagged; native duration and received sample evidence decide final integrity',()=>{
+  const env=preparePage('pages/main/main.js',true);feed(env);const before=env.page.archive();env.clock.tick(2250);const delayed={...env.page.data};env.page.saveResult();const savedBeforeStop=env.saved.length;feed(env,1);env.page.stopNoiseMonitoring();const archive=env.page.archive();env.page.saveResult();
+  return {ok:before.dataQuality==='pending'&&delayed.recordingState==='recording'&&delayed.recordingLabel.includes('交付延迟')
+    &&savedBeforeStop===0&&archive.dataQuality==='partial'&&archive.deliveryDelayed===true
+    &&archive.measurementScope==='received-audio'&&env.saved.length===1,
+    beforeCne:before.cne,delayed,archive,saved:env.saved.length};
 });
-check('Main constant PCM / digital silence / overload','All invalidate measurement and prevent saving',()=>{
+check('Main constant PCM / digital silence / near-full peak','Constant inputs invalidate; near-full waveform remains usable with warning evidence',()=>{
   const inputs=[new Int16Array(8192).fill(1234),new Int16Array(8192),pcm(tone(1000,44100,8192,.99))];
   const trials=inputs.map(buffer=>{const env=preparePage('pages/main/main.js',true);feed(env);env.emit('FrameRecorded',{frameBuffer:buffer.buffer});env.page.saveResult();return {quality:env.page.archive().dataQuality,cne:env.page.data.cne,saved:env.saved.length};});
-  return {ok:trials.every(t=>t.quality==='invalid'&&t.cne==='--'&&t.saved===0),trials};
+  return {ok:trials.slice(0,2).every(t=>t.quality==='invalid'&&t.cne==='--'&&t.saved===0)
+    &&trials[2].quality!=='invalid'&&trials[2].cne!=='--',trials};
 });
-check('Main never gets usable input / uncalibrated','No safe numeric result or successful save',()=>{
-  const empty=preparePage('pages/main/main.js',true);empty.clock.tick(2250);empty.page.saveResult();
-  const uncalibrated=preparePage('pages/main/main.js');feed(uncalibrated);uncalibrated.page.saveResult();
-  return {ok:[empty,uncalibrated].every(e=>e.page.data.cne==='--'&&e.saved.length===0&&e.page.archive().dataQuality==='invalid'),empty:empty.page.data,uncalibrated:uncalibrated.page.data};
+check('Main empty input rejected; uncalibrated input remains usable','Empty capture cannot save; uncalibrated capture saves a labelled estimate without risk certification',()=>{
+  const empty=preparePage('pages/main/main.js',true);empty.clock.tick(10250);empty.page.saveResult();
+  const uncalibrated=preparePage('pages/main/main.js');feed(uncalibrated);uncalibrated.page.stopNoiseMonitoring();uncalibrated.page.saveResult();
+  return {ok:empty.page.data.cne==='--'&&empty.saved.length===0&&empty.page.archive().dataQuality==='invalid'
+    &&uncalibrated.saved.length===1&&Number.isFinite(uncalibrated.saved[0].leqA)
+    &&uncalibrated.saved[0].calibrationVerified===false&&uncalibrated.saved[0].calibrationLabel==='未校准估算'
+    &&uncalibrated.page.data.threatClass==='detail-init',empty:empty.page.data,uncalibrated:uncalibrated.page.data};
 });
 check('Main stop and restart clears timer/session','No timer/listener after hiding; new session begins empty and can recover',()=>{
-  const env=preparePage('pages/main/main.js',true);feed(env);env.page.onHide();const remainingTimers=env.timers.size;env.clock.tick(5000);env.page.onShow();const initial=env.page.archive();env.clock.tick(50);feed(env);const after=env.page.archive();env.page.onHide();
+  const env=preparePage('pages/main/main.js',true);feed(env);env.page.onHide();const remainingTimers=env.timers.size;env.clock.tick(5000);env.page.onShow();const initial=env.page.archive();feed(env);env.page.stopNoiseMonitoring();const after=env.page.archive();env.page.onHide();
   return {ok:remainingTimers===0&&initial.dataQuality==='invalid'&&initial.duration==='0.000'&&after.dataQuality==='valid'&&env.timers.size===0,remainingTimers,initialDuration:initial.duration,afterQuality:after.dataQuality};
 });
 

@@ -204,7 +204,9 @@ Page({
 
   reset() {
     const defaults = dataModel.getDefaults();
-    this._offsetEdited = false;
+    // “恢复默认”必须同时作用于持久化校准值；否则界面显示默认值，
+    // 保存后测量仍会使用旧 offset。
+    this._offsetEdited = true;
     this.setData({
       duration: defaults.expectedExposure,
       energy: defaults.noiseAlarmLevel,

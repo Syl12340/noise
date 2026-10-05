@@ -20,6 +20,7 @@ const PHONETIC_CONFIG = {
   SGRAM_FFT_SIZE: 1024,      // 语谱图 FFT 点数
   SGRAM_WINDOW_SEC: 0.005,   // 语谱图窗长 5ms → 宽带
   MAX_RECORD_SEC: 5,         // 最大录音时长 (秒)
+  CAPTURE_END_TOLERANCE_SEC: 0.25, // 容纳停止边界；保留真实样本，不截断或补零
 };
 
 module.exports = { PHONETIC_CONFIG };

@@ -5,7 +5,7 @@ const recorderManager = wx.getRecorderManager();
 const { calculateRMS, calculateDb } = require('../../utils/audio-math');
 const { LIMITS, CANVAS_CONFIG, THEME_COLORS, OFFSET_IMPORT_RANGE } = require('../../utils/constants');
 const dataModel = require('../../utils/data-model');
-const { DCBlocker, inspectPcm } = require('../../utils/audio-quality');
+const { DCBlocker, inspectPcm, PcmQualityInspector } = require('../../utils/audio-quality');
 const {
   initCanvasFrontAsync,
   recordArrayPoint,
@@ -16,6 +16,9 @@ const {
 const {
   safeStopRecorder,
   cancelRecorderStart,
+  isRecorderTransitioning,
+  observeRecorderEvent,
+  observeRecorderState,
   createCamcorderRecordParams,
   getMeasurementCaptureProfile,
   getCurrentDeviceCalibrationId,
@@ -35,8 +38,11 @@ let isCalibrating = false;
 let isCalibrateMonitoringActive = false;
 let calibEnergySum = 0;
 let calibSamples = 0;
+let calibPcmMin = 32767;
+let calibPcmMax = -32768;
 let dcBlocker = new DCBlocker(44100);
 let calibClipped = false;
+let calibQualityInspector = new PcmQualityInspector(44100);
 let roughCalibrationTimer = null;
 let calibrationInterrupted = false;
 const ROUGH_CALIBRATION_REQUIRED_SAMPLES = 44100 * 2;
@@ -124,6 +130,8 @@ Page({
     presetCalibration: "未开始",
     newOffset: '--',
     canSaveCalibration: false,
+    recordingReady: false,
+    recordingState: 'idle',
   },
 
   onReady() {
@@ -155,6 +163,7 @@ Page({
    * @sideeffect 停止录音，清除页面引用与定时器。
    */
   stopCalibrateMonitoring() {
+    if (currentCalibratePage !== this) return;
     this.completedCalibration = null;
     this.setData({ canSaveCalibration: false });
     if (roughCalibrationTimer) clearTimeout(roughCalibrationTimer);
@@ -174,7 +183,7 @@ Page({
     offset = dataModel.getOffset();
     this.completedCalibration = null;
     this.pendingCalibrationTarget = null;
-    this.setData({ newOffset: '--', presetCalibration: '未开始', canSaveCalibration: false });
+    this.setData({ newOffset: '--', presetCalibration: '未开始', canSaveCalibration: false, recordingReady: false, recordingState: 'idle' });
     
     dBArray =[];
     time = 0;
@@ -197,18 +206,27 @@ Page({
     isCalibrating = true;
     calibEnergySum = 0;
     calibSamples = 0;
+    calibPcmMin = 32767;
+    calibPcmMax = -32768;
     calibClipped = false;
+    calibQualityInspector = new PcmQualityInspector(44100);
     calibrationInterrupted = false;
     
     wx.showLoading({ title: '环境采样中...', mask: true });
 
-    // 超时只负责判失败；成功必须由收到的两秒真实样本数触发。
+    this.pendingCalibrationTarget = { targetSPL, targetName };
+    // 原生启动等待由录音管理器处理，不能提前耗尽两秒采样的时间预算。
+    if (this.data.recordingReady) this.armRoughCalibrationTimeout();
+    else if (this.data.recordingState !== 'starting') this.noiseDetect();
+  },
+
+  armRoughCalibrationTimeout() {
+    if (roughCalibrationTimer) clearTimeout(roughCalibrationTimer);
     roughCalibrationTimer = setTimeout(() => {
       roughCalibrationTimer = null;
       if (isCalibrating) this.failRoughCalibration('采样不足 2 秒，请重试');
     }, 3500);
 
-    this.pendingCalibrationTarget = { targetSPL, targetName };
   },
 
   failRoughCalibration(message) {
@@ -233,6 +251,10 @@ Page({
     wx.hideLoading();
 
     const rms = Math.sqrt(calibEnergySum / calibSamples);
+    if (calibPcmMax - calibPcmMin <= 2) {
+      this.failRoughCalibration('输入无有效交流信号，校准无效');
+      return;
+    }
     if (!Number.isFinite(rms) || rms < 1e-5 || calibClipped) {
       this.failRoughCalibration('输入过弱或过载，校准无效');
       return;
@@ -287,6 +309,13 @@ Page({
    */
   noiseDetect() {
     bindRecorderListenersOnce(recorderManager, 'rough-calibrate-listeners', () => {
+      observeRecorderState(recorderManager, state => {
+        const page = currentCalibratePage;
+        if (!isCalibrateMonitoringActive || !page) return;
+        page.setData({ recordingReady: state === 'recording', recordingState: state });
+        if (state === 'recording' && isCalibrating) page.armRoughCalibrationTimeout();
+        if (state === 'error' && isCalibrating) page.failRoughCalibration('录音启动或停止失败，请重试');
+      });
       const failActiveCalibration = () => {
         const page = currentCalibratePage;
         if (isCalibrateMonitoringActive && page && isCalibrating) {
@@ -294,15 +323,21 @@ Page({
           page.failRoughCalibration('录音中断或出错，请重新校准');
         }
       };
-      if (typeof recorderManager.onInterruptionBegin === 'function') recorderManager.onInterruptionBegin(failActiveCalibration);
-      if (typeof recorderManager.onPause === 'function') recorderManager.onPause(failActiveCalibration);
-      if (typeof recorderManager.onError === 'function') recorderManager.onError(failActiveCalibration);
-      recorderManager.onStop(failActiveCalibration);
+      observeRecorderEvent(recorderManager, 'InterruptionBegin', failActiveCalibration);
+      observeRecorderEvent(recorderManager, 'Pause', failActiveCalibration);
+      observeRecorderEvent(recorderManager, 'Error', failActiveCalibration);
+      observeRecorderEvent(recorderManager, 'Stop', () => {
+        if (!isRecorderTransitioning(recorderManager)) failActiveCalibration();
+      });
     });
 
     const isFrameListenerBound = bindRecorderFrameListener(recorderManager, (res) => {
       const page = currentCalibratePage;
       if (!isCalibrateMonitoringActive || !page) {
+        return;
+      }
+      if (!res || !res.frameBuffer || !Number.isFinite(res.frameBuffer.byteLength) || res.frameBuffer.byteLength % 2 !== 0) {
+        if (isCalibrating) page.failRoughCalibration('音频数据格式无效，请重试');
         return;
       }
       const pcm = new Int16Array(res.frameBuffer);
@@ -314,13 +349,11 @@ Page({
       if (isCalibrating) {
         const count = Math.min(buffer.length, ROUGH_CALIBRATION_REQUIRED_SAMPLES - calibSamples);
         const calibrationPcm = pcm.subarray(0, count);
-        const inputQuality = inspectPcm(calibrationPcm);
-        if (inputQuality.digitalSilence || inputQuality.noAcSignal) {
-          page.failRoughCalibration('输入无有效交流信号，校准无效');
-          return;
-        }
+        const inputQuality = inspectPcm(calibrationPcm, calibQualityInspector);
         calibClipped = calibClipped || inputQuality.clipped;
         for (let i = 0; i < count; i++) {
+          calibPcmMin = Math.min(calibPcmMin, calibrationPcm[i]);
+          calibPcmMax = Math.max(calibPcmMax, calibrationPcm[i]);
           const s = buffer[i];
           calibEnergySum += s * s;
         }

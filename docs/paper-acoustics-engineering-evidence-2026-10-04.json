@@ -1,0 +1,303 @@
+{
+  "generatedAt": "2026-10-04T10:01:41.657212+00:00",
+  "purpose": "Manuscript provenance and existing-report extraction only; no tests or new acoustic experiments were executed for this manuscript.",
+  "codeSnapshot": "Current working tree, including pre-existing uncommitted changes; not a released build.",
+  "headCommit": "7546804648ef993d6242377f01b3ccfc66e15e7e",
+  "algorithmVersion": "acoustics-2026-10-04.1",
+  "resultSchemaVersion": 2,
+  "sourceSha256": {
+    "utils/measurement-version.js": "dac8e03f9fb60a5fe5dc1814a9fdca9d2bd1073c6580fe44f53aa7c280eba4d9",
+    "utils/constants.js": "c0fca4f838d29837c625477eef65fd06a9629201b1e4aa0a9d75972520dd3d25",
+    "utils/audio-math.js": "2f81c4db7eb78d5da01614ce5ab8860fd97221d92624492556cf34c330049d19",
+    "utils/audio-quality.js": "4465304b57ea9da6ecd5000cfae3ff67140ca330083e5db6723fa31f85ed34d3",
+    "utils/calibration-quality.js": "0d440cf00224f14d604b3fb4cfccc31c05178d5d200ca4081abcf5903fa674d2",
+    "utils/fft.js": "b6e49fce79beffe96e73bfd35d5929159972a00b842627820e5281d08e3ddc5d",
+    "utils/canvas-spectrum.js": "7142783a06c4050d5530c8cac383c75941dfa06a84cb9a85462c7a0887e3242d",
+    "utils/recorder-session.js": "152e0e0458a4a83763d0eb8b2b644737aeefb10e362120a07a63b31a2c966834",
+    "utils/data-model.js": "935944d672ee141a8820ab56943caa03f9c976487f4831af356d855da49fb25f",
+    "utils/laboratory-verification.js": "11c6a54e21323d40839be62be93c1e7889455c94a9a589ba8de04ac560008e17",
+    "utils/result-manager.js": "2be720007097677c7380a0b3c57fd82355bce344c914d4d4a56a3de7ae5716b9",
+    "utils/phonetic/phonetic-config.js": "ea2ed914a4180e7ab6ca9746de24730d94a2a83c95885abf0d80fc46bcaf4b52",
+    "utils/phonetic/analysis.js": "d7b1f3476de5fd88caa0bf24f7054ca46a9b5c8fd218222b00d4e02aec111d50",
+    "utils/phonetic/resample.js": "2bb24d483f60643d18a220e8a7ebd87b523b9f564fa2f8befd28de1dfb5d43e0",
+    "utils/phonetic/yin-pitch.js": "838c0fe0d297ac0065ea5ab6f1eed03f293db671477ada0257200192aa9c278e",
+    "utils/phonetic/burg-lpc.js": "1cc087f0e0c058bba155b07b5224088d793947d1667cbc658dc1ada9821a76b0",
+    "utils/phonetic/poly-roots.js": "eb6026fb1339b26078f7415ec748e586bfbb4dc2929b9a656eb8070b1223ec66",
+    "utils/phonetic/formant-extract.js": "d4e01284a0258d178eded9bf47920b65de718453fbe1eae2a0abc2f0bc6ccde9",
+    "utils/phonetic/model-sensitivity.js": "f3181114106a0298e091058198ad87dd610c63d9ca435f997c1fe910935598a3",
+    "utils/phonetic/harmonicity.js": "703eda0587eb332f3636b239436e26b40d99bea87ff37692cb37f3c306cf402b",
+    "utils/phonetic/voice-metrics.js": "739db03b3529f7fc5f341f2cb35a7d7a6e3db0b3c9a5b78e7512935ffb5b1022",
+    "utils/phonetic/spectrogram-gen.js": "7b1691442800c6b78dc6895401ecf99a0d1d574d4c146af6d8f2118f60f610d7",
+    "utils/phonetic/time-support.js": "929aab180b280ba133c71f7414f3e7de7519f1f93a78a83c7b0fef36d99e9aa4",
+    "utils/phonetic/coverage.js": "a5776a1bcf9c209af2875076a661eac510dbd0de525ae86b97969c7e75a9048b",
+    "utils/phonetic/selection-analysis.js": "df93f87272cb5dd2c71cfea22d47f32b417e1e30638964a7af67ea6cf51b3ba7",
+    "utils/phonetic/track-display.js": "a27ff17feed34e6508221201f90af06be228a612c904d437d64f986365420948",
+    "utils/phonetic/iteration.js": "8322a149ccc670327009dca9d41056ce998ef7bb274e6e8df48d50aac8a0d674",
+    "pages/main/main.js": "ff5486eb84f85922ca1e8cfe6a81c641989e634d72dcd3a930a4b8cba0fbd298",
+    "pages/calibrate/calibrate.js": "c8e3774e61bdf37584f08d3c66dabd8d095ebe833c1afab2e2776d3061f00ded",
+    "pages/advanced-calibrate/advanced-calibrate.js": "955a60d1b28bcec1866de2f229b2636f4b93177b62477f75fab85519c5e34881",
+    "pages/advanced-calibrate/calibrate/calibrate.js": "45e98cdb30f97c4927fb9347dd14a2030c88b350ec0ffa04c34a3f291f5ba5ba",
+    "pages/phonetic/phonetic.js": "22e96fcb5a57e5b3e87aa44f8cf97a71ae4a3b013bd6204b5ac4da3103707fed"
+  },
+  "reportSha256": {
+    "docs/rc-repair-results.json": "c32fc6dc55478feb2dfc0d04555f871b0965e712898f5ac0da1d03194d76c377",
+    "docs/recorder-usability-results.json": "fe291fde67fbbfd535ae01ae66f33b4fd6651a8e640da19b605be17505cda4f8",
+    "docs/scientific-followup-results.json": "10c7f9cdc507bc290cb709563e5679b73485f6eb5f1a5e0c9fc61be8d928adb0",
+    "docs/scientific-repairs-results.json": "a89aeb912030dcee9f7029307ed779ca00608077fc489029429d197b1eff8580",
+    "docs/revision-regression-results.json": "d5a0ba000f2f0c95d211ae06fb5db931fdc48e86d68f9fc667593c33338d2149",
+    "docs/algorithm-evaluation-results.json": "c7ae1c8bedbcffe9965e5a503df410995cfc477b7fa53325a25cc5199fb46548",
+    "docs/formant-validation-results.json": "cd833808de719340e4474ed336de61a4fb2e9c63f809b18b843c18cf3d0ac0aa",
+    "docs/formant-holdout-results.json": "da4f946963a289a5b066cc26928c83cdd1249dfffdcdf4ca55044218b1299de9",
+    "docs/praat-comparison-results.json": "c1fc9ec8b631eec9ed2aeb838d0f1d29a98c9771d266eb35ccfe572b1bf2f265",
+    "docs/rc-repairs-2026-10-04.md": "775c22fcd4c02ce6bcf7908f1a498288d429e906c48ce56c5b8b5f93681de569",
+    "docs/scientific-followup-2026-10-02.md": "14c522e25efdeceb65c9dc733cf6218b3a8da288e683798cdc89dd26db4932e1"
+  },
+  "existingEngineeringReports": {
+    "docs/rc-repair-results.json": {
+      "generatedAt": "2026-10-04T09:22:21.879Z",
+      "algorithmVersion": "acoustics-2026-10-04.1",
+      "summary": {
+        "total": 27,
+        "passed": 27,
+        "failed": 0
+      }
+    },
+    "docs/recorder-usability-results.json": {
+      "generatedAt": "2026-10-04T09:22:24.494Z",
+      "algorithmVersion": "acoustics-2026-10-04.1",
+      "summary": {
+        "total": 26,
+        "passed": 26,
+        "failed": 0
+      }
+    },
+    "docs/scientific-followup-results.json": {
+      "generatedAt": "2026-10-04T09:22:22.299Z",
+      "algorithmVersion": null,
+      "summary": {
+        "total": 22,
+        "passed": 22,
+        "failed": 0
+      }
+    },
+    "docs/scientific-repairs-results.json": {
+      "generatedAt": "2026-10-04T09:23:40.405Z",
+      "algorithmVersion": null,
+      "summary": {
+        "total": 17,
+        "passed": 17,
+        "failed": 0
+      }
+    },
+    "docs/revision-regression-results.json": {
+      "generatedAt": "2026-10-04T09:23:55.026Z",
+      "algorithmVersion": null,
+      "summary": {
+        "total": 46,
+        "passed": 46,
+        "failed": 0
+      }
+    }
+  },
+  "historicalScientificEvaluation": {
+    "evaluationDate": "2026-10-02",
+    "algorithmVersion": "acoustics-2026-10-02.2",
+    "notRerunForCurrentManuscriptOrOctober4Repairs": true,
+    "frozenValidation": [
+      {
+        "truthFrames": 750,
+        "acceptedFrames": 364,
+        "coverage": 0.48533333333333334,
+        "missingFrames": 386,
+        "missingRate": 0.5146666666666667,
+        "wrongAcceptedFrames": 60,
+        "falseAcceptancePerTruthFrame": 0.08,
+        "wrongFractionAmongAccepted": 0.16483516483516483,
+        "meanRelativeErrorAmongAccepted": 0.05685547156750581,
+        "maxRelativeErrorAmongAccepted": 0.17500000000000004
+      },
+      {
+        "truthFrames": 750,
+        "acceptedFrames": 377,
+        "coverage": 0.5026666666666667,
+        "missingFrames": 373,
+        "missingRate": 0.49733333333333335,
+        "wrongAcceptedFrames": 30,
+        "falseAcceptancePerTruthFrame": 0.04,
+        "wrongFractionAmongAccepted": 0.07957559681697612,
+        "meanRelativeErrorAmongAccepted": 0.022941600908863255,
+        "maxRelativeErrorAmongAccepted": 0.10962962962962952
+      },
+      {
+        "truthFrames": 750,
+        "acceptedFrames": 347,
+        "coverage": 0.46266666666666667,
+        "missingFrames": 403,
+        "missingRate": 0.5373333333333333,
+        "wrongAcceptedFrames": 0,
+        "falseAcceptancePerTruthFrame": 0,
+        "wrongFractionAmongAccepted": 0,
+        "meanRelativeErrorAmongAccepted": 0.009499598483254008,
+        "maxRelativeErrorAmongAccepted": 0.03612903225806452
+      }
+    ],
+    "expandedRegression": [
+      {
+        "truthFrames": 480,
+        "acceptedFrames": 192,
+        "coverage": 0.4,
+        "missingFrames": 288,
+        "missingRate": 0.6,
+        "wrongAcceptedFrames": 0,
+        "falseAcceptancePerTruthFrame": 0,
+        "wrongFractionAmongAccepted": 0,
+        "meanRelativeErrorAmongAccepted": 0.03203393179765134,
+        "maxRelativeErrorAmongAccepted": 0.08714285714285708
+      },
+      {
+        "truthFrames": 480,
+        "acceptedFrames": 312,
+        "coverage": 0.65,
+        "missingFrames": 168,
+        "missingRate": 0.35,
+        "wrongAcceptedFrames": 0,
+        "falseAcceptancePerTruthFrame": 0,
+        "wrongFractionAmongAccepted": 0,
+        "meanRelativeErrorAmongAccepted": 0.02200615579087532,
+        "maxRelativeErrorAmongAccepted": 0.06583333333333341
+      },
+      {
+        "truthFrames": 480,
+        "acceptedFrames": 312,
+        "coverage": 0.65,
+        "missingFrames": 168,
+        "missingRate": 0.35,
+        "wrongAcceptedFrames": 0,
+        "falseAcceptancePerTruthFrame": 0,
+        "wrongFractionAmongAccepted": 0,
+        "meanRelativeErrorAmongAccepted": 0.008054759064098109,
+        "maxRelativeErrorAmongAccepted": 0.037142857142857144
+      }
+    ],
+    "praatComparison": {
+      "versions": {
+        "numpy": "2.5.3",
+        "parselmouth": "0.4.7",
+        "praat": "6.1.38"
+      },
+      "aggregate": {
+        "production": [
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 225,
+            "coverage": 0.5357142857142857,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.12361111111111112
+          },
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 195,
+            "coverage": 0.4642857142857143,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.023356164383561584
+          },
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 195,
+            "coverage": 0.4642857142857143,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.011682242990654235
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 420,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 154,
+            "maxRelativeError": 0.6986430083893806
+          },
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 420,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 189,
+            "maxRelativeError": 0.6395274353681586
+          },
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 420,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 263,
+            "maxRelativeError": 0.5851328748115161
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 420,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.11700437462633695
+          },
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 420,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 60,
+            "maxRelativeError": 0.6224547157365133
+          },
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 420,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.4003799346196475
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 418,
+            "coverage": 0.9952380952380953,
+            "wrongAcceptedFrames": 144,
+            "maxRelativeError": 0.6416795083863879
+          },
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 420,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 167,
+            "maxRelativeError": 0.7462109866304241
+          },
+          {
+            "truthFrames": 420,
+            "acceptedFrames": 420,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 225,
+            "maxRelativeError": 0.564056826033632
+          }
+        ]
+      },
+      "criterion": "10% frequency tolerance, 80% truth-frame coverage; no wrong accepted frames. Missing remains missing."
+    }
+  },
+  "manuscriptSha256": "0451d518da2cc87750bf5649c9273666416159c55f39e6b36f52c5dc6e41ee8f",
+  "documentChecks": {
+    "localFileLinksExist": true,
+    "balancedCodeFences": true,
+    "balancedDisplayMath": true,
+    "noInternalWebReferenceIds": true,
+    "noTrailingWhitespace": true,
+    "equationsNumbered1To18": true,
+    "nineScientificRowsMatchSourceReports": true,
+    "engineeringTotalMatchesSourceReports": true
+  },
+  "limitations": [
+    "No fresh runtime tests",
+    "No WeChat compilation or visual rendering check",
+    "No native Android/iOS measurements",
+    "No physical frequency-response calibration experiment",
+    "No clinical participant study"
+  ]
+}

@@ -2,25 +2,32 @@
 <view class="container">
   
   <!-- 顶部状态文字区域 -->
-  <view class="status-box" style="margin-top: 40px; text-align: center;">
-    <text style="font-size: 20px; font-weight: bold; color: {{statusColor}}; line-height: 1.5;">
-      {{statusText}}
-    </text>
+  <view class="status-box">
+    <text class="panel-caption">1 kHz 参考纯音 · 使用仪器实际读数</text>
+    <text class="calibration-status" style="color: {{statusColor}};">{{statusText}}</text>
+  </view>
+  <view class="data-panel">
+    <view class="data-row"><text class="data-label">参考声级（dB SPL）</text><input class="reference-input" type="digit" value="{{referenceLevel}}" data-key="referenceLevel" bindinput="setReferenceField" disabled="{{isCalibratingUI}}" /></view>
+    <view class="data-row"><text class="data-label">参考仪器 / 编号（选填）</text><input class="reference-input" value="{{referenceInstrument}}" data-key="referenceInstrument" bindinput="setReferenceField" disabled="{{isCalibratingUI}}" /></view>
+    <view class="data-row"><text class="data-label">麦克风 / 连接 / 增益（选填）</text><input class="reference-input" value="{{inputChain}}" data-key="inputChain" bindinput="setReferenceField" disabled="{{isCalibratingUI}}" /></view>
+    <view class="data-row"><text class="data-label">扩展不确定度 U（dB，k=2，选填）</text><input class="reference-input" type="digit" value="{{referenceUncertainty}}" data-key="referenceUncertainty" bindinput="setReferenceField" disabled="{{isCalibratingUI}}" /></view>
+    <text class="evidence-note">单点校准不覆盖所有频率与声级。未填写也可检测和保存，但参考仪器、输入链和不确定度不完整时仅标记为估算校准，不参与风险分级。</text>
   </view>
 
   <!-- 唯一的操作按钮 -->
   <button class="btn btn--primary"
-    style="margin-top: 40px;"
     bindtap="startCalibrationProcess"
     disabled="{{isCalibratingUI}}">
-    开始 1kHz 纯音 (80 dB) 标准标定
+    {{isCalibratingUI ? '正在校准…' : '开始参考纯音校准'}}
   </button>
+  <button class="btn btn--ghost" bindtap="verifyCurrentCalibration" disabled="{{isCalibratingUI}}">复测当前参数（不改变偏移量）</button>
 
   <!-- 日常监控数据 (校准期间淡化) -->
-  <view class="data-panel" style="opacity: {{isCalibratingUI ? 0.3 : 1}}; margin-top: 30px; text-align: center;">
-    <text>当前输入: {{dbfs}} dB FS</text>
-    <view>测算声压: {{dbspl}} dB SPL</view>
-    <view>当前偏移量配置: {{newOffset}} dB</view>
+  <view class="data-panel" style="opacity: {{isCalibratingUI ? 0.6 : 1}};">
+    <view class="data-row"><text class="data-label">当前输入</text><text class="data-value">{{dbfs}} <text class="data-unit">dBFS</text></text></view>
+    <view class="data-row"><text class="data-label">估算声压</text><text class="data-value">{{dbspl}} <text class="data-unit">dB SPL</text></text></view>
+    <view class="data-row"><text class="data-label">本次偏移量</text><text class="data-value">{{newOffset}} <text class="data-unit">dB</text></text></view>
+    <view class="data-row"><text class="data-label">复测残差</text><text class="data-value">{{verificationResidual}} <text class="data-unit">dB</text></text></view>
   </view>
 
 </view>

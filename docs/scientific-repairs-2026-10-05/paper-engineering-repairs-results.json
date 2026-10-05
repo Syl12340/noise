@@ -1,0 +1,67 @@
+{
+  "generatedAt": "2026-10-05T07:05:56.257Z",
+  "criteria": "Targeted engineering and deterministic numerical regressions; not clinical or hardware certification",
+  "summary": {
+    "total": 14,
+    "passed": 14,
+    "failed": 0
+  },
+  "results": [
+    {
+      "name": "Unseen noiseless 5.5 kHz harmonic input at F0=89.7",
+      "status": "PASS"
+    },
+    {
+      "name": "Unseen noiseless 5.5 kHz harmonic input at F0=151.3",
+      "status": "PASS"
+    },
+    {
+      "name": "Unseen noiseless 5.5 kHz harmonic input at F0=263.2",
+      "status": "PASS"
+    },
+    {
+      "name": "Unseen noiseless 5.5 kHz harmonic input at F0=431.5",
+      "status": "PASS"
+    },
+    {
+      "name": "Unseen noiseless 5.5 kHz harmonic input at F0=733.1",
+      "status": "PASS"
+    },
+    {
+      "name": "Known white-noise SNR 10 dB at fractional F0",
+      "status": "PASS"
+    },
+    {
+      "name": "Known white-noise SNR 20 dB at fractional F0",
+      "status": "PASS"
+    },
+    {
+      "name": "Known white-noise SNR 30 dB at fractional F0",
+      "status": "PASS"
+    },
+    {
+      "name": "Constant offset does not increase HNR",
+      "status": "PASS"
+    },
+    {
+      "name": "HNR yields cancellation during fractional-delay refinement",
+      "status": "PASS"
+    },
+    {
+      "name": "Exact F0 endpoints survive numeric error; real outside frequencies are rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "Reference denominator retains deliberately removed production rows",
+      "status": "PASS"
+    },
+    {
+      "name": "Reference grid identifies duplicate and shifted outputs",
+      "status": "PASS"
+    },
+    {
+      "name": "Full Int16 pipeline keeps formants explicitly experimental",
+      "status": "PASS"
+    }
+  ]
+}

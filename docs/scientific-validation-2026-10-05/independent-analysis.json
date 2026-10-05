@@ -1,0 +1,596 @@
+{
+  "formant-validation-results.json": {
+    "withinDeclaredPerPoleDomain": [
+      {
+        "formant": 1,
+        "conditions": 17,
+        "truthFrames": 510,
+        "acceptedFrames": 334,
+        "coverage": 0.6549019607843137,
+        "wrongAcceptedFrames": 30,
+        "maxRelativeError": 0.13039473684210534
+      },
+      {
+        "formant": 2,
+        "conditions": 25,
+        "truthFrames": 750,
+        "acceptedFrames": 377,
+        "coverage": 0.5026666666666667,
+        "wrongAcceptedFrames": 30,
+        "maxRelativeError": 0.10962962962962952
+      },
+      {
+        "formant": 3,
+        "conditions": 25,
+        "truthFrames": 750,
+        "acceptedFrames": 347,
+        "coverage": 0.46266666666666667,
+        "wrongAcceptedFrames": 0,
+        "maxRelativeError": 0.03612903225806452
+      }
+    ],
+    "note": "Post hoc descriptive stratification, not replacement acceptance gate; F2/F3 may still depend on a rejected lower pole.",
+    "allConditionsHave30Rows": true
+  },
+  "formant-holdout-results.json": {
+    "withinDeclaredPerPoleDomain": [
+      {
+        "formant": 1,
+        "conditions": 10,
+        "truthFrames": 300,
+        "acceptedFrames": 192,
+        "coverage": 0.64,
+        "wrongAcceptedFrames": 0,
+        "maxRelativeError": 0.08714285714285708
+      },
+      {
+        "formant": 2,
+        "conditions": 16,
+        "truthFrames": 480,
+        "acceptedFrames": 312,
+        "coverage": 0.65,
+        "wrongAcceptedFrames": 0,
+        "maxRelativeError": 0.06583333333333341
+      },
+      {
+        "formant": 3,
+        "conditions": 16,
+        "truthFrames": 480,
+        "acceptedFrames": 312,
+        "coverage": 0.65,
+        "wrongAcceptedFrames": 0,
+        "maxRelativeError": 0.037142857142857144
+      }
+    ],
+    "note": "Post hoc descriptive stratification, not replacement acceptance gate; F2/F3 may still depend on a rejected lower pole.",
+    "allConditionsHave30Rows": true
+  },
+  "analyticPeriodicAutocorrelation": [
+    {
+      "f0": 100,
+      "harmonics": 50,
+      "truePeriodSamples": 120.0,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 1.0,
+      "impliedHnrDb": 59.99999565692812
+    },
+    {
+      "f0": 173,
+      "harmonics": 28,
+      "truePeriodSamples": 69.36416184971098,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 0.970882980479463,
+      "impliedHnrDb": 15.23019970380039
+    },
+    {
+      "f0": 200,
+      "harmonics": 25,
+      "truePeriodSamples": 60.0,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 1.0,
+      "impliedHnrDb": 59.99999565692812
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "truePeriodSamples": 50.63291139240506,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 0.9645502967626925,
+      "impliedHnrDb": 14.347122750924148
+    },
+    {
+      "f0": 389,
+      "harmonics": 12,
+      "truePeriodSamples": 30.848329048843187,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 0.9931407040476513,
+      "impliedHnrDb": 21.60731240485486
+    },
+    {
+      "f0": 599,
+      "harmonics": 8,
+      "truePeriodSamples": 20.03338898163606,
+      "trueAutocorrelationAtPeriod": 1.0,
+      "threePointPeak": 0.9995495112033362,
+      "impliedHnrDb": 33.46120316266073
+    }
+  ],
+  "noiselessFloatHnr": [
+    {
+      "f0": 100,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 100,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 100,
+      "harmonics": 50,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 100,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 173,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 173.00029056254095,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.42818106248911,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 58.207748431701376,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.42818106248911,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 58.207748431701376,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 173,
+      "harmonics": 28,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 173.13508008359946,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 15.227191270032307,
+        "medianDb": 15.224826736243319,
+        "minimumDb": 14.997252903556353,
+        "maximumDb": 15.461174891180637
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 15.227191270032307,
+        "medianDb": 15.224826736243319,
+        "minimumDb": 14.997252903556353,
+        "maximumDb": 15.461174891180637
+      }
+    },
+    {
+      "f0": 200,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 200,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 200,
+      "harmonics": 25,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 200,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 59.999995656928135,
+        "medianDb": 59.99999565692812,
+        "minimumDb": 59.99999565692812,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 236.9989970790175,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 54.69900943520937,
+        "medianDb": 54.662472911699815,
+        "minimumDb": 53.18506825284472,
+        "maximumDb": 56.527638994399105
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 54.69900943520937,
+        "medianDb": 54.662472911699815,
+        "minimumDb": 53.18506825284472,
+        "maximumDb": 56.527638994399105
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 236.72993665393253,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 14.349791156307191,
+        "medianDb": 14.35116221451845,
+        "minimumDb": 14.21996386387667,
+        "maximumDb": 14.503622554264599
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 14.349791156307191,
+        "medianDb": 14.35116221451845,
+        "minimumDb": 14.21996386387667,
+        "maximumDb": 14.503622554264599
+      }
+    },
+    {
+      "f0": 389,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 388.9939912009093,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 53.45310132733276,
+        "medianDb": 53.29582838910766,
+        "minimumDb": 51.35400984923556,
+        "maximumDb": 56.176928277696796
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 53.45310132733276,
+        "medianDb": 53.29582838910766,
+        "minimumDb": 51.35400984923556,
+        "maximumDb": 56.176928277696796
+      }
+    },
+    {
+      "f0": 389,
+      "harmonics": 12,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 388.5324449242955,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 21.605488214342884,
+        "medianDb": 21.609579311454613,
+        "minimumDb": 21.470329892461724,
+        "maximumDb": 21.813295034368597
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 21.605488214342884,
+        "medianDb": 21.609579311454613,
+        "minimumDb": 21.470329892461724,
+        "maximumDb": 21.813295034368597
+      }
+    },
+    {
+      "f0": 599,
+      "harmonics": 1,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 599.0081608940799,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 57.78781729072886,
+        "medianDb": 58.41259080640047,
+        "minimumDb": 54.455823792320004,
+        "maximumDb": 59.99999565692812
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 57.78781729072886,
+        "medianDb": 58.41259080640047,
+        "minimumDb": 54.455823792320004,
+        "maximumDb": 59.99999565692812
+      }
+    },
+    {
+      "f0": 599,
+      "harmonics": 8,
+      "inputSnrDb": null,
+      "noiseless": true,
+      "medianEstimatedF0": 599.2860962367927,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 33.44883688143348,
+        "medianDb": 33.444464744505865,
+        "minimumDb": 33.038995747552704,
+        "maximumDb": 33.813262065529265
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 33.44883688143348,
+        "medianDb": 33.444464744505865,
+        "minimumDb": 33.038995747552704,
+        "maximumDb": 33.813262065529265
+      }
+    }
+  ],
+  "noisyHnr": [
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": 10,
+      "noiseless": false,
+      "medianEstimatedF0": 78.98529588909695,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 8.59401968282524,
+        "medianDb": 8.611097194393322,
+        "minimumDb": 8.297656308624012,
+        "maximumDb": 8.938634046304786
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 9.882811346560091,
+        "medianDb": 9.87998863572934,
+        "minimumDb": 9.34424204592133,
+        "maximumDb": 10.336249804128903
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": 20,
+      "noiseless": false,
+      "medianEstimatedF0": 236.73179739612567,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 13.295826845901523,
+        "medianDb": 13.294977663325938,
+        "minimumDb": 13.094282097017043,
+        "maximumDb": 13.483068590098394
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 13.295826845901523,
+        "medianDb": 13.294977663325938,
+        "minimumDb": 13.094282097017043,
+        "maximumDb": 13.483068590098394
+      }
+    },
+    {
+      "f0": 237,
+      "harmonics": 21,
+      "inputSnrDb": 30,
+      "noiseless": false,
+      "medianEstimatedF0": 236.73114737908992,
+      "oraclePitch": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 14.235512882393069,
+        "medianDb": 14.231735449627337,
+        "minimumDb": 14.099756482215142,
+        "maximumDb": 14.401172401938613
+      },
+      "yinGated": {
+        "availableFrames": 70,
+        "acceptedFrames": 70,
+        "coverage": 1,
+        "meanDb": 14.235512882393069,
+        "medianDb": 14.231735449627337,
+        "minimumDb": 14.099756482215142,
+        "maximumDb": 14.401172401938613
+      }
+    }
+  ],
+  "resampling": [
+    {
+      "inputRate": 44100,
+      "frequencyHz": 1000,
+      "outputRate": 12000,
+      "outputRmsGainDb": 9.733466993080887e-07
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 4000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -0.0001244491837455685
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 5000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -0.0011166675207448054
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 5500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -6.02015543627353
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 5800,
+      "outputRate": 12000,
+      "outputRmsGainDb": -31.865929640222657
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 6000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -86.43243720285909
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 6500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -84.91343916164196
+    },
+    {
+      "inputRate": 44100,
+      "frequencyHz": 9000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -118.17536805176277
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 1000,
+      "outputRate": 12000,
+      "outputRmsGainDb": 1.5935975488953953e-05
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 4000,
+      "outputRate": 12000,
+      "outputRmsGainDb": 0.00028780668225620177
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 5000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -0.002995622075490098
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 5500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -6.0205940649519825
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 5800,
+      "outputRate": 12000,
+      "outputRmsGainDb": -28.373388709596252
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 6000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -76.80466920817244
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 6500,
+      "outputRate": 12000,
+      "outputRmsGainDb": -84.4950308928051
+    },
+    {
+      "inputRate": 48000,
+      "frequencyHz": 9000,
+      "outputRate": 12000,
+      "outputRmsGainDb": -118.13381627530255
+    }
+  ],
+  "limits": "Synthetic diagnostics; no significance tests; overlapping frames are dependent; no IEC or clinical claim."
+}

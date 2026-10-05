@@ -1,0 +1,2440 @@
+{
+  "generatedAt": "2026-10-02T13:28:40.990444+00:00",
+  "seed": 261002,
+  "versions": {
+    "numpy": "2.5.3",
+    "parselmouth": "0.4.7",
+    "praat": "6.1.38"
+  },
+  "criterion": "10% frequency tolerance, 80% truth-frame coverage; no wrong accepted frames. Missing remains missing.",
+  "method": "Exact same Int16 PCM and production frame centres. Physical25ms is a window-shape diagnostic, not equal spectral resolution. ResolutionMatched50ms matches LPC rate/order/pre-emphasis and approximate Hamming frequency resolution (effective25ms/physical50ms Gaussian), still differs in shape, resampling and root filtering. Added this resolution diagnostic after first inspection without changing PCM or production parameters. Standard Praat uses a different rate/order. Novel set frozen before first execution; becomes regression after inspection.",
+  "limitations": "Synthetic known-pole vowels only. No clinical corpus, calibrated microphone or Android device validation. HNR algorithms/bandwidth/windows differ and are not equated.",
+  "sourceSha256": {
+    "utils/phonetic/analysis.js": "bcf4d7915af4c178c83337f48646ba700451615fc616832d8ce53117f98b8c1b",
+    "utils/phonetic/formant-extract.js": "d4e01284a0258d178eded9bf47920b65de718453fbe1eae2a0abc2f0bc6ccde9",
+    "utils/phonetic/model-sensitivity.js": "f3181114106a0298e091058198ad87dd610c63d9ca435f997c1fe910935598a3",
+    "utils/phonetic/selection-analysis.js": "df93f87272cb5dd2c71cfea22d47f32b417e1e30638964a7af67ea6cf51b3ba7",
+    "utils/phonetic/burg-lpc.js": "1cc087f0e0c058bba155b07b5224088d793947d1667cbc658dc1ada9821a76b0",
+    "utils/phonetic/poly-roots.js": "eb6026fb1339b26078f7415ec748e586bfbb4dc2929b9a656eb8070b1223ec66",
+    "utils/phonetic/resample.js": "2bb24d483f60643d18a220e8a7ebd87b523b9f564fa2f8befd28de1dfb5d43e0",
+    "utils/phonetic/yin-pitch.js": "838c0fe0d297ac0065ea5ab6f1eed03f293db671477ada0257200192aa9c278e",
+    "utils/audio-quality.js": "4465304b57ea9da6ecd5000cfae3ff67140ca330083e5db6723fa31f85ed34d3",
+    "utils/measurement-version.js": "45b739c6cee8313c7a42d5e638c3c7960083913b12c103c9f83d6ef0a04ba47f",
+    "tests/praat-comparison.py": "b342d6585b67a2bb6f379fb1648cb48885cb5d610a079157be9454b802699fa3",
+    "tests/praat-production.cjs": "a47d48ed1bd7a50171b554666c0383e72e03ec0aa4a69b36c6a6636675d848d6"
+  },
+  "aggregate": {
+    "production": [
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 225,
+        "coverage": 0.5357142857142857,
+        "wrongAcceptedFrames": 30,
+        "maxRelativeError": 0.12361111111111112
+      },
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 195,
+        "coverage": 0.4642857142857143,
+        "wrongAcceptedFrames": 0,
+        "maxRelativeError": 0.023356164383561584
+      },
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 195,
+        "coverage": 0.4642857142857143,
+        "wrongAcceptedFrames": 0,
+        "maxRelativeError": 0.011682242990654235
+      }
+    ],
+    "praatPhysical25ms": [
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 420,
+        "coverage": 1.0,
+        "wrongAcceptedFrames": 154,
+        "maxRelativeError": 0.6986430083893806
+      },
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 420,
+        "coverage": 1.0,
+        "wrongAcceptedFrames": 189,
+        "maxRelativeError": 0.6395274353681586
+      },
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 420,
+        "coverage": 1.0,
+        "wrongAcceptedFrames": 263,
+        "maxRelativeError": 0.5851328748115161
+      }
+    ],
+    "praatStandard50ms": [
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 420,
+        "coverage": 1.0,
+        "wrongAcceptedFrames": 30,
+        "maxRelativeError": 0.11700437462633695
+      },
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 420,
+        "coverage": 1.0,
+        "wrongAcceptedFrames": 60,
+        "maxRelativeError": 0.6224547157365133
+      },
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 420,
+        "coverage": 1.0,
+        "wrongAcceptedFrames": 30,
+        "maxRelativeError": 0.4003799346196475
+      }
+    ],
+    "praatResolutionMatched50ms": [
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 418,
+        "coverage": 0.9952380952380953,
+        "wrongAcceptedFrames": 144,
+        "maxRelativeError": 0.6416795083863879
+      },
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 420,
+        "coverage": 1.0,
+        "wrongAcceptedFrames": 167,
+        "maxRelativeError": 0.7462109866304241
+      },
+      {
+        "truthFrames": 420,
+        "acceptedFrames": 420,
+        "coverage": 1.0,
+        "wrongAcceptedFrames": 225,
+        "maxRelativeError": 0.564056826033632
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "novel-0-105",
+      "f0": 105,
+      "poles": [
+        [
+          390,
+          75
+        ],
+        [
+          1460,
+          120
+        ],
+        [
+          2840,
+          175
+        ],
+        [
+          3980,
+          245
+        ],
+        [
+          4790,
+          315
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "c85f64b71627e2d1cd91d1f81dac601b9e32ecf8603dc7948c34e90bc2c91560",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.007948717948717987
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.00869863013698624
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.005211267605633951
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.014809664374306974
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.01846215558633091
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.008650187139407794
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.019760035458094016
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.005987320262202056
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0032859760319188247
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.007392645044339008
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.008846163416295738
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.005310319496383276
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        5.353877284340745,
+        7.0275794122066,
+        6.848339322668865
+      ],
+      "pitchMeanDifferenceHz": 0.002061610642195433
+    },
+    {
+      "id": "novel-0-185",
+      "f0": 185,
+      "poles": [
+        [
+          390,
+          75
+        ],
+        [
+          1460,
+          120
+        ],
+        [
+          2840,
+          175
+        ],
+        [
+          3980,
+          245
+        ],
+        [
+          4790,
+          315
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "42f179e7fdab8aaeea5a4b62da7ec2382cda2a549329f45d61c43ac478b70d1a",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.04922979618181755
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.012554667072325776
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.004135883839152088
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.041298941621972785
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.007737314023878561
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.007171362828386707
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 28,
+            "coverage": 0.9333333333333333,
+            "wrongAcceptedFrames": 13,
+            "maxRelativeError": 0.6416795083863879
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 15,
+            "maxRelativeError": 0.7462109866304241
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 15,
+            "maxRelativeError": 0.48160638865516736
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        null,
+        null,
+        null
+      ],
+      "pitchMeanDifferenceHz": 0.0031271573824587524
+    },
+    {
+      "id": "novel-0-305",
+      "f0": 305,
+      "poles": [
+        [
+          390,
+          75
+        ],
+        [
+          1460,
+          120
+        ],
+        [
+          2840,
+          175
+        ],
+        [
+          3980,
+          245
+        ],
+        [
+          4790,
+          315
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "6720221d11b512033aa91a7787deafefd0a59d494ba88802ece9574a92b1ab26",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.023356164383561584
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0022535211267605826
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.13463191091385707
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.21705351279525498
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.4722865173494003
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.11700437462633695
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.024422376555647718
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.017834229573659433
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.13941868159214932
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.12645129314735526
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.4739196798298503
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        null,
+        343.6074125913938,
+        1334.9207021299496
+      ],
+      "pitchMeanDifferenceHz": 0.019517163675355203
+    },
+    {
+      "id": "novel-0-425",
+      "f0": 425,
+      "poles": [
+        [
+          390,
+          75
+        ],
+        [
+          1460,
+          120
+        ],
+        [
+          2840,
+          175
+        ],
+        [
+          3980,
+          245
+        ],
+        [
+          4790,
+          315
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "ebd7be74040a616332818049e1ad48d053b67a7184ff640f6c3ff8e87e82e63e",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.09613128793835957
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0737932451970138
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.3639065689259956
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.09710034634249776
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.05465062744994165
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.008609192406647814
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.09498427003122134
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.08723008511711461
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.24854277456185747
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        null,
+        null,
+        null
+      ],
+      "pitchMeanDifferenceHz": 0.01938202250378064
+    },
+    {
+      "id": "novel-1-105",
+      "f0": 105,
+      "poles": [
+        [
+          720,
+          100
+        ],
+        [
+          1950,
+          140
+        ],
+        [
+          3210,
+          195
+        ],
+        [
+          4070,
+          255
+        ],
+        [
+          4860,
+          335
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "db079bcf1a79a5e4e9e6c6d225b9da182e44e8968408f2ff3a6a7166a3ae1384",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.009722222222222188
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.009538461538461496
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.00292834890965743
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 11,
+            "maxRelativeError": 0.5655648743844115
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 11,
+            "maxRelativeError": 0.6380423567188402
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 9,
+            "maxRelativeError": 0.38539977887209487
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.008986497188032239
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0004931530083989166
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.005149493863860988
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.010222068147258012
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.009991808919449507
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0030945831108768473
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        84.36846885562387,
+        393.3882782242975,
+        385.10176515426195
+      ],
+      "pitchMeanDifferenceHz": 0.027734486395107658
+    },
+    {
+      "id": "novel-1-185",
+      "f0": 185,
+      "poles": [
+        [
+          720,
+          100
+        ],
+        [
+          1950,
+          140
+        ],
+        [
+          3210,
+          195
+        ],
+        [
+          4070,
+          255
+        ],
+        [
+          4860,
+          335
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "029af2edd058f7e6330b07c7f61e91241d574688af9215c90ca7674689fc8cbb",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.00652777777777791
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.01184615384615384
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0005607476635514086
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.008970816870034426
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.014699653214064412
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0013717564551880557
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.020491872953169343
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0019418005855642573
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.010228667111696677
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.006406251499990301
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.011839773686119992
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0005028702645115679
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        0.9419876190977485,
+        2.86581585557038,
+        1.4997397432415709
+      ],
+      "pitchMeanDifferenceHz": 0.051148174761740016
+    },
+    {
+      "id": "novel-1-305",
+      "f0": 305,
+      "poles": [
+        [
+          720,
+          100
+        ],
+        [
+          1950,
+          140
+        ],
+        [
+          3210,
+          195
+        ],
+        [
+          4070,
+          255
+        ],
+        [
+          4860,
+          335
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "6cecff9af1489bd49fc1507cc98de53188c75409d9e1472809c79ffee6d6d631",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.12361111111111112
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.014000000000000012
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.011682242990654235
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.12405618869340929
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.10803686134648227
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.4006069529000523
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.08868027649261734
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.02771015223957707
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.009618592510549973
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.12330493527074193
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 2,
+            "maxRelativeError": 0.10002249484363979
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.4009645149299841
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        0.2971969927854085,
+        179.7757785978994,
+        1322.6812946002076
+      ],
+      "pitchMeanDifferenceHz": 0.28729898352088035
+    },
+    {
+      "id": "novel-1-425",
+      "f0": 425,
+      "poles": [
+        [
+          720,
+          100
+        ],
+        [
+          1950,
+          140
+        ],
+        [
+          3210,
+          195
+        ],
+        [
+          4070,
+          255
+        ],
+        [
+          4860,
+          335
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "063c084211ac15b318452d4a8d9c42b879c1cd0a8463f8123253d0288827aea2",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.06763888888888903
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0666772963004445
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.41991394776129953
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.34916852154333766
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.09892508722915627
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.04321473050883662
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.032717578651129564
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0673981477682819
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.42191300285366795
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.3496597083531584
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        0.5535439256357828,
+        null,
+        null
+      ],
+      "pitchMeanDifferenceHz": 0.5549386452225595
+    },
+    {
+      "id": "novel-2-105",
+      "f0": 105,
+      "poles": [
+        [
+          810,
+          120
+        ],
+        [
+          1090,
+          110
+        ],
+        [
+          2510,
+          185
+        ],
+        [
+          3640,
+          230
+        ],
+        [
+          4700,
+          310
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "945bb982a3204c730b72d876a13f15b60aec764e1aaa2ea6030e7945e81f908a",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0024691358024691024
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.014862385321100957
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.009163346613545897
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 7,
+            "maxRelativeError": 0.5078420451353773
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 12,
+            "maxRelativeError": 0.2632946227450613
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 15,
+            "maxRelativeError": 0.5851328748115161
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.007913209523153553
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0031230901351512186
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0002940029480883455
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0023765806971681736
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.01561048560065792
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.009448972043368808
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        58.4041374016846,
+        93.66306956661427,
+        680.43074554082
+      ],
+      "pitchMeanDifferenceHz": 0.0037062520307334997
+    },
+    {
+      "id": "novel-2-185",
+      "f0": 185,
+      "poles": [
+        [
+          810,
+          120
+        ],
+        [
+          1090,
+          110
+        ],
+        [
+          2510,
+          185
+        ],
+        [
+          3640,
+          230
+        ],
+        [
+          4700,
+          310
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "03a34beed81ed0f6167f4569168bd4e973eba6dacffba3234d1867a9e0a94989",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 15,
+            "coverage": 0.5,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.05604938271604931
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 15,
+            "coverage": 0.5,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.003669724770642091
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 15,
+            "coverage": 0.5,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.011513944223107586
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 16,
+            "maxRelativeError": 0.6349520086088314
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 16,
+            "maxRelativeError": 0.2704269605979558
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 29,
+            "maxRelativeError": 0.5615265351975136
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.037635253148490144
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.010592890256522214
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0008480255751477372
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 9,
+            "maxRelativeError": 0.15203565321906898
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.2977564880254612
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.564056826033632
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        120.58526609827368,
+        149.79122510790904,
+        1339.661793858191
+      ],
+      "pitchMeanDifferenceHz": 0.008019501944662959
+    },
+    {
+      "id": "novel-2-305",
+      "f0": 305,
+      "poles": [
+        [
+          810,
+          120
+        ],
+        [
+          1090,
+          110
+        ],
+        [
+          2510,
+          185
+        ],
+        [
+          3640,
+          230
+        ],
+        [
+          4700,
+          310
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "3c449e625f206612b19c5c32825ed3a3c9db5ff95aa6722812f412251d67089b",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.09605277338948026
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.005233790731867138
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0026595768924384533
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.09069602434508628
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.035867327327104626
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.013011568720342703
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.10427361285124803
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.010010819871528076
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0037329995618052836
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        null,
+        null,
+        null
+      ],
+      "pitchMeanDifferenceHz": 0.029774987305097513
+    },
+    {
+      "id": "novel-2-425",
+      "f0": 425,
+      "poles": [
+        [
+          810,
+          120
+        ],
+        [
+          1090,
+          110
+        ],
+        [
+          2510,
+          185
+        ],
+        [
+          3640,
+          230
+        ],
+        [
+          4700,
+          310
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "6f6357e039875e99fdf1ba8838dd4955ee1da8e8114f6b20c57b973b77254217",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.04481481481481486
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.6986430083893806
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.2270708702957448
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.5168417101382481
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.04410707448093576
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.17128729636037798
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.018200227540619895
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.04463013187302467
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.18397952378650628
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.021789553733871925
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        557.340377063733,
+        null,
+        null
+      ],
+      "pitchMeanDifferenceHz": 0.04903670373087342
+    },
+    {
+      "id": "novel-48k",
+      "f0": 235,
+      "poles": [
+        [
+          720,
+          100
+        ],
+        [
+          1950,
+          140
+        ],
+        [
+          3210,
+          195
+        ],
+        [
+          4070,
+          255
+        ],
+        [
+          4860,
+          335
+        ]
+      ],
+      "sampleRate": 48000,
+      "pcmSha256": "5b40f778799660f7525fb3cafd009985bd5ba3b9e6167d2c40786dc693819287",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 48000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.04471943104712306
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.6395274353681586
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.4022601242475389
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.025787997710131072
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.6224547157365133
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.4003799346196475
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 2,
+            "maxRelativeError": 0.1081273077730388
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.6392947871563218
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.40309169742802586
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        null,
+        null,
+        null
+      ],
+      "pitchMeanDifferenceHz": 0.006088049345744177
+    },
+    {
+      "id": "novel-broad-F1",
+      "f0": 165,
+      "poles": [
+        [
+          690,
+          610
+        ],
+        [
+          1240,
+          130
+        ],
+        [
+          2750,
+          185
+        ],
+        [
+          3700,
+          250
+        ],
+        [
+          4680,
+          310
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "ddf996e3854c3a69b7f214623ab4141f241bd37de4512f3070a28bd7ef6644c4",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.20301137013391857
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.04780272144492104
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.5207336097109193
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.01873268965914543
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0016848055653411187
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.0015179290997711092
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.18809101160902642
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": 0.014133036457665837
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.44783785979560053
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        null,
+        null,
+        null
+      ],
+      "pitchMeanDifferenceHz": 0.017934595468090227
+    },
+    {
+      "id": "existing-failure-400",
+      "f0": 400,
+      "poles": [
+        [
+          500,
+          80
+        ],
+        [
+          1500,
+          100
+        ],
+        [
+          2500,
+          120
+        ]
+      ],
+      "sampleRate": 12000,
+      "pcmSha256": "b63199164e7db3a4149a1cfc3871a1e13526e88e060ce601ec57ff64709a2a79",
+      "productionParameters": {
+        "lpcOrder": 12,
+        "maxFormant": 5000,
+        "windowMs": 25,
+        "task": "sustained",
+        "sampleRate": 12000,
+        "analysisRate": 12000,
+        "formantAnalysisRate": 12000,
+        "formantGuardBandHz": 1000,
+        "preEmphasisFrequencyHz": 58.172801206236315,
+        "effectiveFormantOrder": 12,
+        "formantInputWindowSeconds": 0.025,
+        "formantTrackingContext": "since-last-tracker-reset",
+        "hnrLowpassHz": 5500,
+        "hnrAnalysisRate": 12000,
+        "hnrFrameSeconds": 0.08533333333333333,
+        "nominalRecordingSeconds": 5,
+        "captureEndToleranceSeconds": 0.25,
+        "pitchFrameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "minFundamentalRatio": 1.5,
+        "compareOrders": true,
+        "discontinuityBoundariesSeconds": []
+      },
+      "truthFrames": 30,
+      "metrics": {
+        "production": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 0,
+            "coverage": 0.0,
+            "wrongAcceptedFrames": 0,
+            "maxRelativeError": null
+          }
+        ],
+        "praatPhysical25ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.19041816491260033
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.3545315449945011
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.35770410214508497
+          }
+        ],
+        "praatStandard50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.18351536778659794
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.3183578728160771
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.3545806289304243
+          }
+        ],
+        "praatResolutionMatched50ms": [
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.1876756662368233
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.33960895873464125
+          },
+          {
+            "truthFrames": 30,
+            "acceptedFrames": 30,
+            "coverage": 1.0,
+            "wrongAcceptedFrames": 30,
+            "maxRelativeError": 0.35772375145754765
+          }
+        ]
+      },
+      "meanPraatDifferenceHz": [
+        null,
+        null,
+        null
+      ],
+      "pitchMeanDifferenceHz": 0.0010111703891197976
+    }
+  ],
+  "productionAccuracyAndCoveragePassed": false
+}

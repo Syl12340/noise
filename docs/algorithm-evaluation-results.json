@@ -1,39 +1,39 @@
 {
-  "generatedAt": "2026-09-26T17:06:49.812Z",
+  "generatedAt": "2026-10-02T13:28:40.154Z",
   "runtime": "v24.21.0",
   "platform": "win32",
   "criteria": "Engineering synthetic-signal evaluation; not clinical or device certification",
   "sourceSha256": {
-    "utils/phonetic/yin-pitch.js": "ef2210766e5ce0baece17de7057eb4ee5d95031411a9685befe3be1955373e76",
-    "utils/phonetic/formant-extract.js": "f2f3987ce219f20025cff795a6404a6b3d4f21cc421a4529ae5f65ff0c4b0081",
+    "utils/phonetic/yin-pitch.js": "838c0fe0d297ac0065ea5ab6f1eed03f293db671477ada0257200192aa9c278e",
+    "utils/phonetic/formant-extract.js": "d4e01284a0258d178eded9bf47920b65de718453fbe1eae2a0abc2f0bc6ccde9",
     "utils/phonetic/burg-lpc.js": "1cc087f0e0c058bba155b07b5224088d793947d1667cbc658dc1ada9821a76b0",
     "utils/phonetic/poly-roots.js": "eb6026fb1339b26078f7415ec748e586bfbb4dc2929b9a656eb8070b1223ec66",
-    "utils/phonetic/harmonicity.js": "bd22feb6e042e1adaf804722ccd6c666f55da1500d5e15a8f75ca90201190047",
+    "utils/phonetic/harmonicity.js": "703eda0587eb332f3636b239436e26b40d99bea87ff37692cb37f3c306cf402b",
     "utils/phonetic/resample.js": "2bb24d483f60643d18a220e8a7ebd87b523b9f564fa2f8befd28de1dfb5d43e0",
     "utils/phonetic/voice-metrics.js": "739db03b3529f7fc5f341f2cb35a7d7a6e3db0b3c9a5b78e7512935ffb5b1022",
     "utils/phonetic/frame-segment.js": "e89c3d757399c7e83c9f8acc93bc2fb2e743120a572205a820f161ffb6295047",
-    "utils/phonetic/phonetic-config.js": "7d3d47382e3c486316da6821c719a3b6de745f1496be0c93f958ab8b65a3223b",
-    "utils/audio-math.js": "947922cdf90442c9f39f4a8e34e9880d099aee8b97b86ec07299911f82de983f",
+    "utils/phonetic/phonetic-config.js": "ea2ed914a4180e7ab6ca9746de24730d94a2a83c95885abf0d80fc46bcaf4b52",
+    "utils/audio-math.js": "2f81c4db7eb78d5da01614ce5ab8860fd97221d92624492556cf34c330049d19",
     "utils/fft.js": "b6e49fce79beffe96e73bfd35d5929159972a00b842627820e5281d08e3ddc5d",
-    "utils/audio-quality.js": "c7b18376e444b77c804c2c1aef28a6a7a391acafee9c22b15c9c1fea698695b2",
+    "utils/audio-quality.js": "4465304b57ea9da6ecd5000cfae3ff67140ca330083e5db6723fa31f85ed34d3",
     "utils/calibration-quality.js": "0d440cf00224f14d604b3fb4cfccc31c05178d5d200ca4081abcf5903fa674d2",
-    "utils/data-model.js": "ca556cb18aa29698470a8d79aff6d188c8e12188ab960b8c2384ecbd0fc40961",
+    "utils/data-model.js": "cf0f6b92e41df27931d0118b204ba0e722da7605f8d629462256386cd20c801a",
     "utils/canvas-spectrum.js": "7142783a06c4050d5530c8cac383c75941dfa06a84cb9a85462c7a0887e3242d",
-    "utils/recorder-session.js": "17b35c9a18267094546455e9e7af3a993b10a8a53f47d0172e37fe024c9136e7",
+    "utils/recorder-session.js": "4cce7aff1c26366355843940511ae07b509742677b4a7b57e0bf0be41666b707",
     "utils/constants.js": "c0fca4f838d29837c625477eef65fd06a9629201b1e4aa0a9d75972520dd3d25",
-    "pages/main/main.js": "6b5e0bac1eab2ff24fa9c42db27686879018ca40afc7ad29964bf337cd51c4e6",
-    "pages/calibrate/calibrate.js": "aa9e03a3a5b3c9345f1de1f8b50accc3e8dda9b8ff0ffd18f82282fb8f6d7a4e",
-    "pages/phonetic/phonetic.js": "839e157f7b817e4f5c18d207b911dbc76cda3f1d407fd5fcb80310259c89d542",
-    "tests/algorithm-evaluation.cjs": "68eab67ec0e31e536b47a191997ed3013d896a6d71304f49a2ddc0bd08e8a2e7",
-    "tests/runtime.cjs": "445e11f468d049be3eb7564605cfe2e47fcf57369147b7b309c5ec08e7f9fa80",
-    "utils/phonetic/analysis.js": "fb91ca673e0df11d4e321079374e6347de4c17cc930df77d638af15c07d82508",
+    "pages/main/main.js": "77deb3cf1836ec4d312534e93dab6fac468214fcf26bf0f73a12e09f29d253f6",
+    "pages/calibrate/calibrate.js": "f0b8dc4bf23f05df75b1eca8c10411c71a56c8fe8d8aa00216f46274b0f0a182",
+    "pages/phonetic/phonetic.js": "7a379126c5e57812a0d1025b0b34219c04d1c50c5d300dc21b47d526445a17bc",
+    "tests/algorithm-evaluation.cjs": "ebe816b5f268640af6eed8b7e680abce734444e00069203ae766b48c0996ca84",
+    "tests/runtime.cjs": "eca5e399e96ae71007bf0ec6628dcefe91088de400f8d770f838fc28f0b67bd0",
+    "utils/phonetic/analysis.js": "bcf4d7915af4c178c83337f48646ba700451615fc616832d8ce53117f98b8c1b",
     "utils/phonetic/iteration.js": "8322a149ccc670327009dca9d41056ce998ef7bb274e6e8df48d50aac8a0d674",
-    "utils/measurement-version.js": "8020b1d334d6c410a35f46c2a9abc6d7b09fe33d92941c67053cdb223345d701"
+    "utils/measurement-version.js": "45b739c6cee8313c7a42d5e638c3c7960083913b12c103c9f83d6ef0a04ba47f"
   },
   "summary": {
-    "total": 80,
-    "passed": 78,
-    "failed": 2,
+    "total": 83,
+    "passed": 82,
+    "failed": 1,
     "errors": 0
   },
   "results": [
@@ -46,22 +46,22 @@
         {
           "f0": 40,
           "rawF0": 40,
-          "aperiodicity": 0
+          "aperiodicity": 6.452592820238636e-31
         },
         {
           "f0": 40,
           "rawF0": 40,
-          "aperiodicity": 0
+          "aperiodicity": 1.2697343000076957e-30
         },
         {
           "f0": 40,
           "rawF0": 40,
-          "aperiodicity": 0
+          "aperiodicity": 6.600112039048045e-31
         },
         {
           "f0": 40,
           "rawF0": 40,
-          "aperiodicity": 0
+          "aperiodicity": 1.5350102719209896e-30
         }
       ],
       "status": "PASS"
@@ -75,22 +75,22 @@
         {
           "f0": 40.10000280181364,
           "rawF0": 40.10000280181364,
-          "aperiodicity": 1.6336404129420366e-7
+          "aperiodicity": 0.00001396538326999015
         },
         {
           "f0": 40.09999990210586,
           "rawF0": 40.09999990210586,
-          "aperiodicity": 1.8098356317777552e-7
+          "aperiodicity": 0.000013974846023389918
         },
         {
           "f0": 40.09999823198712,
           "rawF0": 40.09999823198712,
-          "aperiodicity": 1.9111943503062876e-7
+          "aperiodicity": 0.00001398028965197023
         },
         {
           "f0": 40.10000419046971,
           "rawF0": 40.10000419046971,
-          "aperiodicity": 1.5491653548549932e-7
+          "aperiodicity": 0.000013960846485206093
         }
       ],
       "status": "PASS"
@@ -104,22 +104,22 @@
         {
           "f0": 50,
           "rawF0": 50,
-          "aperiodicity": 0
+          "aperiodicity": 1.0424330720847971e-30
         },
         {
           "f0": 50,
           "rawF0": 50,
-          "aperiodicity": 0
+          "aperiodicity": 1.6109236443935795e-30
         },
         {
           "f0": 50,
           "rawF0": 50,
-          "aperiodicity": 0
+          "aperiodicity": 1.0922061872895658e-30
         },
         {
           "f0": 50,
           "rawF0": 50,
-          "aperiodicity": 0
+          "aperiodicity": 1.6812689355635592e-30
         }
       ],
       "status": "PASS"
@@ -133,22 +133,22 @@
         {
           "f0": 80,
           "rawF0": 80,
-          "aperiodicity": 0
+          "aperiodicity": 2.3009248967181156e-30
         },
         {
           "f0": 80,
           "rawF0": 80,
-          "aperiodicity": 0
+          "aperiodicity": 2.831721110773163e-30
         },
         {
           "f0": 80,
           "rawF0": 80,
-          "aperiodicity": 0
+          "aperiodicity": 2.0745964470490944e-30
         },
         {
           "f0": 80,
           "rawF0": 80,
-          "aperiodicity": 0
+          "aperiodicity": 3.287048925993183e-30
         }
       ],
       "status": "PASS"
@@ -162,22 +162,22 @@
         {
           "f0": 100,
           "rawF0": 100,
-          "aperiodicity": 0
+          "aperiodicity": 3.2333312931108245e-30
         },
         {
           "f0": 100,
           "rawF0": 100,
-          "aperiodicity": 0
+          "aperiodicity": 3.461438880514195e-30
         },
         {
           "f0": 100,
           "rawF0": 100,
-          "aperiodicity": 0
+          "aperiodicity": 3.1048298607950968e-30
         },
         {
           "f0": 100,
           "rawF0": 100,
-          "aperiodicity": 0
+          "aperiodicity": 3.798661408996429e-30
         }
       ],
       "status": "PASS"
@@ -191,22 +191,22 @@
         {
           "f0": 150,
           "rawF0": 150,
-          "aperiodicity": 0
+          "aperiodicity": 6.531188308905913e-30
         },
         {
           "f0": 150,
           "rawF0": 150,
-          "aperiodicity": 0
+          "aperiodicity": 6.433596429744158e-30
         },
         {
           "f0": 150,
           "rawF0": 150,
-          "aperiodicity": 0
+          "aperiodicity": 6.413006240211754e-30
         },
         {
           "f0": 150,
           "rawF0": 150,
-          "aperiodicity": 0
+          "aperiodicity": 7.658967595624293e-30
         }
       ],
       "status": "PASS"
@@ -220,22 +220,22 @@
         {
           "f0": 200,
           "rawF0": 200,
-          "aperiodicity": 0
+          "aperiodicity": 1.1388743540195669e-29
         },
         {
           "f0": 200,
           "rawF0": 200,
-          "aperiodicity": 0
+          "aperiodicity": 1.462260602658406e-29
         },
         {
           "f0": 200,
           "rawF0": 200,
-          "aperiodicity": 0
+          "aperiodicity": 1.2254161026352414e-29
         },
         {
           "f0": 200,
           "rawF0": 200,
-          "aperiodicity": 0
+          "aperiodicity": 1.513367871250854e-29
         }
       ],
       "status": "PASS"
@@ -249,22 +249,22 @@
         {
           "f0": 300,
           "rawF0": 300,
-          "aperiodicity": 0
+          "aperiodicity": 3.615193323515314e-29
         },
         {
           "f0": 300,
           "rawF0": 300,
-          "aperiodicity": 0
+          "aperiodicity": 3.803000988116381e-29
         },
         {
           "f0": 300,
           "rawF0": 300,
-          "aperiodicity": 0
+          "aperiodicity": 3.5851839647772684e-29
         },
         {
           "f0": 300,
           "rawF0": 300,
-          "aperiodicity": 0
+          "aperiodicity": 3.830742961086254e-29
         }
       ],
       "status": "PASS"
@@ -278,22 +278,22 @@
         {
           "f0": 500,
           "rawF0": 500,
-          "aperiodicity": 0
+          "aperiodicity": 1.0886651337123604e-28
         },
         {
           "f0": 500,
           "rawF0": 500,
-          "aperiodicity": 0
+          "aperiodicity": 1.0707645046315016e-28
         },
         {
           "f0": 500,
           "rawF0": 500,
-          "aperiodicity": 0
+          "aperiodicity": 1.1075922800204107e-28
         },
         {
           "f0": 500,
           "rawF0": 500,
-          "aperiodicity": 0
+          "aperiodicity": 1.1664028272487054e-28
         }
       ],
       "status": "PASS"
@@ -307,22 +307,22 @@
         {
           "f0": 800,
           "rawF0": 800,
-          "aperiodicity": 0
+          "aperiodicity": 2.3539209218213527e-28
         },
         {
           "f0": 800,
           "rawF0": 800,
-          "aperiodicity": 0
+          "aperiodicity": 2.4538082604953304e-28
         },
         {
           "f0": 800,
           "rawF0": 800,
-          "aperiodicity": 0
+          "aperiodicity": 2.313824136457922e-28
         },
         {
           "f0": 800,
           "rawF0": 800,
-          "aperiodicity": 0
+          "aperiodicity": 2.344558927268932e-28
         }
       ],
       "status": "PASS"
@@ -336,22 +336,22 @@
         {
           "f0": 1000,
           "rawF0": 1000,
-          "aperiodicity": 0
+          "aperiodicity": 3.3613565195199203e-28
         },
         {
           "f0": 1000,
           "rawF0": 1000,
-          "aperiodicity": 0
+          "aperiodicity": 3.470869779115562e-28
         },
         {
           "f0": 1000,
           "rawF0": 1000,
-          "aperiodicity": 0
+          "aperiodicity": 3.4319097144306114e-28
         },
         {
           "f0": 1000,
           "rawF0": 1000,
-          "aperiodicity": 0
+          "aperiodicity": 3.244734494485029e-28
         }
       ],
       "status": "PASS"
@@ -365,22 +365,22 @@
         {
           "f0": 1190.314146826227,
           "rawF0": 1190.314146826227,
-          "aperiodicity": 0.0011316620008897116
+          "aperiodicity": 0.0013601502396889808
         },
         {
           "f0": 1190.3142542993266,
           "rawF0": 1190.3142542993266,
-          "aperiodicity": 0.001130411671006429
+          "aperiodicity": 0.0013591088406044978
         },
         {
           "f0": 1190.3143324993844,
           "rawF0": 1190.3143324993844,
-          "aperiodicity": 0.0011295006429846515
+          "aperiodicity": 0.0013583500760410959
         },
         {
           "f0": 1190.3141034552175,
           "rawF0": 1190.3141034552175,
-          "aperiodicity": 0.001132166008713518
+          "aperiodicity": 0.0013605700410877497
         }
       ],
       "status": "PASS"
@@ -394,22 +394,22 @@
         {
           "f0": 1199.0330262931489,
           "rawF0": 1199.0330262931489,
-          "aperiodicity": 0
+          "aperiodicity": 0.000013686608024417462
         },
         {
           "f0": 1199.0330263058693,
           "rawF0": 1199.0330263058693,
-          "aperiodicity": 0
+          "aperiodicity": 0.000013685351810004658
         },
         {
           "f0": 1199.0330260978196,
           "rawF0": 1199.0330260978196,
-          "aperiodicity": 0
+          "aperiodicity": 0.000013705868901324623
         },
         {
           "f0": 1199.033026253226,
           "rawF0": 1199.033026253226,
-          "aperiodicity": 0
+          "aperiodicity": 0.000013690549121409147
         }
       ],
       "status": "PASS"
@@ -423,22 +423,22 @@
         {
           "f0": 1200,
           "rawF0": 1200,
-          "aperiodicity": 0
+          "aperiodicity": 4.085120864066871e-28
         },
         {
           "f0": 1200,
           "rawF0": 1200,
-          "aperiodicity": 0
+          "aperiodicity": 4.146457162427519e-28
         },
         {
           "f0": 1200,
           "rawF0": 1200,
-          "aperiodicity": 0
+          "aperiodicity": 4.232782356850043e-28
         },
         {
           "f0": 1200,
           "rawF0": 1200,
-          "aperiodicity": 0
+          "aperiodicity": 4.324974859731444e-28
         }
       ],
       "status": "PASS"
@@ -451,25 +451,25 @@
         {
           "f0": 0,
           "rawF0": 30,
-          "aperiodicity": 0,
+          "aperiodicity": 5.905003455423446e-31,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 30,
-          "aperiodicity": 0,
+          "aperiodicity": 5.144937409205683e-31,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 30,
-          "aperiodicity": 0,
+          "aperiodicity": 7.008690298119226e-31,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 30,
-          "aperiodicity": 0,
+          "aperiodicity": 6.535974788407587e-31,
           "reason": "out-of-range"
         }
       ],
@@ -483,25 +483,25 @@
         {
           "f0": 0,
           "rawF0": 39.00000451125213,
-          "aperiodicity": 0,
+          "aperiodicity": 0.000019773192443139957,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 39.00000091581418,
-          "aperiodicity": 0,
+          "aperiodicity": 0.000019763583489672937,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 38.99999313449751,
-          "aperiodicity": 0,
+          "aperiodicity": 0.000019742749459071495,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 39.000005359073924,
-          "aperiodicity": 0,
+          "aperiodicity": 0.000019775456661124672,
           "reason": "out-of-range"
         }
       ],
@@ -515,7 +515,7 @@
         {
           "f0": 0,
           "rawF0": 1200.966809205964,
-          "aperiodicity": 0,
+          "aperiodicity": 0.000013706664734783626,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -525,7 +525,7 @@
         {
           "f0": 0,
           "rawF0": 1200.966809295128,
-          "aperiodicity": 0,
+          "aperiodicity": 0.000013715494691366989,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -535,7 +535,7 @@
         {
           "f0": 0,
           "rawF0": 1200.966809459736,
-          "aperiodicity": 0,
+          "aperiodicity": 0.000013731766017017505,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -545,7 +545,7 @@
         {
           "f0": 0,
           "rawF0": 1200.9668091864637,
-          "aperiodicity": 0,
+          "aperiodicity": 0.000013704732103003339,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -563,7 +563,7 @@
         {
           "f0": 0,
           "rawF0": 1204.8334665304446,
-          "aperiodicity": 0,
+          "aperiodicity": 0.0003442126020250362,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -573,7 +573,7 @@
         {
           "f0": 0,
           "rawF0": 1204.8334669832589,
-          "aperiodicity": 0,
+          "aperiodicity": 0.0003442216040668244,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -583,7 +583,7 @@
         {
           "f0": 0,
           "rawF0": 1204.833450752582,
-          "aperiodicity": 0,
+          "aperiodicity": 0.00034389863896124875,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -593,7 +593,7 @@
         {
           "f0": 0,
           "rawF0": 1204.8334636733828,
-          "aperiodicity": 0,
+          "aperiodicity": 0.000344155792130428,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -611,25 +611,25 @@
         {
           "f0": 0,
           "rawF0": 1249.3082379767695,
-          "aperiodicity": 0,
+          "aperiodicity": 0.03536408511742652,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 1249.3191607502515,
-          "aperiodicity": 0,
+          "aperiodicity": 0.03538596244609149,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 1249.3083991495214,
-          "aperiodicity": 0,
+          "aperiodicity": 0.0353644082017966,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 1249.3008490326304,
-          "aperiodicity": 0,
+          "aperiodicity": 0.03534926466237915,
           "reason": "out-of-range"
         }
       ],
@@ -643,25 +643,25 @@
         {
           "f0": 0,
           "rawF0": 1500,
-          "aperiodicity": 0,
+          "aperiodicity": 5.836358214595043e-28,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 1500,
-          "aperiodicity": 0,
+          "aperiodicity": 5.925768020969769e-28,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 1500,
-          "aperiodicity": 0,
+          "aperiodicity": 5.859987708276692e-28,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 1500,
-          "aperiodicity": 0,
+          "aperiodicity": 5.91855431776731e-28,
           "reason": "out-of-range"
         }
       ],
@@ -675,25 +675,25 @@
         {
           "f0": 0,
           "rawF0": 1796.0810043698846,
-          "aperiodicity": 0.00040935471076055524,
+          "aperiodicity": 0.05093651108323409,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 1796.0970668519321,
-          "aperiodicity": 0.0004702680538059556,
+          "aperiodicity": 0.050974214698871416,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 1796.114625616184,
-          "aperiodicity": 0.0005367262358573488,
+          "aperiodicity": 0.05101534795992008,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 1796.0754835034559,
-          "aperiodicity": 0.00038839187769498795,
+          "aperiodicity": 0.0509235351916234,
           "reason": "out-of-range"
         }
       ],
@@ -707,25 +707,25 @@
         {
           "f0": 0,
           "rawF0": 2000,
-          "aperiodicity": 0,
+          "aperiodicity": 8.030763799537716e-28,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 2000,
-          "aperiodicity": 0,
+          "aperiodicity": 8.337866246951883e-28,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 2000,
-          "aperiodicity": 0,
+          "aperiodicity": 8.680333374730941e-28,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 2000,
-          "aperiodicity": 0,
+          "aperiodicity": 7.919546441534678e-28,
           "reason": "out-of-range"
         }
       ],
@@ -739,25 +739,25 @@
         {
           "f0": 0,
           "rawF0": 2486.8388085352667,
-          "aperiodicity": 0.0011533076647640486,
+          "aperiodicity": 0.03513491980668048,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 2486.832678285673,
-          "aperiodicity": 0.0011171644257796168,
+          "aperiodicity": 0.035110346163427966,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 2486.839904305502,
-          "aperiodicity": 0.0011597632163157998,
+          "aperiodicity": 0.03513930813765181,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 2486.8431577119036,
-          "aperiodicity": 0.001178921235747643,
+          "aperiodicity": 0.03515232992691302,
           "reason": "out-of-range"
         }
       ],
@@ -771,25 +771,25 @@
         {
           "f0": 0,
           "rawF0": 3000,
-          "aperiodicity": 0,
+          "aperiodicity": 1.3727567407660907e-27,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 3000,
-          "aperiodicity": 0,
+          "aperiodicity": 1.4476629243455826e-27,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 3000,
-          "aperiodicity": 0,
+          "aperiodicity": 1.4259882241054873e-27,
           "reason": "out-of-range"
         },
         {
           "f0": 0,
           "rawF0": 3000,
-          "aperiodicity": 0,
+          "aperiodicity": 1.4518857467415785e-27,
           "reason": "out-of-range"
         }
       ],
@@ -810,12 +810,12 @@
         {
           "f0": 100,
           "rawF0": 100,
-          "aperiodicity": 0
+          "aperiodicity": 1.6756196786553896e-29
         },
         {
           "f0": 100,
           "rawF0": 100,
-          "aperiodicity": 0
+          "aperiodicity": 2.0910330162833077e-29
         }
       ],
       "status": "PASS"
@@ -930,7 +930,7 @@
     {
       "name": "Vowel pipeline F0=100 Hz",
       "criterion": "Resolvable formants within 10% and >=80% coverage; F1 below 1.5*F0 is missing",
-      "ok": false,
+      "ok": true,
       "slots": [
         {
           "median": 500.3,
@@ -943,13 +943,13 @@
           "relativeError": 0.00019999999999996968
         },
         {
-          "median": null,
-          "coverage": 0,
-          "relativeError": null
+          "median": 2501.4,
+          "coverage": 1,
+          "relativeError": 0.0005600000000000364
         }
       ],
       "f1ExpectedMissing": false,
-      "status": "FAIL"
+      "status": "PASS"
     },
     {
       "name": "Vowel pipeline F0=200 Hz",
@@ -998,6 +998,13 @@
       ],
       "f1ExpectedMissing": true,
       "status": "FAIL"
+    },
+    {
+      "name": "Sparse-harmonic formant evidence is retained separately",
+      "criterion": "Rejected high-F0 candidates remain inspectable but never count as accepted quantitative frames",
+      "ok": true,
+      "count": 93,
+      "status": "PASS"
     },
     {
       "name": "A-weighting transfer response",
@@ -1104,6 +1111,32 @@
       "ok": true,
       "error": 1.1359777555923438e-10,
       "maxSampleError": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "Finite-record A-weighting boundary",
+      "criterion": "Zero-extension releases filter state without increasing the recorded-sample denominator",
+      "ok": true,
+      "headEnergy": 104.58588915887469,
+      "tailEnergy": 20.427982707565697,
+      "expected": 125.01387186644021,
+      "recordedSamples": 400,
+      "paddingSamples": 3584,
+      "status": "PASS"
+    },
+    {
+      "name": "Selection support and spectrogram time mapping",
+      "criterion": "Only complete windows are selected and STFT edge padding is not stretched across the recording",
+      "ok": true,
+      "contained": [],
+      "emptyEdge": [
+        0,
+        0
+      ],
+      "first": [
+        0,
+        1
+      ],
       "status": "PASS"
     },
     {
@@ -1328,44 +1361,81 @@
       "quality": {
         "clippedSamples": 0,
         "nearFullScaleSamples": 0,
+        "nearFullScale": false,
         "peakAbs": 2000,
         "digitalSilence": false,
         "noAcSignal": false,
-        "plateauSuspected": true,
-        "clipped": false
+        "plateauSuspected": false,
+        "clipped": false,
+        "clippingEvidence": {
+          "windowSeconds": 0.01,
+          "railLimit": 2,
+          "maxRails": 0,
+          "maxConsecutiveRailSamples": 0,
+          "intervals": []
+        }
       },
       "status": "PASS"
     },
     {
       "name": "PCM rails, near-full, constant DC",
-      "criterion": "Rails/near-full clipped; constant nonzero PCM invalid AC",
+      "criterion": "Repeated rails clipped; near-full is warning-only; constant nonzero PCM invalid AC",
       "ok": true,
       "rail": {
         "clippedSamples": 2,
         "nearFullScaleSamples": 2,
+        "nearFullScale": true,
         "peakAbs": 32768,
         "digitalSilence": false,
         "noAcSignal": false,
         "plateauSuspected": false,
-        "clipped": true
+        "clipped": true,
+        "clippingEvidence": {
+          "windowSeconds": 0.01,
+          "railLimit": 2,
+          "maxRails": 2,
+          "maxConsecutiveRailSamples": 2,
+          "intervals": [
+            {
+              "start": 0,
+              "end": 0.00009070294784580499
+            }
+          ]
+        }
       },
       "near": {
         "clippedSamples": 0,
         "nearFullScaleSamples": 743,
+        "nearFullScale": true,
         "peakAbs": 32440,
         "digitalSilence": false,
         "noAcSignal": false,
         "plateauSuspected": false,
-        "clipped": true
+        "clipped": false,
+        "clippingEvidence": {
+          "windowSeconds": 0.01,
+          "railLimit": 2,
+          "maxRails": 0,
+          "maxConsecutiveRailSamples": 0,
+          "intervals": []
+        }
       },
       "dc": {
         "clippedSamples": 0,
         "nearFullScaleSamples": 0,
+        "nearFullScale": false,
         "peakAbs": 1234,
         "digitalSilence": true,
         "noAcSignal": true,
         "plateauSuspected": false,
-        "clipped": false
+        "clipped": false,
+        "clippingEvidence": {
+          "windowSeconds": 0.01,
+          "railLimit": 2,
+          "maxRails": 0,
+          "maxConsecutiveRailSamples": 0,
+          "intervals": []
+        }
       },
       "status": "PASS"
     },
@@ -1555,11 +1625,23 @@
         "offset": 103.123456,
         "reason": "",
         "meta": {
+          "calibrationId": "cal-255s-1-9a0bk4k0wt",
           "captureProfile": "profile",
           "deviceId": "device",
           "source": "manual",
+          "presetCaptureProfile": null,
+          "importedFrom": null,
+          "evidence": null,
+          "evidenceComplete": false,
+          "referenceCheck": null,
+          "laboratoryVerification": null,
+          "inputChain": "",
+          "scope": "single-offset-only",
+          "calibrationFrequencyHz": null,
+          "frequencyResponseVerification": "unverified",
+          "captureChainVerification": "unverified",
           "calibratedAt": 100000,
-          "installationId": "install-255s-oedh3j7z43",
+          "installationId": "install-255s-d35wutil94",
           "grade": "estimated",
           "validUntil": 7776100000
         },
@@ -1572,11 +1654,23 @@
         "offset": 103.123456,
         "reason": "采集配置已变化，需要重新校准",
         "meta": {
+          "calibrationId": "cal-255s-1-9a0bk4k0wt",
           "captureProfile": "profile",
           "deviceId": "device",
           "source": "manual",
+          "presetCaptureProfile": null,
+          "importedFrom": null,
+          "evidence": null,
+          "evidenceComplete": false,
+          "referenceCheck": null,
+          "laboratoryVerification": null,
+          "inputChain": "",
+          "scope": "single-offset-only",
+          "calibrationFrequencyHz": null,
+          "frequencyResponseVerification": "unverified",
+          "captureChainVerification": "unverified",
           "calibratedAt": 100000,
-          "installationId": "install-255s-oedh3j7z43",
+          "installationId": "install-255s-d35wutil94",
           "grade": "estimated",
           "validUntil": 7776100000
         }
@@ -1586,11 +1680,23 @@
         "offset": 103.123456,
         "reason": "校准参数不属于当前设备",
         "meta": {
+          "calibrationId": "cal-255s-1-9a0bk4k0wt",
           "captureProfile": "profile",
           "deviceId": "device",
           "source": "manual",
+          "presetCaptureProfile": null,
+          "importedFrom": null,
+          "evidence": null,
+          "evidenceComplete": false,
+          "referenceCheck": null,
+          "laboratoryVerification": null,
+          "inputChain": "",
+          "scope": "single-offset-only",
+          "calibrationFrequencyHz": null,
+          "frequencyResponseVerification": "unverified",
+          "captureChainVerification": "unverified",
           "calibratedAt": 100000,
-          "installationId": "install-255s-oedh3j7z43",
+          "installationId": "install-255s-d35wutil94",
           "grade": "estimated",
           "validUntil": 7776100000
         }
@@ -1607,7 +1713,9 @@
         "dbspl": "76.99",
         "presetCalibration": "未开始",
         "newOffset": "--",
-        "canSaveCalibration": false
+        "canSaveCalibration": false,
+        "recordingReady": true,
+        "recordingState": "recording"
       },
       "receivedSamples": 81920,
       "status": "PASS"
@@ -1619,7 +1727,7 @@
       "stored": 103.0102344045059,
       "completed": {
         "offset": 103.0102344045059,
-        "captureProfile": "pcm-44100-mono-voice_recognition-v3-mock",
+        "captureProfile": "pcm-44100-mono-voice_recognition-v5-mock",
         "deviceId": "test|device|android",
         "source": "rough-calibration",
         "calibratedAt": 102093.35600907031
@@ -1635,14 +1743,18 @@
         "dbspl": "0.00",
         "presetCalibration": "未开始",
         "newOffset": "--",
-        "canSaveCalibration": false
+        "canSaveCalibration": false,
+        "recordingReady": true,
+        "recordingState": "recording"
       },
       "interruption": {
         "dbfs": "0.00",
         "dbspl": "0.00",
         "presetCalibration": "未开始",
         "newOffset": "--",
-        "canSaveCalibration": false
+        "canSaveCalibration": false,
+        "recordingReady": false,
+        "recordingState": "interrupted"
       },
       "staleModalOpened": true,
       "status": "PASS"
@@ -1653,34 +1765,53 @@
       "ok": true,
       "archive": {
         "schemaVersion": 2,
-        "algorithmVersion": "acoustics-2026-09-27.1",
+        "algorithmVersion": "acoustics-2026-10-02.2",
         "recordId": "noise-100000-1-49152",
         "startedAt": 100000,
-        "endedAt": 101164.55782312926,
+        "endedAt": 101114.55782312926,
         "sampleRate": 44100,
         "sampleCount": 49152,
-        "aWeightedEnergy": 245.39535392756494,
-        "leqA": 76.98325141952105,
-        "cneUnrounded": 70.96265150624143,
+        "measurementScope": "whole-recording",
+        "aWeightedEnergy": 245.71824489219284,
+        "leqA": 76.98896210579555,
+        "cneUnrounded": 70.96836219251593,
         "parameters": {
           "dcHighpassHz": 2,
           "referenceExposureSeconds": 28800,
           "fftSize": 32768,
-          "weighting": "A"
+          "weighting": "A",
+          "boundaryConvention": "zero-extended-finite-record",
+          "filterTail": {
+            "energy": 0.3228909646279131,
+            "paddingSamples": 3072,
+            "converged": true
+          }
         },
         "coverage": {
           "receivedSamples": 49152,
           "receivedSeconds": 1.1145578231292517,
-          "elapsedSeconds": 1.1645578231292602,
-          "lastFrameAt": 101164.55782312926
+          "elapsedSeconds": 1.11455782312926,
+          "captureElapsedSeconds": 1.11455782312926,
+          "captureCoverageRatio": 0.9996034288154724,
+          "integrityStatus": "valid",
+          "nativeDurationMs": 1115,
+          "sampleDelta": -19.5,
+          "toleranceSamples": 46,
+          "lastFrameAt": 101114.55782312926
         },
         "calibrationGrade": "estimated",
+        "calibrationLabel": "估算参数（非参考校准）",
+        "calibrationNote": "",
+        "calibrationVerified": false,
+        "calibrationProcessCompleted": false,
+        "riskEstimate": null,
         "name": null,
         "date": "1970/1/1 08:01:41",
         "duration": "1.115",
         "exposure": 7200,
-        "cne": 70.96,
+        "cne": 70.97,
         "threat": "估算结果，不作风险分级",
+        "threatClass": "detail-init",
         "location": null,
         "extra": null,
         "riskSegments": {
@@ -1728,17 +1859,50 @@
         "system": "mock",
         "offset": 100,
         "calibration": {
-          "captureProfile": "pcm-44100-mono-voice_recognition-v3-mock",
+          "calibrationId": "cal-255s-1-y8l7xcmud4",
+          "captureProfile": "pcm-44100-mono-voice_recognition-v5-mock",
           "deviceId": "test|device|android",
           "source": "manual",
+          "presetCaptureProfile": null,
+          "importedFrom": null,
+          "evidence": null,
+          "evidenceComplete": false,
+          "referenceCheck": null,
+          "laboratoryVerification": null,
+          "inputChain": "",
+          "scope": "single-offset-only",
+          "calibrationFrequencyHz": null,
+          "frequencyResponseVerification": "unverified",
+          "captureChainVerification": "unverified",
           "calibratedAt": 100000,
-          "installationId": "install-255s-6cxn3bn9v79",
+          "installationId": "install-255s-2txi4qhnuqy",
           "grade": "estimated",
           "validUntil": 7776100000
         },
-        "captureProfile": "pcm-44100-mono-voice_recognition-v3-mock",
+        "requestedAudioSource": "voice_recognition",
+        "selectedAudioSource": "voice_recognition",
+        "sourceFallback": false,
+        "captureProfile": "pcm-44100-mono-voice_recognition-v5-mock",
+        "sourceAttempts": [
+          {
+            "audioSource": "voice_recognition",
+            "outcome": "started"
+          }
+        ],
+        "sourceCapabilityScope": "Test|Device|mock||",
+        "sourceCompatibilityReason": null,
+        "captureProcessingVerification": "unverified",
+        "calibrationFrequencyHz": null,
+        "frequencyResponseVerification": "unverified",
+        "broadbandInterpretation": "single-point-offset-estimate",
         "dataQuality": "valid",
         "plateauSuspected": false,
+        "nearFullScaleObserved": false,
+        "deliveryDelayed": false,
+        "silentSampleCount": 0,
+        "captureChainVerification": "unverified",
+        "captureChainNote": "录音源请求及回退已记录；平台未提供实际输入路由、AGC 或降噪状态核验。实验室校准须与本次麦克风、连接方式和增益一致。",
+        "declaredInputChain": "",
         "qualityReason": "",
         "vstamp": "test"
       },
@@ -1748,55 +1912,76 @@
     },
     {
       "name": "Main stops receiving frames",
-      "criterion": "After <=2250 ms stale UI cleared, archive invalid, save blocked; resumed frame does not revive session",
+      "criterion": "JS delivery latency is flagged; native duration and received sample evidence decide final integrity",
       "ok": true,
-      "beforeCne": 70.96,
-      "stale": {
-        "recordingState": "invalid",
-        "recordingLabel": "测量已失效，请重新测量",
+      "beforeCne": null,
+      "delayed": {
+        "recordingState": "recording",
+        "recordingLabel": "音频交付延迟；停止后按实际样本核验",
         "canSave": false,
-        "leqA": "--",
+        "leqA": "76.98",
+        "levelScopeLabel": "本次估算 LAeq",
         "measurementSeconds": "1.0",
         "exposureHours": "2.00",
         "calibrationLabel": "估算参数（非参考校准）",
         "calibrationDate": "1970/1/1",
-        "dbfs": "--",
-        "dbspl": "--",
-        "cne": "--",
-        "threat": "有效音频输入超时，请重新测量",
+        "calibrationDateLabel": "校准日期",
+        "dbfs": "-23.01",
+        "dbspl": "76.99",
+        "cne": "70.96",
+        "threat": "预览：估算结果，不作风险分级（待完整性核验）",
         "threatClass": "detail-init",
         "viewMode": "waveform"
       },
       "archive": {
         "schemaVersion": 2,
-        "algorithmVersion": "acoustics-2026-09-27.1",
-        "recordId": "noise-100000-1-49152",
+        "algorithmVersion": "acoustics-2026-10-02.2",
+        "recordId": "noise-100000-1-57344",
         "startedAt": 100000,
-        "endedAt": 103414.55782312926,
+        "endedAt": 103550.31746031747,
         "sampleRate": 44100,
-        "sampleCount": 49152,
-        "aWeightedEnergy": 245.39535392756494,
-        "leqA": null,
-        "cneUnrounded": null,
+        "sampleCount": 57344,
+        "measurementScope": "received-audio",
+        "aWeightedEnergy": 286.637225833881,
+        "leqA": 76.98844608292437,
+        "cneUnrounded": 70.96784616964474,
         "parameters": {
           "dcHighpassHz": 2,
           "referenceExposureSeconds": 28800,
           "fftSize": 32768,
-          "weighting": "A"
+          "weighting": "A",
+          "boundaryConvention": "zero-extended-finite-record",
+          "filterTail": {
+            "energy": 0.33056182332063616,
+            "paddingSamples": 2560,
+            "converged": true
+          }
         },
         "coverage": {
-          "receivedSamples": 49152,
-          "receivedSeconds": 1.1145578231292517,
-          "elapsedSeconds": 3.41455782312926,
-          "lastFrameAt": 101164.55782312926
+          "receivedSamples": 57344,
+          "receivedSeconds": 1.3003174603174603,
+          "elapsedSeconds": 3.55031746031747,
+          "captureElapsedSeconds": 3.55031746031747,
+          "captureCoverageRatio": 0.3662866085401297,
+          "integrityStatus": "partial",
+          "nativeDurationMs": 3550,
+          "sampleDelta": -99211,
+          "toleranceSamples": 46,
+          "lastFrameAt": 103550.31746031747
         },
         "calibrationGrade": "estimated",
+        "calibrationLabel": "估算参数（非参考校准）",
+        "calibrationNote": "",
+        "calibrationVerified": false,
+        "calibrationProcessCompleted": false,
+        "riskEstimate": null,
         "name": null,
         "date": "1970/1/1 08:01:43",
-        "duration": "1.115",
+        "duration": "1.300",
         "exposure": 7200,
-        "cne": null,
-        "threat": "估算结果，不作风险分级",
+        "cne": 70.97,
+        "threat": "片段估算，不作整段风险分级",
+        "threatClass": "detail-init",
         "location": null,
         "extra": null,
         "riskSegments": {
@@ -1844,26 +2029,59 @@
         "system": "mock",
         "offset": 100,
         "calibration": {
-          "captureProfile": "pcm-44100-mono-voice_recognition-v3-mock",
+          "calibrationId": "cal-255s-1-s46av76cipm",
+          "captureProfile": "pcm-44100-mono-voice_recognition-v5-mock",
           "deviceId": "test|device|android",
           "source": "manual",
+          "presetCaptureProfile": null,
+          "importedFrom": null,
+          "evidence": null,
+          "evidenceComplete": false,
+          "referenceCheck": null,
+          "laboratoryVerification": null,
+          "inputChain": "",
+          "scope": "single-offset-only",
+          "calibrationFrequencyHz": null,
+          "frequencyResponseVerification": "unverified",
+          "captureChainVerification": "unverified",
           "calibratedAt": 100000,
-          "installationId": "install-255s-ylaaqsm4me7",
+          "installationId": "install-255s-wunwhh66hna",
           "grade": "estimated",
           "validUntil": 7776100000
         },
-        "captureProfile": "pcm-44100-mono-voice_recognition-v3-mock",
-        "dataQuality": "invalid",
+        "requestedAudioSource": "voice_recognition",
+        "selectedAudioSource": "voice_recognition",
+        "sourceFallback": false,
+        "captureProfile": "pcm-44100-mono-voice_recognition-v5-mock",
+        "sourceAttempts": [
+          {
+            "audioSource": "voice_recognition",
+            "outcome": "started"
+          }
+        ],
+        "sourceCapabilityScope": "Test|Device|mock||",
+        "sourceCompatibilityReason": null,
+        "captureProcessingVerification": "unverified",
+        "calibrationFrequencyHz": null,
+        "frequencyResponseVerification": "unverified",
+        "broadbandInterpretation": "single-point-offset-estimate",
+        "dataQuality": "partial",
         "plateauSuspected": false,
-        "qualityReason": "有效音频输入超时，请重新测量",
+        "nearFullScaleObserved": false,
+        "deliveryDelayed": true,
+        "silentSampleCount": 0,
+        "captureChainVerification": "unverified",
+        "captureChainNote": "录音源请求及回退已记录；平台未提供实际输入路由、AGC 或降噪状态核验。实验室校准须与本次麦克风、连接方式和增益一致。",
+        "declaredInputChain": "",
+        "qualityReason": "音频时长不一致，仅代表已接收片段",
         "vstamp": "test"
       },
-      "saved": 0,
+      "saved": 1,
       "status": "PASS"
     },
     {
-      "name": "Main constant PCM / digital silence / overload",
-      "criterion": "All invalidate measurement and prevent saving",
+      "name": "Main constant PCM / digital silence / near-full peak",
+      "criterion": "Constant inputs invalidate; near-full waveform remains usable with warning evidence",
       "ok": true,
       "trials": [
         {
@@ -1877,26 +2095,28 @@
           "saved": 0
         },
         {
-          "quality": "invalid",
-          "cne": "--",
+          "quality": "pending",
+          "cne": "70.96",
           "saved": 0
         }
       ],
       "status": "PASS"
     },
     {
-      "name": "Main never gets usable input / uncalibrated",
-      "criterion": "No safe numeric result or successful save",
+      "name": "Main empty input rejected; uncalibrated input remains usable",
+      "criterion": "Empty capture cannot save; uncalibrated capture saves a labelled estimate without risk certification",
       "ok": true,
       "empty": {
         "recordingState": "invalid",
         "recordingLabel": "测量已失效，请重新测量",
         "canSave": false,
         "leqA": "--",
+        "levelScopeLabel": "本次估算 LAeq",
         "measurementSeconds": "0.0",
         "exposureHours": "2.00",
         "calibrationLabel": "估算参数（非参考校准）",
         "calibrationDate": "1970/1/1",
+        "calibrationDateLabel": "校准日期",
         "dbfs": "--",
         "dbspl": "--",
         "cne": "--",
@@ -1905,18 +2125,20 @@
         "viewMode": "waveform"
       },
       "uncalibrated": {
-        "recordingState": "recording",
-        "recordingLabel": "正在接收有效音频",
+        "recordingState": "stopped",
+        "recordingLabel": "测量已停止，以下为本次摘要",
         "canSave": false,
-        "leqA": "--",
-        "measurementSeconds": "1.0",
+        "leqA": "77.0",
+        "levelScopeLabel": "本次估算 LAeq",
+        "measurementSeconds": "1.115",
         "exposureHours": "2.00",
-        "calibrationLabel": "设备尚未完成有效校准",
+        "calibrationLabel": "未校准估算",
         "calibrationDate": "--",
+        "calibrationDateLabel": "校准日期",
         "dbfs": "-23.01",
-        "dbspl": "--",
-        "cne": "--",
-        "threat": "设备尚未完成有效校准",
+        "dbspl": "76.99",
+        "cne": "71.0",
+        "threat": "估算结果，不作风险分级",
         "threatClass": "detail-init",
         "viewMode": "waveform"
       },
@@ -1948,15 +2170,23 @@
       "pcmQuality": {
         "clippedSamples": 0,
         "nearFullScaleSamples": 0,
+        "nearFullScale": false,
         "peakAbs": 6000,
         "digitalSilence": true,
         "noAcSignal": true,
         "plateauSuspected": false,
-        "clipped": false
+        "clipped": false,
+        "clippingEvidence": {
+          "windowSeconds": 0.01,
+          "railLimit": 2,
+          "maxRails": 0,
+          "maxConsecutiveRailSamples": 0,
+          "intervals": []
+        }
       },
       "subsequentCne": null,
-      "subsequentQuality": "invalid",
-      "subsequentThreat": "估算结果，不作风险分级",
+      "subsequentQuality": "pending",
+      "subsequentThreat": "请停止测量并完成音频完整性核验",
       "referenceOffset": 100,
       "referenceCne": 70.96910013008056,
       "cneBiasForReferenceOffset100": null,
@@ -2134,12 +2364,12 @@
         "configured": {
           "f0": 1185.448937551301,
           "rawF0": 1185.448937551301,
-          "aperiodicity": 0.00198100526456336
+          "aperiodicity": 0.003044733776435023
         },
         "widerRange": {
           "f0": 1185.448937551301,
           "rawF0": 1185.448937551301,
-          "aperiodicity": 0.00198100526456336
+          "aperiodicity": 0.003044733776435023
         }
       },
       {
@@ -2147,12 +2377,12 @@
         "configured": {
           "f0": 1186.4235665051817,
           "rawF0": 1186.4235665051817,
-          "aperiodicity": 0.001808236458435202
+          "aperiodicity": 0.002655444290857046
         },
         "widerRange": {
           "f0": 1186.4235665051817,
           "rawF0": 1186.4235665051817,
-          "aperiodicity": 0.001808236458435202
+          "aperiodicity": 0.002655444290857046
         }
       },
       {
@@ -2160,12 +2390,12 @@
         "configured": {
           "f0": 1187.3973074770026,
           "rawF0": 1187.3973074770026,
-          "aperiodicity": 0.0016372649430771314
+          "aperiodicity": 0.0022926482127902416
         },
         "widerRange": {
           "f0": 1187.3973074770026,
           "rawF0": 1187.3973074770026,
-          "aperiodicity": 0.0016372649430771314
+          "aperiodicity": 0.0022926482127902416
         }
       },
       {
@@ -2173,12 +2403,12 @@
         "configured": {
           "f0": 1188.3702887175066,
           "rawF0": 1188.3702887175066,
-          "aperiodicity": 0.001467453463685822
+          "aperiodicity": 0.0019558326923293737
         },
         "widerRange": {
           "f0": 1188.3702887175066,
           "rawF0": 1188.3702887175066,
-          "aperiodicity": 0.001467453463685822
+          "aperiodicity": 0.0019558326923293737
         }
       },
       {
@@ -2186,12 +2416,12 @@
         "configured": {
           "f0": 1189.342567125847,
           "rawF0": 1189.342567125847,
-          "aperiodicity": 0.0012987494531450563
+          "aperiodicity": 0.001644890761604874
         },
         "widerRange": {
           "f0": 1189.342567125847,
           "rawF0": 1189.342567125847,
-          "aperiodicity": 0.0012987494531450563
+          "aperiodicity": 0.001644890761604874
         }
       },
       {
@@ -2199,12 +2429,12 @@
         "configured": {
           "f0": 1190.314146826227,
           "rawF0": 1190.314146826227,
-          "aperiodicity": 0.0011316620008897116
+          "aperiodicity": 0.0013601502396889808
         },
         "widerRange": {
           "f0": 1190.314146826227,
           "rawF0": 1190.314146826227,
-          "aperiodicity": 0.0011316620008897116
+          "aperiodicity": 0.0013601502396889808
         }
       },
       {
@@ -2212,12 +2442,12 @@
         "configured": {
           "f0": 1191.2850257919101,
           "rawF0": 1191.2850257919101,
-          "aperiodicity": 0.000966880362876647
+          "aperiodicity": 0.0011021202285535566
         },
         "widerRange": {
           "f0": 1191.2850257919101,
           "rawF0": 1191.2850257919101,
-          "aperiodicity": 0.000966880362876647
+          "aperiodicity": 0.0011021202285535566
         }
       },
       {
@@ -2225,12 +2455,12 @@
         "configured": {
           "f0": 1192.255230408767,
           "rawF0": 1192.255230408767,
-          "aperiodicity": 0.0008048818093778675
+          "aperiodicity": 0.000871187270625806
         },
         "widerRange": {
           "f0": 1192.255230408767,
           "rawF0": 1192.255230408767,
-          "aperiodicity": 0.0008048818093778675
+          "aperiodicity": 0.000871187270625806
         }
       },
       {
@@ -2238,12 +2468,12 @@
         "configured": {
           "f0": 1193.2248194758088,
           "rawF0": 1193.2248194758088,
-          "aperiodicity": 0.0006457892791723879
+          "aperiodicity": 0.0006674674903483083
         },
         "widerRange": {
           "f0": 1193.2248194758088,
           "rawF0": 1193.2248194758088,
-          "aperiodicity": 0.0006457892791723879
+          "aperiodicity": 0.0006674674903483083
         }
       },
       {
@@ -2251,12 +2481,12 @@
         "configured": {
           "f0": 1194.1938662269927,
           "rawF0": 1194.1938662269927,
-          "aperiodicity": 0.0004894990508061786
+          "aperiodicity": 0.0004908679452828405
         },
         "widerRange": {
           "f0": 1194.1938662269927,
           "rawF0": 1194.1938662269927,
-          "aperiodicity": 0.0004894990508061786
+          "aperiodicity": 0.0004908679452828405
         }
       },
       {
@@ -2264,12 +2494,12 @@
         "configured": {
           "f0": 1195.1624386504907,
           "rawF0": 1195.1624386504907,
-          "aperiodicity": 0.0003359091557544794
+          "aperiodicity": 0.0003412620281537193
         },
         "widerRange": {
           "f0": 1195.1624386504907,
           "rawF0": 1195.1624386504907,
-          "aperiodicity": 0.0003359091557544794
+          "aperiodicity": 0.0003412620281537193
         }
       },
       {
@@ -2277,12 +2507,12 @@
         "configured": {
           "f0": 1196.1305922252368,
           "rawF0": 1196.1305922252368,
-          "aperiodicity": 0.0001850531968809538
+          "aperiodicity": 0.00021862931586708956
         },
         "widerRange": {
           "f0": 1196.1305922252368,
           "rawF0": 1196.1305922252368,
-          "aperiodicity": 0.0001850531968809538
+          "aperiodicity": 0.00021862931586708956
         }
       },
       {
@@ -2290,12 +2520,12 @@
         "configured": {
           "f0": 1197.0983750351616,
           "rawF0": 1197.0983750351616,
-          "aperiodicity": 0.000037070770958319547
+          "aperiodicity": 0.0001230704416848971
         },
         "widerRange": {
           "f0": 1197.0983750351616,
           "rawF0": 1197.0983750351616,
-          "aperiodicity": 0.000037070770958319547
+          "aperiodicity": 0.0001230704416848971
         }
       },
       {
@@ -2303,12 +2533,12 @@
         "configured": {
           "f0": 1198.0658357173113,
           "rawF0": 1198.0658357173113,
-          "aperiodicity": 0
+          "aperiodicity": 0.00005472436558263589
         },
         "widerRange": {
           "f0": 1198.0658357173113,
           "rawF0": 1198.0658357173113,
-          "aperiodicity": 0
+          "aperiodicity": 0.00005472436558263589
         }
       },
       {
@@ -2316,12 +2546,12 @@
         "configured": {
           "f0": 1199.0330262931489,
           "rawF0": 1199.0330262931489,
-          "aperiodicity": 0
+          "aperiodicity": 0.000013686608024417462
         },
         "widerRange": {
           "f0": 1199.0330262931489,
           "rawF0": 1199.0330262931489,
-          "aperiodicity": 0
+          "aperiodicity": 0.000013686608024417462
         }
       },
       {
@@ -2329,12 +2559,12 @@
         "configured": {
           "f0": 1200,
           "rawF0": 1200,
-          "aperiodicity": 0
+          "aperiodicity": 4.085120864066871e-28
         },
         "widerRange": {
           "f0": 1200,
           "rawF0": 1200,
-          "aperiodicity": 0
+          "aperiodicity": 4.085120864066871e-28
         }
       },
       {
@@ -2342,7 +2572,7 @@
         "configured": {
           "f0": 0,
           "rawF0": 1200.966809205964,
-          "aperiodicity": 0,
+          "aperiodicity": 0.000013706664734783626,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -2352,7 +2582,7 @@
         "widerRange": {
           "f0": 1200.966809205964,
           "rawF0": 1200.966809205964,
-          "aperiodicity": 0
+          "aperiodicity": 0.000013706664734783626
         }
       },
       {
@@ -2360,7 +2590,7 @@
         "configured": {
           "f0": 0,
           "rawF0": 1201.9335063392741,
-          "aperiodicity": 0,
+          "aperiodicity": 0.00005489237979200339,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -2370,7 +2600,7 @@
         "widerRange": {
           "f0": 1201.9335063392741,
           "rawF0": 1201.9335063392741,
-          "aperiodicity": 0
+          "aperiodicity": 0.00005489237979200339
         }
       },
       {
@@ -2378,7 +2608,7 @@
         "configured": {
           "f0": 0,
           "rawF0": 1202.9001456142055,
-          "aperiodicity": 0,
+          "aperiodicity": 0.00012366883975120166,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -2388,7 +2618,7 @@
         "widerRange": {
           "f0": 1202.9001456142055,
           "rawF0": 1202.9001456142055,
-          "aperiodicity": 0
+          "aperiodicity": 0.00012366883975120166
         }
       },
       {
@@ -2396,7 +2626,7 @@
         "configured": {
           "f0": 0,
           "rawF0": 1203.8667818044617,
-          "aperiodicity": 0,
+          "aperiodicity": 0.00022010944708535004,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -2406,7 +2636,7 @@
         "widerRange": {
           "f0": 1203.8667818044617,
           "rawF0": 1203.8667818044617,
-          "aperiodicity": 0
+          "aperiodicity": 0.00022010944708535004
         }
       },
       {
@@ -2414,7 +2644,7 @@
         "configured": {
           "f0": 0,
           "rawF0": 1204.8334665304446,
-          "aperiodicity": 0,
+          "aperiodicity": 0.0003442126020250362,
           "reason": "boundary-uncertain",
           "range": {
             "min": 40,
@@ -2424,7 +2654,7 @@
         "widerRange": {
           "f0": 1204.8334665304446,
           "rawF0": 1204.8334665304446,
-          "aperiodicity": 0
+          "aperiodicity": 0.0003442126020250362
         }
       }
     ],
@@ -2523,7 +2753,8 @@
               "freq": 4648.5,
               "bandwidth": 5567.1
             }
-          ]
+          ],
+          "normalizedPredictionError": 0.0017296861678267126
         }
       },
       {
@@ -2620,7 +2851,8 @@
               "freq": 4366.1,
               "bandwidth": 3828.6
             }
-          ]
+          ],
+          "normalizedPredictionError": 0.0033964079460719774
         }
       },
       {
@@ -2721,18 +2953,27 @@
               "freq": 3300,
               "bandwidth": 840.5
             }
-          ]
+          ],
+          "normalizedPredictionError": 0.0030061245274652934
         }
       }
     ],
     "subFullScaleClipping": {
       "clippedSamples": 0,
       "nearFullScaleSamples": 0,
+      "nearFullScale": false,
       "peakAbs": 9830,
       "digitalSilence": false,
       "noAcSignal": false,
       "plateauSuspected": true,
-      "clipped": false
+      "clipped": false,
+      "clippingEvidence": {
+        "windowSeconds": 0.01,
+        "railLimit": 2,
+        "maxRails": 0,
+        "maxConsecutiveRailSamples": 0,
+        "intervals": []
+      }
     }
   }
 }
