@@ -4,6 +4,6 @@
   "float32Bits": 77017,
   "referenceSha256": "4af3fe3d906a17f257bfd82f4a35be60cfa08df188ce8bad3c8d6a4ede2bce21",
   "tablesSha256": "89b844a364df0da8418cb621ba0155fbe4b2c72f807b36bc7dfdea96ade8fd6a",
-  "driverSha256": "219d97f51fa4f862122dcffd9f85750ed54469ad0f8ecf6797bf1bd6b4e1402b",
+  "driverSha256": "f3d379d2b5a4b594e9a1f89c83242c621d9c99b91ef468f3ce14dba645c32859",
   "scope": "Seven frozen 12kHz profiles; full phonetic pipeline and device capture unverified."
 }

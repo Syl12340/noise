@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "stats": {
+    "cases": 8,
+    "exactNumbers": 2490,
+    "dbNumbers": 585,
+    "maxDbError": 0.0,
+    "fields": 1397
+  },
+  "manifestSha256": "39bb05fd1bdfa30b420fa9f45123ac0417163e8c2145759dcfdbdd991a46a3c1",
+  "driverSha256": "72fb30b7feef52b26a245718456cc5aea3c1477578ff3c1864aa4b0130aced40",
+  "mathDependency": "Frozen actual-JS scalar sin oracle, not live native libm qualification."
+}

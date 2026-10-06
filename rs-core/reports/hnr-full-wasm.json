@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "stats": {
+    "cases": 8,
+    "exactNumbers": 4831,
+    "dbNumbers": 1165,
+    "maxDbError": 0,
+    "frames": 690
+  },
+  "tests": [
+    "two sessions, no partial finish, idempotence and stale handles",
+    "cancellation releases exactly its session",
+    "async callback failure releases ownership",
+    "pending gate and memory growth preserve frame cursor",
+    "owned signal and517row pitch input survive staging reuse",
+    "round-robin sessions with different frame and hop settings match baseline",
+    "cancellation leaves the other session live",
+    "one yield between complete frames, including low-energy frames"
+  ],
+  "artifact": {
+    "bytes": 685806,
+    "sha256": "bb9a3cc0b55d76bf5235c99eda1ec1b9a3844ee3b28a8c65ba42f756380045df"
+  },
+  "scope": "Full continuous-segment frame scheduling on Node; no capture-gap assembly or real WX/Worker/phone validation."
+}

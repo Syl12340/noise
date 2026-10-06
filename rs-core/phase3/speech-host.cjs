@@ -44,7 +44,7 @@ function attachSpeechInstance(instance) {
     if(hop!==undefined&&hopSize!==undefined&&hop!==hopSize)throw new TypeError('Conflicting hop/hopSize');
     return {fs,threshold,fmin,fmax,frameSize,hop:hop===undefined?(hopSize===undefined?120:hopSize):hop};
   }
-  return {
+  const host = {
     get discarded(){return discarded;},discard(){discarded=true;},
     pitchFrame(frame,opts={}) {const {fs,threshold,fmin,fmax}=options(opts,false);config(fs,threshold,fmin,fmax);input(frame,Float64Array,4096,'speech_frame_ptr');return result('speech_pitch_frame',[frame.length,fs,threshold,fmin,fmax],1);},
     track(signal,opts={}) {
@@ -78,6 +78,11 @@ function attachSpeechInstance(instance) {
       return result('speech_harmonicity',[signal.length,fs,frameSize,hopValue,fmin,fmax,requirePitch?1:0,minPeakCorrelation,maxPitchDeviation,pitchTrack.length],1);
     },
   };
+  // Lazy optional extension: WX-shape tests may evaluate this host without require,
+  // while ordinary packaged CommonJS loads the independently owned session helper.
+  if(typeof require==='function')Object.assign(host,require('../phase5/hnr-full.cjs').attachHnrFull({e,call,input,range,result,
+    discarded:value=>{if(value===true)discarded=true;return discarded;}}));
+  return host;
 }
 async function instantiateSpeech({api,source}) {
   if(!api||typeof api.instantiate!=='function')throw new TypeError('Supply WASM API');

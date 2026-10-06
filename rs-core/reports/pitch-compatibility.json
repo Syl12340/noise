@@ -3,7 +3,7 @@
   "profile": "legacy-pitch-bits-v1",
   "reference_manifest_sha256": "046930004d0524718f76f383271b8d006d85b42b3d224104f39b21f4fe3c9383",
   "edge_manifest_sha256": "5ddbeb6fcd9676b844f9220e67de5dd3c9467b2b12a63a0f55f3f10cef5e581e",
-  "driver_sha256": "219d97f51fa4f862122dcffd9f85750ed54469ad0f8ecf6797bf1bd6b4e1402b",
+  "driver_sha256": "f3d379d2b5a4b594e9a1f89c83242c621d9c99b91ef468f3ce14dba645c32859",
   "stats": {
     "cases": 49,
     "f64_bits": 178,

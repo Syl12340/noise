@@ -52,7 +52,7 @@ fn main() {
     let op = r.byte();
     let mut budget = WorkBudget::new(150_000_000);
     let output = match op {
-        1 => {
+        1 | 6 => {
             let fs = r.f64();
             let options = HarmonicityOptions {
                 frame_size: r.u32(),
@@ -65,7 +65,7 @@ fn main() {
             };
             let n = r.u32();
             let pn = r.u32();
-            assert!(n <= 262144 && pn <= 512);
+            assert!(n <= 262144 && pn <= if op == 6 { 4096 } else { 512 });
             let signal: Vec<f32> = (0..n).map(|_| r.f32()).collect();
             let pitch: Vec<PitchEvidence> = (0..pn)
                 .map(|_| PitchEvidence {
@@ -80,9 +80,20 @@ fn main() {
                     .get(&x.to_bits())
                     .unwrap_or_else(|| panic!("Unknown sin input {:016x}", x.to_bits()))
             };
-            wire::result(
-                &estimate_harmonicity(&signal, fs, &options, &pitch, &sin, &mut budget).unwrap(),
-            )
+            if op == 6 {
+                let mut session =
+                    noise_core::speech::hnr_session::HnrSession::new(signal, fs, options, pitch)
+                        .unwrap();
+                while session.next(&sin).unwrap().is_some() {}
+                let first = wire::result(session.finish().unwrap());
+                assert_eq!(first, wire::result(session.finish().unwrap()));
+                first
+            } else {
+                wire::result(
+                    &estimate_harmonicity(&signal, fs, &options, &pitch, &sin, &mut budget)
+                        .unwrap(),
+                )
+            }
         }
         2 => {
             let initial = r.f64();

@@ -333,7 +333,7 @@ impl FrameCorrelation<'_> {
 ///
 /// Checked in the order the contract lists them. `pitch` is validated as chronological with
 /// finite `time >= 0`, finite `f0 >= 0` and `aperiodicity` in `[0, 1]`.
-fn validate(
+pub(crate) fn validate(
     signal: &[f32],
     fs: f64,
     options: &HarmonicityOptions,
@@ -446,9 +446,47 @@ pub fn estimate_harmonicity_observed(
     pitch: &[PitchEvidence],
     sin: &impl Fn(f64) -> f64,
     budget: &mut WorkBudget,
+    observer: Option<&mut dyn FnMut(FrameDiagnostics<'_>)>,
+) -> Result<HnrResult, &'static str> {
+    let mut timeline = HnrTimeline::default();
+    estimate_harmonicity_at(
+        signal,
+        fs,
+        options,
+        pitch,
+        sin,
+        budget,
+        observer,
+        &mut timeline,
+    )
+}
+
+#[derive(Default, Clone, Copy)]
+pub(crate) struct HnrTimeline {
+    pub sample_offset: usize,
+    pub pitch_index: usize,
+}
+
+#[allow(clippy::too_many_arguments)] // Internal exact timeline and verification observer.
+pub(crate) fn estimate_harmonicity_at(
+    signal: &[f32],
+    fs: f64,
+    options: &HarmonicityOptions,
+    pitch: &[PitchEvidence],
+    sin: &impl Fn(f64) -> f64,
+    budget: &mut WorkBudget,
     mut observer: Option<&mut dyn FnMut(FrameDiagnostics<'_>)>,
+    timeline: &mut HnrTimeline,
 ) -> Result<HnrResult, &'static str> {
     validate(signal, fs, options, pitch)?;
+    if timeline
+        .sample_offset
+        .checked_add(signal.len())
+        .is_none_or(|end| end > MAX_INPUT_SAMPLES)
+        || (!pitch.is_empty() && timeline.pitch_index >= pitch.len())
+    {
+        return Err("invalid HNR timeline");
+    }
 
     let frame_size = options.frame_size;
     let hop = options.hop;
@@ -477,7 +515,7 @@ pub fn estimate_harmonicity_observed(
     let mut track: Vec<HnrRow> = Vec::new();
     let mut signal_frames = 0usize;
     let mut capped_frames = 0usize;
-    let mut pitch_index = 0usize;
+    let mut pitch_index = timeline.pitch_index;
 
     let global_first = 2.0f64.max((fs / options.fmax).ceil());
     let global_last_base = ((frame_size / 2) as f64 - 1.0).min((fs / options.fmin).floor());
@@ -509,7 +547,8 @@ pub fn estimate_harmonicity_observed(
         }
 
         // Baseline: (start + frameSize / 2) / sampleRate.
-        let time = (start as f64 + frame_size_f / 2.0) / fs;
+        let global_start = timeline.sample_offset + start;
+        let time = (global_start as f64 + frame_size_f / 2.0) / fs;
 
         if energies[frame_size] / frame_size_f < 1e-10 {
             if let Some(observe) = observer.as_deref_mut() {
@@ -734,6 +773,7 @@ pub fn estimate_harmonicity_observed(
     }
 
     let summary = summarize_harmonicity(&track, hop as f64 / fs, 0.1);
+    timeline.pitch_index = pitch_index; // Commit only after the complete requested slice succeeds.
 
     Ok(HnrResult {
         track,

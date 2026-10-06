@@ -1,4 +1,4 @@
-//! Stateless, opt-in speech ABI. One owner and one pending result per instance.
+//! Opt-in speech ABI and owned HNR sessions. One owner and one pending result per instance.
 use noise_core::speech::{
     PitchFrame, emphasize_float, pitch_track, pre_emphasis, resample_low_pass, yin_pitch_frame,
 };
@@ -62,6 +62,12 @@ pub struct SpeechApi {
     frame: Vec<f64>,
     #[cfg(all(target_arch = "wasm32", feature = "harmonicity"))]
     pitch_evidence: Vec<f64>,
+    #[cfg(feature = "harmonicity")]
+    hnr_sessions: Vec<(u32, noise_core::speech::hnr_session::HnrSession)>,
+    #[cfg(feature = "harmonicity")]
+    next_hnr_handle: u64,
+    #[cfg(all(target_arch = "wasm32", feature = "harmonicity"))]
+    session_pitch: Vec<f64>,
 }
 impl Default for SpeechApi {
     fn default() -> Self {
@@ -82,6 +88,12 @@ impl SpeechApi {
             frame: vec![0.0; FRAME_CAPACITY],
             #[cfg(all(target_arch = "wasm32", feature = "harmonicity"))]
             pitch_evidence: vec![0.0; 3 * crate::harmonicity_api::MAX_PITCH_ROWS],
+            #[cfg(feature = "harmonicity")]
+            hnr_sessions: Vec::new(),
+            #[cfg(feature = "harmonicity")]
+            next_hnr_handle: 1,
+            #[cfg(all(target_arch = "wasm32", feature = "harmonicity"))]
+            session_pitch: vec![0.0; 3 * noise_core::speech::hnr_session::MAX_PITCH_ROWS],
         }
     }
     pub fn kind(&self) -> u32 {
@@ -261,6 +273,92 @@ impl SpeechApi {
             Err("work budget exceeded") => CAPACITY,
             Err(_) => BAD_ARGUMENT,
         }
+    }
+    #[cfg(feature = "harmonicity")]
+    pub fn hnr_begin(
+        &mut self,
+        signal: &[f32],
+        fs: f64,
+        opts: noise_core::speech::harmonicity::HarmonicityOptions,
+        pitch: &[noise_core::speech::harmonicity::PitchEvidence],
+    ) -> i32 {
+        use noise_core::speech::hnr_session::{HnrSession, MAX_PITCH_ROWS};
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        if self.hnr_sessions.len() >= 2 || self.next_hnr_handle > u32::MAX as u64 {
+            return -6;
+        }
+        if signal.len() > INPUT_CAPACITY || pitch.len() > MAX_PITCH_ROWS {
+            return CAPACITY;
+        }
+        let session = match HnrSession::new(signal.to_vec(), fs, opts, pitch.to_vec()) {
+            Ok(s) => s,
+            Err("session capacity exceeded") => return CAPACITY,
+            Err(_) => return BAD_ARGUMENT,
+        };
+        let total = session.total_frames();
+        let h = self.next_hnr_handle as u32;
+        self.next_hnr_handle += 1;
+        self.hnr_sessions.push((h, session));
+        self.json(format!(
+            "{{\"handle\":{h},\"total\":{total},\"completed\":0,\"done\":{}}}",
+            total == 0
+        ))
+    }
+    #[cfg(feature = "harmonicity")]
+    pub fn hnr_next(&mut self, h: u32, sin: &impl Fn(f64) -> f64) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((_, s)) = self.hnr_sessions.iter_mut().find(|(id, _)| *id == h) else {
+            return -1;
+        };
+        let text = match s.next(sin) {
+            Ok(Some(r)) => format!(
+                "{{\"state\":\"frame\",\"index\":{},\"completed\":{},\"total\":{},\"done\":{},\"row\":{}}}",
+                r.index,
+                r.completed,
+                r.total,
+                r.done,
+                crate::harmonicity_api::row(&r.row)
+            ),
+            Ok(None) => format!(
+                "{{\"state\":\"complete\",\"completed\":{},\"total\":{},\"done\":true}}",
+                s.completed_frames(),
+                s.total_frames()
+            ),
+            Err("work budget exceeded") => return CAPACITY,
+            Err(_) => return BAD_ARGUMENT,
+        };
+        self.json(text)
+    }
+    #[cfg(feature = "harmonicity")]
+    pub fn hnr_finish(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((_, s)) = self.hnr_sessions.iter_mut().find(|(id, _)| *id == h) else {
+            return -1;
+        };
+        let text = match s.finish() {
+            Ok(r) => crate::harmonicity_api::result(r),
+            Err("session incomplete") => return -8,
+            Err("work budget exceeded") => return CAPACITY,
+            Err(_) => return BAD_ARGUMENT,
+        };
+        self.json(text)
+    }
+    #[cfg(feature = "harmonicity")]
+    pub fn hnr_cancel(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some(i) = self.hnr_sessions.iter().position(|(id, _)| *id == h) else {
+            return -1;
+        };
+        self.hnr_sessions.swap_remove(i);
+        OK
     }
 }
 #[cfg(target_arch = "wasm32")]
@@ -462,5 +560,79 @@ mod exports {
                 &crate::harmonicity_api::runtime_sin,
             )
         })
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_hnr_session_abi_version() -> u32 {
+        1
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_session_pitch_capacity() -> u32 {
+        noise_core::speech::hnr_session::MAX_PITCH_ROWS as u32
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_session_pitch_ptr() -> u32 {
+        access(|a| a.session_pitch.as_ptr() as u32)
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_hnr_begin(
+        len: u32,
+        fs: f64,
+        size: u32,
+        hop: u32,
+        min: f64,
+        max: f64,
+        require: u32,
+        min_corr: f64,
+        deviation: f64,
+        pitch_len: u32,
+    ) -> i32 {
+        access(|a| {
+            if len > INPUT_CAPACITY as u32
+                || pitch_len > noise_core::speech::hnr_session::MAX_PITCH_ROWS as u32
+            {
+                return CAPACITY;
+            }
+            if require > 1 {
+                return BAD_ARGUMENT;
+            }
+            let signal = a.signal[..len as usize].to_vec();
+            let pitch = a.session_pitch[..pitch_len as usize * 3]
+                .chunks_exact(3)
+                .map(|p| noise_core::speech::harmonicity::PitchEvidence {
+                    time: p[0],
+                    f0: p[1],
+                    aperiodicity: p[2],
+                })
+                .collect::<Vec<_>>();
+            let opts = noise_core::speech::harmonicity::HarmonicityOptions {
+                frame_size: size as usize,
+                hop: hop as usize,
+                fmin: min,
+                fmax: max,
+                require_pitch: require == 1,
+                min_peak_correlation: min_corr,
+                max_pitch_deviation: deviation,
+            };
+            a.hnr_begin(&signal, fs, opts, &pitch)
+        })
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_hnr_next(h: u32) -> i32 {
+        access(|a| a.hnr_next(h, &crate::harmonicity_api::runtime_sin))
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_hnr_finish(h: u32) -> i32 {
+        access(|a| a.hnr_finish(h))
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_hnr_cancel(h: u32) -> i32 {
+        access(|a| a.hnr_cancel(h))
     }
 }

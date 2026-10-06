@@ -63,6 +63,8 @@ mod generic_fft;
 #[cfg(feature = "harmonicity")]
 pub mod harmonicity;
 #[cfg(feature = "harmonicity")]
+pub mod hnr_session;
+#[cfg(feature = "harmonicity")]
 mod hnr_tables;
 pub mod resample;
 mod resample_tables;

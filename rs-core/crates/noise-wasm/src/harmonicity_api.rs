@@ -19,7 +19,7 @@ pub fn number(v: f64) -> String {
 fn optional(v: Option<f64>) -> String {
     v.map(number).unwrap_or_else(|| "null".into())
 }
-fn row(r: &HnrRow) -> String {
+pub(crate) fn row(r: &HnrRow) -> String {
     let mut s = format!("{{\"time\":{},\"db\":{}", number(r.time), optional(r.db));
     if let Some(v) = r.reason {
         s.push_str(&format!(",\"reason\":\"{v}\""));
