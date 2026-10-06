@@ -1,0 +1,23 @@
+{
+  "id": "fix04_sine_1khz_3s_multisecond",
+  "description": "1000 Hz 纯正弦波，3.0s (132300 样本)，跨越多个秒级结算边界",
+  "sampleRate": 44100,
+  "totalSamples": 132300,
+  "durationSeconds": 3,
+  "pcmSha256": "d3f37f0434df8b795de8819f9c4e5416a9b81da14bcc7e4656d8bf05c2025005",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

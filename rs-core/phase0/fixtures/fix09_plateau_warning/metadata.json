@@ -1,0 +1,23 @@
+{
+  "id": "fix09_plateau_warning",
+  "description": "含有平台平顶的信号 (连续 11 点恒定且顶峰折返)，标记 plateauSuspected 警告",
+  "sampleRate": 44100,
+  "totalSamples": 44100,
+  "durationSeconds": 1,
+  "pcmSha256": "44649511595961c4c92b54b05c59f5c65b68e9eee1ad0f66eeb41ddb59b745eb",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "profile": "legacy-pitch-bits-v1",
+  "reference_manifest_sha256": "046930004d0524718f76f383271b8d006d85b42b3d224104f39b21f4fe3c9383",
+  "edge_manifest_sha256": "5ddbeb6fcd9676b844f9220e67de5dd3c9467b2b12a63a0f55f3f10cef5e581e",
+  "driver_sha256": "ae58bf8e987d37e2aa15033a329f0c0b95931c563b3b7e34c5bb5a33abec01d1",
+  "stats": {
+    "cases": 49,
+    "f64_bits": 178,
+    "f32_bits": 39,
+    "fields": 9
+  },
+  "failures": []
+}

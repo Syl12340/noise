@@ -1,0 +1,140 @@
+{
+  "id": "fix02_silence_short_accepted",
+  "description": "短时静音 (30ms, 1323 样本)，未达 50ms 门限，正常接受",
+  "dataQuality": "invalid",
+  "measurementScope": "received-audio",
+  "canSave": false,
+  "modalTriggered": false,
+  "modals": [],
+  "sampleCount": 1323,
+  "aWeightedEnergy": 0,
+  "leqA": null,
+  "cne": null,
+  "cneUnrounded": null,
+  "filterTail": {
+    "energy": 0,
+    "paddingSamples": 2048,
+    "converged": true
+  },
+  "coverage": {
+    "receivedSamples": 1323,
+    "receivedSeconds": 0.03,
+    "elapsedSeconds": 0.08,
+    "captureElapsedSeconds": 0.08,
+    "captureCoverageRatio": 1,
+    "integrityStatus": "valid",
+    "nativeDurationMs": 30,
+    "sampleDelta": 0,
+    "toleranceSamples": 46,
+    "lastFrameAt": 100080
+  },
+  "qualityReason": "请停止测量并完成音频完整性核验",
+  "terminalEvidence": {
+    "measurementInvalidReason": null,
+    "inputOverloaded": false,
+    "totalAWeightedSampleCount": 1323,
+    "totalAWeightedEnergySum": 0,
+    "silentSampleCount": 1323,
+    "consecutiveSilentSampleCount": 1323,
+    "inputNearFullScale": false,
+    "inputPlateauSuspected": false,
+    "inspector": {
+      "samples": 1323,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "lastFrameLevels": {
+      "dbfs": -240,
+      "dbspl": -140
+    }
+  },
+  "receiptCount": 3,
+  "secondWindowCount": 0,
+  "secondEventCount": 0,
+  "secondWindows": [],
+  "secondEvents": [],
+  "receipts": [
+    {
+      "frameCount": 0,
+      "totalAWeightedSampleCount": 441,
+      "totalAWeightedEnergySum": 0,
+      "lastFrameLevels": {
+        "dbfs": -240,
+        "dbspl": -140
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 441,
+      "consecutiveSilentSampleCount": 441,
+      "pcmBufferedSamples": 441
+    },
+    {
+      "frameCount": 1,
+      "totalAWeightedSampleCount": 882,
+      "totalAWeightedEnergySum": 0,
+      "lastFrameLevels": {
+        "dbfs": -240,
+        "dbspl": -140
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 882,
+      "consecutiveSilentSampleCount": 882,
+      "pcmBufferedSamples": 882
+    },
+    {
+      "frameCount": 2,
+      "totalAWeightedSampleCount": 1323,
+      "totalAWeightedEnergySum": 0,
+      "lastFrameLevels": {
+        "dbfs": -240,
+        "dbspl": -140
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 1323,
+      "consecutiveSilentSampleCount": 1323,
+      "pcmBufferedSamples": 1323
+    }
+  ],
+  "finalReceipt": {
+    "frameCount": 2,
+    "totalAWeightedSampleCount": 1323,
+    "totalAWeightedEnergySum": 0,
+    "lastFrameLevels": {
+      "dbfs": -240,
+      "dbspl": -140
+    },
+    "inputOverloaded": false,
+    "measurementInvalidReason": "",
+    "inputNearFullScale": false,
+    "inputPlateauSuspected": false,
+    "silentSampleCount": 1323,
+    "consecutiveSilentSampleCount": 1323,
+    "pcmBufferedSamples": 1323
+  },
+  "spectrum": {
+    "status": "unavailable",
+    "reason": "view_mode_not_spectrum",
+    "pcmBufferedSamples": 1323,
+    "viewMode": "waveform"
+  },
+  "finalSnapshotSummary": {
+    "threat": "请停止测量并完成音频完整性核验",
+    "threatClass": "detail-init",
+    "silentSampleCount": 1323,
+    "plateauSuspected": false,
+    "nearFullScaleObserved": false
+  }
+}

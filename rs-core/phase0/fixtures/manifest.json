@@ -1,0 +1,196 @@
+{
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "fixtureCount": 26,
+  "filterCoefficients": {
+    "sampleRate": 44100,
+    "binaryFile": "filter_coefficients.bin",
+    "binarySha256": "0a134c19fd02b45da4b979d2f92720644bc8bc159a04242ec58b1c5dade0c7ae",
+    "jsonFile": "filter_coefficients.json",
+    "jsonSha256": "965dec231c31439ad632f0d502f1964c22675a9ee33701ae78a828268bedce62",
+    "firTaps": 129
+  },
+  "fixtures": {
+    "fix01_silence_50ms_rejected": {
+      "pcmSha256": "cd9b6364071a17dbbb7894211400e187f6e60fd3363b577628cdaf2a313554ae",
+      "expectedSha256": "f57107e2d4436ec331b9a92378116e5afe90d62bf0fd1654fe6cb465df3f2e31",
+      "dataQuality": "invalid",
+      "canSave": false,
+      "hasSpectra": false
+    },
+    "fix02_silence_short_accepted": {
+      "pcmSha256": "c64f6c274968c1e25abfba2e24b3686f38c0e8484d0bfc517f77422ad03b2c0e",
+      "expectedSha256": "78f81f01d61829072db0644248af32886e478ca953cbdc3f2fbd1d26e4694d82",
+      "dataQuality": "invalid",
+      "canSave": false,
+      "hasSpectra": false
+    },
+    "fix03_sine_1khz_clean_1s": {
+      "pcmSha256": "8d08c82c628e39ac836a4b848ad3c64d6e6c077b89929df01de2058742a5fe34",
+      "expectedSha256": "9b2d1db3c23f91906449c6557a322449a6ff6bd7d4513555127d1326420ee9bd",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix04_sine_1khz_3s_multisecond": {
+      "pcmSha256": "d3f37f0434df8b795de8819f9c4e5416a9b81da14bcc7e4656d8bf05c2025005",
+      "expectedSha256": "63a2c40ef3e77ca1e3af4659e12d4f2dc8a51ae3990e058a321351c9f727edde",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix05_non_integer_freq": {
+      "pcmSha256": "33ac8612670ebd1713bcaa5470a5492d686bbf3dc7cf20f4ecbaeaf946b0bc5f",
+      "expectedSha256": "468cb0839062e8a7507d33b9f40be917e4a5e5af8672355df5e29eb3aa8e723f",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": true
+    },
+    "fix06_multitone_third_octave": {
+      "pcmSha256": "d80cf3865997919c88d59af8e9b4c32051e5bacf811d2ccce047ea20867848cb",
+      "expectedSha256": "fafa347eafd893bfe988df7fb7f79cbefa9a1daf82fc1da5f2b6a88741a3c89c",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": true
+    },
+    "fix07_dc_constant_rejected": {
+      "pcmSha256": "a5d90f0e6b450eeabe4631b3789002e93c3aa3a9bd39eec563afe96910dc6352",
+      "expectedSha256": "d31572b1f7f2b6e345a9feecef727907a07bb7799267019e5acd3ac52fc92401",
+      "dataQuality": "invalid",
+      "canSave": false,
+      "hasSpectra": false
+    },
+    "fix08_near_full_scale_warning": {
+      "pcmSha256": "5b68e86c1a1902cb752452f28d75a6fe9fb1dec4580d279f835618ac515cccbb",
+      "expectedSha256": "1a58a5db83037e82c1daf2465f903845696045890d440cb7238a860ae52e6ced",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix09_plateau_warning": {
+      "pcmSha256": "44649511595961c4c92b54b05c59f5c65b68e9eee1ad0f66eeb41ddb59b745eb",
+      "expectedSha256": "8bea8f12bc697cf417f73f3a41ce0d19c369399aa0cf5847895ac6a02933b3e5",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix10_clipping_overload_rejected": {
+      "pcmSha256": "8178f5ef7c61ebc746b2fa6a20daf8bbddae45ba9c74c02b52db66e986ea834b",
+      "expectedSha256": "7c738370d4c223987e876a81461505d2d066e7097ff98216808366ca6159bfa6",
+      "dataQuality": "invalid",
+      "canSave": false,
+      "hasSpectra": false
+    },
+    "fix11_ignored_after_termination": {
+      "pcmSha256": "2958b06af70c0c3de081c5aff7a52dd73a1c9be96f190d057e789771ef88f05d",
+      "expectedSha256": "b1a91ce65a3b948a188a2a03cc251105729f364949df450b92a39fb838e74e66",
+      "dataQuality": "invalid",
+      "canSave": false,
+      "hasSpectra": false
+    },
+    "fix12_two_level_energy": {
+      "pcmSha256": "dbfc2fefc05982ddedb0fe7f84ffc13e021984f6e54d484a3903f31eeedf0a53",
+      "expectedSha256": "58c261df098aa952053e7c589ced456939c453c186267e8f2d3421d4f0dc2b65",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix13_multi_window_chunk_large": {
+      "pcmSha256": "1bffc8c297076e5474e9bbc9794ad778a01f05e66890d8d7abc8781776d6206f",
+      "expectedSha256": "59cc8a729b31622fd71a8aa0b6f8cd8c5ca5fd6ba94dff6f4512dad6ab7f54f0",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix14_short_recording_half_second": {
+      "pcmSha256": "dbadb403c98bd0192ef6476c584c6aad3a5803fa9046d7d87818f5aa150cc440",
+      "expectedSha256": "ea8142229daa88378ff8c5085860e9586d491ee4b06608bdc1efac825a657c0e",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix15_view_switch_active_spectrum": {
+      "pcmSha256": "8d08c82c628e39ac836a4b848ad3c64d6e6c077b89929df01de2058742a5fe34",
+      "expectedSha256": "3a500b209840a85cb6e49764228e5514c6ff527bdbe89d8272d602add5383dae",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": true
+    },
+    "fix16_view_switch_spectrogram": {
+      "pcmSha256": "4577e9102cc4f47e0aa88549916bd28ccde46f8e322bb0c2f5c246c00d47f8d5",
+      "expectedSha256": "09ba3d07aff3719fe0d9f1d4c10e715299bc1e68f8c4f0af692886dd9afa00ed",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": true
+    },
+    "fix17_odd_length_corrupted_frame": {
+      "pcmSha256": "7dd7137355a7347898e21f8ab705c33b9e0aab58015eaba3b235b7f378275711",
+      "expectedSha256": "238b14409c0e3fd865600095c15821635ca95449aaffad193836e1959742bfd2",
+      "dataQuality": "invalid",
+      "canSave": false,
+      "hasSpectra": false
+    },
+    "fix18_empty_chunk_ignored": {
+      "pcmSha256": "7dd7137355a7347898e21f8ab705c33b9e0aab58015eaba3b235b7f378275711",
+      "expectedSha256": "cb73d930c447f92cefbb3ae031018a416befa9e513788d13ba7dd4426aa6d2f8",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix19_stop_timeout_unverified": {
+      "pcmSha256": "8d08c82c628e39ac836a4b848ad3c64d6e6c077b89929df01de2058742a5fe34",
+      "expectedSha256": "8b1a0af842299625e84b2eecd65f1969df798c0598a9891e1565a6eadb592a74",
+      "dataQuality": "invalid",
+      "canSave": false,
+      "hasSpectra": false
+    },
+    "fix20_interruption_begin": {
+      "pcmSha256": "8d08c82c628e39ac836a4b848ad3c64d6e6c077b89929df01de2058742a5fe34",
+      "expectedSha256": "4b6c55d04ef4ff1dbb244e6d077ee9f06960bfc72bcb70d2b71bfe6a7e9115a0",
+      "dataQuality": "invalid",
+      "canSave": false,
+      "hasSpectra": false
+    },
+    "fix21_capture_duration_partial": {
+      "pcmSha256": "8d08c82c628e39ac836a4b848ad3c64d6e6c077b89929df01de2058742a5fe34",
+      "expectedSha256": "40c788edc6946621735f8794a0076ca832e6a5d0b20ede64815818de92d6660d",
+      "dataQuality": "partial",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix22_repeat_stop_idempotent": {
+      "pcmSha256": "8d08c82c628e39ac836a4b848ad3c64d6e6c077b89929df01de2058742a5fe34",
+      "expectedSha256": "b748fb9962b261985ac69206e826310f95efee23c377a7f257eeb9acb7a2d18a",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix23_no_calibration_estimate": {
+      "pcmSha256": "8d08c82c628e39ac836a4b848ad3c64d6e6c077b89929df01de2058742a5fe34",
+      "expectedSha256": "a2b4b6ff591e0342fa927f4ed5edc1f2b2367a9410c08520b8826f6eced1ece9",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix24_native_duration_unverified": {
+      "pcmSha256": "8d08c82c628e39ac836a4b848ad3c64d6e6c077b89929df01de2058742a5fe34",
+      "expectedSha256": "14b5263a3896207d57476085762b1b78f02945fb666364ffe4dd1f9c0d68a373",
+      "dataQuality": "unverified",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix25_single_chunk_multisecond_spanning": {
+      "pcmSha256": "8e5157fbe45e2c7d5196a706293890a08eeaa50a0dd7b00172cfed2191ca3cca",
+      "expectedSha256": "8cf2b9a9b28116b03bf18a1c995d26ecdc5b2463b438cf29bd8fb8394ebfc931",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    },
+    "fix26_cne_alarm_modal_triggered": {
+      "pcmSha256": "23bc93b9596fcbace7b761be29df4b63ccc7a4acf714d45ad2188a5058bed8c5",
+      "expectedSha256": "ba9971def870d4138d8da82fd219fea6e2bdd618fd5271299f295d0260f2177c",
+      "dataQuality": "valid",
+      "canSave": true,
+      "hasSpectra": false
+    }
+  }
+}

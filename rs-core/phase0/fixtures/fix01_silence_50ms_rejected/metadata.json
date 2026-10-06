@@ -1,0 +1,23 @@
+{
+  "id": "fix01_silence_50ms_rejected",
+  "description": "连续 50ms (2205 样本) 数字静音，触发整块声学拒绝与终止，无尾滤波",
+  "sampleRate": 44100,
+  "totalSamples": 2205,
+  "durationSeconds": 0.05,
+  "pcmSha256": "cd9b6364071a17dbbb7894211400e187f6e60fd3363b577628cdaf2a313554ae",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

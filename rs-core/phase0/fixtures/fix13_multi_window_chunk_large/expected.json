@@ -1,0 +1,124 @@
+{
+  "id": "fix13_multi_window_chunk_large",
+  "description": "单帧大块 (32768 样本)，覆盖多个 hop 步长 (8192) 与滑动窗口边界",
+  "dataQuality": "valid",
+  "measurementScope": "whole-recording",
+  "canSave": true,
+  "modalTriggered": false,
+  "modals": [],
+  "sampleCount": 32768,
+  "aWeightedEnergy": 163.79962646227352,
+  "leqA": 76.98862972076657,
+  "cne": 70.97,
+  "cneUnrounded": 70.96802980748694,
+  "filterTail": {
+    "energy": 0.32929628453451365,
+    "paddingSamples": 3328,
+    "converged": true
+  },
+  "coverage": {
+    "receivedSamples": 32768,
+    "receivedSeconds": 0.7430385487528345,
+    "elapsedSeconds": 0.793,
+    "captureElapsedSeconds": 0.793,
+    "captureCoverageRatio": 1,
+    "integrityStatus": "valid",
+    "nativeDurationMs": 743,
+    "sampleDelta": 1.7000000000007276,
+    "toleranceSamples": 46,
+    "lastFrameAt": 100793
+  },
+  "qualityReason": "",
+  "terminalEvidence": {
+    "measurementInvalidReason": null,
+    "inputOverloaded": false,
+    "totalAWeightedSampleCount": 32768,
+    "totalAWeightedEnergySum": 163.79962646227352,
+    "silentSampleCount": 0,
+    "consecutiveSilentSampleCount": 0,
+    "inputNearFullScale": false,
+    "inputPlateauSuspected": false,
+    "inspector": {
+      "samples": 32768,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "lastFrameLevels": {
+      "dbfs": -23.010451568609632,
+      "dbspl": 76.98954843139038
+    }
+  },
+  "receiptCount": 2,
+  "secondWindowCount": 0,
+  "secondEventCount": 0,
+  "secondWindows": [],
+  "secondEvents": [],
+  "receipts": [
+    {
+      "frameCount": 0,
+      "totalAWeightedSampleCount": 16384,
+      "totalAWeightedEnergySum": 81.54591217638617,
+      "lastFrameLevels": {
+        "dbfs": -23.010469395590402,
+        "dbspl": 76.9895306044096
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 16384
+    },
+    {
+      "frameCount": 1,
+      "totalAWeightedSampleCount": 32768,
+      "totalAWeightedEnergySum": 163.47033017773902,
+      "lastFrameLevels": {
+        "dbfs": -23.010451568609632,
+        "dbspl": 76.98954843139038
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    }
+  ],
+  "finalReceipt": {
+    "frameCount": 1,
+    "totalAWeightedSampleCount": 32768,
+    "totalAWeightedEnergySum": 163.47033017773902,
+    "lastFrameLevels": {
+      "dbfs": -23.010451568609632,
+      "dbspl": 76.98954843139038
+    },
+    "inputOverloaded": false,
+    "measurementInvalidReason": "",
+    "inputNearFullScale": false,
+    "inputPlateauSuspected": false,
+    "silentSampleCount": 0,
+    "consecutiveSilentSampleCount": 0,
+    "pcmBufferedSamples": 32768
+  },
+  "spectrum": {
+    "status": "unavailable",
+    "reason": "view_mode_not_spectrum",
+    "pcmBufferedSamples": 32768,
+    "viewMode": "waveform"
+  },
+  "finalSnapshotSummary": {
+    "threat": "安全（条件估计；采集链未核验）",
+    "threatClass": "detail-init",
+    "silentSampleCount": 0,
+    "plateauSuspected": false,
+    "nearFullScaleObserved": false
+  }
+}

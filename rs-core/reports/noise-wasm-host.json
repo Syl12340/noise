@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "tests": [
+    {
+      "name": "no imports",
+      "status": "PASS"
+    },
+    {
+      "name": "status checks precede integer wrapping",
+      "status": "PASS"
+    },
+    {
+      "name": "pending result blocks both sessions and no result overwrite",
+      "status": "PASS"
+    },
+    {
+      "name": "memory.grow reacquires views and retains committed sample count",
+      "status": "PASS"
+    },
+    {
+      "name": "sequence error does not consume valid next sequence",
+      "status": "PASS"
+    },
+    {
+      "name": "destroyed handles never address new sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "event backpressure is retryable after draining without clock changes",
+      "status": "PASS"
+    },
+    {
+      "name": "finish is idempotent and does not create samples",
+      "status": "PASS"
+    },
+    {
+      "name": "independent instances retain their own sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "trap discards instance without replay",
+      "status": "PASS"
+    },
+    {
+      "name": "decode failure cannot replay committed process",
+      "status": "PASS"
+    },
+    {
+      "name": "WX-shaped loader without global WebAssembly or TextDecoder",
+      "status": "PASS"
+    },
+    {
+      "name": "Node asynchronous loader",
+      "status": "PASS"
+    }
+  ],
+  "artifact": {
+    "bytes": 654106,
+    "sha256": "8c12e69ef170c104511e2bf99448b57189b07acf186cf7ff174fe545052a10f2",
+    "imports": []
+  },
+  "scope": "Actual Rust WASM on Node plus WX-shaped loader simulation; no real device test."
+}

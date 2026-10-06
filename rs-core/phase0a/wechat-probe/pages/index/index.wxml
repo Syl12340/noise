@@ -1,0 +1,72 @@
+<!-- Phase 0A WASM 探针独立验收页面 -->
+<view class="container">
+  <view class="header">
+    <text class="title">Phase 0A: WASM 能力与精度探针</text>
+    <text class="subtitle">独立运行环境能力与 IEEE-754 精度实测</text>
+  </view>
+
+  <!-- 环境信息卡片 -->
+  <view class="card">
+    <view class="card-title">运行时环境</view>
+    <view class="info-row">
+      <text class="info-label">微信版本:</text>
+      <text class="info-value">{{systemInfo.version || '未获取'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">基础库版本:</text>
+      <text class="info-value">{{systemInfo.SDKVersion || '未获取'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">系统平台:</text>
+      <text class="info-value">{{systemInfo.platform || '未知'}} ({{systemInfo.system || '未知'}})</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">设备型号:</text>
+      <text class="info-value">{{systemInfo.model || '未知'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">WXWebAssembly:</text>
+      <text class="info-value {{hasWXWebAssembly ? 'text-success' : 'text-danger'}}">
+        {{hasWXWebAssembly ? '可用 (typeof function/object)' : '不可用 (undefined)'}}
+      </text>
+    </view>
+  </view>
+
+  <!-- 总体测试结果卡片 -->
+  <view class="card status-card status-{{testStatus}}">
+    <view class="status-header">
+      <text class="status-title">验收状态: {{statusLabel}}</text>
+      <text class="status-duration" wx:if="{{durationMs > 0}}">{{durationMs}} ms</text>
+    </view>
+    <text class="status-message">{{statusMessage}}</text>
+    <text class="status-message">Worker：{{workerStatus}}（本页未执行）</text>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section">
+    <button class="btn-primary" bindtap="runProbeTest" disabled="{{isRunning}}">
+      {{isRunning ? '正在执行测试...' : '执行 Phase 0A 探针测试'}}
+    </button>
+  </view>
+
+  <!-- 详细步骤列表 -->
+  <view class="card" wx:if="{{steps.length > 0}}">
+    <view class="card-title">分步检验记录</view>
+    <view class="step-item" wx:for="{{steps}}" wx:key="name">
+      <view class="step-header">
+        <text class="step-tag {{item.passed ? 'tag-pass' : 'tag-fail'}}">{{item.passed ? 'PASS' : 'FAIL'}}</text>
+        <text class="step-name">{{item.name}}</text>
+      </view>
+      <view class="step-detail">{{item.detail}}</view>
+    </view>
+  </view>
+
+  <!-- 约束与边界声明 -->
+  <view class="card disclaimer-card">
+    <view class="card-title">Phase 0A 规范与约束</view>
+    <view class="disclaimer-text">1. 本项目为独立探针，无麦克风权限请求、无录音采集、无生产代码侵入。</view>
+    <view class="disclaimer-text">2. 仅验证 WebAssembly Core 1.0 基本指令、内存对齐与 IEEE-754 单精度浮点精确性。</view>
+    <view class="disclaimer-text">3. 尚未实测假设：不同机型与操作系统底层 WXWebAssembly JIT/解释器实现可能存在差异，以真机最终验收报告为准。</view>
+    <view class="disclaimer-text">4. 不推导生产 DSP 测量延迟，不代表生产 A 计权/FFT 等算法迁移完成。</view>
+  </view>
+</view>

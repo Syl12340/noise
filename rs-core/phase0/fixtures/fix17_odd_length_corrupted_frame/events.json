@@ -1,0 +1,18 @@
+[
+  {
+    "event": "start",
+    "clock": 100050,
+    "sampleRate": 44100,
+    "totalSamples": 8192,
+    "chunkSize": 1024
+  },
+  {
+    "event": "corruptChunkByteLength",
+    "chunkIndex": 2,
+    "byteLength": 2047
+  },
+  {
+    "event": "stopNormal",
+    "requestedDurationMs": 186
+  }
+]

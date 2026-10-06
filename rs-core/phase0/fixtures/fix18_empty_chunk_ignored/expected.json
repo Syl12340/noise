@@ -1,0 +1,220 @@
+{
+  "id": "fix18_empty_chunk_ignored",
+  "description": "流中注入长度为 0 的空块，验证基线静默返回、不推进计数的行为",
+  "dataQuality": "valid",
+  "measurementScope": "whole-recording",
+  "canSave": true,
+  "modalTriggered": false,
+  "modals": [],
+  "sampleCount": 8192,
+  "aWeightedEnergy": 40.94378568590791,
+  "leqA": 76.98798051668115,
+  "cne": 70.97,
+  "cneUnrounded": 70.96738060340152,
+  "filterTail": {
+    "energy": 0.3305541770193069,
+    "paddingSamples": 2560,
+    "converged": true
+  },
+  "coverage": {
+    "receivedSamples": 8192,
+    "receivedSeconds": 0.18575963718820862,
+    "elapsedSeconds": 0.236,
+    "captureElapsedSeconds": 0.236,
+    "captureCoverageRatio": 0.9987077268183259,
+    "integrityStatus": "valid",
+    "nativeDurationMs": 186,
+    "sampleDelta": -10.600000000000364,
+    "toleranceSamples": 46,
+    "lastFrameAt": 100236
+  },
+  "qualityReason": "",
+  "terminalEvidence": {
+    "measurementInvalidReason": null,
+    "inputOverloaded": false,
+    "totalAWeightedSampleCount": 8192,
+    "totalAWeightedEnergySum": 40.94378568590791,
+    "silentSampleCount": 0,
+    "consecutiveSilentSampleCount": 0,
+    "inputNearFullScale": false,
+    "inputPlateauSuspected": false,
+    "inspector": {
+      "samples": 8192,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "lastFrameLevels": {
+      "dbfs": -23.005202419780115,
+      "dbspl": 76.99479758021988
+    }
+  },
+  "receiptCount": 8,
+  "secondWindowCount": 0,
+  "secondEventCount": 0,
+  "secondWindows": [],
+  "secondEvents": [],
+  "receipts": [
+    {
+      "frameCount": 0,
+      "totalAWeightedSampleCount": 1024,
+      "totalAWeightedEnergySum": 4.775579162085605,
+      "lastFrameLevels": {
+        "dbfs": -23.019835857787285,
+        "dbspl": 76.98016414221271
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 1024
+    },
+    {
+      "frameCount": 1,
+      "totalAWeightedSampleCount": 2048,
+      "totalAWeightedEnergySum": 9.861235518155299,
+      "lastFrameLevels": {
+        "dbfs": -22.991423411920763,
+        "dbspl": 77.00857658807924
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 2048
+    },
+    {
+      "frameCount": 2,
+      "totalAWeightedSampleCount": 3072,
+      "totalAWeightedEnergySum": 15.012087789494712,
+      "lastFrameLevels": {
+        "dbfs": -23.03614081804453,
+        "dbspl": 76.96385918195547
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 3072
+    },
+    {
+      "frameCount": 3,
+      "totalAWeightedSampleCount": 4096,
+      "totalAWeightedEnergySum": 20.109380797677918,
+      "lastFrameLevels": {
+        "dbfs": -22.98105975761495,
+        "dbspl": 77.01894024238504
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 4096
+    },
+    {
+      "frameCount": 4,
+      "totalAWeightedSampleCount": 5120,
+      "totalAWeightedEnergySum": 25.241045443667307,
+      "lastFrameLevels": {
+        "dbfs": -23.038629139188494,
+        "dbspl": 76.96137086081151
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 5120
+    },
+    {
+      "frameCount": 5,
+      "totalAWeightedSampleCount": 6144,
+      "totalAWeightedEnergySum": 30.362374541676196,
+      "lastFrameLevels": {
+        "dbfs": -22.986895690760427,
+        "dbspl": 77.01310430923957
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 6144
+    },
+    {
+      "frameCount": 6,
+      "totalAWeightedSampleCount": 7168,
+      "totalAWeightedEnergySum": 35.468543479003095,
+      "lastFrameLevels": {
+        "dbfs": -23.02558105164127,
+        "dbspl": 76.97441894835873
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 7168
+    },
+    {
+      "frameCount": 7,
+      "totalAWeightedSampleCount": 8192,
+      "totalAWeightedEnergySum": 40.6132315088886,
+      "lastFrameLevels": {
+        "dbfs": -23.005202419780115,
+        "dbspl": 76.99479758021988
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 8192
+    }
+  ],
+  "finalReceipt": {
+    "frameCount": 7,
+    "totalAWeightedSampleCount": 8192,
+    "totalAWeightedEnergySum": 40.6132315088886,
+    "lastFrameLevels": {
+      "dbfs": -23.005202419780115,
+      "dbspl": 76.99479758021988
+    },
+    "inputOverloaded": false,
+    "measurementInvalidReason": "",
+    "inputNearFullScale": false,
+    "inputPlateauSuspected": false,
+    "silentSampleCount": 0,
+    "consecutiveSilentSampleCount": 0,
+    "pcmBufferedSamples": 8192
+  },
+  "spectrum": {
+    "status": "unavailable",
+    "reason": "view_mode_not_spectrum",
+    "pcmBufferedSamples": 8192,
+    "viewMode": "waveform"
+  },
+  "finalSnapshotSummary": {
+    "threat": "安全（条件估计；采集链未核验）",
+    "threatClass": "detail-init",
+    "silentSampleCount": 0,
+    "plateauSuspected": false,
+    "nearFullScaleObserved": false
+  }
+}

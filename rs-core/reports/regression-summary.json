@@ -1,0 +1,112 @@
+{
+  "executedAt": "2026-10-05T13:14:44.450501+00:00",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "allSpecsConform": true,
+  "summary": {
+    "totalScripts": 12,
+    "passed": 9,
+    "retainedBaselineGateFailures": 3,
+    "failed": 0,
+    "errors": 0
+  },
+  "testResults": [
+    {
+      "script": "rc-repairs.cjs",
+      "exitCode": 0,
+      "seconds": 2.285759,
+      "status": "PASS",
+      "detail": "OK",
+      "logFile": "regression-rc-repairs.log"
+    },
+    {
+      "script": "recorder-usability.cjs",
+      "exitCode": 0,
+      "seconds": 6.587631,
+      "status": "PASS",
+      "detail": "OK",
+      "logFile": "regression-recorder-usability.log"
+    },
+    {
+      "script": "scientific-followup.cjs",
+      "exitCode": 0,
+      "seconds": 1.459352,
+      "status": "PASS",
+      "detail": "OK",
+      "logFile": "regression-scientific-followup.log"
+    },
+    {
+      "script": "scientific-repairs.cjs",
+      "exitCode": 0,
+      "seconds": 0.673397,
+      "status": "PASS",
+      "detail": "OK",
+      "logFile": "regression-scientific-repairs.log"
+    },
+    {
+      "script": "revision-regression.cjs",
+      "exitCode": 0,
+      "seconds": 24.614158,
+      "status": "PASS",
+      "detail": "OK",
+      "logFile": "regression-revision-regression.log"
+    },
+    {
+      "script": "paper-engineering-repairs.cjs",
+      "exitCode": 0,
+      "seconds": 0.989562,
+      "status": "PASS",
+      "detail": "OK",
+      "logFile": "regression-paper-engineering-repairs.log"
+    },
+    {
+      "script": "paper-scientific-probes.cjs",
+      "exitCode": 0,
+      "seconds": 10.207718,
+      "status": "PASS",
+      "detail": "OK",
+      "logFile": "regression-paper-scientific-probes.log"
+    },
+    {
+      "script": "paper-scientific-followup-probes.cjs",
+      "exitCode": 0,
+      "seconds": 1.418034,
+      "status": "PASS",
+      "detail": "OK",
+      "logFile": "regression-paper-scientific-followup-probes.log"
+    },
+    {
+      "script": "package-integrity.cjs",
+      "exitCode": 0,
+      "seconds": 6.616183,
+      "status": "PASS",
+      "detail": "OK",
+      "logFile": "regression-package-integrity.log"
+    },
+    {
+      "script": "algorithm-evaluation.cjs",
+      "exitCode": 1,
+      "seconds": 18.671231,
+      "status": "RETAINED_BASELINE_GATE_FAILURE",
+      "detail": "OK",
+      "logFile": "regression-algorithm-evaluation.log"
+    },
+    {
+      "script": "formant-validation.cjs",
+      "exitCode": 1,
+      "seconds": 4.735179,
+      "status": "RETAINED_BASELINE_GATE_FAILURE",
+      "detail": "OK",
+      "logFile": "regression-formant-validation.log"
+    },
+    {
+      "script": "formant-holdout.cjs",
+      "exitCode": 1,
+      "seconds": 2.504618,
+      "status": "RETAINED_BASELINE_GATE_FAILURE",
+      "detail": "OK",
+      "logFile": "regression-formant-holdout.log"
+    }
+  ],
+  "praatStatus": "SKIPPED_UNRUN (Praat/parselmouth external environment not configured in isolated Phase 0)",
+  "note": "Verified against 3a0d676 baseline expectations (138+14 pass, 83/82/1/0 evaluation with F0=400Hz failure, exact formant gate aggregates)."
+}

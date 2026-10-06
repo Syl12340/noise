@@ -1,0 +1,19 @@
+[
+  {
+    "event": "start",
+    "clock": 100050,
+    "sampleRate": 44100,
+    "totalSamples": 88200,
+    "chunkSize": 2048
+  },
+  {
+    "event": "switchView",
+    "mode": "spectrum",
+    "atSample": 0,
+    "sampleCursor": 0
+  },
+  {
+    "event": "stopNormal",
+    "requestedDurationMs": 2000
+  }
+]

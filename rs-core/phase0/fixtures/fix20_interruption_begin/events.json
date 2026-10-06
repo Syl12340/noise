@@ -1,0 +1,19 @@
+[
+  {
+    "event": "start",
+    "clock": 100050,
+    "sampleRate": 44100,
+    "totalSamples": 44100,
+    "chunkSize": 1024
+  },
+  {
+    "event": "emitSystemEvent",
+    "name": "InterruptionBegin",
+    "atSample": 20480,
+    "sampleCursor": 20480
+  },
+  {
+    "event": "stopNormal",
+    "requestedDurationMs": 1000
+  }
+]

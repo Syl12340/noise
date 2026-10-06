@@ -1,0 +1,195 @@
+{
+  "status": "PASS",
+  "fixtureCount": 26,
+  "fixtures": [
+    {
+      "id": "fix01_silence_50ms_rejected",
+      "samples": 2048,
+      "windows": 0,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix02_silence_short_accepted",
+      "samples": 1323,
+      "windows": 0,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix03_sine_1khz_clean_1s",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix04_sine_1khz_3s_multisecond",
+      "samples": 132300,
+      "windows": 3,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix05_non_integer_freq",
+      "samples": 66150,
+      "windows": 1,
+      "spectra": 5,
+      "status": "PASS"
+    },
+    {
+      "id": "fix06_multitone_third_octave",
+      "samples": 88200,
+      "windows": 2,
+      "spectra": 7,
+      "status": "PASS"
+    },
+    {
+      "id": "fix07_dc_constant_rejected",
+      "samples": 2048,
+      "windows": 0,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix08_near_full_scale_warning",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix09_plateau_warning",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix10_clipping_overload_rejected",
+      "samples": 0,
+      "windows": 0,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix11_ignored_after_termination",
+      "samples": 2048,
+      "windows": 0,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix12_two_level_energy",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix13_multi_window_chunk_large",
+      "samples": 32768,
+      "windows": 0,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix14_short_recording_half_second",
+      "samples": 22050,
+      "windows": 0,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix15_view_switch_active_spectrum",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "fix16_view_switch_spectrogram",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "fix17_odd_length_corrupted_frame",
+      "samples": 2048,
+      "windows": 0,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix18_empty_chunk_ignored",
+      "samples": 8192,
+      "windows": 0,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix19_stop_timeout_unverified",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix20_interruption_begin",
+      "samples": 20480,
+      "windows": 0,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix21_capture_duration_partial",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix22_repeat_stop_idempotent",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix23_no_calibration_estimate",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix24_native_duration_unverified",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix25_single_chunk_multisecond_spanning",
+      "samples": 88200,
+      "windows": 2,
+      "spectra": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "fix26_cne_alarm_modal_triggered",
+      "samples": 44100,
+      "windows": 1,
+      "spectra": 0,
+      "status": "PASS"
+    }
+  ],
+  "exactFloats": 952,
+  "exactFields": 10402,
+  "dbFields": 264176,
+  "maxDbError": 5.684341886080802e-14,
+  "backend": "native",
+  "driverSha256": "7618e518d49342b67c4b9b720afa8d98bef1a9e88ed7075f09416695468bee6e",
+  "scope": "Frozen core fields only; calibration/capture integrity/risk/save remain application-owned."
+}

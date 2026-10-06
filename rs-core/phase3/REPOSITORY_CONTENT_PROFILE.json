@@ -1,0 +1,938 @@
+{
+  "files": {
+    ".gitignore": {
+      "mode": "utf8-line-endings",
+      "sha256": "6b76ebb2e8d8fef965cd95f34c13b21d7ac617278b1118be5a80e0276bc228d0"
+    },
+    "app.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "b042bb88f1329fa2ec8e1f764dfa4594fe5fd20cb402ab7ac9415c9126354fbc"
+    },
+    "app.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "c6f7233107d54424be341ca5ff501a310138f4b2fefede806c38f6dfabaa005c"
+    },
+    "app.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "1736d480520bd1cf4084fcd0b37a6eb15ed20bfc81e4a3d76184ce2f22423f17"
+    },
+    "docs/acoustic-fixes.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "08802c8b863022c7bb73f9220c625169c8943443cdb90e34898daf39a246e962"
+    },
+    "docs/algorithm-evaluation-report.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "52fb1d8571b8351d65a5a1fe9070fb0ad570f6cc6d32d9d3805c26e8aaf767d6"
+    },
+    "docs/algorithm-evaluation-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "c7ae1c8bedbcffe9965e5a503df410995cfc477b7fa53325a25cc5199fb46548"
+    },
+    "docs/commit-message-draft.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "d535fc5929bd6603b4e533647ac6ab9673d9357a7d84719d3925f997f3925e93"
+    },
+    "docs/engineering-repairs-2026-10-05.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "cc9f1461f30945e593f4e17763389dbdee3abcf44197ce58e8d16e0b0780dd8d"
+    },
+    "docs/formant-diagnostics-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "792223a3d065cde3d5e647ad4f5a63ad375bfe116f0cb6dd5a59e736a9b9e995"
+    },
+    "docs/formant-holdout-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "da4f946963a289a5b066cc26928c83cdd1249dfffdcdf4ca55044218b1299de9"
+    },
+    "docs/formant-validation-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "cd833808de719340e4474ed336de61a4fb2e9c63f809b18b843c18cf3d0ac0aa"
+    },
+    "docs/implementation-change-summary.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "a086f3313547ec284ffbf9bc359e1ac13ab1ce1753294f19aa15b760584fc30f"
+    },
+    "docs/implementation-summary.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "183d948af4f4efc46c56fc89fda9f5f955cd062d75e07ec21d57bdc7d2a0cf07"
+    },
+    "docs/manual-regression-checklist.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "f04e50f688320a1b0c00e6536effd78cfa3c0b5c8fda8e521f5b7cfa9cef1057"
+    },
+    "docs/manual-regression-execution-record.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "2074647373cc3223b0001ed09e9d2398668bcfc8eafda4f043db78310ee3d6e0"
+    },
+    "docs/manual-testing-checklist.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "5838624fad1e20f1a5b89059e5f5ab77997ea2a6ced36af8984618f3e409e2d9"
+    },
+    "docs/p1-fix-notes-2026-09-27.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "118f702f7cd1e9f2c1cc1ba93ee7c5adb4978ce0e3b313e047b6679e38ca8650"
+    },
+    "docs/paper-acoustic-algorithms-and-engineering-2026-10-04.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "0451d518da2cc87750bf5649c9273666416159c55f39e6b36f52c5dc6e41ee8f"
+    },
+    "docs/paper-acoustic-algorithms-and-engineering.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "726913eea49e55d15c6f1c1a80525af1cec3d75252b575cbc4d2438b362d96a4"
+    },
+    "docs/paper-acoustics-engineering-evidence-2026-10-04.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "9f8ec2ff22b939c2379bba759ae61a51eb07a59e94cae79bf59d04fd269d368f"
+    },
+    "docs/paper-acoustics-engineering-evidence-2026-10-05.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "82324d96f20438121797c840e127d872d6376a9db35de51e76882c0512f54bd2"
+    },
+    "docs/paper-scientific-validation-2026-10-05.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "0feeea50afbf9f970644aedac65f77549cd421f488164da133692da10086b446"
+    },
+    "docs/praat-comparison-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "ab2e6e20badc6c5fcda7b8987b031001e6348a885eb874a27ab9369ed854de82"
+    },
+    "docs/rc-repair-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "c32fc6dc55478feb2dfc0d04555f871b0965e712898f5ac0da1d03194d76c377"
+    },
+    "docs/rc-repairs-2026-10-04.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "775c22fcd4c02ce6bcf7908f1a498288d429e906c48ce56c5b8b5f93681de569"
+    },
+    "docs/recorder-usability-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "fe291fde67fbbfd535ae01ae66f33b4fd6651a8e640da19b605be17505cda4f8"
+    },
+    "docs/recording-usability-fixes-2026-09-28.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "030f67ccf644258e7519a90269d11cc171dcf08d241677810ebec19d1e674056"
+    },
+    "docs/revision-regression-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "d5a0ba000f2f0c95d211ae06fb5db931fdc48e86d68f9fc667593c33338d2149"
+    },
+    "docs/scientific-engineering-review-2026-09-27.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "88384460cdfb2431abfb289777c0f3deba4fe927f2e06adb57ecf9ad680348a6"
+    },
+    "docs/scientific-followup-2026-10-02.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "14c522e25efdeceb65c9dc733cf6218b3a8da288e683798cdc89dd26db4932e1"
+    },
+    "docs/scientific-followup-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "10c7f9cdc507bc290cb709563e5679b73485f6eb5f1a5e0c9fc61be8d928adb0"
+    },
+    "docs/scientific-repairs-2026-10-02.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "7cd384301f737fcf6c6a8d98d9bdd1f18781e68b76aaea6762ff7ef1cbde65b7"
+    },
+    "docs/scientific-repairs-2026-10-05/algorithm-evaluation-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "172e535e0763ccf86fd80fcb2f943d27f0d323d544e41d23a270ac6b9b8d2311"
+    },
+    "docs/scientific-repairs-2026-10-05/algorithm-evaluation.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "ab775547e57870d329e374d280d91d88362a86e2405c3b3ab0125431d58ed32e"
+    },
+    "docs/scientific-repairs-2026-10-05/formant-holdout-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "ff6d8fa378320329e4691a3a7cb74f97493ac04a3d7f278217bc718d436a6dce"
+    },
+    "docs/scientific-repairs-2026-10-05/formant-holdout.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "e951f3101a71e9f5965350d06713020bd9587683984a9323a2cbd68c8d823734"
+    },
+    "docs/scientific-repairs-2026-10-05/formant-validation-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "0b4d430e28c0223915b326872d4be4146628abf72006ac75bb3d667f64f68e5f"
+    },
+    "docs/scientific-repairs-2026-10-05/formant-validation.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "caebc852eeade7e60fd40be7727319038e26226b75d1b23ca77212500b203551"
+    },
+    "docs/scientific-repairs-2026-10-05/independent-analysis.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "4519151c708d13f7e9b4a37a82d72ebc121ea588343a49764540935ed758596b"
+    },
+    "docs/scientific-repairs-2026-10-05/package-integrity.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "e6b1f738c99e51da3c9b61dab7840e9856ab82cabc1b3cc7cf643550b70dc028"
+    },
+    "docs/scientific-repairs-2026-10-05/paper-engineering-repairs-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "01a23a4b5a3b57c87687e0b594ea69d52f39ee4ac28492dd452c8b89ef1533b0"
+    },
+    "docs/scientific-repairs-2026-10-05/paper-engineering-repairs.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "64073bb45052458fa0b45ff79b9be9e969d84c82f01140a9a0daf1cea39cb03c"
+    },
+    "docs/scientific-repairs-2026-10-05/paper-scientific-followup-probes-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "b32859ec51ba9cb4232bb4546c5d62797874da14b0c7667a52cb776623449a30"
+    },
+    "docs/scientific-repairs-2026-10-05/paper-scientific-followup-probes.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "98ccfe3330ae1bf4451ad51fc359a2b3fd181fb6950308eaff2c8609d0f8c666"
+    },
+    "docs/scientific-repairs-2026-10-05/paper-scientific-probes-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "e6461d353bf6d05705592c29115a51d06b57b84a515c1ec937803800ccb92582"
+    },
+    "docs/scientific-repairs-2026-10-05/paper-scientific-probes.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "c7ac1afbb17a6de1211d55e55a14f2bc040f4e60e54ab24d72d4034542c8777a"
+    },
+    "docs/scientific-repairs-2026-10-05/performance-after.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "fbbb9744e69524a09b465ae6c3ed2ab6d97a44ea240db9c6f2279ef62428299a"
+    },
+    "docs/scientific-repairs-2026-10-05/performance-after.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "b28b7f74863ffb6617dde2d7547cf3c27c07ccef6bd1675183a2bc5777efcc5b"
+    },
+    "docs/scientific-repairs-2026-10-05/performance-before.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "a04346ea9f1603b0fe60b1c4ef0db6b3d5f86a5c61b09c349cf6893e86837712"
+    },
+    "docs/scientific-repairs-2026-10-05/performance-before.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "d057673e1d6f8a6c954397a76b45ad43efe2e8141a071d5c4e259b051b71c675"
+    },
+    "docs/scientific-repairs-2026-10-05/praat-comparison-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "8b158308cfa2daab9bb583887f4e240c396cee889019964d8b5244bbd17cdcf4"
+    },
+    "docs/scientific-repairs-2026-10-05/praat-comparison.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "f66576115648ae62f0740bd19420cc2b9fbd1d1d4275d38e836f617c2298721c"
+    },
+    "docs/scientific-repairs-2026-10-05/rc-repair-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "dafe8d3194ea666dfdcd64939ed826ca768c102957bcf27aeccca328054f942a"
+    },
+    "docs/scientific-repairs-2026-10-05/rc-repairs.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "df504eea96b64e8eb1597255cfcb0ec421bf0df97f78364f46987e60d175f251"
+    },
+    "docs/scientific-repairs-2026-10-05/recorder-usability-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "6f04cc97d7782c3331b7e4b7545767d0cdfbf3b9ee432c6ce670251c81d5cb83"
+    },
+    "docs/scientific-repairs-2026-10-05/recorder-usability.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "1c67505a8430f0befc8c3440719d132042ab964cdbd9d2b8ad304f7d13b99f91"
+    },
+    "docs/scientific-repairs-2026-10-05/revision-regression-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "f84845dc81d591fda31f83e756f37c63f8c5545416f157be959a1c9541438fec"
+    },
+    "docs/scientific-repairs-2026-10-05/revision-regression.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "cf4d0ddf81efc639282a7d11139c3b62fe9f78c63ce5e663fdf7cc1cec546f00"
+    },
+    "docs/scientific-repairs-2026-10-05/run-manifest.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "032293f7a41223562435e1b11f3d5c65c6c2e1be0ec66aa851c3978d843c0af5"
+    },
+    "docs/scientific-repairs-2026-10-05/scientific-followup-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "95201edbb12e101e320be907a39a7a89c55c9c980faf04ef05275a50b5642197"
+    },
+    "docs/scientific-repairs-2026-10-05/scientific-followup.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "558513849925e754de50e403b7378638b14dcfcd87c61d6ab78f99d7584b5191"
+    },
+    "docs/scientific-repairs-2026-10-05/scientific-repairs-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "a1452812a7c2006636cd93d2f7350e469a11323945151f2a5682b36740758fe7"
+    },
+    "docs/scientific-repairs-2026-10-05/scientific-repairs.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "a090f96c58c2f4097f460a534b92970f64375c1ce32b487342544abf6df63993"
+    },
+    "docs/scientific-repairs-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "a89aeb912030dcee9f7029307ed779ca00608077fc489029429d197b1eff8580"
+    },
+    "docs/scientific-validation-2026-10-05/algorithm-evaluation-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "9a6b646f7c92ea1385f6c95d5758bdae794aa2a02ab5b8c070b4d996bb632f53"
+    },
+    "docs/scientific-validation-2026-10-05/algorithm-evaluation.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "ab775547e57870d329e374d280d91d88362a86e2405c3b3ab0125431d58ed32e"
+    },
+    "docs/scientific-validation-2026-10-05/formant-holdout-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "0bafe086c77385f1eeeb4dd3a1eb082d1958936e96b0a30b35bfe3cc8b7f1ba4"
+    },
+    "docs/scientific-validation-2026-10-05/formant-holdout.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "e951f3101a71e9f5965350d06713020bd9587683984a9323a2cbd68c8d823734"
+    },
+    "docs/scientific-validation-2026-10-05/formant-validation-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "5c20bdb63b18ce42ff99ee46c9be8d9232749fbfa784971ca3fb8e1a0ceb3bd4"
+    },
+    "docs/scientific-validation-2026-10-05/formant-validation.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "caebc852eeade7e60fd40be7727319038e26226b75d1b23ca77212500b203551"
+    },
+    "docs/scientific-validation-2026-10-05/independent-analysis.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "7a4615ddea372e3bbbca7ecd459eb1acf4542e8b090bffec810826c9914b1e03"
+    },
+    "docs/scientific-validation-2026-10-05/package-integrity.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "ff58d2c6499fcb0fd7b35621dad9a283b28cf491dbfbe69791a2c4da8a453e47"
+    },
+    "docs/scientific-validation-2026-10-05/paper-scientific-followup-probes-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "acbca5da500f403edfc7b1a6b1520a0222ea728ac7180675a7f8975fdcc01c5c"
+    },
+    "docs/scientific-validation-2026-10-05/paper-scientific-followup-probes.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "e809c6bb2b66bac6014d1dafe6c16d14092bbea240ed1000a7eb53c1dc09a9a6"
+    },
+    "docs/scientific-validation-2026-10-05/paper-scientific-probes-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "9cd61428ed774201b6bee47dcdd8adb3334b1fccc0ebf955c5f3b0cd469be7d0"
+    },
+    "docs/scientific-validation-2026-10-05/paper-scientific-probes.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "2ff662933efd8ff66e23f23bf487d14384e9ce6f296ef67d8f317f02222580b4"
+    },
+    "docs/scientific-validation-2026-10-05/praat-comparison-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "58d58f301f846c6a6403805971547c39b1e21644da3edbb577030b552f483fd7"
+    },
+    "docs/scientific-validation-2026-10-05/praat-comparison.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "f66576115648ae62f0740bd19420cc2b9fbd1d1d4275d38e836f617c2298721c"
+    },
+    "docs/scientific-validation-2026-10-05/rc-repair-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "e654d3c3829c49d3e032909144643ba2c0330b3544d1e6bf0c6cd9ed1535872a"
+    },
+    "docs/scientific-validation-2026-10-05/rc-repairs.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "df504eea96b64e8eb1597255cfcb0ec421bf0df97f78364f46987e60d175f251"
+    },
+    "docs/scientific-validation-2026-10-05/recorder-usability-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "7ba183e58383a5cad40b1842bca7412d840129fdc9db83bfc524cdefc69430e4"
+    },
+    "docs/scientific-validation-2026-10-05/recorder-usability.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "1c67505a8430f0befc8c3440719d132042ab964cdbd9d2b8ad304f7d13b99f91"
+    },
+    "docs/scientific-validation-2026-10-05/revision-regression-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "bbc75a89319e5a070443d638ec9450a5ccc5725b5a88a317c9a35a982f4816bc"
+    },
+    "docs/scientific-validation-2026-10-05/revision-regression.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "cf4d0ddf81efc639282a7d11139c3b62fe9f78c63ce5e663fdf7cc1cec546f00"
+    },
+    "docs/scientific-validation-2026-10-05/run-manifest.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "58d340d1b94090054446f09b4002c5679f65002dfeb595a5d4afb059ea37ab0f"
+    },
+    "docs/scientific-validation-2026-10-05/scientific-followup-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "bfff2b252021c20f00887f956caf32ff3eadafa60f48a5df7ae06f1fee56772b"
+    },
+    "docs/scientific-validation-2026-10-05/scientific-followup.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "558513849925e754de50e403b7378638b14dcfcd87c61d6ab78f99d7584b5191"
+    },
+    "docs/scientific-validation-2026-10-05/scientific-repairs-results.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "43ddd4b5de393675e7acf22ea0c7dc1729634599aa05b4d8fba1bf639ac5d4f3"
+    },
+    "docs/scientific-validation-2026-10-05/scientific-repairs.log": {
+      "mode": "utf8-line-endings",
+      "sha256": "a090f96c58c2f4097f460a534b92970f64375c1ce32b487342544abf6df63993"
+    },
+    "docs/utils-function-contracts.md": {
+      "mode": "utf8-line-endings",
+      "sha256": "ebd5eba0d5d3f5634fd8594db39ea78df5ff4676d09ff23545e6abc199cc6376"
+    },
+    "ide.wxproj": {
+      "mode": "utf8-line-endings",
+      "sha256": "8ece73818068456d76c75f614bc41eaef41ae3babfffb025254463a7734d4eec"
+    },
+    "images/apply.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "e0d563e9b1a12edf8397e49882266fee31463fb294b99bb797b8c244fcf641f0"
+    },
+    "images/book.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "f3fcffded4488c8ba92abbf3a15d2b5960bf9728254e1fa948869f9db9275db4"
+    },
+    "images/calibrate.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "e455aa45e8338d64a3899af15a671564b302edb9acbdb8b4b6746fd2ca2b3c66"
+    },
+    "images/chart.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "840c488c6e15f9c4e907a3ca3fd36f21c972bc0468a9f5c68216e1abcc852462"
+    },
+    "images/dblevel.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "031c1b6003986a876cdef8ac9efff42c4ea15411aefd54953eb916bc6b4ef3eb"
+    },
+    "images/doctors.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "088cb59a9a2d9bb34300fe801a7690bf1d511e64247af0e1050ab0f0035fe461"
+    },
+    "images/download.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "01d9c58f4f7afca7ab2887800d20a68ce3a125dbea6e24425a0a498e9c7d8829"
+    },
+    "images/eardmg.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "62f971e008215644067a708fe1de2af1bb4e24affedf4fb45849029295910698"
+    },
+    "images/harm.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "ca2eff582f3b058b53766a001131dd7a2f217a15f71a24d01065fb797a10c899"
+    },
+    "images/home.png": {
+      "mode": "binary",
+      "sha256": "a8368c0c3a6085f071d92c478b7171763e0c9d6ea183268ae3918becb4832247"
+    },
+    "images/home_selected.png": {
+      "mode": "binary",
+      "sha256": "2959154929391120120d94866c6a3901fd4bbc38d29180891fd34ea5ff1fc8ac"
+    },
+    "images/info.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "e854c36b1dfe9ac367c299a6c8649be72d5ecfe5524d91d3e751d64143d61751"
+    },
+    "images/locate.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "65bf270d21817acbe58106e42b7e0ee92db5a8c91cdb21c37060a770de6d59f0"
+    },
+    "images/mic.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "4b599ac303e4c56d4f7730e8ab3d7a32e4d33bf65e16b8ff70ebfcd29212b548"
+    },
+    "images/protect.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "5b21829e5a361f789c10fc86466926e7b4697f6a13f573ac33f4ac62274d5e76"
+    },
+    "images/speech.svg": {
+      "mode": "utf8-line-endings",
+      "sha256": "6e619761d31f35a4177cdfd5840191c857f13ed1eb6523adcddaf2a029402db6"
+    },
+    "images/user.png": {
+      "mode": "binary",
+      "sha256": "4909f55b0f692bae2ea7e2e0c8721f46ddcf9f105f4eac8a0f6d7b5afad1f78a"
+    },
+    "images/user_selected.png": {
+      "mode": "binary",
+      "sha256": "abce8bf66e1ddec28fe559fb1fa619ade65a328c91f73b56284ecc1fb8b31ca3"
+    },
+    "pages/about/about.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "3b46ed3f75d77e82ac521a78e06d192240e5556dd390b85edbbcd96f29a4a3f3"
+    },
+    "pages/about/about.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "e42cced5b26ea658d762ae88e99c7f42ad4c027ba2675c1c96f698c1a8810e3b"
+    },
+    "pages/about/about.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "84937333b5a3e2290b6cd07d2af31ae9377b00c61c4e205e5d1fc561138dde61"
+    },
+    "pages/about/about.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "2259e38b12524fa743db06146150194f916a845dc8f38dc648d414fefae8730b"
+    },
+    "pages/advanced-calibrate/advanced-calibrate.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "16d1e78b51e1db8c09d0a279e297e7bd09e98d78c8b4e0e0675269c1106bf376"
+    },
+    "pages/advanced-calibrate/advanced-calibrate.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "f52f8b4387c21f1d18f6ec1cb7cf14c31c3ce6f50214df534a63e466db4058ec"
+    },
+    "pages/advanced-calibrate/advanced-calibrate.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "5560ddadb0670ce45fa5e188f1bed2859c8badf2daf132f907412f435b067d0d"
+    },
+    "pages/advanced-calibrate/advanced-calibrate.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "7dc3517fbe3009128f6a8ae5ba847fe23b25755d5d51123edfe8668eee2c9685"
+    },
+    "pages/advanced-calibrate/calibrate/calibrate.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "9558b0968561f4a9b25f1f6c52454c46af969103a2638f3ef053cdfbbbfbda7b"
+    },
+    "pages/advanced-calibrate/calibrate/calibrate.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "b2463c66c0a512a170d176438387096df26eed6aab935917ae4a938d1641a226"
+    },
+    "pages/advanced-calibrate/calibrate/calibrate.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "68f69cf6f45057e60889d55ef618a6a19320feba3294554597585fdd237f5868"
+    },
+    "pages/advanced-calibrate/calibrate/calibrate.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "87d209999d8b4b3e22d67415e9639a8f29355ce37d12c6ceb85acf9a1d21e481"
+    },
+    "pages/calibrate/calibrate.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "26e4530a3ec1cb3981bcf03332ef1e19834e3a67d3c95f67e7e9610b0ec4b801"
+    },
+    "pages/calibrate/calibrate.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "72a5704df05dc5443101afd6c65f86c57c485a20229b41c24377399ca10e9c76"
+    },
+    "pages/calibrate/calibrate.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "4d0c664655ec70dca2c17152497ddca81c04d4c785f9ad90b4e94e2ac9edd5a1"
+    },
+    "pages/calibrate/calibrate.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "6a0d23991b29c909bfcb5495a6d9d72355870d58dc8e3eed418294f5164e04a9"
+    },
+    "pages/index/index.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "8e36cda48e7e5238cce1e8d135731a8fc9dcf38ec9f0ad80b3a32adfb16c2b6d"
+    },
+    "pages/index/index.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "e9855c008134217b13856fca019c551a06b64f00ced1a60e40de117f67f4ca8c"
+    },
+    "pages/index/index.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "ef70716b564e576b262bdec8285104752784c7b33c6c6a5d36a92226eb5bed3e"
+    },
+    "pages/index/index.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "4625de069c7615b3917578dc650d4d78205cd8e872e4ca8f47c482efbe2cc073"
+    },
+    "pages/knowledge/knowledge.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "acc5e2f801a58a5de155a7f15db0c5a5d10b40de64471e10fc132e0df7aac039"
+    },
+    "pages/knowledge/knowledge.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "c8a7fa837b4e849e1572b91e9c26c780da90177b93341c535a6f41671f848fc7"
+    },
+    "pages/knowledge/knowledge.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "455cdec0050a907d892408c81b215cd2a3ea73c2eeaeb4756831af90b74aea9e"
+    },
+    "pages/knowledge/knowledge.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "66aebcfec27842323eb69bacc0e7224d4985f7d2baf9664d9e008a027b7fa5e5"
+    },
+    "pages/main/main.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "4539d5813886115fc72b9fb957d94aaf73e89a4c6061e769c56fbe63bba79ca8"
+    },
+    "pages/main/main.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "56a1e8df437443a1b13998c2d9611a7cfc0600346cb818b08106ff1512ed735d"
+    },
+    "pages/main/main.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "54c30a113cd9bf69c558bd652c238d97fe15475cc3d6eabd84eadb0825d8db27"
+    },
+    "pages/main/main.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "eb7cd1e338b6ae08718fd43ea10cf5a0644912fa503466e6fc5a6f313973d3c0"
+    },
+    "pages/my/my.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "0695bb12a6c83b22210cdab403ca348c130d179df80c024d6bfa76cb88bd2e2d"
+    },
+    "pages/my/my.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "19aeca22b4cd501d2b8574c00755d3f69bc41df961d4dce341af244f90a75fcb"
+    },
+    "pages/my/my.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "b078ce960a9c54abd6bff4b2db1e4e0e4c99b084de95c6aa73ebfff8c3c9c2e1"
+    },
+    "pages/my/my.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "c47275853d55c4e2f64d6978526b1df61ce40b59359c854e465a93fefbaa5a64"
+    },
+    "pages/phonetic/phonetic.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "e33c6088ff04026c9745d8c5345440fb00667be871536a16a0ba20cf27a236a2"
+    },
+    "pages/phonetic/phonetic.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "ff04c58dbd403704bddf71fbb075bc5d66b69c8ca8df8701a4c8827dce5a3928"
+    },
+    "pages/phonetic/phonetic.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "7ce5db33d1d134306004ca40f824a26c81b3b05cc806d168e9f2baceb92930ea"
+    },
+    "pages/phonetic/phonetic.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "f8fdc7a114c7678743a1c0b8697bbab258bee95588097ee5b9494865263fccd3"
+    },
+    "pages/pilot/pilot.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "df68eed09d1bdefe7a99dd2d16d1a31b4ce6ddab173189550c6609e11f98ec81"
+    },
+    "pages/pilot/pilot.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "2368138fa15f9c23e7ade29647a6985a208f7af50e4dc695a29625c0b08774a8"
+    },
+    "pages/pilot/pilot.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "0aa74fd32d3a33eb26b2fe80986adefc7e5a4dcaa6ec7ed66fea16cf017a36dc"
+    },
+    "pages/pilot/pilot.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "ce795cf0471c37236732165f901f54492890820e53171f152a82d121884e4937"
+    },
+    "pages/profile/profile.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "5713ce5a11697e8cbcbb402a1ff48c0a8cc0e73364116143b73ff5eb2884b686"
+    },
+    "pages/profile/profile.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "eb05e94cf6c6b6ad33317b4082ecdeaed1a779e9bb4eaabba63df229dfb4a721"
+    },
+    "pages/profile/profile.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "487fa97889056ede6d5ab70bb37d18fac08b5d2ad9bac42f3eac271f43b14171"
+    },
+    "pages/profile/profile.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "742ed99a7ad9336790439f1f45eeb9f3170c56d4b8320a4e4ee1c160afbde7fa"
+    },
+    "pages/result/result.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "dbc8e9f5c6728ba7615bc67e80562ad63e70cc067169fea35a0ac88ddb36dca6"
+    },
+    "pages/result/result.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "2c38b771dce27a30ceeca3e249f327812293cafabf982449cf179d658b418932"
+    },
+    "pages/result/result.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "2c5d2d0fdf084478397bb8cc7606b5151c1041d08ad340f00ae1f98c0bf2835e"
+    },
+    "pages/result/result.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "48e7c5b48c012cadb56ff5a724aded474096c6408f9a83393b4274b46a66a9e9"
+    },
+    "pages/settings/settings.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "7a9af7604369a11074b6f419cec3d0036f0dd36bcaf82dca3f817e36d1d6a9bf"
+    },
+    "pages/settings/settings.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "1dea58e4120dd5e0b2764dd9b766878e895e7a889bee25f552e084f02e062945"
+    },
+    "pages/settings/settings.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "26ed5c5fa3e6f1d669a88a53801fd2d29b770440fa5d5a6c0e8507b0ff817b1c"
+    },
+    "pages/settings/settings.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "b57e07a856fe4da273f788605e298ef63b858fea649553521302363f438c9f40"
+    },
+    "pages/usage/usage.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "79d2dbd79b6875e8a42847932bcade7c53799e1412c9d97ab2a94087667a726b"
+    },
+    "pages/usage/usage.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "4c19a726e641e09b06ae3b6fb671c8e4027c87412550b25d3b522fa96e24b9d6"
+    },
+    "pages/usage/usage.wxml": {
+      "mode": "utf8-line-endings",
+      "sha256": "63c75fac88abc2468d154e6a89c082b4e2179ff479cf0b8a52bd66b1e3201879"
+    },
+    "pages/usage/usage.wxss": {
+      "mode": "utf8-line-endings",
+      "sha256": "1caf2393043f89b08523a724ca3007bb37e2b7d3d74099eec16e2e69e2404c9e"
+    },
+    "project.config.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "5338c0512f38e5a5e712612c29e955a810cd144c724b84ff88e4eed350974d07"
+    },
+    "project.private.config.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "c49c5c9b22053dca8788afdf30e454af332dfc92cbf89490defd923040082706"
+    },
+    "scripts/build-worker.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "0f2c0152b7c511d6aa1267c16ac08174a74f38904a27ab38fd3953c3a9c429e3"
+    },
+    "scripts/refresh-paper-evidence.py": {
+      "mode": "utf8-line-endings",
+      "sha256": "78018e742a1da69f286606b4fee4f3f1f2d976b4696a887a09291c8ac0aa010e"
+    },
+    "scripts/update-paper-after-repair.py": {
+      "mode": "utf8-line-endings",
+      "sha256": "3ee73fe39c92da3a7c10a13be03a009885c74abbd1073348017220ca951de773"
+    },
+    "scripts/verify-repair-performance.py": {
+      "mode": "utf8-line-endings",
+      "sha256": "566092bc8f76da89a5102e7c0ab82104e8928926c579783a754e69237dc9c4d5"
+    },
+    "sitemap.json": {
+      "mode": "utf8-line-endings",
+      "sha256": "3e1c739283ac0195222241e80b540b6fe9b799cefdd9d0bb3df6d9d67d459a19"
+    },
+    "tests/algorithm-evaluation.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "ebe816b5f268640af6eed8b7e680abce734444e00069203ae766b48c0996ca84"
+    },
+    "tests/formant-diagnostics.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "a1f492b613f447fa134e5ffe0b663c486d8badd449c0ad1f894af7c06cdcafb3"
+    },
+    "tests/formant-holdout.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "db0d9a46152b0a305325a4b0f99805f87e756249f9034dc6d36de7c7fbb4be8f"
+    },
+    "tests/formant-validation.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "68f70c470949aee7076fe4d25dc1c307f08ba11f195b0c4ed490b373684814f1"
+    },
+    "tests/package-integrity.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "ffd34d28ee48a4974f989ff6f77228d17504ea46b91b948f20ac0dcbaa9c9453"
+    },
+    "tests/paper-engineering-performance.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "b3228c8bf806ef9b69990b379fc4cef0cbd2ea85ba1c4e66ad35b0edd2e82f76"
+    },
+    "tests/paper-engineering-repairs.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "cfdc750995c7e0a065827ffe4c2979554c734b48da577dfe283f4d491632b502"
+    },
+    "tests/paper-scientific-followup-probes.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "ff48f4683f4f33cd356a5d0638a08ab4006be68d149f845cb69214b230a31d05"
+    },
+    "tests/paper-scientific-probes.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "06fc091b1bd940b76befea6c66d7659fbf69c7a03fd3a2092a62fd435c14a2ea"
+    },
+    "tests/paper-scientific-summary.py": {
+      "mode": "utf8-line-endings",
+      "sha256": "7ff104da8d148f3c4a261617237c514a29f79db5a30de516f4c772e194fe37a7"
+    },
+    "tests/paper-scientific-validation.py": {
+      "mode": "utf8-line-endings",
+      "sha256": "3e9797fa8add8f398485b036f7f9b6ed0ddfaf39ffa94dbff367f6e405f72682"
+    },
+    "tests/praat-comparison.py": {
+      "mode": "utf8-line-endings",
+      "sha256": "ce28f3064965260dda7693defd9730d0937de6185a9ddeae4ebc069f95bae9e3"
+    },
+    "tests/praat-production.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "a47d48ed1bd7a50171b554666c0383e72e03ec0aa4a69b36c6a6636675d848d6"
+    },
+    "tests/rc-repairs.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "c76b9f20bfb3bc9ce42c6f689e2ea83053989c18cb94d0c3c3477913177a082f"
+    },
+    "tests/recorder-usability.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "75463115700bb702878e792c8801ade6b417be90457c998040cf241e46208f18"
+    },
+    "tests/reference-formant-grid.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "92b4551f9ed0168c2e0c2244a0fac7d14c35cda4ca1ac42e11b9679089f5b992"
+    },
+    "tests/revision-regression.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "3437431e7ea13794c6f974edf264b5d063d6f5c1b57d9f577c218f0c53c1656c"
+    },
+    "tests/runtime.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "eca5e399e96ae71007bf0ec6628dcefe91088de400f8d770f838fc28f0b67bd0"
+    },
+    "tests/scientific-followup.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "173cd9856c3e525b95ed3224474194affb061655d2a42d6e0c192c10dcbdee84"
+    },
+    "tests/scientific-repairs.cjs": {
+      "mode": "utf8-line-endings",
+      "sha256": "f048a4b37f5c761e705e2ab6cb8cb8589f6a2e07b2a38cf67f63e101b2d16561"
+    },
+    "utils/audio-math.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "e8364e78b6ab6127b5bf7969db3e855c650ecd079ff34bc7832effc97b6fe598"
+    },
+    "utils/audio-quality.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "4465304b57ea9da6ecd5000cfae3ff67140ca330083e5db6723fa31f85ed34d3"
+    },
+    "utils/calibration-quality.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "0d440cf00224f14d604b3fb4cfccc31c05178d5d200ca4081abcf5903fa674d2"
+    },
+    "utils/canvas-base.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "7f025847935cc6f21c1c6f87980e9f77da9a2c044e1849a210554f692f249ee6"
+    },
+    "utils/canvas-grid.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "8b8881604a2defcfe91903e185812eb3d01a6b3791df4b5acbd864dff0e36107"
+    },
+    "utils/canvas-spectrogram.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "f38d6a5d3f2e65e8fcff1233e0856adfd0a459a2e81f4a2368d8f2d3b7a67b15"
+    },
+    "utils/canvas-spectrum.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "7142783a06c4050d5530c8cac383c75941dfa06a84cb9a85462c7a0887e3242d"
+    },
+    "utils/canvas-wave.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "d6e9eeb8feaaf854959dfb0a8d72e128b5174be3fb8ee0337de9ee2b33645c22"
+    },
+    "utils/canvas/index.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "eecf6023c18f8492f52a356026e34b64fe0c24789ea422d178b643ea7d1923e5"
+    },
+    "utils/constants.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "391ed8f61cc0e783cd51c1955b428aaf3001091cb3dc91bf32ed414a18f8b773"
+    },
+    "utils/data-model.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "b28028fbf01a9702e190f009f383b4c3c715bb10e10aa1fc8fc22fdb8dcfcac0"
+    },
+    "utils/fft.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "b6e49fce79beffe96e73bfd35d5929159972a00b842627820e5281d08e3ddc5d"
+    },
+    "utils/laboratory-verification.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "11c6a54e21323d40839be62be93c1e7889455c94a9a589ba8de04ac560008e17"
+    },
+    "utils/measurement-version.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "57db5a60c0698610f68af8caa2f7dd5507f062f9c07c8168d3a3235725e77288"
+    },
+    "utils/phonetic/analysis.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "60df36ebfdb835cdc3f2a605f14bece811cce95adebbbb8626108e44f3f04ace"
+    },
+    "utils/phonetic/burg-lpc.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "1cc087f0e0c058bba155b07b5224088d793947d1667cbc658dc1ada9821a76b0"
+    },
+    "utils/phonetic/coverage.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "a5776a1bcf9c209af2875076a661eac510dbd0de525ae86b97969c7e75a9048b"
+    },
+    "utils/phonetic/formant-extract.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "3b8d5a1e990203d53104f81db4ef63e9c27b31b583292adf5df28b6ab7561981"
+    },
+    "utils/phonetic/fractional-correlation.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "8fc9bf4508d6a87364cfbe5a6a31747beeb958969e9ea584f79ed2c4dc4ab2b2"
+    },
+    "utils/phonetic/frame-segment.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "e89c3d757399c7e83c9f8acc93bc2fb2e743120a572205a820f161ffb6295047"
+    },
+    "utils/phonetic/harmonicity.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "8c9afbde1b6f07d5853cac01392d177335ac02a3a0fd205356ad9fba158f3a86"
+    },
+    "utils/phonetic/index.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "7b30b87c37d9fcc9db6646ff1b94c5ad58bac05cc4742b29f50d5f60d14e8d75"
+    },
+    "utils/phonetic/iteration.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "8322a149ccc670327009dca9d41056ce998ef7bb274e6e8df48d50aac8a0d674"
+    },
+    "utils/phonetic/model-sensitivity.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "f3181114106a0298e091058198ad87dd610c63d9ca435f997c1fe910935598a3"
+    },
+    "utils/phonetic/phonetic-config.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "ea2ed914a4180e7ab6ca9746de24730d94a2a83c95885abf0d80fc46bcaf4b52"
+    },
+    "utils/phonetic/poly-roots.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "eb6026fb1339b26078f7415ec748e586bfbb4dc2929b9a656eb8070b1223ec66"
+    },
+    "utils/phonetic/pre-emphasis.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "ebd2e053ac813263677a5a1286cc2ce9c5b06c763696bfe7bea0bc694997f2f2"
+    },
+    "utils/phonetic/resample.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "2bb24d483f60643d18a220e8a7ebd87b523b9f564fa2f8befd28de1dfb5d43e0"
+    },
+    "utils/phonetic/selection-analysis.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "df93f87272cb5dd2c71cfea22d47f32b417e1e30638964a7af67ea6cf51b3ba7"
+    },
+    "utils/phonetic/spectrogram-gen.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "7b1691442800c6b78dc6895401ecf99a0d1d574d4c146af6d8f2118f60f610d7"
+    },
+    "utils/phonetic/task-scheduler.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "ef90d6e3cb57762822e8e564701fa570cad3189318cde5312923eb84cf9a24df"
+    },
+    "utils/phonetic/time-support.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "929aab180b280ba133c71f7414f3e7de7519f1f93a78a83c7b0fef36d99e9aa4"
+    },
+    "utils/phonetic/track-display.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "a27ff17feed34e6508221201f90af06be228a612c904d437d64f986365420948"
+    },
+    "utils/phonetic/voice-metrics.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "739db03b3529f7fc5f341f2cb35a7d7a6e3db0b3c9a5b78e7512935ffb5b1022"
+    },
+    "utils/phonetic/yin-pitch.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "44a29f974467206311c1e30b6ad7a823a7649e43d402149614f8d5471f54f6c5"
+    },
+    "utils/recorder-session.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "3196de1edeb2d7d5ece85e28238dc65ae24273d0fda1541f276744fac7b32a0b"
+    },
+    "utils/result-manager.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "9e0f33fdaf868140168b608099a4276b72f6ce86337a0301cdcb303957035a01"
+    },
+    "utils/risk-config.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "c9c4dd17912415e62e4b1018e68c2748984a1657d4ae12c6ddce24ffac356b45"
+    },
+    "workers/phonetic-analysis/bundle.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "dd5aa6c9c43652465d1488eb999383f0a66efa3436c7dbaf54a7ebddbc0070fd"
+    },
+    "workers/phonetic-analysis/index.js": {
+      "mode": "utf8-line-endings",
+      "sha256": "6ca8479903c42db65e15e8cf0e8b247bbbdee3040b79ffde85ff829a40da9cf1"
+    }
+  },
+  "rule": "Only UTF8 CRLF/LF form may differ from the original frozen working files; all other bytes unchanged. Binary files exact.",
+  "sourceProfileSha256": "9a8642b2cddf6a52788e921ed02512f5c440ac538ef0679a80080d9bff57d0f2"
+}

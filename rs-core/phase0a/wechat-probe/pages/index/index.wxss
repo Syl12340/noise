@@ -1,0 +1,201 @@
+/** index.wxss **/
+.container {
+  padding: 32rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.header {
+  margin-bottom: 8rpx;
+}
+
+.title {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: #0F172A;
+  display: block;
+}
+
+.subtitle {
+  font-size: 26rpx;
+  color: #64748B;
+  margin-top: 6rpx;
+  display: block;
+}
+
+.card {
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  border: 1rpx solid #E2E8F0;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 20rpx;
+  border-bottom: 1rpx solid #F1F5F9;
+  padding-bottom: 12rpx;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10rpx 0;
+  font-size: 26rpx;
+}
+
+.info-label {
+  color: #64748B;
+}
+
+.info-value {
+  color: #0F172A;
+  font-family: monospace;
+  font-size: 26rpx;
+}
+
+.text-success {
+  color: #059669;
+  font-weight: 600;
+}
+
+.text-danger {
+  color: #DC2626;
+  font-weight: 600;
+}
+
+/* 状态卡片 */
+.status-card {
+  border-left-width: 10rpx;
+}
+
+.status-UNRUN {
+  border-left-color: #94A3B8;
+  background-color: #F8FAFC;
+}
+
+.status-RUNNING {
+  border-left-color: #2563EB;
+  background-color: #EFF6FF;
+}
+
+.status-PASSED {
+  border-left-color: #10B981;
+  background-color: #ECFDF5;
+}
+
+.status-FAILED {
+  border-left-color: #EF4444;
+  background-color: #FEF2F2;
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-title {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.status-duration {
+  font-size: 24rpx;
+  color: #64748B;
+  font-family: monospace;
+}
+
+.status-message {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #334155;
+  line-height: 1.4;
+}
+
+/* 按钮 */
+.action-section {
+  margin: 12rpx 0;
+}
+
+.btn-primary {
+  background-color: #2563EB;
+  color: #FFFFFF;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 12rpx;
+  padding: 20rpx 0;
+}
+
+.btn-primary[disabled] {
+  background-color: #94A3B8 !important;
+  color: #E2E8F0 !important;
+}
+
+/* 分步测试记录 */
+.step-item {
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #F1F5F9;
+}
+
+.step-item:last-child {
+  border-bottom: none;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.step-tag {
+  font-size: 22rpx;
+  font-weight: 700;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+.tag-pass {
+  background-color: #D1FAE5;
+  color: #065F46;
+}
+
+.tag-fail {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
+.step-name {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #1E293B;
+  font-family: monospace;
+}
+
+.step-detail {
+  font-size: 24rpx;
+  color: #64748B;
+  margin-top: 6rpx;
+  padding-left: 80rpx;
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+/* 免责声明 */
+.disclaimer-card {
+  background-color: #FFFBEB;
+  border-color: #FDE68A;
+}
+
+.disclaimer-text {
+  font-size: 24rpx;
+  color: #92400E;
+  margin-bottom: 8rpx;
+  line-height: 1.5;
+}

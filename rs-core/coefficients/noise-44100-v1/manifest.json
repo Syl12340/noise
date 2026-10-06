@@ -1,0 +1,29 @@
+{
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "sampleRate": 44100,
+  "fftSize": 32768,
+  "stageOrder": "len=2,4,...32768; each cos(angle),sin(angle) captured from actual fftInPlace",
+  "aOrder": "b1[3],a1[3],b2[3],a2[3],gain,fir[129]",
+  "files": {
+    "a_weighting.f64le": {
+      "bytes": 1136,
+      "sha256": "0a134c19fd02b45da4b979d2f92720644bc8bc159a04242ec58b1c5dade0c7ae"
+    },
+    "dc_pole.f64le": {
+      "bytes": 8,
+      "sha256": "5c67ca3398a04547cd3522a8ed887af0084564ad0887f8cda6d79f2829fbad27"
+    },
+    "hann.f64le": {
+      "bytes": 262144,
+      "sha256": "f47f41c56bc58659ecc8a3d756a5e310d4fbe186b8da50cc13b330a11821882c"
+    },
+    "fft_rotations.f64le": {
+      "bytes": 240,
+      "sha256": "8606864dd441ba899ff44e8c9ebd25528886e62c41dbce702494f2360c4d9872"
+    },
+    "band_ranges.u32le": {
+      "bytes": 232,
+      "sha256": "c17c7aec539959492f44becfcf1268dd8cf8e681a9d5450b947d58d6a2aab392"
+    }
+  }
+}

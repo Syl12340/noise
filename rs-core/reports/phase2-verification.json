@@ -1,0 +1,306 @@
+{
+  "startedUtc": "2026-10-06T16:53:26.988925+00:00",
+  "status": "PASS_DESKTOP_COMPATIBILITY_ONLY",
+  "commands": [
+    {
+      "command": [
+        "python",
+        "tools/check_port_isolation.py",
+        "--repository-clean"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.241411,
+      "stdout": "{\"status\": \"PASS\", \"productionWorkingFilesUnchanged\": 232, \"repositorySDKConfigurationFromBaseline\": true, \"lineEndingOnlyMatches\": [\"app.json\", \"docs/acoustic-fixes.md\", \"docs/algorithm-evaluation-report.md\", \"docs/algorithm-evaluation-results.json\", \"docs/engineering-repairs-2026-10-05.md\", \"docs/formant-diagnostics-results.json\", \"docs/formant-holdout-results.json\", \"docs/formant-validation-results.json\", \"docs/implementation-change-summary.md\", \"docs/implementation-summary.md\", \"docs/manual-testing-checklist.md\", \"docs/p1-fix-notes-2026-09-27.md\", \"docs/paper-acoustic-algorithms-and-engineering-2026-10-04.md\", \"docs/paper-scientific-validation-2026-10-05.md\", \"docs/rc-repair-results.json\", \"docs/rc-repairs-2026-10-04.md\", \"docs/recorder-usability-results.json\", \"docs/recording-usability-fixes-2026-09-28.md\", \"docs/revision-regression-results.json\", \"docs/scientific-engineering-review-2026-09-27.md\", \"docs/scientific-followup-2026-10-02.md\", \"docs/scientific-followup-results.json\", \"docs/scientific-repairs-2026-10-02.md\", \"docs/scientific-repairs-2026-10-05/algorithm-evaluation-results.json\", \"docs/scientific-repairs-2026-10-05/formant-holdout-results.json\", \"docs/scientific-repairs-2026-10-05/formant-validation-results.json\", \"docs/scientific-repairs-2026-10-05/paper-engineering-repairs-results.json\", \"docs/scientific-repairs-2026-10-05/paper-scientific-followup-probes-results.json\", \"docs/scientific-repairs-2026-10-05/paper-scientific-probes-results.json\", \"docs/scientific-repairs-2026-10-05/performance-after.json\", \"docs/scientific-repairs-2026-10-05/performance-before.json\", \"docs/scientific-repairs-2026-10-05/rc-repair-results.json\", \"docs/scientific-repairs-2026-10-05/recorder-usability-results.json\", \"docs/scientific-repairs-2026-10-05/revision-regression-results.json\", \"docs/scientific-repairs-2026-10-05/scientific-followup-results.json\", \"docs/scientific-repairs-2026-10-05/scientific-repairs-results.json\", \"docs/scientific-repairs-results.json\", \"docs/scientific-validation-2026-10-05/algorithm-evaluation-results.json\", \"docs/scientific-validation-2026-10-05/formant-holdout-results.json\", \"docs/scientific-validation-2026-10-05/formant-validation-results.json\", \"docs/scientific-validation-2026-10-05/paper-scientific-followup-probes-results.json\", \"docs/scientific-validation-2026-10-05/paper-scientific-probes-results.json\", \"docs/scientific-validation-2026-10-05/rc-repair-results.json\", \"docs/scientific-validation-2026-10-05/recorder-usability-results.json\", \"docs/scientific-validation-2026-10-05/revision-regression-results.json\", \"docs/scientific-validation-2026-10-05/scientific-followup-results.json\", \"docs/scientific-validation-2026-10-05/scientific-repairs-results.json\", \"pages/about/about.js\", \"pages/about/about.wxml\", \"pages/about/about.wxss\", \"pages/advanced-calibrate/advanced-calibrate.js\", \"pages/advanced-calibrate/advanced-calibrate.wxml\", \"pages/advanced-calibrate/advanced-calibrate.wxss\", \"pages/advanced-calibrate/calibrate/calibrate.js\", \"pages/advanced-calibrate/calibrate/calibrate.wxml\", \"pages/advanced-calibrate/calibrate/calibrate.wxss\", \"pages/calibrate/calibrate.js\", \"pages/calibrate/calibrate.wxml\", \"pages/knowledge/knowledge.js\", \"pages/knowledge/knowledge.wxss\", \"pages/main/main.js\", \"pages/main/main.wxml\", \"pages/main/main.wxss\", \"pages/my/my.wxss\", \"pages/phonetic/phonetic.js\", \"pages/phonetic/phonetic.json\", \"pages/phonetic/phonetic.wxml\", \"pages/phonetic/phonetic.wxss\", \"pages/result/result.js\", \"pages/result/result.wxml\", \"pages/result/result.wxss\", \"pages/settings/settings.js\", \"pages/usage/usage.wxml\", \"pages/usage/usage.wxss\", \"project.config.json\", \"scripts/build-worker.cjs\", \"scripts/refresh-paper-evidence.py\", \"scripts/update-paper-after-repair.py\", \"scripts/verify-repair-performance.py\", \"tests/algorithm-evaluation.cjs\", \"tests/formant-diagnostics.cjs\", \"tests/formant-holdout.cjs\", \"tests/formant-validation.cjs\", \"tests/package-integrity.cjs\", \"tests/paper-engineering-performance.cjs\", \"tests/paper-engineering-repairs.cjs\", \"tests/paper-scientific-followup-probes.cjs\", \"tests/paper-scientific-probes.cjs\", \"tests/paper-scientific-summary.py\", \"tests/paper-scientific-validation.py\", \"tests/praat-comparison.py\", \"tests/praat-production.cjs\", \"tests/rc-repairs.cjs\", \"tests/recorder-usability.cjs\", \"tests/reference-formant-grid.cjs\", \"tests/revision-regression.cjs\", \"tests/runtime.cjs\", \"tests/scientific-followup.cjs\", \"tests/scientific-repairs.cjs\", \"utils/audio-math.js\", \"utils/audio-quality.js\", \"utils/calibration-quality.js\", \"utils/canvas-spectrogram.js\", \"utils/canvas-spectrum.js\", \"utils/constants.js\", \"utils/data-model.js\", \"utils/fft.js\", \"utils/laboratory-verification.js\", \"utils/measurement-version.js\", \"utils/phonetic/analysis.js\", \"utils/phonetic/burg-lpc.js\", \"utils/phonetic/coverage.js\", \"utils/phonetic/formant-extract.js\", \"utils/phonetic/fractional-correlation.js\", \"utils/phonetic/frame-segment.js\", \"utils/phonetic/harmonicity.js\", \"utils/phonetic/index.js\", \"utils/phonetic/iteration.js\", \"utils/phonetic/model-sensitivity.js\", \"utils/phonetic/phonetic-config.js\", \"utils/phonetic/poly-roots.js\", \"utils/phonetic/pre-emphasis.js\", \"utils/phonetic/resample.js\", \"utils/phonetic/selection-analysis.js\", \"utils/phonetic/spectrogram-gen.js\", \"utils/phonetic/task-scheduler.js\", \"utils/phonetic/time-support.js\", \"utils/phonetic/track-display.js\", \"utils/phonetic/voice-metrics.js\", \"utils/phonetic/yin-pitch.js\", \"utils/recorder-session.js\", \"utils/result-manager.js\", \"workers/phonetic-analysis/bundle.js\", \"workers/phonetic-analysis/index.js\"], \"frozenP0PayloadsUnchanged\": 138, \"tablePackageUnchanged\": true, \"comparisonProfileFrozen\": \"legacy-noise-44100-native-v1\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--features",
+        "noise-core/speech,noise-wasm/acoustics",
+        "--locked",
+        "--offline"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 4.797638,
+      "stdout": "\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 24 tests\ntest test_digital_silence_detection ... ok\ntest test_dc_blocker_continuous_state ... ok\ntest test_engine_clipping_rejection_q_only ... ok\ntest test_coefficients_loading ... ok\ntest test_i16_min_abs_and_sliding_window ... ok\ntest test_capacity_exceeded_error ... ok\ntest test_engine_sequence_and_empty_chunk ... ok\ntest test_clipping_priority_over_silence_count ... ok\ntest test_plateau_i32_overflow_protection ... ok\ntest test_math_functions_and_nan_propagation ... ok\ntest test_quality_plateau_detection ... ok\ntest test_quality_inspector_rails_and_sliding_window ... ok\ntest test_block_larger_than_event_capacity_is_not_retryable_backpressure ... ok\ntest test_terminated_guard_priority ... ok\ntest test_engine_digital_silence_termination ... ok\ntest test_a_weighting_and_tail_flush ... ok\ntest test_fft_and_spectrum_bands ... ok\ntest test_scheduled_spectrum_source ... ok\ntest test_engine_snapshot_and_no_flush ... ok\ntest test_engine_second_window_and_query_spectrum ... ok\ntest test_integrate_filter_tail_nan_propagation ... ok\ntest test_capacity_one_second_accepted_and_retry_drain ... ok\ntest test_finish_idempotency_and_caching ... ok\ntest test_chunk_boundary_invariance ... ok\n\ntest result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s\n\n\nrunning 10 tests\ntest test_abi_version_and_capacity ... ok\ntest test_partial_len_preserves_remaining_outputs ... ok\ntest test_independent_non_finite_gain_validation ... ok\ntest test_reset_clears_all_4096_samples ... ok\ntest test_len_zero_preserves_all_4096_outputs ... ok\ntest test_independent_non_finite_input_validation ... ok\ntest test_native_pointers_alignment_and_non_overlap ... ok\ntest test_frozen_vector_exact_bitwise ... ok\ntest test_capacity_boundaries ... ok\ntest test_product_overflow_positive_and_negative ... ok\n\ntest result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 2 tests\ntest empty_valid_profile_has_no_output ... ok\ntest invalid_profiles_and_nonfinite_inputs_reject ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 3 tests\ntest odd_frame_centers_remain_half_sample_times ... ok\ntest short_input_has_no_partial_frames ... ok\ntest track_rejects_nonadvancing_hop_and_rate ... ok\n\ntest result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 4 tests\ntest invalid_arguments_and_intrinsic_capacity_do_not_consume_sequence ... ok\ntest pending_result_prevents_cross_session_replay ... ok\ntest stale_handles_and_registry_limits ... ok\ntest next_event_is_one_at_a_time_and_finish_idempotent ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 2 tests\ntest test_native_probe_buffers_instance_safety ... ok\ntest test_wasm_metadata_exports ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+      "stderr": "   Compiling noise-core v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-core)\n   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-wasm)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.38s\n     Running unittests src\\lib.rs (target\\debug\\deps\\noise_core-661c76c83c634ec2.exe)\n     Running tests\\acoustics_tests.rs (target\\debug\\deps\\acoustics_tests-232956d6e0e58795.exe)\n     Running tests\\probe_tests.rs (target\\debug\\deps\\probe_tests-2abfe2c3923e86dd.exe)\n     Running tests\\resample_tests.rs (target\\debug\\deps\\resample_tests-5b31003adf01995d.exe)\n     Running tests\\speech_tests.rs (target\\debug\\deps\\speech_tests-a787fdd17ae80ea6.exe)\n     Running unittests src\\lib.rs (target\\debug\\deps\\noise_wasm-28cda6c365a81270.exe)\n     Running tests\\acoustics_api_tests.rs (target\\debug\\deps\\acoustics_api_tests-58605bea106e874e.exe)\n     Running tests\\speech_api_tests.rs (target\\debug\\deps\\speech_api_tests-e3c113d6b2c9b06d.exe)\n     Running tests\\wasm_export_tests.rs (target\\debug\\deps\\wasm_export_tests-c4350fed3425fc2d.exe)\n   Doc-tests noise_core\n   Doc-tests noise_wasm\n"
+    },
+    {
+      "command": [
+        "cargo",
+        "build",
+        "-p",
+        "noise-core",
+        "--features",
+        "speech",
+        "--example",
+        "speech_driver",
+        "--release",
+        "--locked",
+        "--offline"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.638233,
+      "stdout": "",
+      "stderr": "   Compiling noise-core v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-core)\n    Finished `release` profile [optimized] target(s) in 2.56s\n"
+    },
+    {
+      "command": [
+        "python",
+        "tools/compare_pitch.py"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.111867,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"profile\": \"legacy-pitch-bits-v1\",\n  \"reference_manifest_sha256\": \"046930004d0524718f76f383271b8d006d85b42b3d224104f39b21f4fe3c9383\",\n  \"edge_manifest_sha256\": \"5ddbeb6fcd9676b844f9220e67de5dd3c9467b2b12a63a0f55f3f10cef5e581e\",\n  \"driver_sha256\": \"ae58bf8e987d37e2aa15033a329f0c0b95931c563b3b7e34c5bb5a33abec01d1\",\n  \"stats\": {\n    \"cases\": 49,\n    \"f64_bits\": 178,\n    \"f32_bits\": 39,\n    \"fields\": 9\n  },\n  \"failures\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cargo",
+        "build",
+        "-p",
+        "noise-core",
+        "--features",
+        "acoustics",
+        "--example",
+        "acoustics_driver",
+        "--release",
+        "--locked",
+        "--offline"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.474187,
+      "stdout": "",
+      "stderr": "   Compiling noise-core v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-core)\n    Finished `release` profile [optimized] target(s) in 2.39s\n"
+    },
+    {
+      "command": [
+        "node",
+        "phase1/compare-acoustics.cjs",
+        "--repository-clean"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.928684,
+      "stdout": "{\"status\": \"PASS\", \"productionWorkingFilesUnchanged\": 232, \"repositorySDKConfigurationFromBaseline\": true, \"lineEndingOnlyMatches\": [\"app.json\", \"docs/acoustic-fixes.md\", \"docs/algorithm-evaluation-report.md\", \"docs/algorithm-evaluation-results.json\", \"docs/engineering-repairs-2026-10-05.md\", \"docs/formant-diagnostics-results.json\", \"docs/formant-holdout-results.json\", \"docs/formant-validation-results.json\", \"docs/implementation-change-summary.md\", \"docs/implementation-summary.md\", \"docs/manual-testing-checklist.md\", \"docs/p1-fix-notes-2026-09-27.md\", \"docs/paper-acoustic-algorithms-and-engineering-2026-10-04.md\", \"docs/paper-scientific-validation-2026-10-05.md\", \"docs/rc-repair-results.json\", \"docs/rc-repairs-2026-10-04.md\", \"docs/recorder-usability-results.json\", \"docs/recording-usability-fixes-2026-09-28.md\", \"docs/revision-regression-results.json\", \"docs/scientific-engineering-review-2026-09-27.md\", \"docs/scientific-followup-2026-10-02.md\", \"docs/scientific-followup-results.json\", \"docs/scientific-repairs-2026-10-02.md\", \"docs/scientific-repairs-2026-10-05/algorithm-evaluation-results.json\", \"docs/scientific-repairs-2026-10-05/formant-holdout-results.json\", \"docs/scientific-repairs-2026-10-05/formant-validation-results.json\", \"docs/scientific-repairs-2026-10-05/paper-engineering-repairs-results.json\", \"docs/scientific-repairs-2026-10-05/paper-scientific-followup-probes-results.json\", \"docs/scientific-repairs-2026-10-05/paper-scientific-probes-results.json\", \"docs/scientific-repairs-2026-10-05/performance-after.json\", \"docs/scientific-repairs-2026-10-05/performance-before.json\", \"docs/scientific-repairs-2026-10-05/rc-repair-results.json\", \"docs/scientific-repairs-2026-10-05/recorder-usability-results.json\", \"docs/scientific-repairs-2026-10-05/revision-regression-results.json\", \"docs/scientific-repairs-2026-10-05/scientific-followup-results.json\", \"docs/scientific-repairs-2026-10-05/scientific-repairs-results.json\", \"docs/scientific-repairs-results.json\", \"docs/scientific-validation-2026-10-05/algorithm-evaluation-results.json\", \"docs/scientific-validation-2026-10-05/formant-holdout-results.json\", \"docs/scientific-validation-2026-10-05/formant-validation-results.json\", \"docs/scientific-validation-2026-10-05/paper-scientific-followup-probes-results.json\", \"docs/scientific-validation-2026-10-05/paper-scientific-probes-results.json\", \"docs/scientific-validation-2026-10-05/rc-repair-results.json\", \"docs/scientific-validation-2026-10-05/recorder-usability-results.json\", \"docs/scientific-validation-2026-10-05/revision-regression-results.json\", \"docs/scientific-validation-2026-10-05/scientific-followup-results.json\", \"docs/scientific-validation-2026-10-05/scientific-repairs-results.json\", \"pages/about/about.js\", \"pages/about/about.wxml\", \"pages/about/about.wxss\", \"pages/advanced-calibrate/advanced-calibrate.js\", \"pages/advanced-calibrate/advanced-calibrate.wxml\", \"pages/advanced-calibrate/advanced-calibrate.wxss\", \"pages/advanced-calibrate/calibrate/calibrate.js\", \"pages/advanced-calibrate/calibrate/calibrate.wxml\", \"pages/advanced-calibrate/calibrate/calibrate.wxss\", \"pages/calibrate/calibrate.js\", \"pages/calibrate/calibrate.wxml\", \"pages/knowledge/knowledge.js\", \"pages/knowledge/knowledge.wxss\", \"pages/main/main.js\", \"pages/main/main.wxml\", \"pages/main/main.wxss\", \"pages/my/my.wxss\", \"pages/phonetic/phonetic.js\", \"pages/phonetic/phonetic.json\", \"pages/phonetic/phonetic.wxml\", \"pages/phonetic/phonetic.wxss\", \"pages/result/result.js\", \"pages/result/result.wxml\", \"pages/result/result.wxss\", \"pages/settings/settings.js\", \"pages/usage/usage.wxml\", \"pages/usage/usage.wxss\", \"project.config.json\", \"scripts/build-worker.cjs\", \"scripts/refresh-paper-evidence.py\", \"scripts/update-paper-after-repair.py\", \"scripts/verify-repair-performance.py\", \"tests/algorithm-evaluation.cjs\", \"tests/formant-diagnostics.cjs\", \"tests/formant-holdout.cjs\", \"tests/formant-validation.cjs\", \"tests/package-integrity.cjs\", \"tests/paper-engineering-performance.cjs\", \"tests/paper-engineering-repairs.cjs\", \"tests/paper-scientific-followup-probes.cjs\", \"tests/paper-scientific-probes.cjs\", \"tests/paper-scientific-summary.py\", \"tests/paper-scientific-validation.py\", \"tests/praat-comparison.py\", \"tests/praat-production.cjs\", \"tests/rc-repairs.cjs\", \"tests/recorder-usability.cjs\", \"tests/reference-formant-grid.cjs\", \"tests/revision-regression.cjs\", \"tests/runtime.cjs\", \"tests/scientific-followup.cjs\", \"tests/scientific-repairs.cjs\", \"utils/audio-math.js\", \"utils/audio-quality.js\", \"utils/calibration-quality.js\", \"utils/canvas-spectrogram.js\", \"utils/canvas-spectrum.js\", \"utils/constants.js\", \"utils/data-model.js\", \"utils/fft.js\", \"utils/laboratory-verification.js\", \"utils/measurement-version.js\", \"utils/phonetic/analysis.js\", \"utils/phonetic/burg-lpc.js\", \"utils/phonetic/coverage.js\", \"utils/phonetic/formant-extract.js\", \"utils/phonetic/fractional-correlation.js\", \"utils/phonetic/frame-segment.js\", \"utils/phonetic/harmonicity.js\", \"utils/phonetic/index.js\", \"utils/phonetic/iteration.js\", \"utils/phonetic/model-sensitivity.js\", \"utils/phonetic/phonetic-config.js\", \"utils/phonetic/poly-roots.js\", \"utils/phonetic/pre-emphasis.js\", \"utils/phonetic/resample.js\", \"utils/phonetic/selection-analysis.js\", \"utils/phonetic/spectrogram-gen.js\", \"utils/phonetic/task-scheduler.js\", \"utils/phonetic/time-support.js\", \"utils/phonetic/track-display.js\", \"utils/phonetic/voice-metrics.js\", \"utils/phonetic/yin-pitch.js\", \"utils/recorder-session.js\", \"utils/result-manager.js\", \"workers/phonetic-analysis/bundle.js\", \"workers/phonetic-analysis/index.js\"], \"frozenP0PayloadsUnchanged\": 138, \"tablePackageUnchanged\": true, \"comparisonProfileFrozen\": \"legacy-noise-44100-native-v1\"}\nfix01_silence_50ms_rejected PASS\nfix02_silence_short_accepted PASS\nfix03_sine_1khz_clean_1s PASS\nfix04_sine_1khz_3s_multisecond PASS\nfix05_non_integer_freq PASS\nfix06_multitone_third_octave PASS\nfix07_dc_constant_rejected PASS\nfix08_near_full_scale_warning PASS\nfix09_plateau_warning PASS\nfix10_clipping_overload_rejected PASS\nfix11_ignored_after_termination PASS\nfix12_two_level_energy PASS\nfix13_multi_window_chunk_large PASS\nfix14_short_recording_half_second PASS\nfix15_view_switch_active_spectrum PASS\nfix16_view_switch_spectrogram PASS\nfix17_odd_length_corrupted_frame PASS\nfix18_empty_chunk_ignored PASS\nfix19_stop_timeout_unverified PASS\nfix20_interruption_begin PASS\nfix21_capture_duration_partial PASS\nfix22_repeat_stop_idempotent PASS\nfix23_no_calibration_estimate PASS\nfix24_native_duration_unverified PASS\nfix25_single_chunk_multisecond_spanning PASS\nfix26_cne_alarm_modal_triggered PASS\n{\"status\": \"PASS\", \"fixtureCount\": 26, \"exactFloats\": 952, \"exactFields\": 10402, \"dbFields\": 264176, \"maxDbError\": 5.684341886080802e-14, \"backend\": \"native\", \"driverSha256\": \"7618e518d49342b67c4b9b720afa8d98bef1a9e88ed7075f09416695468bee6e\", \"scope\": \"Frozen core fields only; calibration/capture integrity/risk/save remain application-owned.\"}\n{\"status\":\"PASS\",\"scalarCases\":24,\"spectrumCases\":4,\"exactFields\":0,\"exactFloats\":131072,\"dbFields\":65670,\"rmsFields\":6,\"maxDbError\":5.684341886080802e-14,\"maxRmsError\":0,\"driverSha256\":\"7618e518d49342b67c4b9b720afa8d98bef1a9e88ed7075f09416695468bee6e\",\"scope\":\"Actual baseline functions vs native Rust; neither device verification nor independent physical truth\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cargo",
+        "build",
+        "-p",
+        "noise-wasm",
+        "--features",
+        "acoustics",
+        "--target",
+        "wasm32-unknown-unknown",
+        "--release",
+        "--locked",
+        "--offline"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.113121,
+      "stdout": "",
+      "stderr": "   Compiling noise-core v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-core)\n   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-wasm)\n    Finished `release` profile [optimized] target(s) in 1.03s\n"
+    },
+    {
+      "command": [
+        "node",
+        "phase2/check-noise-host.cjs"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.232266,
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"tests\": [\n    {\n      \"name\": \"no imports\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"status checks precede integer wrapping\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"pending result blocks both sessions and no result overwrite\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"memory.grow reacquires views and retains committed sample count\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"sequence error does not consume valid next sequence\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"destroyed handles never address new sessions\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"event backpressure is retryable after draining without clock changes\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"finish is idempotent and does not create samples\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"independent instances retain their own sessions\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"trap discards instance without replay\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"decode failure cannot replay committed process\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"WX-shaped loader without global WebAssembly or TextDecoder\",\n      \"status\": \"PASS\"\n    },\n    {\n      \"name\": \"Node asynchronous loader\",\n      \"status\": \"PASS\"\n    }\n  ],\n  \"artifact\": {\n    \"bytes\": 359308,\n    \"sha256\": \"e4789492d1489bc83796485ac0bfc23b25161da9f37161ff3d656b3d1aa33485\",\n    \"imports\": []\n  },\n  \"scope\": \"Actual Rust WASM on Node plus WX-shaped loader simulation; no real device test.\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "tools/compare_p0_native.py",
+        "--wasm"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 3.950352,
+      "stdout": "fix01_silence_50ms_rejected PASS\nfix02_silence_short_accepted PASS\nfix03_sine_1khz_clean_1s PASS\nfix04_sine_1khz_3s_multisecond PASS\nfix05_non_integer_freq PASS\nfix06_multitone_third_octave PASS\nfix07_dc_constant_rejected PASS\nfix08_near_full_scale_warning PASS\nfix09_plateau_warning PASS\nfix10_clipping_overload_rejected PASS\nfix11_ignored_after_termination PASS\nfix12_two_level_energy PASS\nfix13_multi_window_chunk_large PASS\nfix14_short_recording_half_second PASS\nfix15_view_switch_active_spectrum PASS\nfix16_view_switch_spectrogram PASS\nfix17_odd_length_corrupted_frame PASS\nfix18_empty_chunk_ignored PASS\nfix19_stop_timeout_unverified PASS\nfix20_interruption_begin PASS\nfix21_capture_duration_partial PASS\nfix22_repeat_stop_idempotent PASS\nfix23_no_calibration_estimate PASS\nfix24_native_duration_unverified PASS\nfix25_single_chunk_multisecond_spanning PASS\nfix26_cne_alarm_modal_triggered PASS\n{\"status\": \"PASS\", \"fixtureCount\": 26, \"exactFloats\": 952, \"exactFields\": 10402, \"dbFields\": 264176, \"maxDbError\": 5.684341886080802e-14, \"backend\": \"wasm\", \"driverSha256\": \"f1a19c805ffd3fd5322c996664198f1e27e7b018c8b57bb47aea9e7ed395e625\", \"scope\": \"Frozen core fields only; calibration/capture integrity/risk/save remain application-owned. Application invalidation text is mapped to bounded ABI codes; free-form text is not a core result.\", \"wasmSha256\": \"e4789492d1489bc83796485ac0bfc23b25161da9f37161ff3d656b3d1aa33485\", \"hostSha256\": \"0ad7b24b9f1855e874c9fe4b52c2db7e4a132b7273af41834d2d69cb146e2184\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--locked",
+        "--offline"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.37662,
+      "stdout": "\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 10 tests\ntest test_abi_version_and_capacity ... ok\ntest test_frozen_vector_exact_bitwise ... ok\ntest test_independent_non_finite_gain_validation ... ok\ntest test_len_zero_preserves_all_4096_outputs ... ok\ntest test_capacity_boundaries ... ok\ntest test_independent_non_finite_input_validation ... ok\ntest test_partial_len_preserves_remaining_outputs ... ok\ntest test_product_overflow_positive_and_negative ... ok\ntest test_native_pointers_alignment_and_non_overlap ... ok\ntest test_reset_clears_all_4096_samples ... ok\n\ntest result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 2 tests\ntest test_wasm_metadata_exports ... ok\ntest test_native_probe_buffers_instance_safety ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+      "stderr": "   Compiling noise-core v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-core)\n   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-wasm)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.23s\n     Running unittests src\\lib.rs (target\\debug\\deps\\noise_core-15c613f1adf94a3f.exe)\n     Running tests\\acoustics_tests.rs (target\\debug\\deps\\acoustics_tests-2a5d0614a520d8e7.exe)\n     Running tests\\probe_tests.rs (target\\debug\\deps\\probe_tests-027dff95608a8af8.exe)\n     Running tests\\resample_tests.rs (target\\debug\\deps\\resample_tests-4bd1dc675f8133de.exe)\n     Running tests\\speech_tests.rs (target\\debug\\deps\\speech_tests-82519d9ab968e7ad.exe)\n     Running unittests src\\lib.rs (target\\debug\\deps\\noise_wasm-446c2e8981890627.exe)\n     Running tests\\acoustics_api_tests.rs (target\\debug\\deps\\acoustics_api_tests-7ce69dff9aed1df1.exe)\n     Running tests\\speech_api_tests.rs (target\\debug\\deps\\speech_api_tests-d495a602e687c273.exe)\n     Running tests\\wasm_export_tests.rs (target\\debug\\deps\\wasm_export_tests-f7beb38134e7081f.exe)\n   Doc-tests noise_core\n   Doc-tests noise_wasm\n"
+    },
+    {
+      "command": [
+        "cargo",
+        "build",
+        "-p",
+        "noise-wasm",
+        "--target",
+        "wasm32v1-none",
+        "--release",
+        "--locked",
+        "--offline"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.623875,
+      "stdout": "",
+      "stderr": "   Compiling noise-core v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-core)\n   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-wasm)\n    Finished `release` profile [optimized] target(s) in 0.53s\n"
+    },
+    {
+      "command": [
+        "node",
+        "phase0a/check-wasm.cjs",
+        "--json"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.149956,
+      "stdout": "{\n  \"timestamp\": \"2026-10-06T16:53:51.602Z\",\n  \"status\": \"PASSED\",\n  \"system\": {\n    \"node\": \"v24.21.0\",\n    \"platform\": \"win32\",\n    \"arch\": \"x64\",\n    \"osType\": \"Windows_NT\",\n    \"osRelease\": \"10.0.26300\",\n    \"cpuModel\": \"AMD Ryzen 9 7940H w/ Radeon 780M Graphics     \"\n  },\n  \"artifact\": {\n    \"path\": \"C:\\\\Users\\\\Shaoyilei\\\\WeChatProjects\\\\noise-1\\\\rs-core\\\\_work\\\\staged-port-4w8dfykm\\\\rs-core\\\\target\\\\wasm32v1-none\\\\release\\\\noise_wasm.wasm\",\n    \"bytes\": 1656,\n    \"sha256\": \"77eb2e8dab86b5432c5d002ea6bfe35cf5a49058678082bac01592bbeb7e21e9\"\n  },\n  \"moduleReflection\": {\n    \"importsCount\": 0,\n    \"imports\": [],\n    \"exportsCount\": 10,\n    \"exports\": [\n      \"memory (memory)\",\n      \"probe_abi_version (function)\",\n      \"probe_capacity (function)\",\n      \"probe_force_trap (function)\",\n      \"probe_input_ptr (function)\",\n      \"probe_output_ptr (function)\",\n      \"probe_process (function)\",\n      \"probe_reset (function)\",\n      \"__data_end (global)\",\n      \"__heap_base (global)\"\n    ]\n  },\n  \"tests\": [\n    {\n      \"name\": \"module_imports_clean\",\n      \"passed\": true,\n      \"detail\": \"0 external imports\"\n    },\n    {\n      \"name\": \"handshake_abi_version\",\n      \"passed\": true,\n      \"detail\": \"ABI version = 1\"\n    },\n    {\n      \"name\": \"handshake_capacity\",\n      \"passed\": true,\n      \"detail\": \"Capacity = 4096\"\n    },\n    {\n      \"name\": \"input_pointer_aligned\",\n      \"passed\": true,\n      \"detail\": \"0x100000 (4-byte aligned)\"\n    },\n    {\n      \"name\": \"output_pointer_aligned\",\n      \"passed\": true,\n      \"detail\": \"0x104000 (4-byte aligned)\"\n    },\n    {\n      \"name\": \"functional_probe_reset_full_4096_zeroed\",\n      \"passed\": true,\n      \"detail\": \"All 4096 samples zeroed in both buffers\"\n    },\n    {\n      \"name\": \"functional_frozen_vector_bitwise_exact\",\n      \"passed\": true,\n      \"detail\": \"Bitwise identical\"\n    },\n    {\n      \"name\": \"functional_output_samples_beyond_len_untouched\",\n      \"passed\": true,\n      \"detail\": \"Samples 5..4095 preserved untouched\"\n    },\n    {\n      \"name\": \"functional_len_zero_preserves_all_4096_outputs\",\n      \"passed\": true,\n      \"detail\": \"All 4096 output samples untouched\"\n    },\n    {\n      \"name\": \"functional_host_len_parameter_validation\",\n      \"passed\": true,\n      \"detail\": \"Negative, decimal, and > u32::MAX rejected at host\"\n    },\n    {\n      \"name\": \"functional_capacity_4096_pass\",\n      \"passed\": true,\n      \"detail\": \"Full 4096-sample capacity succeeded\"\n    },\n    {\n      \"name\": \"functional_capacity_4097_rejected_with_immutability\",\n      \"passed\": true,\n      \"detail\": \"len=4097 returned -1 with all 4096 samples unchanged\"\n    },\n    {\n      \"name\": \"functional_capacity_u32max_rejected_with_immutability\",\n      \"passed\": true,\n      \"detail\": \"len=u32::MAX returned -1 with all 4096 samples unchanged\"\n    },\n    {\n      \"name\": \"functional_gain_nan_rejected_with_immutability\",\n      \"passed\": true,\n      \"detail\": \"gain=NaN returned -2, output unchanged\"\n    },\n    {\n      \"name\": \"functional_gain_pos_inf_rejected_with_immutability\",\n      \"passed\": true,\n      \"detail\": \"gain=+Inf returned -2, output unchanged\"\n    },\n    {\n      \"name\": \"functional_gain_neg_inf_rejected_with_immutability\",\n      \"passed\": true,\n      \"detail\": \"gain=-Inf returned -2, output unchanged\"\n    },\n    {\n      \"name\": \"functional_gain_f32_overflow_rejected\",\n      \"passed\": true,\n      \"detail\": \"gain=1e39 returned -2, output unchanged\"\n    },\n    {\n      \"name\": \"functional_input_nan_rejected_with_immutability\",\n      \"passed\": true,\n      \"detail\": \"input=NaN returned -3, output unchanged\"\n    },\n    {\n      \"name\": \"functional_input_pos_inf_rejected_with_immutability\",\n      \"passed\": true,\n      \"detail\": \"input=+Inf returned -3, output unchanged\"\n    },\n    {\n      \"name\": \"functional_input_neg_inf_rejected_with_immutability\",\n      \"passed\": true,\n      \"detail\": \"input=-Inf returned -3, output unchanged\"\n    },\n    {\n      \"name\": \"functional_product_pos_overflow_rejected_with_immutability\",\n      \"passed\": true,\n      \"detail\": \"prod=+Inf returned -4, output unchanged\"\n    },\n    {\n      \"name\": \"functional_product_neg_overflow_rejected_with_immutability\",\n      \"passed\": true,\n      \"detail\": \"prod=-Inf returned -4, output unchanged\"\n    },\n    {\n      \"name\": \"multi_instance_concurrent_isolation\",\n      \"passed\": true,\n      \"detail\": \"Two concurrently active instances maintain strictly isolated memories\"\n    },\n    {\n      \"name\": \"memory_grow_fresh_view_resilience\",\n      \"passed\": true,\n      \"detail\": \"Pages: 17->18, Expanded: 1114112->1179648 bytes, Old Detached: true\"\n    },\n    {\n      \"name\": \"trap_runtime_error_and_recovery\",\n      \"passed\": true,\n      \"detail\": \"RuntimeError verified (unreachable), instance disposed, new instance recovered cleanly\"\n    }\n  ],\n  \"telemetry\": {\n    \"benchmarkIterations\": 1000,\n    \"totalDurationMs\": 4.6461,\n    \"averageProbeProcessUs\": 4.646100000000001,\n    \"memoryUsage\": {\n      \"rss\": 85336064,\n      \"heapTotal\": 8167424,\n      \"heapUsed\": 5212832,\n      \"external\": 7700219,\n      \"arrayBuffers\": 143707\n    }\n  },\n  \"error\": null\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "phase0a/audit-wx-shape.cjs"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.132548,
+      "stdout": "{\"status\":\"PASS\",\"artifactSha256\":\"77eb2e8dab86b5432c5d002ea6bfe35cf5a49058678082bac01592bbeb7e21e9\",\"standardWebAssemblyGlobal\":\"absent_in_VM\",\"instantiateReturn\":\"direct Instance\",\"hostChecks\":17,\"pageMainThreadSteps\":7,\"workerStatus\":\"UNRUN\",\"realDeviceStatus\":\"UNRUN\",\"scope\":\"Desktop Node API-shape simulation with actual Rust WASM; not mobile compatibility.\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.390569,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--features",
+        "noise-core/speech,noise-wasm/acoustics",
+        "--locked",
+        "--offline",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.061372,
+      "stdout": "",
+      "stderr": "    Checking noise-core v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-core)\n    Checking noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-4w8dfykm\\rs-core\\crates\\noise-wasm)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.86s\n"
+    },
+    {
+      "command": [
+        "python",
+        "tools/check_port_isolation.py",
+        "--repository-clean"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.462691,
+      "stdout": "{\"status\": \"PASS\", \"productionWorkingFilesUnchanged\": 232, \"repositorySDKConfigurationFromBaseline\": true, \"lineEndingOnlyMatches\": [\"app.json\", \"docs/acoustic-fixes.md\", \"docs/algorithm-evaluation-report.md\", \"docs/algorithm-evaluation-results.json\", \"docs/engineering-repairs-2026-10-05.md\", \"docs/formant-diagnostics-results.json\", \"docs/formant-holdout-results.json\", \"docs/formant-validation-results.json\", \"docs/implementation-change-summary.md\", \"docs/implementation-summary.md\", \"docs/manual-testing-checklist.md\", \"docs/p1-fix-notes-2026-09-27.md\", \"docs/paper-acoustic-algorithms-and-engineering-2026-10-04.md\", \"docs/paper-scientific-validation-2026-10-05.md\", \"docs/rc-repair-results.json\", \"docs/rc-repairs-2026-10-04.md\", \"docs/recorder-usability-results.json\", \"docs/recording-usability-fixes-2026-09-28.md\", \"docs/revision-regression-results.json\", \"docs/scientific-engineering-review-2026-09-27.md\", \"docs/scientific-followup-2026-10-02.md\", \"docs/scientific-followup-results.json\", \"docs/scientific-repairs-2026-10-02.md\", \"docs/scientific-repairs-2026-10-05/algorithm-evaluation-results.json\", \"docs/scientific-repairs-2026-10-05/formant-holdout-results.json\", \"docs/scientific-repairs-2026-10-05/formant-validation-results.json\", \"docs/scientific-repairs-2026-10-05/paper-engineering-repairs-results.json\", \"docs/scientific-repairs-2026-10-05/paper-scientific-followup-probes-results.json\", \"docs/scientific-repairs-2026-10-05/paper-scientific-probes-results.json\", \"docs/scientific-repairs-2026-10-05/performance-after.json\", \"docs/scientific-repairs-2026-10-05/performance-before.json\", \"docs/scientific-repairs-2026-10-05/rc-repair-results.json\", \"docs/scientific-repairs-2026-10-05/recorder-usability-results.json\", \"docs/scientific-repairs-2026-10-05/revision-regression-results.json\", \"docs/scientific-repairs-2026-10-05/scientific-followup-results.json\", \"docs/scientific-repairs-2026-10-05/scientific-repairs-results.json\", \"docs/scientific-repairs-results.json\", \"docs/scientific-validation-2026-10-05/algorithm-evaluation-results.json\", \"docs/scientific-validation-2026-10-05/formant-holdout-results.json\", \"docs/scientific-validation-2026-10-05/formant-validation-results.json\", \"docs/scientific-validation-2026-10-05/paper-scientific-followup-probes-results.json\", \"docs/scientific-validation-2026-10-05/paper-scientific-probes-results.json\", \"docs/scientific-validation-2026-10-05/rc-repair-results.json\", \"docs/scientific-validation-2026-10-05/recorder-usability-results.json\", \"docs/scientific-validation-2026-10-05/revision-regression-results.json\", \"docs/scientific-validation-2026-10-05/scientific-followup-results.json\", \"docs/scientific-validation-2026-10-05/scientific-repairs-results.json\", \"pages/about/about.js\", \"pages/about/about.wxml\", \"pages/about/about.wxss\", \"pages/advanced-calibrate/advanced-calibrate.js\", \"pages/advanced-calibrate/advanced-calibrate.wxml\", \"pages/advanced-calibrate/advanced-calibrate.wxss\", \"pages/advanced-calibrate/calibrate/calibrate.js\", \"pages/advanced-calibrate/calibrate/calibrate.wxml\", \"pages/advanced-calibrate/calibrate/calibrate.wxss\", \"pages/calibrate/calibrate.js\", \"pages/calibrate/calibrate.wxml\", \"pages/knowledge/knowledge.js\", \"pages/knowledge/knowledge.wxss\", \"pages/main/main.js\", \"pages/main/main.wxml\", \"pages/main/main.wxss\", \"pages/my/my.wxss\", \"pages/phonetic/phonetic.js\", \"pages/phonetic/phonetic.json\", \"pages/phonetic/phonetic.wxml\", \"pages/phonetic/phonetic.wxss\", \"pages/result/result.js\", \"pages/result/result.wxml\", \"pages/result/result.wxss\", \"pages/settings/settings.js\", \"pages/usage/usage.wxml\", \"pages/usage/usage.wxss\", \"project.config.json\", \"scripts/build-worker.cjs\", \"scripts/refresh-paper-evidence.py\", \"scripts/update-paper-after-repair.py\", \"scripts/verify-repair-performance.py\", \"tests/algorithm-evaluation.cjs\", \"tests/formant-diagnostics.cjs\", \"tests/formant-holdout.cjs\", \"tests/formant-validation.cjs\", \"tests/package-integrity.cjs\", \"tests/paper-engineering-performance.cjs\", \"tests/paper-engineering-repairs.cjs\", \"tests/paper-scientific-followup-probes.cjs\", \"tests/paper-scientific-probes.cjs\", \"tests/paper-scientific-summary.py\", \"tests/paper-scientific-validation.py\", \"tests/praat-comparison.py\", \"tests/praat-production.cjs\", \"tests/rc-repairs.cjs\", \"tests/recorder-usability.cjs\", \"tests/reference-formant-grid.cjs\", \"tests/revision-regression.cjs\", \"tests/runtime.cjs\", \"tests/scientific-followup.cjs\", \"tests/scientific-repairs.cjs\", \"utils/audio-math.js\", \"utils/audio-quality.js\", \"utils/calibration-quality.js\", \"utils/canvas-spectrogram.js\", \"utils/canvas-spectrum.js\", \"utils/constants.js\", \"utils/data-model.js\", \"utils/fft.js\", \"utils/laboratory-verification.js\", \"utils/measurement-version.js\", \"utils/phonetic/analysis.js\", \"utils/phonetic/burg-lpc.js\", \"utils/phonetic/coverage.js\", \"utils/phonetic/formant-extract.js\", \"utils/phonetic/fractional-correlation.js\", \"utils/phonetic/frame-segment.js\", \"utils/phonetic/harmonicity.js\", \"utils/phonetic/index.js\", \"utils/phonetic/iteration.js\", \"utils/phonetic/model-sensitivity.js\", \"utils/phonetic/phonetic-config.js\", \"utils/phonetic/poly-roots.js\", \"utils/phonetic/pre-emphasis.js\", \"utils/phonetic/resample.js\", \"utils/phonetic/selection-analysis.js\", \"utils/phonetic/spectrogram-gen.js\", \"utils/phonetic/task-scheduler.js\", \"utils/phonetic/time-support.js\", \"utils/phonetic/track-display.js\", \"utils/phonetic/voice-metrics.js\", \"utils/phonetic/yin-pitch.js\", \"utils/recorder-session.js\", \"utils/result-manager.js\", \"workers/phonetic-analysis/bundle.js\", \"workers/phonetic-analysis/index.js\"], \"frozenP0PayloadsUnchanged\": 138, \"tablePackageUnchanged\": true, \"comparisonProfileFrozen\": \"legacy-noise-44100-native-v1\"}\n",
+      "stderr": ""
+    }
+  ],
+  "finishedUtc": "2026-10-06T16:53:53.675158+00:00",
+  "identities": {
+    "crates/noise-core/examples/acoustics_driver.rs": "c4d498d3a8e09fc185cb2283e9377ab1ef5a68cb7624164b5b3bc96f09ea6551",
+    "crates/noise-core/examples/speech_driver.rs": "785b45594c65d151410a9c62cd2b38637ff203494994a6204717bc8ac73232f6",
+    "crates/noise-core/src/acoustics/a_weighting.rs": "8bf38f973532c141d28825379809ebada049ba74cc4cc85e72d35652efdc430a",
+    "crates/noise-core/src/acoustics/coefficients.rs": "ba817db543468b3e3169a2c1f92dbdf15d47f2ccc83a5131165d6e4900e45f38",
+    "crates/noise-core/src/acoustics/dc_blocker.rs": "90ace912abfc0076ccc7bf6d348cf542fccba9a04025d15684294722e03c80d4",
+    "crates/noise-core/src/acoustics/engine.rs": "ffc999656e604b60cd04f1684b6583388b2eca8395484fdddcb850100f3a9f1d",
+    "crates/noise-core/src/acoustics/fft.rs": "cb0a08db7dba56573eddbb54df5ddc18f53db7028f638f64774b9fad98459bc6",
+    "crates/noise-core/src/acoustics/math.rs": "6e32bc61982278ed65e72857db04927dfa07ea6c18cd3133bf4a3d75a0b3b7ef",
+    "crates/noise-core/src/acoustics/quality.rs": "c3d606dcb8a954b820d2a00b606bdda55dfaf687264de8b9c9fc6ac5ec76efc7",
+    "crates/noise-core/src/acoustics/spectrum.rs": "bc34c6ffd9671d3df85a123e0c81ffcd71d5e1bb57dc7d1b704d29d3277446ac",
+    "crates/noise-core/src/acoustics.rs": "61484b2418c774fd0f9e2de17c802cd41b778d1e6cddcefa8dadf0f691826047",
+    "crates/noise-core/src/lib.rs": "9cd0fc39f74fde216cd640f5ae421fda56e81744f1503f589c4b47aed20da972",
+    "crates/noise-core/src/speech/emphasis.rs": "2670691fd9a638445a81f92fee383878dc9cd0d12af54c602529971bff651482",
+    "crates/noise-core/src/speech/resample.rs": "af656392bafc6d06c882ea95bd5d56d0b25bbcdac359397afc1e84571b55cd89",
+    "crates/noise-core/src/speech/resample_tables.rs": "28282be9e827741f273efec52e295ecf6829aabf2617e0f38fb20e92ffddd851",
+    "crates/noise-core/src/speech/yin.rs": "7fd456c27794e33e12b9a2bab8d026883e7cae3a513c1ce99a8300d61fc91f51",
+    "crates/noise-core/src/speech.rs": "6a55050f76741d683370aff75762cb9e7404cd0c924a3c53f72fd9b06843467e",
+    "crates/noise-core/tests/acoustics_tests.rs": "bf77a3e69756ef3344e0137d0a13be75b8b2c1df58f341e74fa2099f1ddfb1db",
+    "crates/noise-core/tests/probe_tests.rs": "cf2ce3d7cbbb9fafcd97e1c078d5e7422c3ab9a7fc3e623c093f43d019799266",
+    "crates/noise-core/tests/resample_tests.rs": "864eee79d62ec08e41ad26508b4a63b92a7355d7be1f501d15cf5db443cfc936",
+    "crates/noise-core/tests/speech_tests.rs": "41a0697bf48e73696d743e967d00666c943d3b027993625546e2c652ad2175a7",
+    "crates/noise-wasm/src/acoustics_api.rs": "593f14c46bcbb40005ed4f9f0dd0d5766a50a89902f91fa6bf83726894c85a89",
+    "crates/noise-wasm/src/acoustics_wire.rs": "c31c2bf26e88681a49765bc7b580ac72814f21f9b55f695a77110660114b1038",
+    "crates/noise-wasm/src/lib.rs": "fb8e5b82ce41c9b0522d645eacc846a8e9b13351ffbe03a4d843fc40d125e5a3",
+    "crates/noise-wasm/src/speech_api.rs": "2750bbf1c51af9910477b3fd8a002643fc126e62404aca28c9543f84a9788de3",
+    "crates/noise-wasm/tests/acoustics_api_tests.rs": "918c022ca3910d165077e0cfb2c6de469b496fd1e1baa61f25a98766914abc77",
+    "crates/noise-wasm/tests/speech_api_tests.rs": "bfc3720c7d2b1caf921b7f60177cc2048183ce72c84ba205698643e071dda3c9",
+    "crates/noise-wasm/tests/wasm_export_tests.rs": "26a72e02d2d1efd19c35d3bb7fc95a0dbac5579436373d93fca4b45d45c87796",
+    "phase2/check-noise-host.cjs": "493178fc2c29690534e7948c25a440417c9e136fd5b1b56a9de3c09376e1179a",
+    "phase2/INTERFACE_AND_PITCH_CONTRACT.md": "b198cbd692c2434c919f9cfa63d0bcc6b649664ec2d07b9c6ff6a73e4425930c",
+    "phase2/noise-host.cjs": "0ad7b24b9f1855e874c9fe4b52c2db7e4a132b7273af41834d2d69cb146e2184",
+    "phase2/PORT_REVIEW_REPORT.md": "eb8bdb049e63dfa8f2848f79d84ccffe2634c3d6eb3b8f8fc311a54c3c17409d",
+    "phase2/README.md": "dc64089c2464ff4c5d5ddb069f24ef493858978a8f4ba2e24ba819fcc1880147",
+    "phase2/wasm-nac-driver.cjs": "f1a19c805ffd3fd5322c996664198f1e27e7b018c8b57bb47aea9e7ed395e625",
+    "tools/audit_fixtures.py": "09f5bb2a73b10bf1120a458ceae38308c31ae13f4a95257f608071a42ccc46a5",
+    "tools/audit_phase0a.py": "56e3d92b6ab05c904d29d6023fbc7dc13b99a95b20a51a3dfee38eb8280f530e",
+    "tools/audit_regression.py": "0742b9cedfbe581714766ce24e3679233a46e85bbe789603afc8c89b73460818",
+    "tools/audit_staged_port.py": "06a09fc89b84ec4f73457dea302e92d97d282c57f7d09998349e809e00a41874",
+    "tools/check_dsh_activity.py": "3d8ba251486c1f8be4b9d1e4e2f9dc6106d706bff3ed38c3d48ed81f6f5e7756",
+    "tools/check_isolation.py": "c5a8d341caa440bd91400adac805024f62cfff007df2882a3f549e1157c79640",
+    "tools/check_port_isolation.py": "60d3a128779474fee973f323f2aba58d01cd79f928d17ae121bd769607a846b4",
+    "tools/check_remote_heads.py": "f42f8f6d2fdc98ac3051da475bfc61baae98cc427f51abd2f09afc1bd4907156",
+    "tools/check_resample_freeze.py": "66e5b3b0a255360c270167b7ef7b95514efbcdfaac5cdda57b0bf4a0d92cecb6",
+    "tools/compare_p0_native.py": "6d76e58bba4e5f73c949537f77b6730309e31723ebaf000a5a54a40ef3cd66f4",
+    "tools/compare_pitch.py": "a25afeb0a976b6b2069c30e919229705ca9742fae45c2b0c70e24f40690165a0",
+    "tools/compare_resample.py": "153dddc2ea54d3a3c71206ded28272497c7ed2aca511764919f96db0f1ad33f5",
+    "tools/ensure_baseline.py": "fa1c5244b33c820cc572f8c8c931c266e4974c1f40595ed45eb3277d6d8438eb",
+    "tools/export_acoustics_units.cjs": "2d502ff9eafd87edbf9e227af0e8f4875d7db48a8601507c4513bbc47644f29b",
+    "tools/export_noise_tables.cjs": "d6306f366052e848d61a82875d0da3b918e94cbd94ce55431ef27b25c583c51b",
+    "tools/export_pitch_edges.cjs": "ce783a34d78c615a55ede90782db98efd920841defbe71be54d18bf666a0235f",
+    "tools/export_pitch_reference.cjs": "e9ca95bcd57307ed21f67f24a82ed439307f1e7ebfeb8b7beea1703b003a0a35",
+    "tools/export_resample_reference.cjs": "e92a58478dfc09f1e5a2d865b3c6a37d58292df6b0f252f5ff3d7d2ad4198675",
+    "tools/extend_snapshot_warning.py": "9cfac3646539b2eb1274540c2340c95a0660e05bfbbc45956f783e7e9c2a79e7",
+    "tools/extract_noise_serialization.py": "2a73a2d77749575154a278b145ee8e05c0a9d39215dc98a54d47bd24e4818ee2",
+    "tools/finalize_acoustics_driver.py": "c229bced1581f2d1259688363304da7bf9fe0633c505a660f5b17cf54b892763",
+    "tools/finalize_port_tools.py": "f4ad45cf433666f8ccb31c0a5ef9d8f35b32f8c3104e581c7513386d1c9a907f",
+    "tools/finalize_source_eof.py": "8440e8fbb8af1493787f0d90499f8c44fe1ff9305d620044ae9dac45aaf37772",
+    "tools/freeze-vectors.cjs": "b19b2111e2ccf71233c7f521bc6290a1b8e38b07fa40b0bc940d47915cce3803",
+    "tools/freeze_port_profile.py": "d588673fb89ed2fc03bf82959422e803190fc94e5df5a5105321506edcb7bb2d",
+    "tools/freeze_repository_text_profile.py": "4f855b6074490efcdb9b19639d50ef612b18ac4c1d8faf1c38131dad00b0c2a4",
+    "tools/inspect_checkout_difference.py": "9511774e69fc441e8726d88b001c374b9865889a1240600db5b70ce2ef5eef3a",
+    "tools/inspect_p0_reasons.py": "34d1c3985eaaf930282cf8f67072db45d419ad3db097a38b317d467250e9954f",
+    "tools/inspect_p0_shapes.py": "ec5a2b2b9cca11d4459402caa6dd63fb570afd060b65e13fb47d25a343f81c6a",
+    "tools/inspect_release_scope.py": "f4a1b90a89e07ae25d5882270db23503a7d88446cb4b6e4b6ed3eb43632d4369",
+    "tools/prepare_baseline.py": "b1f3c1927dbff01aaea2a9b2333dd18b2298d90d38e447b754e9d599c716119e",
+    "tools/review_tools.py": "39205601dd242684e85cbda4a409eb77a7fd2a75d1aca3e6b3d542e1a1973c18",
+    "tools/run-acoustics-port.py": "dffa454be3b7cb5932e55d07b6ab99a0fc6f3d2cb3eb9384a51c4ad6f23f9158",
+    "tools/run-phase0.py": "a03613ad43fe371cb7fbf98584f8d8a165ef1bf4b326a816a6b78860f00aa7a7",
+    "tools/run-phase0a.py": "8d53c5e69b411373685e41322a7b67163a04458898c027617a29a425bae1a560",
+    "tools/run-phase2.py": "d06fa2c3385d4f4e416ecf3193879329fcf84cadb4c9b16f2a1e9795722f83aa",
+    "tools/run-phase3.py": "dec9d365b1419e13b358d5b264e4e0a95448c03985d0ddbd69a589e3cbaf4ebe",
+    "tools/verify_staged_checkout.py": "d4b32596fad17c64190cc496c98ada82b92ae12c36c2c548dc58ae80b811674d"
+  },
+  "limits": [
+    "No production integration",
+    "No actual WXWebAssembly or Worker/device recording test",
+    "No full speech pipeline/HNR/formant migration or new scientific validation",
+    "No 600-second stress or mobile latency guarantee"
+  ]
+}

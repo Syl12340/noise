@@ -1,0 +1,59 @@
+{
+  "profile": "legacy-pitch-boundary-bits-v1",
+  "sources": [
+    {
+      "path": "utils/phonetic/yin-pitch.js",
+      "sha256": "bfe85def50b207c8e8cd0b269d6a083e7ac731beb75581cc301eb6de010f96f6"
+    },
+    {
+      "path": "utils/phonetic/pre-emphasis.js",
+      "sha256": "34c8c0d7c56e9c550ca7bf449c97bcd0f3226269f3feea62218614be04e1ff74"
+    },
+    {
+      "path": "utils/phonetic/resample.js",
+      "sha256": "ed32e9a4bc9bbdf8cb88ffb30adc373cd7e3ea61f1647ce679eccdd99600063f"
+    }
+  ],
+  "cases": [
+    {
+      "name": "upper-adjusted",
+      "op": "frame",
+      "input": "tone-200.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 199.9999995
+      },
+      "expected": {
+        "f0": 199.9999995,
+        "rawF0": 200,
+        "aperiodicity": 1.1388743540195669e-29,
+        "rangeBoundaryAdjusted": true,
+        "numericToleranceHz": 0.000001
+      },
+      "sha256": "83344d0e7e184b93ca2ce2ad24145fde884132dc63a47a10af70199961610362"
+    },
+    {
+      "name": "lower-adjusted",
+      "op": "frame",
+      "input": "tone-200.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 200.0000005,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 200.0000005,
+        "rawF0": 200,
+        "aperiodicity": 1.1388743540195669e-29,
+        "rangeBoundaryAdjusted": true,
+        "numericToleranceHz": 0.0000012000000000000002
+      },
+      "sha256": "83344d0e7e184b93ca2ce2ad24145fde884132dc63a47a10af70199961610362"
+    }
+  ]
+}

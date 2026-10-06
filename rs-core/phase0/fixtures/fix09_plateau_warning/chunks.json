@@ -1,0 +1,882 @@
+[
+  {
+    "index": 0,
+    "sampleStart": 0,
+    "sampleEnd": 1024,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 1024,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 1024,
+    "energySum": 1.337115337356,
+    "invalidReason": null
+  },
+  {
+    "index": 1,
+    "sampleStart": 1024,
+    "sampleEnd": 2048,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 2048,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 2048,
+    "energySum": 2.9903509025538253,
+    "invalidReason": null
+  },
+  {
+    "index": 2,
+    "sampleStart": 2048,
+    "sampleEnd": 3072,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 3072,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 3072,
+    "energySum": 4.5033439858638316,
+    "invalidReason": null
+  },
+  {
+    "index": 3,
+    "sampleStart": 3072,
+    "sampleEnd": 4096,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 4096,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 4096,
+    "energySum": 6.022833032019453,
+    "invalidReason": null
+  },
+  {
+    "index": 4,
+    "sampleStart": 4096,
+    "sampleEnd": 5120,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 5120,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 5120,
+    "energySum": 7.674054667344431,
+    "invalidReason": null
+  },
+  {
+    "index": 5,
+    "sampleStart": 5120,
+    "sampleEnd": 6144,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 6144,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 6144,
+    "energySum": 9.155958289483447,
+    "invalidReason": null
+  },
+  {
+    "index": 6,
+    "sampleStart": 6144,
+    "sampleEnd": 7168,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 7168,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 7168,
+    "energySum": 10.715370391975602,
+    "invalidReason": null
+  },
+  {
+    "index": 7,
+    "sampleStart": 7168,
+    "sampleEnd": 8192,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 8192,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 8192,
+    "energySum": 12.348316469470815,
+    "invalidReason": null
+  },
+  {
+    "index": 8,
+    "sampleStart": 8192,
+    "sampleEnd": 9216,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 9216,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 9216,
+    "energySum": 13.812879896396696,
+    "invalidReason": null
+  },
+  {
+    "index": 9,
+    "sampleStart": 9216,
+    "sampleEnd": 10240,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 10240,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 10240,
+    "energySum": 15.411996397204842,
+    "invalidReason": null
+  },
+  {
+    "index": 10,
+    "sampleStart": 10240,
+    "sampleEnd": 11264,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 11264,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 11264,
+    "energySum": 17.01320716566206,
+    "invalidReason": null
+  },
+  {
+    "index": 11,
+    "sampleStart": 11264,
+    "sampleEnd": 12288,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 12288,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 12288,
+    "energySum": 18.47727612398012,
+    "invalidReason": null
+  },
+  {
+    "index": 12,
+    "sampleStart": 12288,
+    "sampleEnd": 13312,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 13312,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 13312,
+    "energySum": 20.1087388902413,
+    "invalidReason": null
+  },
+  {
+    "index": 13,
+    "sampleStart": 13312,
+    "sampleEnd": 14336,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 14336,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 14336,
+    "energySum": 21.670481050119143,
+    "invalidReason": null
+  },
+  {
+    "index": 14,
+    "sampleStart": 14336,
+    "sampleEnd": 15360,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 15360,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 15360,
+    "energySum": 23.150986793264334,
+    "invalidReason": null
+  },
+  {
+    "index": 15,
+    "sampleStart": 15360,
+    "sampleEnd": 16384,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 16384,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 16384,
+    "energySum": 24.801605828738346,
+    "invalidReason": null
+  },
+  {
+    "index": 16,
+    "sampleStart": 16384,
+    "sampleEnd": 17408,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 17408,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 17408,
+    "energySum": 26.32322845591172,
+    "invalidReason": null
+  },
+  {
+    "index": 17,
+    "sampleStart": 17408,
+    "sampleEnd": 18432,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 18432,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 18432,
+    "energySum": 27.83415715586076,
+    "invalidReason": null
+  },
+  {
+    "index": 18,
+    "sampleStart": 18432,
+    "sampleEnd": 19456,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 19456,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 19456,
+    "energySum": 29.48729812750185,
+    "invalidReason": null
+  },
+  {
+    "index": 19,
+    "sampleStart": 19456,
+    "sampleEnd": 20480,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 20480,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 20480,
+    "energySum": 30.97538774616678,
+    "invalidReason": null
+  },
+  {
+    "index": 20,
+    "sampleStart": 20480,
+    "sampleEnd": 21504,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 21504,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 21504,
+    "energySum": 32.52523200281234,
+    "invalidReason": null
+  },
+  {
+    "index": 21,
+    "sampleStart": 21504,
+    "sampleEnd": 22528,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 22528,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 22528,
+    "energySum": 34.16381172044117,
+    "invalidReason": null
+  },
+  {
+    "index": 22,
+    "sampleStart": 22528,
+    "sampleEnd": 23552,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 23552,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 23552,
+    "energySum": 35.630981485022296,
+    "invalidReason": null
+  },
+  {
+    "index": 23,
+    "sampleStart": 23552,
+    "sampleEnd": 24576,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 24576,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 24576,
+    "energySum": 37.22124417600454,
+    "invalidReason": null
+  },
+  {
+    "index": 24,
+    "sampleStart": 24576,
+    "sampleEnd": 25600,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 25600,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 25600,
+    "energySum": 38.830798199762675,
+    "invalidReason": null
+  },
+  {
+    "index": 25,
+    "sampleStart": 25600,
+    "sampleEnd": 26624,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 26624,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 26624,
+    "energySum": 40.293414751877755,
+    "invalidReason": null
+  },
+  {
+    "index": 26,
+    "sampleStart": 26624,
+    "sampleEnd": 27648,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 27648,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 27648,
+    "energySum": 41.91832794638541,
+    "invalidReason": null
+  },
+  {
+    "index": 27,
+    "sampleStart": 27648,
+    "sampleEnd": 28672,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 28672,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 28672,
+    "energySum": 43.489609457158586,
+    "invalidReason": null
+  },
+  {
+    "index": 28,
+    "sampleStart": 28672,
+    "sampleEnd": 29696,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 29696,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 29696,
+    "energySum": 44.96487208964596,
+    "invalidReason": null
+  },
+  {
+    "index": 29,
+    "sampleStart": 29696,
+    "sampleEnd": 30720,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 30720,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 30720,
+    "energySum": 46.61242927643273,
+    "invalidReason": null
+  },
+  {
+    "index": 30,
+    "sampleStart": 30720,
+    "sampleEnd": 31744,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 31744,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 31744,
+    "energySum": 48.143079990325944,
+    "invalidReason": null
+  },
+  {
+    "index": 31,
+    "sampleStart": 31744,
+    "sampleEnd": 32768,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 32768,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 32768,
+    "energySum": 49.64591441748886,
+    "invalidReason": null
+  },
+  {
+    "index": 32,
+    "sampleStart": 32768,
+    "sampleEnd": 33792,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 33792,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 33792,
+    "energySum": 51.30002844585863,
+    "invalidReason": null
+  },
+  {
+    "index": 33,
+    "sampleStart": 33792,
+    "sampleEnd": 34816,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 34816,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 34816,
+    "energySum": 52.79500849890985,
+    "invalidReason": null
+  },
+  {
+    "index": 34,
+    "sampleStart": 34816,
+    "sampleEnd": 35840,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 35840,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 35840,
+    "energySum": 54.335367414194785,
+    "invalidReason": null
+  },
+  {
+    "index": 35,
+    "sampleStart": 35840,
+    "sampleEnd": 36864,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 36864,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 36864,
+    "energySum": 55.97878330442999,
+    "invalidReason": null
+  },
+  {
+    "index": 36,
+    "sampleStart": 36864,
+    "sampleEnd": 37888,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 37888,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 37888,
+    "energySum": 57.449464195819736,
+    "invalidReason": null
+  },
+  {
+    "index": 37,
+    "sampleStart": 37888,
+    "sampleEnd": 38912,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 38912,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 38912,
+    "energySum": 59.030550538870386,
+    "invalidReason": null
+  },
+  {
+    "index": 38,
+    "sampleStart": 38912,
+    "sampleEnd": 39936,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 39936,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 39936,
+    "energySum": 60.647924086137515,
+    "invalidReason": null
+  },
+  {
+    "index": 39,
+    "sampleStart": 39936,
+    "sampleEnd": 40960,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 40960,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 40960,
+    "energySum": 62.1100532570874,
+    "invalidReason": null
+  },
+  {
+    "index": 40,
+    "sampleStart": 40960,
+    "sampleEnd": 41984,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 41984,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 41984,
+    "energySum": 63.727751680540976,
+    "invalidReason": null
+  },
+  {
+    "index": 41,
+    "sampleStart": 41984,
+    "sampleEnd": 43008,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 43008,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 43008,
+    "energySum": 65.30844153655657,
+    "invalidReason": null
+  },
+  {
+    "index": 42,
+    "sampleStart": 43008,
+    "sampleEnd": 44032,
+    "length": 1024,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 44032,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 44032,
+    "energySum": 66.77929167850367,
+    "invalidReason": null
+  },
+  {
+    "index": 43,
+    "sampleStart": 44032,
+    "sampleEnd": 44100,
+    "length": 68,
+    "disposition": "CommittedWithWarning",
+    "inspector": {
+      "samples": 44100,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": true,
+      "clippedIntervals": []
+    },
+    "sampleCount": 44100,
+    "energySum": 66.95644111213178,
+    "invalidReason": null
+  }
+]

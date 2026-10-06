@@ -1,0 +1,23 @@
+{
+  "id": "fix08_near_full_scale_warning",
+  "description": "大振幅正弦波 (峰值 32150，超过 32112)，标记 nearFullScale 警告，Q+D 提交",
+  "sampleRate": 44100,
+  "totalSamples": 44100,
+  "durationSeconds": 1,
+  "pcmSha256": "5b68e86c1a1902cb752452f28d75a6fe9fb1dec4580d279f835618ac515cccbb",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "fix22_repeat_stop_idempotent",
+  "description": "正常停止后重复调用 completeRequestedMainStop，验证幂等性与尾部滤波不重复累加",
+  "sampleRate": 44100,
+  "totalSamples": 44100,
+  "durationSeconds": 1,
+  "pcmSha256": "8d08c82c628e39ac836a4b848ad3c64d6e6c077b89929df01de2058742a5fe34",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

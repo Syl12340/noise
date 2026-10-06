@@ -1,0 +1,23 @@
+{
+  "id": "fix18_empty_chunk_ignored",
+  "description": "流中注入长度为 0 的空块，验证基线静默返回、不推进计数的行为",
+  "sampleRate": 44100,
+  "totalSamples": 8192,
+  "durationSeconds": 0.18575963718820862,
+  "pcmSha256": "7dd7137355a7347898e21f8ab705c33b9e0aab58015eaba3b235b7f378275711",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

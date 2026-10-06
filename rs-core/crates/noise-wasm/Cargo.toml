@@ -1,0 +1,19 @@
+[package]
+name = "noise-wasm"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+default = []
+acoustics = ["noise-core/acoustics"]
+speech = ["acoustics", "noise-core/speech"]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[dependencies]
+noise-core = { path = "../noise-core" }

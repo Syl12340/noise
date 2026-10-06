@@ -1,0 +1,23 @@
+{
+  "id": "fix05_non_integer_freq",
+  "description": "非整周期多频叠加 (999.3 Hz + 50.7 Hz)，1.5s，验证 Hann 窗泄漏",
+  "sampleRate": 44100,
+  "totalSamples": 66150,
+  "durationSeconds": 1.5,
+  "pcmSha256": "33ac8612670ebd1713bcaa5470a5492d686bbf3dc7cf20f4ecbaeaf946b0bc5f",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "spectrum",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

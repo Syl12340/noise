@@ -1,0 +1,842 @@
+[
+  {
+    "index": 0,
+    "sampleStart": 0,
+    "sampleEnd": 1600,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 1600,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 1600,
+    "energySum": 4.894447958831457,
+    "invalidReason": null
+  },
+  {
+    "index": 1,
+    "sampleStart": 1600,
+    "sampleEnd": 3200,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 3200,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 3200,
+    "energySum": 9.99585459371064,
+    "invalidReason": null
+  },
+  {
+    "index": 2,
+    "sampleStart": 3200,
+    "sampleEnd": 4800,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 4800,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 4800,
+    "energySum": 15.133752366324252,
+    "invalidReason": null
+  },
+  {
+    "index": 3,
+    "sampleStart": 4800,
+    "sampleEnd": 6400,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 6400,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 6400,
+    "energySum": 20.236071564430304,
+    "invalidReason": null
+  },
+  {
+    "index": 4,
+    "sampleStart": 6400,
+    "sampleEnd": 8000,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 8000,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 8000,
+    "energySum": 25.373025965761208,
+    "invalidReason": null
+  },
+  {
+    "index": 5,
+    "sampleStart": 8000,
+    "sampleEnd": 9600,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 9600,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 9600,
+    "energySum": 30.476794682146785,
+    "invalidReason": null
+  },
+  {
+    "index": 6,
+    "sampleStart": 9600,
+    "sampleEnd": 11200,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 11200,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 11200,
+    "energySum": 35.61070104779639,
+    "invalidReason": null
+  },
+  {
+    "index": 7,
+    "sampleStart": 11200,
+    "sampleEnd": 12800,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 12800,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 12800,
+    "energySum": 40.71742375659308,
+    "invalidReason": null
+  },
+  {
+    "index": 8,
+    "sampleStart": 12800,
+    "sampleEnd": 14400,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 14400,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 14400,
+    "energySum": 45.8463699084245,
+    "invalidReason": null
+  },
+  {
+    "index": 9,
+    "sampleStart": 14400,
+    "sampleEnd": 16000,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 16000,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 16000,
+    "energySum": 50.957852505183,
+    "invalidReason": null
+  },
+  {
+    "index": 10,
+    "sampleStart": 16000,
+    "sampleEnd": 17600,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 17600,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 17600,
+    "energySum": 56.0823722055736,
+    "invalidReason": null
+  },
+  {
+    "index": 11,
+    "sampleStart": 17600,
+    "sampleEnd": 19200,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 19200,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 19200,
+    "energySum": 61.19795382499878,
+    "invalidReason": null
+  },
+  {
+    "index": 12,
+    "sampleStart": 19200,
+    "sampleEnd": 20800,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 20800,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 20800,
+    "energySum": 66.3203524177572,
+    "invalidReason": null
+  },
+  {
+    "index": 13,
+    "sampleStart": 20800,
+    "sampleEnd": 22400,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 22400,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 22400,
+    "energySum": 71.43841745339951,
+    "invalidReason": null
+  },
+  {
+    "index": 14,
+    "sampleStart": 22400,
+    "sampleEnd": 24000,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 24000,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 24000,
+    "energySum": 76.5593409046753,
+    "invalidReason": null
+  },
+  {
+    "index": 15,
+    "sampleStart": 24000,
+    "sampleEnd": 25600,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 25600,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 25600,
+    "energySum": 81.67909778095371,
+    "invalidReason": null
+  },
+  {
+    "index": 16,
+    "sampleStart": 25600,
+    "sampleEnd": 27200,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 27200,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 27200,
+    "energySum": 86.79775787182949,
+    "invalidReason": null
+  },
+  {
+    "index": 17,
+    "sampleStart": 27200,
+    "sampleEnd": 28800,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 28800,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 28800,
+    "energySum": 91.91921993267148,
+    "invalidReason": null
+  },
+  {
+    "index": 18,
+    "sampleStart": 28800,
+    "sampleEnd": 30400,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 30400,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 30400,
+    "energySum": 97.03413116005085,
+    "invalidReason": null
+  },
+  {
+    "index": 19,
+    "sampleStart": 30400,
+    "sampleEnd": 32000,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 32000,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 32000,
+    "energySum": 102.15959943619659,
+    "invalidReason": null
+  },
+  {
+    "index": 20,
+    "sampleStart": 32000,
+    "sampleEnd": 33600,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 33600,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 33600,
+    "energySum": 107.2694153038651,
+    "invalidReason": null
+  },
+  {
+    "index": 21,
+    "sampleStart": 33600,
+    "sampleEnd": 35200,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 35200,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 35200,
+    "energySum": 112.40028026438274,
+    "invalidReason": null
+  },
+  {
+    "index": 22,
+    "sampleStart": 35200,
+    "sampleEnd": 36800,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 36800,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 36800,
+    "energySum": 117.50637714575277,
+    "invalidReason": null
+  },
+  {
+    "index": 23,
+    "sampleStart": 36800,
+    "sampleEnd": 38400,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 38400,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 38400,
+    "energySum": 122.64091500569621,
+    "invalidReason": null
+  },
+  {
+    "index": 24,
+    "sampleStart": 38400,
+    "sampleEnd": 40000,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 40000,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 40000,
+    "energySum": 127.74524860667317,
+    "invalidReason": null
+  },
+  {
+    "index": 25,
+    "sampleStart": 40000,
+    "sampleEnd": 41600,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 41600,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 41600,
+    "energySum": 132.8813729529327,
+    "invalidReason": null
+  },
+  {
+    "index": 26,
+    "sampleStart": 41600,
+    "sampleEnd": 43200,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 43200,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 43200,
+    "energySum": 137.98445281322782,
+    "invalidReason": null
+  },
+  {
+    "index": 27,
+    "sampleStart": 43200,
+    "sampleEnd": 44800,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 44800,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 44800,
+    "energySum": 143.12065098615108,
+    "invalidReason": null
+  },
+  {
+    "index": 28,
+    "sampleStart": 44800,
+    "sampleEnd": 46400,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 46400,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 46400,
+    "energySum": 148.2227014104426,
+    "invalidReason": null
+  },
+  {
+    "index": 29,
+    "sampleStart": 46400,
+    "sampleEnd": 48000,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 48000,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 48000,
+    "energySum": 153.35937100624835,
+    "invalidReason": null
+  },
+  {
+    "index": 30,
+    "sampleStart": 48000,
+    "sampleEnd": 49600,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 49600,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 49600,
+    "energySum": 158.45946562601873,
+    "invalidReason": null
+  },
+  {
+    "index": 31,
+    "sampleStart": 49600,
+    "sampleEnd": 51200,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 51200,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 51200,
+    "energySum": 163.59905911659052,
+    "invalidReason": null
+  },
+  {
+    "index": 32,
+    "sampleStart": 51200,
+    "sampleEnd": 52800,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 52800,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 52800,
+    "energySum": 168.6964518213256,
+    "invalidReason": null
+  },
+  {
+    "index": 33,
+    "sampleStart": 52800,
+    "sampleEnd": 54400,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 54400,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 54400,
+    "energySum": 173.83932328924215,
+    "invalidReason": null
+  },
+  {
+    "index": 34,
+    "sampleStart": 54400,
+    "sampleEnd": 56000,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 56000,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 56000,
+    "energySum": 178.93536008226317,
+    "invalidReason": null
+  },
+  {
+    "index": 35,
+    "sampleStart": 56000,
+    "sampleEnd": 57600,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 57600,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 57600,
+    "energySum": 184.07940884508474,
+    "invalidReason": null
+  },
+  {
+    "index": 36,
+    "sampleStart": 57600,
+    "sampleEnd": 59200,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 59200,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 59200,
+    "energySum": 189.1753600088011,
+    "invalidReason": null
+  },
+  {
+    "index": 37,
+    "sampleStart": 59200,
+    "sampleEnd": 60800,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 60800,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 60800,
+    "energySum": 194.3180919374902,
+    "invalidReason": null
+  },
+  {
+    "index": 38,
+    "sampleStart": 60800,
+    "sampleEnd": 62400,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 62400,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 62400,
+    "energySum": 199.41533966391174,
+    "invalidReason": null
+  },
+  {
+    "index": 39,
+    "sampleStart": 62400,
+    "sampleEnd": 64000,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 64000,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 64000,
+    "energySum": 204.55514312260024,
+    "invalidReason": null
+  },
+  {
+    "index": 40,
+    "sampleStart": 64000,
+    "sampleEnd": 65600,
+    "length": 1600,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 65600,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 65600,
+    "energySum": 209.65440833851392,
+    "invalidReason": null
+  },
+  {
+    "index": 41,
+    "sampleStart": 65600,
+    "sampleEnd": 66150,
+    "length": 550,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 66150,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 66150,
+    "energySum": 211.41277661448038,
+    "invalidReason": null
+  }
+]

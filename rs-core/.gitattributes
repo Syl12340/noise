@@ -1,0 +1,11 @@
+# Byte-preserving checkouts: frozen scientific fixtures and source hash profiles
+# must never pass through automatic CRLF/LF conversion.
+* -text whitespace=cr-at-eol
+# Frozen Markdown retains its intentional two-space hard line breaks.
+*.md whitespace=-blank-at-eol,cr-at-eol
+*.bin binary
+*.wasm binary
+*.i16le binary
+*.f32le binary
+*.f64le binary
+*.u32le binary

@@ -1,0 +1,23 @@
+{
+  "id": "fix12_two_level_energy",
+  "description": "两级能量序列 (前 0.5s 小能量，后 0.5s 大能量)，测试块 RMS 与动态变化",
+  "sampleRate": 44100,
+  "totalSamples": 44100,
+  "durationSeconds": 1,
+  "pcmSha256": "dbfc2fefc05982ddedb0fe7f84ffc13e021984f6e54d484a3903f31eeedf0a53",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

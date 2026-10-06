@@ -1,0 +1,13 @@
+[
+  {
+    "event": "start",
+    "clock": 100050,
+    "sampleRate": 44100,
+    "totalSamples": 44100,
+    "chunkSize": 1024
+  },
+  {
+    "event": "stopNormal",
+    "requestedDurationMs": 1000
+  }
+]

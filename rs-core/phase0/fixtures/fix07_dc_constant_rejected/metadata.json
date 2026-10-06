@@ -1,0 +1,23 @@
+{
+  "id": "fix07_dc_constant_rejected",
+  "description": "持续直流常数偏置 (Step = 8192)，由于无交流信号在 50ms 时被静音门限拒收",
+  "sampleRate": 44100,
+  "totalSamples": 44100,
+  "durationSeconds": 1,
+  "pcmSha256": "a5d90f0e6b450eeabe4631b3789002e93c3aa3a9bd39eec563afe96910dc6352",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

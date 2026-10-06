@@ -1,0 +1,22 @@
+[
+  {
+    "index": 0,
+    "sampleStart": 0,
+    "sampleEnd": 88200,
+    "length": 88200,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 88200,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 88200,
+    "energySum": 440.6291326357216,
+    "invalidReason": null
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "id": "fix13_multi_window_chunk_large",
+  "description": "单帧大块 (32768 样本)，覆盖多个 hop 步长 (8192) 与滑动窗口边界",
+  "sampleRate": 44100,
+  "totalSamples": 32768,
+  "durationSeconds": 0.7430385487528345,
+  "pcmSha256": "1bffc8c297076e5474e9bbc9794ad778a01f05e66890d8d7abc8781776d6206f",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "fix02_silence_short_accepted",
+  "description": "短时静音 (30ms, 1323 样本)，未达 50ms 门限，正常接受",
+  "sampleRate": 44100,
+  "totalSamples": 1323,
+  "durationSeconds": 0.03,
+  "pcmSha256": "c64f6c274968c1e25abfba2e24b3686f38c0e8484d0bfc517f77422ad03b2c0e",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

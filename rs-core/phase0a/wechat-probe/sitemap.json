@@ -1,0 +1,7 @@
+{
+  "desc": "Phase 0A Internal Mini Program Sitemap",
+  "rules": [{
+    "action": "disallow",
+    "page": "*"
+  }]
+}

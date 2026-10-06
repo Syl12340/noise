@@ -1,0 +1,23 @@
+{
+  "id": "fix17_odd_length_corrupted_frame",
+  "description": "中间帧字节长度为奇数 (2047 字节)，触发音频数据格式无效，会话置为 invalid",
+  "sampleRate": 44100,
+  "totalSamples": 8192,
+  "durationSeconds": 0.18575963718820862,
+  "pcmSha256": "7dd7137355a7347898e21f8ab705c33b9e0aab58015eaba3b235b7f378275711",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

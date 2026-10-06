@@ -1,0 +1,62 @@
+[
+  {
+    "index": 0,
+    "sampleStart": 0,
+    "sampleEnd": 441,
+    "length": 441,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 441,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 441,
+    "energySum": 0,
+    "invalidReason": null
+  },
+  {
+    "index": 1,
+    "sampleStart": 441,
+    "sampleEnd": 882,
+    "length": 441,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 882,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 882,
+    "energySum": 0,
+    "invalidReason": null
+  },
+  {
+    "index": 2,
+    "sampleStart": 882,
+    "sampleEnd": 1323,
+    "length": 441,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 1323,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 1323,
+    "energySum": 0,
+    "invalidReason": null
+  }
+]

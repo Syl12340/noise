@@ -1,0 +1,112 @@
+{
+  "description": "基线 pages/main/main.js:getRiskStatusByCNE 真实函数在各分贝门限边界的输出金标准",
+  "classifierSource": "pages/main/main.js:getRiskStatusByCNE",
+  "riskConfigPublicExports": [
+    "RISK_META",
+    "getDefaultRiskConfig",
+    "normalizeRiskConfig",
+    "validateRiskConfig",
+    "buildRiskLevels",
+    "getEnabledRiskLevels"
+  ],
+  "noteOnClassifier": "utils/risk-config.js 未导出独立分类器；实际分类逻辑位于 pages/main/main.js 闭包",
+  "alarmEvaluationNote": "报警属于监测会话端到端行为(cne>=noiseAlarmLevel && allowAlarm && riskEligible)，通过真实 fixture (fix26_cne_alarm_modal_triggered) 验证，不在此独立评估",
+  "thresholds": {
+    "SAFE_MAX": 80,
+    "ATTENTION_MAX": 85,
+    "MEDIUM_MAX": 94,
+    "HIGH_MAX": 105
+  },
+  "corpus": [
+    {
+      "cneInput": 79.999,
+      "classifiedKey": "SAFE",
+      "classifiedText": "安全",
+      "classifiedBgClass": "detail-safe"
+    },
+    {
+      "cneInput": 80,
+      "classifiedKey": "SAFE",
+      "classifiedText": "安全",
+      "classifiedBgClass": "detail-safe"
+    },
+    {
+      "cneInput": 80.001,
+      "classifiedKey": "ATTENTION",
+      "classifiedText": "需要注意",
+      "classifiedBgClass": "detail-attention"
+    },
+    {
+      "cneInput": 84.999,
+      "classifiedKey": "ATTENTION",
+      "classifiedText": "需要注意",
+      "classifiedBgClass": "detail-attention"
+    },
+    {
+      "cneInput": 85,
+      "classifiedKey": "MEDIUM",
+      "classifiedText": "中风险",
+      "classifiedBgClass": "detail-medium"
+    },
+    {
+      "cneInput": 85.001,
+      "classifiedKey": "MEDIUM",
+      "classifiedText": "中风险",
+      "classifiedBgClass": "detail-medium"
+    },
+    {
+      "cneInput": 93.999,
+      "classifiedKey": "MEDIUM",
+      "classifiedText": "中风险",
+      "classifiedBgClass": "detail-medium"
+    },
+    {
+      "cneInput": 94,
+      "classifiedKey": "HIGH",
+      "classifiedText": "高风险",
+      "classifiedBgClass": "detail-high"
+    },
+    {
+      "cneInput": 94.001,
+      "classifiedKey": "HIGH",
+      "classifiedText": "高风险",
+      "classifiedBgClass": "detail-high"
+    },
+    {
+      "cneInput": 104.999,
+      "classifiedKey": "HIGH",
+      "classifiedText": "高风险",
+      "classifiedBgClass": "detail-high"
+    },
+    {
+      "cneInput": 105,
+      "classifiedKey": "EXTREME",
+      "classifiedText": "高危",
+      "classifiedBgClass": "detail-extreme"
+    },
+    {
+      "cneInput": 105.001,
+      "classifiedKey": "EXTREME",
+      "classifiedText": "高危",
+      "classifiedBgClass": "detail-extreme"
+    },
+    {
+      "cneInput": 99.999,
+      "classifiedKey": "HIGH",
+      "classifiedText": "高风险",
+      "classifiedBgClass": "detail-high"
+    },
+    {
+      "cneInput": 100,
+      "classifiedKey": "HIGH",
+      "classifiedText": "高风险",
+      "classifiedBgClass": "detail-high"
+    },
+    {
+      "cneInput": 100.001,
+      "classifiedKey": "HIGH",
+      "classifiedText": "高风险",
+      "classifiedBgClass": "detail-high"
+    }
+  ]
+}

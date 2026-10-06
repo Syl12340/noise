@@ -1,0 +1,962 @@
+{
+  "profile": "legacy-pitch-bits-v1",
+  "rule": "Exact finite Float64 bits and Float32 stores; exact optional fields. Frozen before Rust comparison.",
+  "sources": [
+    {
+      "path": "utils/phonetic/yin-pitch.js",
+      "sha256": "bfe85def50b207c8e8cd0b269d6a083e7ac731beb75581cc301eb6de010f96f6"
+    },
+    {
+      "path": "utils/phonetic/pre-emphasis.js",
+      "sha256": "34c8c0d7c56e9c550ca7bf449c97bcd0f3226269f3feea62218614be04e1ff74"
+    },
+    {
+      "path": "utils/phonetic/resample.js",
+      "sha256": "ed32e9a4bc9bbdf8cb88ffb30adc373cd7e3ea61f1647ce679eccdd99600063f"
+    }
+  ],
+  "cases": [
+    {
+      "name": "tone-39.9",
+      "op": "frame",
+      "input": "tone-39.9.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "rawF0": 39.89999702176312,
+        "aperiodicity": 0.000013439161703418238,
+        "reason": "out-of-range"
+      },
+      "sha256": "5b014537e21c1883d84f8f2446a22c8706b23bad4242a39c87752e788d04b2a1"
+    },
+    {
+      "name": "tone-40",
+      "op": "frame",
+      "input": "tone-40.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 40,
+        "rawF0": 40,
+        "aperiodicity": 6.452592820238636e-31
+      },
+      "sha256": "05c8a05d7488737a09bfeee9aff28e4260358c6d4e77c00b1fd7f7048c0784cc"
+    },
+    {
+      "name": "tone-40.1",
+      "op": "frame",
+      "input": "tone-40.1.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 40.10000280181364,
+        "rawF0": 40.10000280181364,
+        "aperiodicity": 0.00001396538326999015
+      },
+      "sha256": "35caa624cfef9a81e91b8258c3b9b5cfb6aedf4f5e2d08fd69bb97035f0a4457"
+    },
+    {
+      "name": "tone-60",
+      "op": "frame",
+      "input": "tone-60.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 60,
+        "rawF0": 60,
+        "aperiodicity": 1.587929705907112e-30
+      },
+      "sha256": "a11acfe19b1993c2e4a6c721fbf0773736831e1be7d73ac0dfb3d18e88aa2d9a"
+    },
+    {
+      "name": "tone-100",
+      "op": "frame",
+      "input": "tone-100.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 100,
+        "rawF0": 100,
+        "aperiodicity": 3.2333312931108245e-30
+      },
+      "sha256": "262536546443973075d7210daf831981a06c194b02506d220bd24acb52721dfd"
+    },
+    {
+      "name": "tone-200",
+      "op": "frame",
+      "input": "tone-200.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 200,
+        "rawF0": 200,
+        "aperiodicity": 1.1388743540195669e-29
+      },
+      "sha256": "83344d0e7e184b93ca2ce2ad24145fde884132dc63a47a10af70199961610362"
+    },
+    {
+      "name": "tone-499.9",
+      "op": "frame",
+      "input": "tone-499.9.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 499.90057141394755,
+        "rawF0": 499.90057141394755,
+        "aperiodicity": 7.897998455574923e-7
+      },
+      "sha256": "ed9dce5fe5afa4d9a63eacdfa3f02576cd7dfafe345b57447ddf7a6ea626c17c"
+    },
+    {
+      "name": "tone-500",
+      "op": "frame",
+      "input": "tone-500.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 500,
+        "rawF0": 500,
+        "aperiodicity": 1.0886651337123604e-28
+      },
+      "sha256": "34c6523ed6f7d2948329a14ead9787031fe88e2a20475bf9f6cdf2916e7135a5"
+    },
+    {
+      "name": "tone-1199",
+      "op": "frame",
+      "input": "tone-1199.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 1199.0330262931489,
+        "rawF0": 1199.0330262931489,
+        "aperiodicity": 0.000013686608024417462
+      },
+      "sha256": "f3be265ea87c532c51ddee564e23bda24e06deda1b10780260e75146b61c66af"
+    },
+    {
+      "name": "tone-1200",
+      "op": "frame",
+      "input": "tone-1200.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 1200,
+        "rawF0": 1200,
+        "aperiodicity": 4.085120864066871e-28
+      },
+      "sha256": "9170ffc69d1eda42d03df67ee9be05911d316bc1bd9f61ce86bf35c9e90dc8be"
+    },
+    {
+      "name": "tone-1200.001",
+      "op": "frame",
+      "input": "tone-1200.001.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "rawF0": 1200.0009668827167,
+        "aperiodicity": 1.3694407230619525e-11,
+        "reason": "boundary-uncertain",
+        "range": {
+          "min": 40,
+          "max": 1200
+        }
+      },
+      "sha256": "28b05a9385d1240f13d83f21a4685011d43c89ab4ad6058f4803ef1df9faf5b6"
+    },
+    {
+      "name": "tone-1202",
+      "op": "frame",
+      "input": "tone-1202.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "rawF0": 1201.9335063392741,
+        "aperiodicity": 0.00005489237979200339,
+        "reason": "boundary-uncertain",
+        "range": {
+          "min": 40,
+          "max": 1200
+        }
+      },
+      "sha256": "efc06854bd5251512d5702a3df82a7e7a8f8118a9ffab3e1a2920496083ad273"
+    },
+    {
+      "name": "tone-1205",
+      "op": "frame",
+      "input": "tone-1205.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "rawF0": 1204.8334665304446,
+        "aperiodicity": 0.0003442126020250362,
+        "reason": "boundary-uncertain",
+        "range": {
+          "min": 40,
+          "max": 1200
+        }
+      },
+      "sha256": "8d8e5e342531c8cd532a8ea5ee74d73b5185b34017767e8a80b0a9243da7f01c"
+    },
+    {
+      "name": "tone-1210",
+      "op": "frame",
+      "input": "tone-1210.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "rawF0": 1209.6695068208194,
+        "aperiodicity": 0.0013820050107943471,
+        "reason": "out-of-range"
+      },
+      "sha256": "550ab275b62e28481f2b858098076821eb7b6e00270fc949129dd96ec54ec966"
+    },
+    {
+      "name": "tone-1600",
+      "op": "frame",
+      "input": "tone-1600.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "rawF0": 1600,
+        "aperiodicity": 0.08076575626689171,
+        "reason": "out-of-range"
+      },
+      "sha256": "19580d082d309c3bc88515b62a46364d7b5e96e1ad918ddcf48c513b61383f75"
+    },
+    {
+      "name": "tone-2400",
+      "op": "frame",
+      "input": "tone-2400.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "rawF0": 2400,
+        "aperiodicity": 9.88752899562389e-28,
+        "reason": "out-of-range"
+      },
+      "sha256": "3d10019d944d0bf24eb219db854e9ad651a88bbd4e84c3f02bccce63822a1017"
+    },
+    {
+      "name": "short-0",
+      "op": "frame",
+      "input": "short-0.bin",
+      "count": 0,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "short-1",
+      "op": "frame",
+      "input": "short-1.bin",
+      "count": 1,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+    },
+    {
+      "name": "short-6",
+      "op": "frame",
+      "input": "short-6.bin",
+      "count": 6,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "1c3ec53b9a1a8d30446298ba2214cdffe47282f5be14076cdb58c7d415e040ff"
+    },
+    {
+      "name": "short-7",
+      "op": "frame",
+      "input": "short-7.bin",
+      "count": 7,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "311eda3831b0252077261917686a1c5f38be8163ae2933ebf44f9cdf176e38b7"
+    },
+    {
+      "name": "short-8",
+      "op": "frame",
+      "input": "short-8.bin",
+      "count": 8,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "209a287c75d164c1cec7935a5d7f6282fe75e9472c774f04d7ef57caf7bb268e"
+    },
+    {
+      "name": "short-9",
+      "op": "frame",
+      "input": "short-9.bin",
+      "count": 9,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "4d54b6e05f54505790c3fe1fd324c0a6e7761a3ec10f8c86d4c3746b907922ac"
+    },
+    {
+      "name": "short-63",
+      "op": "frame",
+      "input": "short-63.bin",
+      "count": 63,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "eeff55d5775603c605bf064f17bd5cdbc5c2b9faf22a97dfd40b210ea2aa7a1b"
+    },
+    {
+      "name": "short-1023",
+      "op": "frame",
+      "input": "short-1023.bin",
+      "count": 1023,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 200,
+        "rawF0": 200,
+        "aperiodicity": 1.1386479045485547e-29
+      },
+      "sha256": "18eb01b17ac0193b2c235c7500c7de9f7c4abe865acb9ca73220ce241250693f"
+    },
+    {
+      "name": "silence",
+      "op": "frame",
+      "input": "silence.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"
+    },
+    {
+      "name": "dc",
+      "op": "frame",
+      "input": "dc.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "dd20f1bacc98199ef7e7f5af05d24430ad1dd043d555848a726e02a744fced25"
+    },
+    {
+      "name": "tiny",
+      "op": "frame",
+      "input": "tiny.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "ae60033c0d912ae5a15fef0f1ab8d7af34906aec22a9520f1829588141bf1380"
+    },
+    {
+      "name": "energy-threshold",
+      "op": "frame",
+      "input": "energy-threshold.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "56625025e787ede9dd5100146fa4bd708529eb9a365e133f02c566ddd3268c14"
+    },
+    {
+      "name": "impulse",
+      "op": "frame",
+      "input": "impulse.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "3027d3a74b6c5f592e533759cfb72e55e314f2b3bfccfb097ef2f0f9152319a5"
+    },
+    {
+      "name": "step",
+      "op": "frame",
+      "input": "step.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "6746eed8295e078bf3e835719bae35ff5547ffc5ccb7198daa08477b673e6c78"
+    },
+    {
+      "name": "noise",
+      "op": "frame",
+      "input": "noise.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "88a967a2d5daa1d3a83bd0afc3c866f7291e7583176a522037f7deb3d360c748"
+    },
+    {
+      "name": "invalid-rate",
+      "op": "frame",
+      "input": "invalid-rate.bin",
+      "count": 1024,
+      "config": {
+        "fs": 0,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "83344d0e7e184b93ca2ce2ad24145fde884132dc63a47a10af70199961610362"
+    },
+    {
+      "name": "invalid-range",
+      "op": "frame",
+      "input": "invalid-range.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 20
+      },
+      "expected": {
+        "f0": 0,
+        "aperiodicity": 1
+      },
+      "sha256": "83344d0e7e184b93ca2ce2ad24145fde884132dc63a47a10af70199961610362"
+    },
+    {
+      "name": "threshold-0.01",
+      "op": "frame",
+      "input": "threshold-0.01.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.01,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 203.69971142174188,
+        "rawF0": 203.69971142174188,
+        "aperiodicity": 0.00004594309789635843
+      },
+      "sha256": "f6c3ca3ea0f39482a17082ae737951bcf2157c2c631d1e2efa8bcaac7e4565ef"
+    },
+    {
+      "name": "threshold-0.3",
+      "op": "frame",
+      "input": "threshold-0.3.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.3,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 203.69971142174188,
+        "rawF0": 203.69971142174188,
+        "aperiodicity": 0.00004594309789635843
+      },
+      "sha256": "f6c3ca3ea0f39482a17082ae737951bcf2157c2c631d1e2efa8bcaac7e4565ef"
+    },
+    {
+      "name": "threshold-0",
+      "op": "frame",
+      "input": "threshold-0.bin",
+      "count": 1024,
+      "config": {
+        "fs": 12000,
+        "threshold": 0,
+        "fmin": 40,
+        "fmax": 1200
+      },
+      "expected": {
+        "f0": 203.69971142174188,
+        "rawF0": 203.69971142174188,
+        "aperiodicity": 0.00004594309789635843
+      },
+      "sha256": "f6c3ca3ea0f39482a17082ae737951bcf2157c2c631d1e2efa8bcaac7e4565ef"
+    },
+    {
+      "name": "track-tone",
+      "op": "track",
+      "input": "track-tone.bin",
+      "count": 2400,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200,
+        "frameSize": 1024,
+        "hop": 120
+      },
+      "expected": [
+        {
+          "time": 0.042666666666666665,
+          "f0": 203.69971142514575,
+          "rawF0": 203.69971142514575,
+          "aperiodicity": 0.00004594309904186717
+        },
+        {
+          "time": 0.05266666666666667,
+          "f0": 203.69971306650544,
+          "rawF0": 203.69971306650544,
+          "aperiodicity": 0.00004595820720048186
+        },
+        {
+          "time": 0.06266666666666666,
+          "f0": 203.69971509012817,
+          "rawF0": 203.69971509012817,
+          "aperiodicity": 0.000045976842652281775
+        },
+        {
+          "time": 0.07266666666666667,
+          "f0": 203.6997171204977,
+          "rawF0": 203.6997171204977,
+          "aperiodicity": 0.00004599522960196086
+        },
+        {
+          "time": 0.08266666666666667,
+          "f0": 203.6997186631274,
+          "rawF0": 203.6997186631274,
+          "aperiodicity": 0.00004600959983032055
+        },
+        {
+          "time": 0.09266666666666666,
+          "f0": 203.69971948026992,
+          "rawF0": 203.69971948026992,
+          "aperiodicity": 0.00004601695387219346
+        },
+        {
+          "time": 0.10266666666666667,
+          "f0": 203.69971935301197,
+          "rawF0": 203.69971935301197,
+          "aperiodicity": 0.000046015587812525135
+        },
+        {
+          "time": 0.11266666666666666,
+          "f0": 203.69971822932294,
+          "rawF0": 203.69971822932294,
+          "aperiodicity": 0.00004600558576602726
+        },
+        {
+          "time": 0.12266666666666666,
+          "f0": 203.69971642424926,
+          "rawF0": 203.69971642424926,
+          "aperiodicity": 0.000045989006220889455
+        },
+        {
+          "time": 0.13266666666666665,
+          "f0": 203.6997142958804,
+          "rawF0": 203.6997142958804,
+          "aperiodicity": 0.000045969441704996106
+        },
+        {
+          "time": 0.14266666666666666,
+          "f0": 203.69971231304783,
+          "rawF0": 203.69971231304783,
+          "aperiodicity": 0.00004595123962293313
+        },
+        {
+          "time": 0.15266666666666667,
+          "f0": 203.69971090493652,
+          "rawF0": 203.69971090493652,
+          "aperiodicity": 0.000045938402488043544
+        }
+      ],
+      "sha256": "56a844a711a7bfdefd6a910fc0a6af0f9eec987c4b86a1b66fff493f1b381c08"
+    },
+    {
+      "name": "track-odd",
+      "op": "track",
+      "input": "track-odd.bin",
+      "count": 900,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200,
+        "frameSize": 301,
+        "hop": 119
+      },
+      "expected": [
+        {
+          "time": 0.012541666666666666,
+          "f0": 200,
+          "rawF0": 200,
+          "aperiodicity": 1.999679509074444e-33
+        },
+        {
+          "time": 0.022458333333333334,
+          "f0": 200,
+          "rawF0": 200,
+          "aperiodicity": 7.454265695269491e-32
+        },
+        {
+          "time": 0.032375,
+          "f0": 200,
+          "rawF0": 200,
+          "aperiodicity": 1.9996794550476058e-33
+        },
+        {
+          "time": 0.042291666666666665,
+          "f0": 200,
+          "rawF0": 200,
+          "aperiodicity": 1.999680319477801e-33
+        },
+        {
+          "time": 0.052208333333333336,
+          "f0": 200,
+          "rawF0": 200,
+          "aperiodicity": 9.885373045035888e-31
+        },
+        {
+          "time": 0.062125,
+          "f0": 200,
+          "rawF0": 200,
+          "aperiodicity": 1.7545160858273443e-30
+        }
+      ],
+      "sha256": "97cd01431c6508515b5b88507265c56348b56b7b3db22a7f3640e2741c848554"
+    },
+    {
+      "name": "track-short",
+      "op": "track",
+      "input": "track-short.bin",
+      "count": 20,
+      "config": {
+        "fs": 12000,
+        "threshold": 0.1,
+        "fmin": 40,
+        "fmax": 1200,
+        "frameSize": 1024,
+        "hop": 120
+      },
+      "expected": [],
+      "sha256": "d6c7da659253a574763667ab549040d8020bdd1c44f440da502e81a8ae55d7c5"
+    },
+    {
+      "name": "pcm-0.97",
+      "op": "pcm",
+      "input": "pcm-0.97.bin",
+      "count": 7,
+      "config": {
+        "coef": 0.97
+      },
+      "expected": [
+        0.999969482421875,
+        -1.9699703454971313,
+        0.9700000286102295,
+        0.000030517578125,
+        -0.000060119629779364914,
+        0.442534476518631,
+        -0.929229736328125
+      ],
+      "sha256": "aa6de6d23da201ec1ee7a6f2d878e0dd4dcac7403eb93a6de88762ea7d9a2073"
+    },
+    {
+      "name": "float-0.97",
+      "op": "float",
+      "input": "float-0.97.bin",
+      "count": 6,
+      "config": {
+        "coef": 0.97
+      },
+      "expected": [
+        0.014999999664723873,
+        -0.7350000143051147,
+        0.24250000715255737,
+        1.0000000031710769e-30,
+        -1.970000073955496e-30,
+        0.12345000356435776
+      ],
+      "sha256": "19a123afd78aee2933673e30fd539254e9e5cb0866fb7f88b4fb858739b75048"
+    },
+    {
+      "name": "pcm-0",
+      "op": "pcm",
+      "input": "pcm-0.bin",
+      "count": 7,
+      "config": {
+        "coef": 0
+      },
+      "expected": [
+        0.999969482421875,
+        -1,
+        0,
+        0.000030517578125,
+        -0.000030517578125,
+        0.4425048828125,
+        -0.5
+      ],
+      "sha256": "aa6de6d23da201ec1ee7a6f2d878e0dd4dcac7403eb93a6de88762ea7d9a2073"
+    },
+    {
+      "name": "float-0",
+      "op": "float",
+      "input": "float-0.bin",
+      "count": 6,
+      "config": {
+        "coef": 0
+      },
+      "expected": [
+        0.5,
+        -0.25,
+        0,
+        1.0000000031710769e-30,
+        -1.0000000031710769e-30,
+        0.12345000356435776
+      ],
+      "sha256": "19a123afd78aee2933673e30fd539254e9e5cb0866fb7f88b4fb858739b75048"
+    },
+    {
+      "name": "pcm-1",
+      "op": "pcm",
+      "input": "pcm-1.bin",
+      "count": 7,
+      "config": {
+        "coef": 1
+      },
+      "expected": [
+        0.999969482421875,
+        -1.999969482421875,
+        1,
+        0.000030517578125,
+        -0.00006103515625,
+        0.442535400390625,
+        -0.9425048828125
+      ],
+      "sha256": "aa6de6d23da201ec1ee7a6f2d878e0dd4dcac7403eb93a6de88762ea7d9a2073"
+    },
+    {
+      "name": "float-1",
+      "op": "float",
+      "input": "float-1.bin",
+      "count": 6,
+      "config": {
+        "coef": 1
+      },
+      "expected": [
+        0,
+        -0.75,
+        0.25,
+        1.0000000031710769e-30,
+        -2.0000000063421537e-30,
+        0.12345000356435776
+      ],
+      "sha256": "19a123afd78aee2933673e30fd539254e9e5cb0866fb7f88b4fb858739b75048"
+    },
+    {
+      "name": "pcm-empty",
+      "op": "pcm",
+      "input": "pcm-empty.bin",
+      "count": 0,
+      "config": {
+        "coef": 0.97
+      },
+      "expected": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "float-empty",
+      "op": "float",
+      "input": "float-empty.bin",
+      "count": 0,
+      "config": {
+        "coef": 0.97
+      },
+      "expected": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

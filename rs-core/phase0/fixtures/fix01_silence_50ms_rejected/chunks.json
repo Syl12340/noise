@@ -1,0 +1,102 @@
+[
+  {
+    "index": 0,
+    "sampleStart": 0,
+    "sampleEnd": 512,
+    "length": 512,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 512,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 512,
+    "energySum": 0,
+    "invalidReason": null
+  },
+  {
+    "index": 1,
+    "sampleStart": 512,
+    "sampleEnd": 1024,
+    "length": 512,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 1024,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 1024,
+    "energySum": 0,
+    "invalidReason": null
+  },
+  {
+    "index": 2,
+    "sampleStart": 1024,
+    "sampleEnd": 1536,
+    "length": 512,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 1536,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 1536,
+    "energySum": 0,
+    "invalidReason": null
+  },
+  {
+    "index": 3,
+    "sampleStart": 1536,
+    "sampleEnd": 2048,
+    "length": 512,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 2048,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 2048,
+    "energySum": 0,
+    "invalidReason": null
+  },
+  {
+    "index": 4,
+    "sampleStart": 2048,
+    "sampleEnd": 2205,
+    "length": 157,
+    "disposition": "TerminalRejected(DigitalSilence)",
+    "inspector": {
+      "samples": 2205,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 2048,
+    "energySum": 0,
+    "invalidReason": "录音连续输出数字静音，本次结果无效"
+  }
+]

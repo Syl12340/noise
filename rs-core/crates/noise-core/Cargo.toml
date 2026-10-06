@@ -1,0 +1,23 @@
+[package]
+name = "noise-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+default = []
+acoustics = []
+speech = ["acoustics"]
+
+[lib]
+path = "src/lib.rs"
+
+[[example]]
+name = "acoustics_driver"
+required-features = ["acoustics"]
+
+[[example]]
+name = "speech_driver"
+required-features = ["speech"]

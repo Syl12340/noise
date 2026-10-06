@@ -1,0 +1,23 @@
+{
+  "id": "fix06_multitone_third_octave",
+  "description": "1/3 倍频程中心频率多频组合 (250, 1000, 4000 Hz)，2.0s",
+  "sampleRate": 44100,
+  "totalSamples": 88200,
+  "durationSeconds": 2,
+  "pcmSha256": "d80cf3865997919c88d59af8e9b4c32051e5bacf811d2ccce047ea20867848cb",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "spectrum",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

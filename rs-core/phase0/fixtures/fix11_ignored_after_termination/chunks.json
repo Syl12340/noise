@@ -1,0 +1,142 @@
+[
+  {
+    "index": 0,
+    "sampleStart": 0,
+    "sampleEnd": 1024,
+    "length": 1024,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 1024,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 1024,
+    "energySum": 4.775579162085605,
+    "invalidReason": null
+  },
+  {
+    "index": 1,
+    "sampleStart": 1024,
+    "sampleEnd": 2048,
+    "length": 1024,
+    "disposition": "CommittedNormal",
+    "inspector": {
+      "samples": 2048,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "sampleCount": 2048,
+    "energySum": 9.861235518155299,
+    "invalidReason": null
+  },
+  {
+    "index": 2,
+    "sampleStart": 2048,
+    "sampleEnd": 3072,
+    "length": 1024,
+    "disposition": "TerminalRejected(Clipped)",
+    "inspector": {
+      "samples": 3072,
+      "clipped": true,
+      "rails": 0,
+      "maxRails": 3,
+      "railRun": 0,
+      "maxRailRun": 1,
+      "plateauSuspected": false,
+      "clippedIntervals": [
+        {
+          "start": 0.03775510204081633,
+          "end": 0.057732426303854875
+        }
+      ]
+    },
+    "sampleCount": 2048,
+    "energySum": 9.861235518155299,
+    "invalidReason": "输入过载，请降低电平后重新测量"
+  },
+  {
+    "index": 3,
+    "sampleStart": 3072,
+    "sampleEnd": 4096,
+    "length": 1024,
+    "disposition": "IgnoredAfterTermination",
+    "inspector": {
+      "samples": 3072,
+      "clipped": true,
+      "rails": 0,
+      "maxRails": 3,
+      "railRun": 0,
+      "maxRailRun": 1,
+      "plateauSuspected": false,
+      "clippedIntervals": [
+        {
+          "start": 0.03775510204081633,
+          "end": 0.057732426303854875
+        }
+      ]
+    },
+    "sampleCount": 2048,
+    "energySum": 9.861235518155299,
+    "invalidReason": "输入过载，请降低电平后重新测量"
+  },
+  {
+    "index": 4,
+    "sampleStart": 4096,
+    "sampleEnd": 5120,
+    "length": 1024,
+    "disposition": "IgnoredAfterTermination",
+    "inspector": {
+      "samples": 3072,
+      "clipped": true,
+      "rails": 0,
+      "maxRails": 3,
+      "railRun": 0,
+      "maxRailRun": 1,
+      "plateauSuspected": false,
+      "clippedIntervals": [
+        {
+          "start": 0.03775510204081633,
+          "end": 0.057732426303854875
+        }
+      ]
+    },
+    "sampleCount": 2048,
+    "energySum": 9.861235518155299,
+    "invalidReason": "输入过载，请降低电平后重新测量"
+  },
+  {
+    "index": 5,
+    "sampleStart": 5120,
+    "sampleEnd": 6144,
+    "length": 1024,
+    "disposition": "IgnoredAfterTermination",
+    "inspector": {
+      "samples": 3072,
+      "clipped": true,
+      "rails": 0,
+      "maxRails": 3,
+      "railRun": 0,
+      "maxRailRun": 1,
+      "plateauSuspected": false,
+      "clippedIntervals": [
+        {
+          "start": 0.03775510204081633,
+          "end": 0.057732426303854875
+        }
+      ]
+    },
+    "sampleCount": 2048,
+    "energySum": 9.861235518155299,
+    "invalidReason": "输入过载，请降低电平后重新测量"
+  }
+]

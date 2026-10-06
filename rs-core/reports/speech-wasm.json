@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "pitchCases": 49,
+  "resampleCases": 70,
+  "resampleFloat32Bits": 77017,
+  "tests": [
+    {
+      "name": "pending result cannot be overwritten across operations",
+      "status": "PASS"
+    },
+    {
+      "name": "binary output is owned after acknowledgment and later operation",
+      "status": "PASS"
+    },
+    {
+      "name": "memory growth recreates typed views",
+      "status": "PASS"
+    },
+    {
+      "name": "oversized and wrapped configurations do not call DSP",
+      "status": "PASS"
+    },
+    {
+      "name": "pair budget rejects excessive synchronous YIN work",
+      "status": "PASS"
+    },
+    {
+      "name": "unsupported profile returns no approximate data",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy hopSize is honored and conflicting or unknown options reject",
+      "status": "PASS"
+    },
+    {
+      "name": "nonfinite input rejection leaves result empty",
+      "status": "PASS"
+    },
+    {
+      "name": "trap discards instance without subsequent retry",
+      "status": "PASS"
+    },
+    {
+      "name": "decode failure discards already published output",
+      "status": "PASS"
+    },
+    {
+      "name": "WX-shaped loader needs neither global WebAssembly nor TextDecoder",
+      "status": "PASS"
+    },
+    {
+      "name": "Node injected loader identity",
+      "status": "PASS"
+    }
+  ],
+  "artifact": {
+    "bytes": 654106,
+    "sha256": "8c12e69ef170c104511e2bf99448b57189b07acf186cf7ff174fe545052a10f2",
+    "imports": []
+  },
+  "scope": "Actual Rust WASM on Node, WX loader shape simulation only; no device or whole speech pipeline validation."
+}

@@ -12,6 +12,7 @@
       { "type": "folder", "value": "docs" },
       { "type": "folder", "value": "tests" },
       { "type": "folder", "value": "scripts" },
+      { "type": "folder", "value": "rs-core" },
       { "type": "file", "value": "source_code.txt" },
       { "type": "file", "value": "extract_code.js" },
       { "type": "file", "value": "fix_comments.js" }

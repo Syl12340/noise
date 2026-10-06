@@ -1,0 +1,821 @@
+{
+  "id": "fix26_cne_alarm_modal_triggered",
+  "description": "高能量暴露达成报警条件 (CNE >= 85.0 预警阈值, allowAlarm=true, riskEligible=true)，触发弹窗模态框",
+  "dataQuality": "valid",
+  "measurementScope": "whole-recording",
+  "canSave": true,
+  "modalTriggered": true,
+  "modals": [
+    {
+      "title": "警报",
+      "content": "按设定暴露时长换算的结果已达到当前预警阈值"
+    }
+  ],
+  "sampleCount": 44100,
+  "aWeightedEnergy": 14109.655473774008,
+  "leqA": 95.05077819916164,
+  "cne": 89.03,
+  "cneUnrounded": 89.03017828588202,
+  "filterTail": {
+    "energy": 21.93134263903224,
+    "paddingSamples": 3072,
+    "converged": true
+  },
+  "coverage": {
+    "receivedSamples": 44100,
+    "receivedSeconds": 1,
+    "elapsedSeconds": 1.05,
+    "captureElapsedSeconds": 1.05,
+    "captureCoverageRatio": 1,
+    "integrityStatus": "valid",
+    "nativeDurationMs": 1000,
+    "sampleDelta": 0,
+    "toleranceSamples": 46,
+    "lastFrameAt": 101050
+  },
+  "qualityReason": "",
+  "terminalEvidence": {
+    "measurementInvalidReason": null,
+    "inputOverloaded": false,
+    "totalAWeightedSampleCount": 44100,
+    "totalAWeightedEnergySum": 14109.655473774008,
+    "silentSampleCount": 0,
+    "consecutiveSilentSampleCount": 0,
+    "inputNearFullScale": false,
+    "inputPlateauSuspected": false,
+    "inspector": {
+      "samples": 44100,
+      "clipped": false,
+      "rails": 0,
+      "maxRails": 0,
+      "railRun": 0,
+      "maxRailRun": 0,
+      "plateauSuspected": false,
+      "clippedIntervals": []
+    },
+    "lastFrameLevels": {
+      "dbfs": -5.057707768132942,
+      "dbspl": 94.94229223186706
+    }
+  },
+  "receiptCount": 44,
+  "secondWindowCount": 1,
+  "secondEventCount": 1,
+  "secondWindows": [
+    {
+      "boundaryIndex": 1,
+      "intervalZWeightedEnergySum": 14111.885178092598,
+      "intervalZWeightedSampleCount": 44100,
+      "intervalDbsplZ": 95.05146444680192,
+      "totalAWeightedSampleCount": 44100,
+      "totalAWeightedEnergySum": 14087.724131134975,
+      "cumulativeLeqA": 95.04402249126045,
+      "dbfsZ": -5.057707768132942,
+      "dbsplZ": 94.94229223186706
+    }
+  ],
+  "secondEvents": [
+    {
+      "time": 1,
+      "cne": 89.02342257798082,
+      "threat": "预览：中风险（待完整性核验）",
+      "totalAWeightedSampleCount": 44100,
+      "totalAWeightedEnergySum": 14087.724131134975
+    }
+  ],
+  "receipts": [
+    {
+      "frameCount": 0,
+      "totalAWeightedSampleCount": 1024,
+      "totalAWeightedEnergySum": 305.6304770741634,
+      "lastFrameLevels": {
+        "dbfs": -4.958137201107849,
+        "dbspl": 95.04186279889215
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 1024
+    },
+    {
+      "frameCount": 1,
+      "totalAWeightedSampleCount": 2048,
+      "totalAWeightedEnergySum": 631.1046883908085,
+      "lastFrameLevels": {
+        "dbfs": -4.929716030383578,
+        "dbspl": 95.07028396961643
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 2048
+    },
+    {
+      "frameCount": 2,
+      "totalAWeightedSampleCount": 3072,
+      "totalAWeightedEnergySum": 960.7512366312392,
+      "lastFrameLevels": {
+        "dbfs": -4.974447770228295,
+        "dbspl": 95.0255522297717
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 3072
+    },
+    {
+      "frameCount": 3,
+      "totalAWeightedSampleCount": 4096,
+      "totalAWeightedEnergySum": 1286.9715551619117,
+      "lastFrameLevels": {
+        "dbfs": -4.919356171750888,
+        "dbspl": 95.08064382824911
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 4096
+    },
+    {
+      "frameCount": 4,
+      "totalAWeightedSampleCount": 5120,
+      "totalAWeightedEnergySum": 1615.3899135966924,
+      "lastFrameLevels": {
+        "dbfs": -4.9769269911548,
+        "dbspl": 95.0230730088452
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 5120
+    },
+    {
+      "frameCount": 5,
+      "totalAWeightedSampleCount": 6144,
+      "totalAWeightedEnergySum": 1943.147718413734,
+      "lastFrameLevels": {
+        "dbfs": -4.9251982414041295,
+        "dbspl": 95.07480175859587
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 6144
+    },
+    {
+      "frameCount": 6,
+      "totalAWeightedSampleCount": 7168,
+      "totalAWeightedEnergySum": 2269.935456531653,
+      "lastFrameLevels": {
+        "dbfs": -4.963879163904906,
+        "dbspl": 95.0361208360951
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 7168
+    },
+    {
+      "frameCount": 7,
+      "totalAWeightedSampleCount": 8192,
+      "totalAWeightedEnergySum": 2599.187628352599,
+      "lastFrameLevels": {
+        "dbfs": -4.943502086381751,
+        "dbspl": 95.05649791361824
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 8192
+    },
+    {
+      "frameCount": 8,
+      "totalAWeightedSampleCount": 9216,
+      "totalAWeightedEnergySum": 2924.8278770996585,
+      "lastFrameLevels": {
+        "dbfs": -4.942513789391168,
+        "dbspl": 95.05748621060883
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 9216
+    },
+    {
+      "frameCount": 9,
+      "totalAWeightedSampleCount": 10240,
+      "totalAWeightedEnergySum": 3254.718630411111,
+      "lastFrameLevels": {
+        "dbfs": -4.964738964027412,
+        "dbspl": 95.03526103597258
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 10240
+    },
+    {
+      "frameCount": 10,
+      "totalAWeightedSampleCount": 11264,
+      "totalAWeightedEnergySum": 3580.3194059849357,
+      "lastFrameLevels": {
+        "dbfs": -4.924558506112267,
+        "dbspl": 95.07544149388774
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 11264
+    },
+    {
+      "frameCount": 11,
+      "totalAWeightedSampleCount": 12288,
+      "totalAWeightedEnergySum": 3909.6450957824945,
+      "lastFrameLevels": {
+        "dbfs": -4.977175891119195,
+        "dbspl": 95.0228241088808
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 12288
+    },
+    {
+      "frameCount": 12,
+      "totalAWeightedSampleCount": 13312,
+      "totalAWeightedEnergySum": 4236.335495945408,
+      "lastFrameLevels": {
+        "dbfs": -4.919588215443456,
+        "dbspl": 95.08041178455655
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 13312
+    },
+    {
+      "frameCount": 13,
+      "totalAWeightedSampleCount": 14336,
+      "totalAWeightedEnergySum": 4564.200608791529,
+      "lastFrameLevels": {
+        "dbfs": -4.974021819341693,
+        "dbspl": 95.02597818065831
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 14336
+    },
+    {
+      "frameCount": 14,
+      "totalAWeightedSampleCount": 15360,
+      "totalAWeightedEnergySum": 4892.517019262712,
+      "lastFrameLevels": {
+        "dbfs": -4.930356099594628,
+        "dbspl": 95.06964390040537
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 15360
+    },
+    {
+      "frameCount": 15,
+      "totalAWeightedSampleCount": 16384,
+      "totalAWeightedEnergySum": 5218.819575660451,
+      "lastFrameLevels": {
+        "dbfs": -4.956996978858459,
+        "dbspl": 95.04300302114154
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 16384
+    },
+    {
+      "frameCount": 16,
+      "totalAWeightedSampleCount": 17408,
+      "totalAWeightedEnergySum": 5548.415067415092,
+      "lastFrameLevels": {
+        "dbfs": -4.951023592440281,
+        "dbspl": 95.04897640755972
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 17408
+    },
+    {
+      "frameCount": 17,
+      "totalAWeightedSampleCount": 18432,
+      "totalAWeightedEnergySum": 5873.902435988828,
+      "lastFrameLevels": {
+        "dbfs": -4.935459476013345,
+        "dbspl": 95.06454052398665
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 18432
+    },
+    {
+      "frameCount": 18,
+      "totalAWeightedSampleCount": 19456,
+      "totalAWeightedEnergySum": 6203.73422052957,
+      "lastFrameLevels": {
+        "dbfs": -4.97043318638918,
+        "dbspl": 95.02956681361081
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 19456
+    },
+    {
+      "frameCount": 19,
+      "totalAWeightedSampleCount": 20480,
+      "totalAWeightedEnergySum": 6529.597369590399,
+      "lastFrameLevels": {
+        "dbfs": -4.9210919144580325,
+        "dbspl": 95.07890808554197
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 20480
+    },
+    {
+      "frameCount": 20,
+      "totalAWeightedSampleCount": 21504,
+      "totalAWeightedEnergySum": 6858.494354600375,
+      "lastFrameLevels": {
+        "dbfs": -4.977962478942397,
+        "dbspl": 95.0220375210576
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 21504
+    },
+    {
+      "frameCount": 21,
+      "totalAWeightedSampleCount": 22528,
+      "totalAWeightedEnergySum": 7185.719397772801,
+      "lastFrameLevels": {
+        "dbfs": -4.92161251923229,
+        "dbspl": 95.07838748076772
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 22528
+    },
+    {
+      "frameCount": 22,
+      "totalAWeightedSampleCount": 23552,
+      "totalAWeightedEnergySum": 7513.019166285266,
+      "lastFrameLevels": {
+        "dbfs": -4.969447226824634,
+        "dbspl": 95.03055277317537
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 23552
+    },
+    {
+      "frameCount": 23,
+      "totalAWeightedSampleCount": 24576,
+      "totalAWeightedEnergySum": 7841.8521220149905,
+      "lastFrameLevels": {
+        "dbfs": -4.936758122901886,
+        "dbspl": 95.06324187709811
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 24576
+    },
+    {
+      "frameCount": 24,
+      "totalAWeightedSampleCount": 25600,
+      "totalAWeightedEnergySum": 8167.759546998062,
+      "lastFrameLevels": {
+        "dbfs": -4.949586968690875,
+        "dbspl": 95.05041303130912
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 25600
+    },
+    {
+      "frameCount": 25,
+      "totalAWeightedSampleCount": 26624,
+      "totalAWeightedEnergySum": 8497.57290629547,
+      "lastFrameLevels": {
+        "dbfs": -4.958368412397125,
+        "dbspl": 95.04163158760288
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 26624
+    },
+    {
+      "frameCount": 26,
+      "totalAWeightedSampleCount": 27648,
+      "totalAWeightedEnergySum": 8823.050451215351,
+      "lastFrameLevels": {
+        "dbfs": -4.929251047429738,
+        "dbspl": 95.07074895257026
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 27648
+    },
+    {
+      "frameCount": 27,
+      "totalAWeightedSampleCount": 28672,
+      "totalAWeightedEnergySum": 9152.682493842676,
+      "lastFrameLevels": {
+        "dbfs": -4.974709874505868,
+        "dbspl": 95.02529012549414
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 28672
+    },
+    {
+      "frameCount": 28,
+      "totalAWeightedSampleCount": 29696,
+      "totalAWeightedEnergySum": 9478.926680019542,
+      "lastFrameLevels": {
+        "dbfs": -4.919428135254763,
+        "dbspl": 95.08057186474524
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 29696
+    },
+    {
+      "frameCount": 29,
+      "totalAWeightedSampleCount": 30720,
+      "totalAWeightedEnergySum": 9807.315173465686,
+      "lastFrameLevels": {
+        "dbfs": -4.97681121179841,
+        "dbspl": 95.0231887882016
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 30720
+    },
+    {
+      "frameCount": 30,
+      "totalAWeightedSampleCount": 31744,
+      "totalAWeightedEnergySum": 10135.104509173152,
+      "lastFrameLevels": {
+        "dbfs": -4.925389847866525,
+        "dbspl": 95.07461015213347
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 31744
+    },
+    {
+      "frameCount": 31,
+      "totalAWeightedSampleCount": 32768,
+      "totalAWeightedEnergySum": 10461.863478754027,
+      "lastFrameLevels": {
+        "dbfs": -4.963505970682655,
+        "dbspl": 95.03649402931734
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 32,
+      "totalAWeightedSampleCount": 33792,
+      "totalAWeightedEnergySum": 10791.137658521737,
+      "lastFrameLevels": {
+        "dbfs": -4.943943799257509,
+        "dbspl": 95.05605620074249
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 33,
+      "totalAWeightedSampleCount": 34816,
+      "totalAWeightedEnergySum": 11116.765741916302,
+      "lastFrameLevels": {
+        "dbfs": -4.942122496693326,
+        "dbspl": 95.05787750330667
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 34,
+      "totalAWeightedSampleCount": 35840,
+      "totalAWeightedEnergySum": 11446.657084530261,
+      "lastFrameLevels": {
+        "dbfs": -4.96507672014178,
+        "dbspl": 95.03492327985822
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 35,
+      "totalAWeightedSampleCount": 36864,
+      "totalAWeightedEnergySum": 11772.268932528683,
+      "lastFrameLevels": {
+        "dbfs": -4.924309464151201,
+        "dbspl": 95.07569053584879
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 36,
+      "totalAWeightedSampleCount": 37888,
+      "totalAWeightedEnergySum": 12101.573345937906,
+      "lastFrameLevels": {
+        "dbfs": -4.97727266245375,
+        "dbspl": 95.02272733754626
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 37,
+      "totalAWeightedSampleCount": 38912,
+      "totalAWeightedEnergySum": 12428.29220369233,
+      "lastFrameLevels": {
+        "dbfs": -4.919660139486644,
+        "dbspl": 95.08033986051336
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 38,
+      "totalAWeightedSampleCount": 39936,
+      "totalAWeightedEnergySum": 12756.125846803705,
+      "lastFrameLevels": {
+        "dbfs": -4.973810031143714,
+        "dbspl": 95.02618996885629
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 39,
+      "totalAWeightedSampleCount": 40960,
+      "totalAWeightedEnergySum": 13084.472284148353,
+      "lastFrameLevels": {
+        "dbfs": -4.930678654281599,
+        "dbspl": 95.06932134571841
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 40,
+      "totalAWeightedSampleCount": 41984,
+      "totalAWeightedEnergySum": 13410.750369151645,
+      "lastFrameLevels": {
+        "dbfs": -4.95659346885461,
+        "dbspl": 95.0434065311454
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 41,
+      "totalAWeightedSampleCount": 43008,
+      "totalAWeightedEnergySum": 13740.361330561655,
+      "lastFrameLevels": {
+        "dbfs": -4.951443707801253,
+        "dbspl": 95.04855629219875
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 42,
+      "totalAWeightedSampleCount": 44032,
+      "totalAWeightedEnergySum": 14065.844335973094,
+      "lastFrameLevels": {
+        "dbfs": -4.935087817855291,
+        "dbspl": 95.06491218214471
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    },
+    {
+      "frameCount": 43,
+      "totalAWeightedSampleCount": 44100,
+      "totalAWeightedEnergySum": 14087.724131134975,
+      "lastFrameLevels": {
+        "dbfs": -5.057707768132942,
+        "dbspl": 94.94229223186706
+      },
+      "inputOverloaded": false,
+      "measurementInvalidReason": "",
+      "inputNearFullScale": false,
+      "inputPlateauSuspected": false,
+      "silentSampleCount": 0,
+      "consecutiveSilentSampleCount": 0,
+      "pcmBufferedSamples": 32768
+    }
+  ],
+  "finalReceipt": {
+    "frameCount": 43,
+    "totalAWeightedSampleCount": 44100,
+    "totalAWeightedEnergySum": 14087.724131134975,
+    "lastFrameLevels": {
+      "dbfs": -5.057707768132942,
+      "dbspl": 94.94229223186706
+    },
+    "inputOverloaded": false,
+    "measurementInvalidReason": "",
+    "inputNearFullScale": false,
+    "inputPlateauSuspected": false,
+    "silentSampleCount": 0,
+    "consecutiveSilentSampleCount": 0,
+    "pcmBufferedSamples": 32768
+  },
+  "spectrum": {
+    "status": "unavailable",
+    "reason": "view_mode_not_spectrum",
+    "pcmBufferedSamples": 32768,
+    "viewMode": "waveform"
+  },
+  "finalSnapshotSummary": {
+    "threat": "中风险（条件估计；采集链未核验）",
+    "threatClass": "detail-medium",
+    "silentSampleCount": 0,
+    "plateauSuspected": false,
+    "nearFullScaleObserved": false
+  }
+}

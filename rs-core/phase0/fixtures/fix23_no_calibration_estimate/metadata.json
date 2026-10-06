@@ -1,0 +1,23 @@
+{
+  "id": "fix23_no_calibration_estimate",
+  "description": "未完成校准的使用案例：无有效校准偏置，沿用未校准估算，不认证为参考测量 (riskEligible=false)",
+  "sampleRate": 44100,
+  "totalSamples": 44100,
+  "durationSeconds": 1,
+  "pcmSha256": "8d08c82c628e39ac836a4b848ad3c64d6e6c077b89929df01de2058742a5fe34",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": true,
+    "offset": null,
+    "source": null,
+    "evidenceComplete": false,
+    "riskEligible": false,
+    "referenceInstrument": null
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "fix11_ignored_after_termination",
+  "description": "前 2 块正常，第 3 块削波终止，后续第 4-6 块在队列中被忽略 (IgnoredAfterTermination)",
+  "sampleRate": 44100,
+  "totalSamples": 6144,
+  "durationSeconds": 0.13931972789115646,
+  "pcmSha256": "2958b06af70c0c3de081c5aff7a52dd73a1c9be96f190d057e789771ef88f05d",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

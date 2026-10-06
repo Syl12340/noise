@@ -1,0 +1,14 @@
+[
+  {
+    "event": "start",
+    "clock": 100050,
+    "sampleRate": 44100,
+    "totalSamples": 44100,
+    "chunkSize": 1024
+  },
+  {
+    "event": "stopTimeout",
+    "simulatedTimeoutMs": 2250,
+    "tickMs": 2300
+  }
+]

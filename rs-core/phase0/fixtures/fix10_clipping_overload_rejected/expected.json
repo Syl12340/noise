@@ -1,0 +1,57 @@
+{
+  "id": "fix10_clipping_overload_rejected",
+  "description": "输入削波 (10ms 内含 3 个 rail 满幅样本)，触发整块拒绝，Q-only 终止，禁止 tail",
+  "dataQuality": "invalid",
+  "measurementScope": null,
+  "canSave": false,
+  "modalTriggered": false,
+  "modals": [],
+  "sampleCount": 0,
+  "aWeightedEnergy": 0,
+  "leqA": null,
+  "cne": null,
+  "cneUnrounded": null,
+  "filterTail": null,
+  "coverage": null,
+  "qualityReason": "输入过载，请降低电平后重新测量",
+  "terminalEvidence": {
+    "measurementInvalidReason": "输入过载，请降低电平后重新测量",
+    "inputOverloaded": true,
+    "totalAWeightedSampleCount": 0,
+    "totalAWeightedEnergySum": 0,
+    "silentSampleCount": 0,
+    "consecutiveSilentSampleCount": 0,
+    "inputNearFullScale": true,
+    "inputPlateauSuspected": false,
+    "inspector": {
+      "samples": 1024,
+      "clipped": true,
+      "rails": 0,
+      "maxRails": 3,
+      "railRun": 0,
+      "maxRailRun": 1,
+      "plateauSuspected": false,
+      "clippedIntervals": [
+        {
+          "start": 0,
+          "end": 0.014648526077097506
+        }
+      ]
+    },
+    "lastFrameLevels": null
+  },
+  "receiptCount": 0,
+  "secondWindowCount": 0,
+  "secondEventCount": 0,
+  "secondWindows": [],
+  "secondEvents": [],
+  "receipts": [],
+  "finalReceipt": null,
+  "spectrum": {
+    "status": "unavailable",
+    "reason": "view_mode_not_spectrum",
+    "pcmBufferedSamples": 0,
+    "viewMode": "waveform"
+  },
+  "finalSnapshotSummary": null
+}

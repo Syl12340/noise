@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "rc-repairs",
+      "pass": true,
+      "actual": {
+        "total": 27,
+        "passed": 27,
+        "failed": 0
+      }
+    },
+    {
+      "name": "recorder-usability",
+      "pass": true,
+      "actual": {
+        "total": 26,
+        "passed": 26,
+        "failed": 0
+      }
+    },
+    {
+      "name": "scientific-followup",
+      "pass": true,
+      "actual": {
+        "total": 22,
+        "passed": 22,
+        "failed": 0
+      }
+    },
+    {
+      "name": "scientific-repairs",
+      "pass": true,
+      "actual": {
+        "total": 17,
+        "passed": 17,
+        "failed": 0
+      }
+    },
+    {
+      "name": "revision-regression",
+      "pass": true,
+      "actual": {
+        "total": 46,
+        "passed": 46,
+        "failed": 0
+      }
+    },
+    {
+      "name": "paper-engineering-repairs",
+      "pass": true,
+      "actual": {
+        "total": 14,
+        "passed": 14,
+        "failed": 0
+      }
+    },
+    {
+      "name": "formant-validation",
+      "pass": true,
+      "aggregateMatches": true
+    },
+    {
+      "name": "formant-holdout",
+      "pass": true,
+      "aggregateMatches": true
+    },
+    {
+      "name": "algorithm-evaluation",
+      "pass": true,
+      "actual": {
+        "total": 83,
+        "passed": 82,
+        "failed": 1,
+        "errors": 0
+      },
+      "knownFailure": "Vowel pipeline F0=400 Hz"
+    }
+  ],
+  "scope": "Preserved Node baseline logs; not Rust parity, real-device or clinical validation"
+}

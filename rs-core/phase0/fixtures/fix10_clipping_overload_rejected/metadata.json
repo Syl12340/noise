@@ -1,0 +1,23 @@
+{
+  "id": "fix10_clipping_overload_rejected",
+  "description": "输入削波 (10ms 内含 3 个 rail 满幅样本)，触发整块拒绝，Q-only 终止，禁止 tail",
+  "sampleRate": 44100,
+  "totalSamples": 44100,
+  "durationSeconds": 1,
+  "pcmSha256": "8178f5ef7c61ebc746b2fa6a20daf8bbddae45ba9c74c02b52db66e986ea834b",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

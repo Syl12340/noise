@@ -1,0 +1,23 @@
+{
+  "id": "fix26_cne_alarm_modal_triggered",
+  "description": "高能量暴露达成报警条件 (CNE >= 85.0 预警阈值, allowAlarm=true, riskEligible=true)，触发弹窗模态框",
+  "sampleRate": 44100,
+  "totalSamples": 44100,
+  "durationSeconds": 1,
+  "pcmSha256": "23bc93b9596fcbace7b761be29df4b63ccc7a4acf714d45ad2188a5058bed8c5",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": true,
+    "noiseAlarmLevel": 85
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

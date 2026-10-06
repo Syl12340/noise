@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "scalarCases": 24,
+  "spectrumCases": 4,
+  "exactFields": 0,
+  "exactFloats": 131072,
+  "dbFields": 65670,
+  "rmsFields": 6,
+  "maxDbError": 5.684341886080802e-14,
+  "maxRmsError": 0,
+  "driverSha256": "7618e518d49342b67c4b9b720afa8d98bef1a9e88ed7075f09416695468bee6e",
+  "scope": "Actual baseline functions vs native Rust; neither device verification nor independent physical truth"
+}

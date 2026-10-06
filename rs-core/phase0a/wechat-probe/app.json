@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "WASM 探针 (Phase 0A)",
+    "navigationBarBackgroundColor": "#1E293B",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8FAFC"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

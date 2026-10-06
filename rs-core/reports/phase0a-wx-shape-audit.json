@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "artifactSha256": "77eb2e8dab86b5432c5d002ea6bfe35cf5a49058678082bac01592bbeb7e21e9",
+  "standardWebAssemblyGlobal": "absent_in_VM",
+  "instantiateReturn": "direct Instance",
+  "hostChecks": 17,
+  "pageMainThreadSteps": 7,
+  "workerStatus": "UNRUN",
+  "realDeviceStatus": "UNRUN",
+  "scope": "Desktop Node API-shape simulation with actual Rust WASM; not mobile compatibility."
+}

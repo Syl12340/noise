@@ -1,0 +1,23 @@
+{
+  "id": "fix25_single_chunk_multisecond_spanning",
+  "description": "单 chunk 达到 2 秒 (88200 样本)，在单次回调内跨越两个秒级边界，验证连续秒事件触发",
+  "sampleRate": 44100,
+  "totalSamples": 88200,
+  "durationSeconds": 2,
+  "pcmSha256": "8e5157fbe45e2c7d5196a706293890a08eeaa50a0dd7b00172cfed2191ca3cca",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}

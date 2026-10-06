@@ -1,0 +1,258 @@
+{
+  "timestamp": "2026-10-05T13:46:59Z",
+  "orchestrator": "tools/run-phase0a.py",
+  "stages": {
+    "1_preflight": {
+      "status": "PASSED",
+      "rustc": "rustc 1.95.0 (59807616e 2026-04-14)",
+      "cargo": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)",
+      "node": "v24.21.0",
+      "target_wasm32v1_none_installed": true,
+      "lockfile_present": true,
+      "installed_targets": [
+        "wasm32v1-none",
+        "x86_64-pc-windows-msvc"
+      ]
+    },
+    "2_native_tests": {
+      "status": "PASSED",
+      "cmd": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline"
+      ],
+      "exit_code": 0,
+      "duration_sec": 2.194516897201538,
+      "stdout": "running 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 10 tests\ntest test_abi_version_and_capacity ... ok\ntest test_partial_len_preserves_remaining_outputs ... ok\ntest test_capacity_boundaries ... ok\ntest test_len_zero_preserves_all_4096_outputs ... ok\ntest test_independent_non_finite_input_validation ... ok\ntest test_native_pointers_alignment_and_non_overlap ... ok\ntest test_product_overflow_positive_and_negative ... ok\ntest test_frozen_vector_exact_bitwise ... ok\ntest test_reset_clears_all_4096_samples ... ok\ntest test_independent_non_finite_gain_validation ... ok\n\ntest result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 2 tests\ntest test_wasm_metadata_exports ... ok\ntest test_native_probe_buffers_instance_safety ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "stderr": "Compiling noise-core v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\crates\\noise-core)\nwarning: hard linking files in the incremental compilation cache failed. copying files instead. consider moving the cache directory to a file system which supports hard linking in session dir `\\\\?\\C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\target\\debug\\incremental\\probe_tests-2n1yk1b5lkakf\\s-hmxhlrmaap-0w8i6nr-working`\n\nwarning: `noise-core` (test \"probe_tests\") generated 1 warning\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.64s\n     Running unittests src\\lib.rs (target\\debug\\deps\\noise_core-fda7cad49d83b5c5.exe)\n     Running tests\\probe_tests.rs (target\\debug\\deps\\probe_tests-d7a5173f5e5728b8.exe)\n     Running unittests src\\lib.rs (target\\debug\\deps\\noise_wasm-1296a5351b76f924.exe)\n     Running tests\\wasm_export_tests.rs (target\\debug\\deps\\wasm_export_tests-37bc2675d6915072.exe)\n   Doc-tests noise_core\n   Doc-tests noise_wasm"
+    },
+    "3_wasm_build": {
+      "status": "PASSED",
+      "cmd": [
+        "cargo",
+        "build",
+        "--target",
+        "wasm32v1-none",
+        "--release",
+        "--locked",
+        "--offline",
+        "-p",
+        "noise-wasm"
+      ],
+      "exit_code": 0,
+      "duration_sec": 0.30519556999206543,
+      "artifact": "C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\target\\wasm32v1-none\\release\\noise_wasm.wasm",
+      "stdout": "",
+      "stderr": "Finished `release` profile [optimized] target(s) in 0.20s"
+    },
+    "4_node_acceptance": {
+      "status": "PASSED",
+      "exit_code": 0,
+      "duration_sec": 0.19498753547668457,
+      "details": {
+        "timestamp": "2026-10-05T13:47:02.526Z",
+        "status": "PASSED",
+        "system": {
+          "node": "v24.21.0",
+          "platform": "win32",
+          "arch": "x64",
+          "osType": "Windows_NT",
+          "osRelease": "10.0.26300",
+          "cpuModel": "AMD Ryzen 9 7940H w/ Radeon 780M Graphics     "
+        },
+        "artifact": {
+          "path": "C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\target\\wasm32v1-none\\release\\noise_wasm.wasm",
+          "bytes": 1656,
+          "sha256": "3e9b7d190e3ea5b876cf50fa26a733f75079f1691d784a67a9a274a498dce7fe"
+        },
+        "moduleReflection": {
+          "importsCount": 0,
+          "imports": [],
+          "exportsCount": 10,
+          "exports": [
+            "memory (memory)",
+            "probe_abi_version (function)",
+            "probe_capacity (function)",
+            "probe_force_trap (function)",
+            "probe_input_ptr (function)",
+            "probe_output_ptr (function)",
+            "probe_process (function)",
+            "probe_reset (function)",
+            "__data_end (global)",
+            "__heap_base (global)"
+          ]
+        },
+        "tests": [
+          {
+            "name": "module_imports_clean",
+            "passed": true,
+            "detail": "0 external imports"
+          },
+          {
+            "name": "handshake_abi_version",
+            "passed": true,
+            "detail": "ABI version = 1"
+          },
+          {
+            "name": "handshake_capacity",
+            "passed": true,
+            "detail": "Capacity = 4096"
+          },
+          {
+            "name": "input_pointer_aligned",
+            "passed": true,
+            "detail": "0x100000 (4-byte aligned)"
+          },
+          {
+            "name": "output_pointer_aligned",
+            "passed": true,
+            "detail": "0x104000 (4-byte aligned)"
+          },
+          {
+            "name": "functional_probe_reset_full_4096_zeroed",
+            "passed": true,
+            "detail": "All 4096 samples zeroed in both buffers"
+          },
+          {
+            "name": "functional_frozen_vector_bitwise_exact",
+            "passed": true,
+            "detail": "Bitwise identical"
+          },
+          {
+            "name": "functional_output_samples_beyond_len_untouched",
+            "passed": true,
+            "detail": "Samples 5..4095 preserved untouched"
+          },
+          {
+            "name": "functional_len_zero_preserves_all_4096_outputs",
+            "passed": true,
+            "detail": "All 4096 output samples untouched"
+          },
+          {
+            "name": "functional_host_len_parameter_validation",
+            "passed": true,
+            "detail": "Negative, decimal, and > u32::MAX rejected at host"
+          },
+          {
+            "name": "functional_capacity_4096_pass",
+            "passed": true,
+            "detail": "Full 4096-sample capacity succeeded"
+          },
+          {
+            "name": "functional_capacity_4097_rejected_with_immutability",
+            "passed": true,
+            "detail": "len=4097 returned -1 with all 4096 samples unchanged"
+          },
+          {
+            "name": "functional_capacity_u32max_rejected_with_immutability",
+            "passed": true,
+            "detail": "len=u32::MAX returned -1 with all 4096 samples unchanged"
+          },
+          {
+            "name": "functional_gain_nan_rejected_with_immutability",
+            "passed": true,
+            "detail": "gain=NaN returned -2, output unchanged"
+          },
+          {
+            "name": "functional_gain_pos_inf_rejected_with_immutability",
+            "passed": true,
+            "detail": "gain=+Inf returned -2, output unchanged"
+          },
+          {
+            "name": "functional_gain_neg_inf_rejected_with_immutability",
+            "passed": true,
+            "detail": "gain=-Inf returned -2, output unchanged"
+          },
+          {
+            "name": "functional_gain_f32_overflow_rejected",
+            "passed": true,
+            "detail": "gain=1e39 returned -2, output unchanged"
+          },
+          {
+            "name": "functional_input_nan_rejected_with_immutability",
+            "passed": true,
+            "detail": "input=NaN returned -3, output unchanged"
+          },
+          {
+            "name": "functional_input_pos_inf_rejected_with_immutability",
+            "passed": true,
+            "detail": "input=+Inf returned -3, output unchanged"
+          },
+          {
+            "name": "functional_input_neg_inf_rejected_with_immutability",
+            "passed": true,
+            "detail": "input=-Inf returned -3, output unchanged"
+          },
+          {
+            "name": "functional_product_pos_overflow_rejected_with_immutability",
+            "passed": true,
+            "detail": "prod=+Inf returned -4, output unchanged"
+          },
+          {
+            "name": "functional_product_neg_overflow_rejected_with_immutability",
+            "passed": true,
+            "detail": "prod=-Inf returned -4, output unchanged"
+          },
+          {
+            "name": "multi_instance_concurrent_isolation",
+            "passed": true,
+            "detail": "Two concurrently active instances maintain strictly isolated memories"
+          },
+          {
+            "name": "memory_grow_fresh_view_resilience",
+            "passed": true,
+            "detail": "Pages: 17->18, Expanded: 1114112->1179648 bytes, Old Detached: true"
+          },
+          {
+            "name": "trap_runtime_error_and_recovery",
+            "passed": true,
+            "detail": "RuntimeError verified (unreachable), instance disposed, new instance recovered cleanly"
+          }
+        ],
+        "telemetry": {
+          "benchmarkIterations": 1000,
+          "totalDurationMs": 7.3246,
+          "averageProbeProcessUs": 7.3246,
+          "memoryUsage": {
+            "rss": 81014784,
+            "heapTotal": 8167424,
+            "heapUsed": 5196816,
+            "external": 7700219,
+            "arrayBuffers": 143707
+          }
+        },
+        "error": null
+      }
+    },
+    "5_asset_and_host_sync": {
+      "status": "PASSED",
+      "synchronized": true,
+      "wasm_artifact": {
+        "destination": "C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\phase0a\\wechat-probe\\assets\\noise_wasm.wasm",
+        "bytes": 1656,
+        "sha256": "3e9b7d190e3ea5b876cf50fa26a733f75079f1691d784a67a9a274a498dce7fe"
+      },
+      "host_module": {
+        "destination": "C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\phase0a\\wechat-probe\\probe-host.js",
+        "bytes": 20457,
+        "sha256": "b83bccb531ff99c96ba300716732dc785a068f1abd5685202cfbf1f86a960251"
+      }
+    },
+    "6_wechat_device_verification": {
+      "status": "UNRUN",
+      "description": "Requires manual execution on WeChat Developer Tools or target mobile device.",
+      "project_path": "C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\phase0a\\wechat-probe",
+      "procedure": [
+        "1. Open WeChat Developer Tools -> Import Project.",
+        "2. Select directory: rs-core/phase0a/wechat-probe",
+        "3. Ensure assets/noise_wasm.wasm is present.",
+        "4. Click '执行 Phase 0A 探针测试' button.",
+        "5. Record WeChat version, base library (SDKVersion), platform, and step outcomes."
+      ],
+      "device_evidence": null
+    }
+  },
+  "blockers": [],
+  "overall_status": "PASSED_HOST_VERIFICATION_PENDING_WECHAT_DEVICE"
+}

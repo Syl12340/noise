@@ -1,0 +1,5 @@
+[toolchain]
+channel = "stable"
+profile = "minimal"
+# The validation report records the exact installed rustc build.
+# Do not auto-install targets or change the user's default toolchain.

@@ -1,0 +1,23 @@
+{
+  "id": "fix14_short_recording_half_second",
+  "description": "短时录音 (0.5s, 22050 样本)，未达到 1 秒秒边界结算即停止，正常执行尾积分",
+  "sampleRate": 44100,
+  "totalSamples": 22050,
+  "durationSeconds": 0.5,
+  "pcmSha256": "dbadb403c98bd0192ef6476c584c6aad3a5803fa9046d7d87818f5aa150cc440",
+  "baselineCommit": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "calibration": {
+    "noCalibration": false,
+    "offset": 100,
+    "source": "advanced-1khz-calibration",
+    "evidenceComplete": true,
+    "riskEligible": true,
+    "referenceInstrument": "synthetic-test-only"
+  },
+  "alarm": {
+    "allowAlarm": false,
+    "noiseAlarmLevel": 100
+  },
+  "viewMode": "waveform",
+  "clockModel": "deterministic-virtual-clock-50ms-startup"
+}
