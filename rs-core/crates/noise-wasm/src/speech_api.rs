@@ -60,6 +60,8 @@ pub struct SpeechApi {
     signal: Vec<f32>,
     #[cfg(target_arch = "wasm32")]
     frame: Vec<f64>,
+    #[cfg(target_arch = "wasm32")]
+    support_intervals: Vec<f64>,
     #[cfg(all(target_arch = "wasm32", feature = "harmonicity"))]
     pitch_evidence: Vec<f64>,
     #[cfg(feature = "harmonicity")]
@@ -86,6 +88,8 @@ impl SpeechApi {
             signal: vec![0.0; INPUT_CAPACITY],
             #[cfg(target_arch = "wasm32")]
             frame: vec![0.0; FRAME_CAPACITY],
+            #[cfg(target_arch = "wasm32")]
+            support_intervals: vec![0.0; 2 * FRAME_CAPACITY],
             #[cfg(all(target_arch = "wasm32", feature = "harmonicity"))]
             pitch_evidence: vec![0.0; 3 * crate::harmonicity_api::MAX_PITCH_ROWS],
             #[cfg(feature = "harmonicity")]
@@ -122,6 +126,36 @@ impl SpeechApi {
         self.floats = output;
         self.kind = 2;
         OK
+    }
+    pub fn support_evidence(
+        &mut self,
+        times: &[f64],
+        window: f64,
+        margin: f64,
+        duration: f64,
+        intervals: &[noise_core::speech::time_support::Interval],
+    ) -> i32 {
+        use noise_core::speech::time_support::assess_support;
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let rows = match assess_support(times, window, margin, duration, intervals) {
+            Ok(r) => r,
+            Err("support capacity exceeded") => return CAPACITY,
+            Err(_) => return BAD_ARGUMENT,
+        };
+        let mut text = String::from("[");
+        for (i, r) in rows.iter().enumerate() {
+            if i > 0 {
+                text.push(',');
+            }
+            text.push_str(&format!(
+                "{{\"time\":{},\"support\":{{\"start\":{},\"end\":{}}},\"incompleteFilterSupport\":{},\"clipped\":{}}}",
+                number(r.time), number(r.support.start), number(r.support.end), r.incomplete_filter_support, r.clipped
+            ));
+        }
+        text.push(']');
+        self.json(text)
     }
     pub fn pitch_frame(
         &mut self,
@@ -407,6 +441,44 @@ mod exports {
     #[unsafe(no_mangle)]
     pub extern "C" fn speech_frame_ptr() -> u32 {
         access(|a| a.frame.as_ptr() as u32)
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_support_abi_version() -> u32 {
+        1
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_support_interval_capacity() -> u32 {
+        FRAME_CAPACITY as u32
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_support_intervals_ptr() -> u32 {
+        access(|a| a.support_intervals.as_ptr() as u32)
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_support_evidence(
+        len: u32,
+        window: f64,
+        margin: f64,
+        duration: f64,
+        count: u32,
+    ) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if len > FRAME_CAPACITY as u32 || count > FRAME_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            let times = a.frame[..len as usize].to_vec();
+            let intervals = a.support_intervals[..count as usize * 2]
+                .chunks_exact(2)
+                .map(|p| noise_core::speech::time_support::Interval {
+                    start: p[0],
+                    end: p[1],
+                })
+                .collect::<Vec<_>>();
+            a.support_evidence(&times, window, margin, duration, &intervals)
+        })
     }
     #[unsafe(no_mangle)]
     pub extern "C" fn speech_result_kind() -> u32 {

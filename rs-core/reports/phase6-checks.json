@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "referenceSha256": "4667d4cc7a3df53c0a0df28311fc2db83e587feab7b759bbfa41a457704d5cba",
+  "artifactSha256": "9567a0a34b4f6e073117eb967b2b57b09052890205a362b88cd6a7d2a0646068",
+  "supportCases": 7,
+  "comparedFields": 41170,
+  "checks": [
+    "five HNR boundary repairs via short and full WASM",
+    "rejection preserves handle and live session",
+    "native and WASM exact baseline support evidence",
+    "invalid support and overflow rejection",
+    "pending gate, capacity and memory growth"
+  ],
+  "limits": [
+    "metadata primitive only; no segmentation/masking pipeline or real-device validation"
+  ]
+}

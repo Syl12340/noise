@@ -8,7 +8,8 @@
 //!
 //! HNR here is an **acoustic periodicity estimate, not a diagnostic classifier**. The port
 //! reproduces the frozen baseline definitions; it performs no new scientific validation and
-//! repairs no upstream limitation. See `phase4/PORT_CONTRACT.md`.
+//! preserves ordinary baseline results. Phase6 tightens unsafe input/configuration
+//! boundaries and handles a zero threshold without a missing-peak failure.
 //!
 //! # Numeric contract
 //!
@@ -34,7 +35,7 @@
 //! The baseline derives `fftSize` by doubling until `fftSize >= 2 * frameSize`, which can
 //! exceed the frozen 8192-point table, and it will loop forever on a nonpositive `hopSize`.
 //! This port **rejects** such configurations up front with static reasons instead. Valid
-//! speech configurations are never rejected, so no valid comparison case changes.
+//! configurations within the phase6 domain preserve the frozen comparison results.
 
 use crate::speech::fractional::{HALF, Refinement, WorkBudget, refine_correlation_peak};
 use crate::speech::generic_fft::fft;
@@ -100,11 +101,11 @@ pub struct PitchEvidence {
 pub struct HarmonicityOptions {
     /// Analysis frame length in samples (baseline `frameSize`), `256..=4096`.
     pub frame_size: usize,
-    /// Analysis hop in samples (baseline `hopSize`), `> 0`.
+    /// Analysis hop in samples (baseline `hopSize`), `1..=frame_size`.
     pub hop: usize,
     /// Lowest fundamental in Hz, `> 0`.
     pub fmin: f64,
-    /// Highest fundamental in Hz, `>= fmin` and `<= fs / 2`.
+    /// Highest fundamental in Hz, `> fmin` and `<= fs / 2`.
     pub fmax: f64,
     /// Reject pitch-free frames with `unvoiced-or-uncertain` instead of estimating anyway.
     pub require_pitch: bool,
@@ -348,14 +349,20 @@ pub(crate) fn validate(
     if options.hop == 0 {
         return Err("hop must be positive");
     }
+    if options.hop > options.frame_size {
+        return Err("hop must not exceed frame size");
+    }
     if signal.len() > MAX_INPUT_SAMPLES {
         return Err("input exceeds 262144 samples");
+    }
+    if !signal.iter().all(|sample| sample.is_finite()) {
+        return Err("signal contains non-finite samples");
     }
     if !options.fmin.is_finite() || options.fmin <= 0.0 {
         return Err("fmin must be finite and positive");
     }
-    if !options.fmax.is_finite() || options.fmax < options.fmin {
-        return Err("fmax must be finite and at least fmin");
+    if !options.fmax.is_finite() || options.fmax <= options.fmin {
+        return Err("fmax must be finite and greater than fmin");
     }
     if options.fmax > fs / 2.0 {
         return Err("fmax must not exceed the Nyquist frequency");
@@ -386,8 +393,8 @@ pub(crate) fn validate(
         if !point.aperiodicity.is_finite() || point.aperiodicity < 0.0 || point.aperiodicity > 1.0 {
             return Err("pitch evidence aperiodicity must be between 0 and 1");
         }
-        if point.time < previous_time {
-            return Err("pitch evidence must be chronological");
+        if point.time <= previous_time {
+            return Err("pitch evidence times must be strictly increasing");
         }
         previous_time = point.time;
     }
@@ -721,7 +728,7 @@ pub(crate) fn estimate_harmonicity_at(
             }
         }
 
-        if !best.is_finite() || best < options.min_peak_correlation {
+        if peak.is_none() || !best.is_finite() || best < options.min_peak_correlation {
             // `best > 0` is false both when `best` is exactly `0.0` and when it is `NaN`, so a
             // frame whose best comparison is a genuine zero baseline is reported as
             // `no-periodic-peak` with `peakCorrelation: 0`, matching the baseline.

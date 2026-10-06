@@ -68,6 +68,7 @@ pub mod hnr_session;
 mod hnr_tables;
 pub mod resample;
 mod resample_tables;
+pub mod time_support;
 pub mod yin;
 
 pub use emphasis::{emphasize_float, pre_emphasis};

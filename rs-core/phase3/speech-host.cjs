@@ -46,6 +46,19 @@ function attachSpeechInstance(instance) {
   }
   const host = {
     get discarded(){return discarded;},discard(){discarded=true;},
+    supportEvidence(times,opts={}) {
+      if(!opts||typeof opts!=='object'||Array.isArray(opts)||Object.keys(opts).some(k=>!['windowSeconds','filterMarginSeconds','duration','intervals'].includes(k)))throw new TypeError('Invalid support options');
+      const {windowSeconds,filterMarginSeconds=0,duration,intervals=[]}=opts;
+      if(typeof e.speech_support_abi_version!=='function'||call('speech_support_abi_version',[])!==1||
+        typeof e.speech_support_interval_capacity!=='function'||call('speech_support_interval_capacity',[])!==4096||
+        typeof e.speech_support_intervals_ptr!=='function'||typeof e.speech_support_evidence!=='function')throw new Error('Unsupported support evidence ABI');
+      if(![windowSeconds,filterMarginSeconds,duration].every(Number.isFinite)||!Array.isArray(intervals)||intervals.length>4096)throw new TypeError('Invalid support configuration');
+      const pairs=new Float64Array(intervals.length*2);
+      for(let i=0;i<intervals.length;i++){const p=intervals[i];if(!p||![p.start,p.end].every(Number.isFinite))throw new TypeError('Invalid clipping interval');pairs.set([p.start,p.end],i*2);}
+      input(times,Float64Array,4096,'speech_frame_ptr');
+      try{const ptr=call('speech_support_intervals_ptr',[]);new Float64Array(range(ptr,pairs.byteLength,8),ptr,pairs.length).set(pairs);}catch(error){discarded=true;throw error;}
+      return result('speech_support_evidence',[times.length,windowSeconds,filterMarginSeconds,duration,intervals.length],1);
+    },
     pitchFrame(frame,opts={}) {const {fs,threshold,fmin,fmax}=options(opts,false);config(fs,threshold,fmin,fmax);input(frame,Float64Array,4096,'speech_frame_ptr');return result('speech_pitch_frame',[frame.length,fs,threshold,fmin,fmax],1);},
     track(signal,opts={}) {
       const {fs,frameSize,hop,threshold,fmin,fmax}=options(opts,true);
