@@ -58,14 +58,34 @@ function attachSpeechInstance(instance) {
       if(!u32(inputRate)||!u32(outputRate)||!Number.isFinite(cutoffHz))throw new TypeError('Invalid resample configuration');
       input(signal,Float32Array,262144,'speech_signal_ptr');return result('speech_resample',[signal.length,inputRate,outputRate,cutoffHz],2);
     },
+    harmonicity(signal,opts={}) {
+      if(typeof e.speech_harmonicity!=='function'||typeof e.speech_pitch_ptr!=='function'||typeof e.speech_pitch_capacity!=='function'||typeof e.speech_hnr_input_capacity!=='function')throw new Error('Build does not include harmonicity');
+      if(call('speech_pitch_capacity',[])!==512||call('speech_hnr_input_capacity',[])!==8192)throw new Error('Invalid harmonicity identity');
+      if(!opts||typeof opts!=='object'||Array.isArray(opts))throw new TypeError('Invalid harmonicity options');
+      const allowed=['fs','frameSize','hop','hopSize','fmin','fmax','pitchTrack','requirePitch','minPeakCorrelation','maxPitchDeviation'];
+      if(Object.keys(opts).some(k=>!allowed.includes(k)))throw new TypeError('Unknown harmonicity option');
+      const {fs=12000,frameSize=1024,hop,hopSize,fmin=40,fmax=1200,pitchTrack=[],requirePitch=false,minPeakCorrelation=.2,maxPitchDeviation=.15}=opts;
+      if(hop!==undefined&&hopSize!==undefined&&hop!==hopSize)throw new TypeError('Conflicting hop/hopSize');
+      const hopValue=hop===undefined?(hopSize===undefined?120:hopSize):hop;
+      if(!u32(frameSize)||!u32(hopValue)||typeof requirePitch!=='boolean'||![fs,fmin,fmax,minPeakCorrelation,maxPitchDeviation].every(Number.isFinite)||!Array.isArray(pitchTrack)||pitchTrack.length>512)throw new TypeError('Invalid harmonicity configuration');
+      const evidence=new Float64Array(pitchTrack.length*3);
+      for(let i=0;i<pitchTrack.length;i++) {
+        const p=pitchTrack[i];if(!p||![p.time,p.f0,p.aperiodicity].every(Number.isFinite))throw new TypeError('Invalid pitch evidence');
+        evidence.set([p.time,p.f0,p.aperiodicity],i*3);
+      }
+      input(signal,Float32Array,8192,'speech_signal_ptr');
+      try {const ptr=call('speech_pitch_ptr',[]);new Float64Array(range(ptr,evidence.byteLength,8),ptr,evidence.length).set(evidence);}catch(error){discarded=true;throw error;}
+      return result('speech_harmonicity',[signal.length,fs,frameSize,hopValue,fmin,fmax,requirePitch?1:0,minPeakCorrelation,maxPitchDeviation,pitchTrack.length],1);
+    },
   };
 }
 async function instantiateSpeech({api,source}) {
   if(!api||typeof api.instantiate!=='function')throw new TypeError('Supply WASM API');
   if(typeof api.compile==='function'&&api.Module&&typeof api.Module.imports==='function'&&typeof source!=='string') {
-    const module=await api.compile(source);if(api.Module.imports(module).length!==0)throw new Error('Speech imports unauthorized');
-    const loaded=await api.instantiate(module,{});return attachSpeechInstance(loaded.instance||loaded);
+    const module=await api.compile(source);const imports=api.Module.imports(module);
+    if(imports.length>1||imports.some(i=>i.module!=='env'||i.name!=='hnr_sin'||i.kind!=='function'))throw new Error('Speech imports unauthorized');
+    const loaded=await api.instantiate(module,{env:{hnr_sin:Math.sin}});return attachSpeechInstance(loaded.instance||loaded);
   }
-  const loaded=await api.instantiate(source,{});return attachSpeechInstance(loaded.instance||loaded);
+  const loaded=await api.instantiate(source,{env:{hnr_sin:Math.sin}});return attachSpeechInstance(loaded.instance||loaded);
 }
 module.exports={attachSpeechInstance,instantiateSpeech};

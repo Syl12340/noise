@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "profile": "legacy-hnr-js-sin-v1",
+  "stats": {
+    "cases": 25,
+    "exactNumbers": 318,
+    "dbNumbers": 42,
+    "maxDbError": 0
+  },
+  "tests": [
+    {
+      "name": "HNR shares the pending speech result gate",
+      "status": "PASS"
+    },
+    {
+      "name": "oversize HNR input does not publish partial output",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid and nonchronological pitch evidence rejects",
+      "status": "PASS"
+    },
+    {
+      "name": "HNR frame count budget rejects before refinement",
+      "status": "PASS"
+    },
+    {
+      "name": "memory growth and copied metadata remain valid",
+      "status": "PASS"
+    },
+    {
+      "name": "throwing scalar import invalidates the whole host instance",
+      "status": "PASS"
+    },
+    {
+      "name": "loader rejects any other import before instantiation",
+      "status": "PASS"
+    },
+    {
+      "name": "loader accepts only the declared scalar math import",
+      "status": "PASS"
+    }
+  ],
+  "artifact": {
+    "bytes": 677135,
+    "sha256": "c86ef54b23bdc0f45766a5b5d0c39aaf3ae96c39d43da70be9c69f490deaa187",
+    "imports": [
+      {
+        "module": "env",
+        "name": "hnr_sin",
+        "kind": "function"
+      }
+    ]
+  },
+  "scope": "Actual Rust DSP with runtime scalar Math.sin; no JS DSP fallback. WX/device/whole-recording scheduling unverified."
+}

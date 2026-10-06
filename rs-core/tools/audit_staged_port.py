@@ -20,5 +20,7 @@ for row in identities:
     count+=1
 pack=git('show',':project.config.json');previous=git('show','HEAD:project.config.json')
 line=b'      { "type": "folder", "value": "rs-core" },\n'
-assert pack.count(line)==1 and pack.replace(line,b'',1)==previous,'Unexpected public configuration edits'
-print(json.dumps({'status':'PASS','stagedFiles':len(names),'rsCoreBytesVerified':count,'productionEdit':'Only rs-core package exclusion','unrelatedFilesExcluded':True}))
+assert pack.count(line)==1,'Missing or duplicated rs-core package exclusion'
+if previous.count(line)==1:assert pack==previous,'Unexpected public configuration edits'
+else:assert pack.replace(line,b'',1)==previous,'Unexpected public configuration edits'
+print(json.dumps({'status':'PASS','stagedFiles':len(names),'rsCoreBytesVerified':count,'productionEdit':'Only rs-core package exclusion' if 'project.config.json' in names else 'None','unrelatedFilesExcluded':True}))

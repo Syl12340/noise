@@ -60,6 +60,8 @@ pub struct SpeechApi {
     signal: Vec<f32>,
     #[cfg(target_arch = "wasm32")]
     frame: Vec<f64>,
+    #[cfg(all(target_arch = "wasm32", feature = "harmonicity"))]
+    pitch_evidence: Vec<f64>,
 }
 impl Default for SpeechApi {
     fn default() -> Self {
@@ -78,6 +80,8 @@ impl SpeechApi {
             signal: vec![0.0; INPUT_CAPACITY],
             #[cfg(target_arch = "wasm32")]
             frame: vec![0.0; FRAME_CAPACITY],
+            #[cfg(all(target_arch = "wasm32", feature = "harmonicity"))]
+            pitch_evidence: vec![0.0; 3 * crate::harmonicity_api::MAX_PITCH_ROWS],
         }
     }
     pub fn kind(&self) -> u32 {
@@ -222,6 +226,42 @@ impl SpeechApi {
             Err(_) => UNSUPPORTED,
         }
     }
+    #[cfg(feature = "harmonicity")]
+    pub fn harmonicity_with_sin(
+        &mut self,
+        signal: &[f32],
+        fs: f64,
+        opts: &noise_core::speech::harmonicity::HarmonicityOptions,
+        pitch: &[noise_core::speech::harmonicity::PitchEvidence],
+        sin: &impl Fn(f64) -> f64,
+    ) -> i32 {
+        use noise_core::speech::{fractional::WorkBudget, harmonicity::estimate_harmonicity};
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        if signal.len() > crate::harmonicity_api::MAX_HNR_SAMPLES
+            || pitch.len() > crate::harmonicity_api::MAX_PITCH_ROWS
+        {
+            return CAPACITY;
+        }
+        if opts.frame_size == 0 || opts.hop == 0 {
+            return BAD_ARGUMENT;
+        }
+        let frames = if signal.len() < opts.frame_size {
+            0
+        } else {
+            (signal.len() - opts.frame_size) / opts.hop + 1
+        };
+        if frames > 128 {
+            return CAPACITY;
+        }
+        let mut budget = WorkBudget::new(PAIR_BUDGET);
+        match estimate_harmonicity(signal, fs, opts, pitch, sin, &mut budget) {
+            Ok(result) => self.json(crate::harmonicity_api::result(&result)),
+            Err("work budget exceeded") => CAPACITY,
+            Err(_) => BAD_ARGUMENT,
+        }
+    }
 }
 #[cfg(target_arch = "wasm32")]
 mod exports {
@@ -356,6 +396,71 @@ mod exports {
             }
             let signal = a.signal[..len as usize].to_vec();
             a.resample(&signal, input, output, cutoff)
+        })
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_hnr_input_capacity() -> u32 {
+        crate::harmonicity_api::MAX_HNR_SAMPLES as u32
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_pitch_capacity() -> u32 {
+        crate::harmonicity_api::MAX_PITCH_ROWS as u32
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_pitch_ptr() -> u32 {
+        access(|a| a.pitch_evidence.as_ptr() as u32)
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_harmonicity(
+        len: u32,
+        fs: f64,
+        size: u32,
+        hop: u32,
+        min: f64,
+        max: f64,
+        require: u32,
+        min_corr: f64,
+        deviation: f64,
+        pitch_len: u32,
+    ) -> i32 {
+        access(|a| {
+            if len > crate::harmonicity_api::MAX_HNR_SAMPLES as u32
+                || pitch_len > crate::harmonicity_api::MAX_PITCH_ROWS as u32
+            {
+                return CAPACITY;
+            }
+            if require > 1 {
+                return BAD_ARGUMENT;
+            }
+            let signal = a.signal[..len as usize].to_vec();
+            let pitch = a.pitch_evidence[..pitch_len as usize * 3]
+                .chunks_exact(3)
+                .map(|p| noise_core::speech::harmonicity::PitchEvidence {
+                    time: p[0],
+                    f0: p[1],
+                    aperiodicity: p[2],
+                })
+                .collect::<Vec<_>>();
+            let opts = noise_core::speech::harmonicity::HarmonicityOptions {
+                frame_size: size as usize,
+                hop: hop as usize,
+                fmin: min,
+                fmax: max,
+                require_pitch: require == 1,
+                min_peak_correlation: min_corr,
+                max_pitch_deviation: deviation,
+            };
+            a.harmonicity_with_sin(
+                &signal,
+                fs,
+                &opts,
+                &pitch,
+                &crate::harmonicity_api::runtime_sin,
+            )
         })
     }
 }

@@ -4,11 +4,12 @@ const {attachSpeechInstance,instantiateSpeech}=require('./speech-host.cjs');
 const root=path.resolve(__dirname,'..'),artifact=path.join(root,'target/wasm32-unknown-unknown/release/noise_wasm.wasm');
 const bytes=fs.readFileSync(artifact),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const tests=[],check=(name,fn)=>{fn();tests.push({name,status:'PASS'});};
-const raw=()=>new WebAssembly.Instance(new WebAssembly.Module(bytes),{});
+const hnrMode=process.argv.includes('--harmonicity');
+const raw=()=>new WebAssembly.Instance(new WebAssembly.Module(bytes),hnrMode?{env:{hnr_sin:Math.sin}}:{});
 const load=(p,hash)=>{const b=fs.readFileSync(p);assert.equal(sha(b),hash);return JSON.parse(b);};
 const decode=(b,Type,read,width)=>Type.from({length:b.length/width},(_,i)=>b[read](i*width));
 async function main() {
-  const module=await WebAssembly.compile(bytes);assert.deepEqual(WebAssembly.Module.imports(module),[]);
+  const module=await WebAssembly.compile(bytes);assert.deepEqual(WebAssembly.Module.imports(module),hnrMode?[{module:'env',name:'hnr_sin',kind:'function'}]:[]);
   const instance=raw(),e=instance.exports,host=attachSpeechInstance(instance);
   const pitchRef=path.join(root,'phase2/pitch-reference');
   const primary=load(path.join(pitchRef,'manifest.json'),'046930004d0524718f76f383271b8d006d85b42b3d224104f39b21f4fe3c9383');

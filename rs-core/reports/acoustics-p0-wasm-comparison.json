@@ -190,8 +190,9 @@
   "dbFields": 264176,
   "maxDbError": 5.684341886080802e-14,
   "backend": "wasm",
-  "driverSha256": "f1a19c805ffd3fd5322c996664198f1e27e7b018c8b57bb47aea9e7ed395e625",
+  "driverSha256": "a54879d134dc8f760213370d5bc791b0b58b9a6556953395bb2ab584e8788ce3",
   "scope": "Frozen core fields only; calibration/capture integrity/risk/save remain application-owned. Application invalidation text is mapped to bounded ABI codes; free-form text is not a core result.",
-  "wasmSha256": "8c12e69ef170c104511e2bf99448b57189b07acf186cf7ff174fe545052a10f2",
+  "combinedHarmonicityBuild": true,
+  "wasmSha256": "c86ef54b23bdc0f45766a5b5d0c39aaf3ae96c39d43da70be9c69f490deaa187",
   "hostSha256": "0ad7b24b9f1855e874c9fe4b52c2db7e4a132b7273af41834d2d69cb146e2184"
 }

@@ -5,6 +5,8 @@ ROOT=Path(__file__).resolve().parents[1]
 FIX=ROOT/'phase0/fixtures'
 DRIVER=ROOT/'target/release/examples/acoustics_driver.exe'
 WASM_MODE='--wasm' in sys.argv[1:]
+HNR_MODE='--harmonicity' in sys.argv[1:]
+assert not HNR_MODE or WASM_MODE
 COMMAND=['node',str(ROOT/'phase2/wasm-nac-driver.cjs')] if WASM_MODE else [str(DRIVER)]
 PROFILE=json.loads((ROOT/'phase1/NUMERIC_PROFILE_V1.json').read_text(encoding='utf-8'))
 stats={'exactFloats':0,'exactFields':0,'dbFields':0,'maxDbError':0.0}
@@ -53,7 +55,7 @@ def replay(folder,work):
     invalid_finish=any(e.get('event')=='stopTimeout' for e in events)
     data.extend([b'\x03'+bytes([invalid_finish]),b'\x03'+bytes([invalid_finish])])
     file=work/(folder.name+'.nac1');file.write_bytes(b''.join(data))
-    run=subprocess.run(COMMAND+[str(file)],cwd=ROOT,capture_output=True,text=True,encoding='utf-8',timeout=30)
+    run=subprocess.run(COMMAND+[str(file)]+(['--harmonicity'] if HNR_MODE else []),cwd=ROOT,capture_output=True,text=True,encoding='utf-8',timeout=30)
     assert run.returncode==0,(folder.name,run.returncode,run.stderr)
     rows=[json.loads(line) for line in run.stdout.splitlines() if line]
     assert not any(r['type']=='error' for r in rows)
@@ -112,6 +114,7 @@ def main():
             'driverSha256':hashlib.sha256((ROOT/'phase2/wasm-nac-driver.cjs' if WASM_MODE else DRIVER).read_bytes()).hexdigest(),
             'scope':'Frozen core fields only; calibration/capture integrity/risk/save remain application-owned.'}
     if WASM_MODE:
+        report['combinedHarmonicityBuild']=HNR_MODE
         report['wasmSha256']=hashlib.sha256((ROOT/'target/wasm32-unknown-unknown/release/noise_wasm.wasm').read_bytes()).hexdigest()
         report['hostSha256']=hashlib.sha256((ROOT/'phase2/noise-host.cjs').read_bytes()).hexdigest()
         report['scope']+=' Application invalidation text is mapped to bounded ABI codes; free-form text is not a core result.'

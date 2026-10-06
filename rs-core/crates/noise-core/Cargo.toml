@@ -10,6 +10,7 @@ publish.workspace = true
 default = []
 acoustics = []
 speech = ["acoustics"]
+harmonicity = ["speech"]
 
 [lib]
 path = "src/lib.rs"

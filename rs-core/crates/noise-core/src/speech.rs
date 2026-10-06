@@ -56,6 +56,14 @@
 #![allow(clippy::needless_range_loop)]
 
 pub mod emphasis;
+#[cfg(feature = "harmonicity")]
+pub mod fractional;
+#[cfg(feature = "harmonicity")]
+mod generic_fft;
+#[cfg(feature = "harmonicity")]
+pub mod harmonicity;
+#[cfg(feature = "harmonicity")]
+mod hnr_tables;
 pub mod resample;
 mod resample_tables;
 pub mod yin;

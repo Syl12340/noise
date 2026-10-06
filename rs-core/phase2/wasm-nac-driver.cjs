@@ -2,14 +2,15 @@
 // NAC1 adapter for the SAME P0 validator. DSP always runs in compiled Rust WASM.
 const fs=require('node:fs');
 const path=require('node:path');
-const {instantiateNoise}=require('./noise-host.cjs');
+const {instantiateNoise,attachNoiseInstance}=require('./noise-host.cjs');
 const root=path.resolve(__dirname,'..');
 async function main() {
   const bytes=fs.readFileSync(process.argv[2]);
   let pos=12;
   function take(n) { if(!Number.isSafeInteger(n)||n<0||pos+n>bytes.length)throw new Error('Truncated NAC1');const b=bytes.subarray(pos,pos+n);pos+=n;return b; }
   if(bytes.length<12||bytes.toString('ascii',0,4)!=='NAC1')throw new Error('NAC1 header');
-  const host=await instantiateNoise({api:WebAssembly,source:fs.readFileSync(path.join(root,'target/wasm32-unknown-unknown/release/noise_wasm.wasm'))});
+  const source=fs.readFileSync(path.join(root,'target/wasm32-unknown-unknown/release/noise_wasm.wasm'));
+  const host=process.argv.includes('--harmonicity')?attachNoiseInstance((await WebAssembly.instantiate(source,{env:{hnr_sin:()=>{throw new Error('Noise invoked HNR math');}}})).instance):await instantiateNoise({api:WebAssembly,source});
   const h=host.create(bytes.readDoubleLE(4));
   const emit=obj=>process.stdout.write(JSON.stringify(obj)+'\n');
   while(pos<bytes.length) {

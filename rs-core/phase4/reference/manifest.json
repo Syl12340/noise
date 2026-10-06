@@ -1,0 +1,1838 @@
+{
+  "profile": "legacy-hnr-js-sin-v1",
+  "sources": [
+    {
+      "path": "utils/phonetic/harmonicity.js",
+      "sha256": "7a331414945981f40a4f684a8b47ee6d93c38d7dc7b4689989aab678e972a471"
+    },
+    {
+      "path": "utils/phonetic/fractional-correlation.js",
+      "sha256": "1b2ce55ab1612aac6c68f4a52ef90a3cfdd0153a3926bf17ff749f7cdf4985b5"
+    },
+    {
+      "path": "utils/phonetic/voice-metrics.js",
+      "sha256": "673ca5f89ea002688e9c7454a1839869b595858f4d5df162fa5b9fe50a03ad01"
+    },
+    {
+      "path": "utils/fft.js",
+      "sha256": "79171dfe22737abb59bdbe1883e9ec09266239ddcc5da7cdbedfca0e7dcec440"
+    }
+  ],
+  "windowSha256": "fd11f285791e45ad7f14e60373e4b99cf9a1c6e9aba62dd9612c1f0d6a4df888",
+  "cases": [
+    {
+      "name": "tone-100",
+      "op": "hnr",
+      "input": "tone-100.input.bin",
+      "oracle": "tone-100.sin.bin",
+      "inputSha256": "4a5b2589d11488aa08effba3892ce5a2f1ce0e4ec3a5ec3d3521dc1801dbaa98",
+      "oracleSha256": "00ea4f01bb65db56bea40139c1ad7ce862cf1ac723fbc1269ef532c3f8e496e1",
+      "sinArguments": 774,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 100,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999744,
+            "lagSamples": 120.00000452053132,
+            "comparisonSamples": 775,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "tone-200",
+      "op": "hnr",
+      "input": "tone-200.input.bin",
+      "oracle": "tone-200.sin.bin",
+      "inputSha256": "de1743e4fdcba1375b5b39831a957127b959fd37d6fca21873fe3f177881f872",
+      "oracleSha256": "cccb58fc23c20cc00338c1253be1651b55df6e1733807eaa5d22fa028b6ae98e",
+      "sinArguments": 774,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 200,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 1,
+            "lagSamples": 59.999999905237395,
+            "comparisonSamples": 835,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "tone-203.7",
+      "op": "hnr",
+      "input": "tone-203.7.input.bin",
+      "oracle": "tone-203.7.sin.bin",
+      "inputSha256": "6abbf08bea125ce6c41c93de3d52365ca39efa817d2085be38e1e9e697edbaa1",
+      "oracleSha256": "bae44670c00c265b0ecd35bd57622a9db068ab7c9af6b73de9492b1e4e05dc3f",
+      "sinArguments": 903,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999998,
+            "lagSamples": 58.9101621307817,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "tone-400",
+      "op": "hnr",
+      "input": "tone-400.input.bin",
+      "oracle": "tone-400.sin.bin",
+      "inputSha256": "c51f93905aecf79ca6d7638bf356660cc8cb5b242e531f2ff4b0c6c6fbe9e447",
+      "oracleSha256": "45814abc8509b984720460eca63b8e860f59cf83f98986b5259a5ee5a4e97909",
+      "sinArguments": 903,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 400,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999978,
+            "lagSamples": 29.99999980898786,
+            "comparisonSamples": 865,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "tone-1200",
+      "op": "hnr",
+      "input": "tone-1200.input.bin",
+      "oracle": "tone-1200.sin.bin",
+      "inputSha256": "162894d3ac6f4a1284d564d3bdbced35a2ad16a07676b565c38f2cbbf1870fce",
+      "oracleSha256": "2a00dd0eec37389560fe9b4270a877da2f8e4c8ace38bd82b2f0b398e07a078c",
+      "sinArguments": 2064,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 1200,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 1,
+            "lagSamples": 10,
+            "comparisonSamples": 885,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "independent",
+      "op": "hnr",
+      "input": "independent.input.bin",
+      "oracle": "independent.sin.bin",
+      "inputSha256": "6abbf08bea125ce6c41c93de3d52365ca39efa817d2085be38e1e9e697edbaa1",
+      "oracleSha256": "8b9c7014e602dc12bac7f66fc22071ce7417a68ffb2e79728e21aee102b92500",
+      "sinArguments": 4515,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": false,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": []
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 1,
+            "lagSamples": 294.5508097570798,
+            "comparisonSamples": 600,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "dc-tone",
+      "op": "hnr",
+      "input": "dc-tone.input.bin",
+      "oracle": "dc-tone.sin.bin",
+      "inputSha256": "22be902d48cde62a4060a8ae5c802b1fd2a94c244eebc1b1a486ebcb60cf88be",
+      "oracleSha256": "8cad1b7fe23fbac3f3908fb949f996e702ebf52a2781ceee32be25ad584e8fb9",
+      "sinArguments": 903,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999967,
+            "lagSamples": 58.910162140378226,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "silence",
+      "op": "hnr",
+      "input": "silence.input.bin",
+      "oracle": "silence.sin.bin",
+      "inputSha256": "16453c150e38f256372107e1fbd23b26484f726691370a1113bc041aaeb0dd44",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 200,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.05266666666666667,
+            "f0": 200,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.06266666666666666,
+            "f0": 200,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": null,
+            "reason": "low-energy"
+          },
+          {
+            "time": 0.05266666666666667,
+            "db": null,
+            "reason": "low-energy"
+          },
+          {
+            "time": 0.06266666666666666,
+            "db": null,
+            "reason": "low-energy"
+          }
+        ],
+        "signalFrames": 0,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 0,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "constant",
+      "op": "hnr",
+      "input": "constant.input.bin",
+      "oracle": "constant.sin.bin",
+      "inputSha256": "c7f71603df084a594bb1ded537d759de9404586ff9b68246c32604df6263bcf2",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 200,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": null,
+            "reason": "low-energy"
+          }
+        ],
+        "signalFrames": 0,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 0,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "short",
+      "op": "hnr",
+      "input": "short.input.bin",
+      "oracle": "short.sin.bin",
+      "inputSha256": "0765e9fd4ffbfa1fcdaca2a11e030652d1f2c2e8565bcdb2cc12237dcffebfbf",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": []
+      },
+      "expected": {
+        "track": [],
+        "signalFrames": 0,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 0,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "empty",
+      "op": "hnr",
+      "input": "empty.input.bin",
+      "oracle": "empty.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": []
+      },
+      "expected": {
+        "track": [],
+        "signalFrames": 0,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 0,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "no-pitch",
+      "op": "hnr",
+      "input": "no-pitch.input.bin",
+      "oracle": "no-pitch.sin.bin",
+      "inputSha256": "de1743e4fdcba1375b5b39831a957127b959fd37d6fca21873fe3f177881f872",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": []
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": null,
+            "reason": "unvoiced-or-uncertain"
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 0,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "uncertain",
+      "op": "hnr",
+      "input": "uncertain.input.bin",
+      "oracle": "uncertain.sin.bin",
+      "inputSha256": "de1743e4fdcba1375b5b39831a957127b959fd37d6fca21873fe3f177881f872",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 200,
+            "aperiodicity": 0.300001
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": null,
+            "reason": "unvoiced-or-uncertain"
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 0,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "stale",
+      "op": "hnr",
+      "input": "stale.input.bin",
+      "oracle": "stale.sin.bin",
+      "inputSha256": "de1743e4fdcba1375b5b39831a957127b959fd37d6fca21873fe3f177881f872",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0,
+            "f0": 200,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": null,
+            "reason": "unvoiced-or-uncertain"
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 0,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "wrong-pitch",
+      "op": "hnr",
+      "input": "wrong-pitch.input.bin",
+      "oracle": "wrong-pitch.sin.bin",
+      "inputSha256": "de1743e4fdcba1375b5b39831a957127b959fd37d6fca21873fe3f177881f872",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 120,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": null,
+            "reason": "no-periodic-peak",
+            "peakCorrelation": 0
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "narrow-range",
+      "op": "hnr",
+      "input": "narrow-range.input.bin",
+      "oracle": "narrow-range.sin.bin",
+      "inputSha256": "6abbf08bea125ce6c41c93de3d52365ca39efa817d2085be38e1e9e697edbaa1",
+      "oracleSha256": "b43c170dcb02dd145d4f647d1ecd16912212ab053cdb67039e6ede472c5b47e1",
+      "sinArguments": 1032,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 203,
+        "fmax": 204,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999679,
+            "lagSamples": 58.91016426679266,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "odd-frame",
+      "op": "hnr",
+      "input": "odd-frame.input.bin",
+      "oracle": "odd-frame.sin.bin",
+      "inputSha256": "7f7f432e379194dcd1e235aaa16d15694eb8ecfaafaf7a840db9e53d01cea8ab",
+      "oracleSha256": "2ab839c4015a7edd4b03895a80aa3fac212abef88785cd7811698ee113d4f7fd",
+      "sinArguments": 1806,
+      "config": {
+        "fs": 12000,
+        "frameSize": 521,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.021708333333333333,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.03170833333333333,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.021708333333333333,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.999999999999997,
+            "lagSamples": 58.91016267150788,
+            "comparisonSamples": 333,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.03170833333333333,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999968,
+            "lagSamples": 58.910162633913494,
+            "comparisonSamples": 333,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 2,
+        "cappedFrames": 2,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 2,
+        "validFrames": 2,
+        "coverage": 1,
+        "validDurationSeconds": 0.02,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "large-frame",
+      "op": "hnr",
+      "input": "large-frame.input.bin",
+      "oracle": "large-frame.sin.bin",
+      "inputSha256": "51b7f9647ea1c68e83084b25e23f78d53316ed1d94b89a81f4447c117516a9f9",
+      "oracleSha256": "c51db5d27b60753ef127316d92e0055e8abd066f669ac3d74340bb1177b90748",
+      "sinArguments": 903,
+      "config": {
+        "fs": 12000,
+        "frameSize": 2048,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.08533333333333333,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.08533333333333333,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999978,
+            "lagSamples": 58.91016194830466,
+            "comparisonSamples": 1860,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "minimum-frame",
+      "op": "hnr",
+      "input": "minimum-frame.input.bin",
+      "oracle": "minimum-frame.sin.bin",
+      "inputSha256": "ec404ae81223060f3c8a9c1edac0b4b8e1310fbb9c8e7a6d0630c2235b8aa75f",
+      "oracleSha256": "9db901d7f05bdc8d334d0b66aa2cddec3a838babd14b61c6881723b328b4432b",
+      "sinArguments": 903,
+      "config": {
+        "fs": 12000,
+        "frameSize": 256,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.010666666666666666,
+            "f0": 600,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.010666666666666666,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999994075,
+            "lagSamples": 20.00000348715604,
+            "comparisonSamples": 107,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "duration-10frames",
+      "op": "hnr",
+      "input": "duration-10frames.input.bin",
+      "oracle": "duration-10frames.sin.bin",
+      "inputSha256": "ec386312d75ff5605a8a3e8ee5b6b5715b5526c225341fe6d2e4f50736efddd6",
+      "oracleSha256": "7a4d6c9e72215543083689c934663ecc8f1b00b4dbb278fae65ac71823eae68b",
+      "sinArguments": 8772,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.05266666666666667,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.06266666666666666,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.07266666666666667,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.08266666666666667,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.09266666666666666,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.10266666666666667,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.11266666666666666,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.12266666666666666,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.13266666666666665,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999998,
+            "lagSamples": 58.9101621307817,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.05266666666666667,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999994,
+            "lagSamples": 58.9101620590169,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.06266666666666666,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999928,
+            "lagSamples": 58.91016075486096,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.07266666666666667,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999996,
+            "lagSamples": 58.91016180794335,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.08266666666666667,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999999,
+            "lagSamples": 58.91016181391242,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.09266666666666666,
+            "db": 59.99999565692812,
+            "peakCorrelation": 1,
+            "lagSamples": 58.910161940235035,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.10266666666666667,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999999,
+            "lagSamples": 58.91016208781217,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.11266666666666666,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999981,
+            "lagSamples": 58.91016215239455,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.12266666666666666,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.999999999999999,
+            "lagSamples": 58.910162091927354,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.13266666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 1,
+            "lagSamples": 58.910161964665406,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 10,
+        "cappedFrames": 10,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 10,
+        "validFrames": 10,
+        "coverage": 1,
+        "validDurationSeconds": 0.1,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.999995656928135,
+        "avgHNR": 59.999995656928135
+      }
+    },
+    {
+      "name": "nearest-pitch",
+      "op": "hnr",
+      "input": "nearest-pitch.input.bin",
+      "oracle": "nearest-pitch.sin.bin",
+      "inputSha256": "b034a35a0807e7920d3a7b5ab8b795bde3bc34f7e46d5ef33ddae25e3c95df00",
+      "oracleSha256": "74d575dcfb70fc04b6bf81913a121bbc60c45eab6dfc80fb6860a30b76865539",
+      "sinArguments": 1806,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.05266666666666667,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          },
+          {
+            "time": 0.06266666666666666,
+            "f0": 0,
+            "aperiodicity": 1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999998,
+            "lagSamples": 58.9101621307817,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.05266666666666667,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.9999999999999994,
+            "lagSamples": 58.9101620590169,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          },
+          {
+            "time": 0.06266666666666666,
+            "db": null,
+            "reason": "unvoiced-or-uncertain"
+          }
+        ],
+        "signalFrames": 3,
+        "cappedFrames": 2,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 2,
+        "validFrames": 2,
+        "coverage": 1,
+        "validDurationSeconds": 0.02,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "high-threshold",
+      "op": "hnr",
+      "input": "high-threshold.input.bin",
+      "oracle": "high-threshold.sin.bin",
+      "inputSha256": "6abbf08bea125ce6c41c93de3d52365ca39efa817d2085be38e1e9e697edbaa1",
+      "oracleSha256": "bae44670c00c265b0ecd35bd57622a9db068ab7c9af6b73de9492b1e4e05dc3f",
+      "sinArguments": 903,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 1,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": null,
+            "reason": "low-periodicity",
+            "peakCorrelation": 0.9999999999999998
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "multi-harmonic",
+      "op": "hnr",
+      "input": "multi-harmonic.input.bin",
+      "oracle": "multi-harmonic.sin.bin",
+      "inputSha256": "50caf1a76bf5b1e16f3494c5c12ffedf027e4a15a8e9c13a55ab35e3abe20877",
+      "oracleSha256": "011712264cb3af19e2d061e2064309b81416bd4ae20ed794b7630acf57696bc3",
+      "sinArguments": 774,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 59.99999565692812,
+            "peakCorrelation": 0.999999999999838,
+            "lagSamples": 58.91015922349926,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 1,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 59.99999565692812,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "noise",
+      "op": "hnr",
+      "input": "noise.input.bin",
+      "oracle": "noise.sin.bin",
+      "inputSha256": "8db28a25906d401764a6f8fbf051443244319b631e6f6a63a45eda8a5b371378",
+      "oracleSha256": "b4023a24ea465c40f993603b2fb18a052edbf3d396b30a8a94e19d165fe1cfeb",
+      "sinArguments": 115713,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": false,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": []
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": null,
+            "reason": "low-periodicity",
+            "peakCorrelation": 0.12098384290407968
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "tone-noise",
+      "op": "hnr",
+      "input": "tone-noise.input.bin",
+      "oracle": "tone-noise.sin.bin",
+      "inputSha256": "1090b5b83f0f2564fc350b43c45f97e3d1e0660ccf7a004b472a93dce1856104",
+      "oracleSha256": "aee284a8f428ce311879e848dc20527c1403402bc93e45c116c85c448834ec4a",
+      "sinArguments": 1419,
+      "config": {
+        "fs": 12000,
+        "frameSize": 1024,
+        "hopSize": 120,
+        "fmin": 40,
+        "fmax": 1200,
+        "requirePitch": true,
+        "minPeakCorrelation": 0.2,
+        "maxPitchDeviation": 0.15,
+        "pitchTrack": [
+          {
+            "time": 0.042666666666666665,
+            "f0": 203.7,
+            "aperiodicity": 0.1
+          }
+        ]
+      },
+      "expected": {
+        "track": [
+          {
+            "time": 0.042666666666666665,
+            "db": 14.081695558147302,
+            "peakCorrelation": 0.9624001488468368,
+            "lagSamples": 59.44292793099698,
+            "comparisonSamples": 836,
+            "correlationMethod": "normalized-fractional-delay-sinc-129",
+            "refinementConverged": true
+          }
+        ],
+        "signalFrames": 1,
+        "cappedFrames": 0,
+        "correlationMethod": "normalized-fractional-delay-sinc-129",
+        "interpolationHalfSamples": 64,
+        "activeFrames": 1,
+        "validFrames": 1,
+        "coverage": 1,
+        "validDurationSeconds": 0.01,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 14.081695558147302,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "fractional",
+      "op": "fractional",
+      "input": "fractional.input.bin",
+      "oracle": "fractional.sin.bin",
+      "inputSha256": "bd6d12faf6975801ac9ecaea78c3d6ebd9955a9c85ad190fe80ae5e2c6efba52",
+      "oracleSha256": "31ee5d80c4faef04f2061300e1aa655ee46321e5793d5fce9da241373d44993a",
+      "sinArguments": 774,
+      "config": {
+        "initial": 58.91016200294551,
+        "lower": 58,
+        "upper": 60
+      },
+      "expected": {
+        "correlation": 0.9999999999999992,
+        "lagSamples": 58.91016200294551,
+        "comparisonSamples": 836,
+        "interpolationHalfSamples": 64,
+        "evaluations": 8,
+        "converged": true
+      }
+    },
+    {
+      "name": "integer",
+      "op": "fractional",
+      "input": "integer.input.bin",
+      "oracle": "integer.sin.bin",
+      "inputSha256": "bd6d12faf6975801ac9ecaea78c3d6ebd9955a9c85ad190fe80ae5e2c6efba52",
+      "oracleSha256": "426410caafcecffb921f0e52674df1e13f1806d88ee50ddaa9489071c4eea34a",
+      "sinArguments": 2967,
+      "config": {
+        "initial": 60,
+        "lower": 59,
+        "upper": 61
+      },
+      "expected": {
+        "correlation": 0.9999545451400847,
+        "lagSamples": 59,
+        "comparisonSamples": 835,
+        "interpolationHalfSamples": 64,
+        "evaluations": 26,
+        "converged": true
+      }
+    },
+    {
+      "name": "endpoint",
+      "op": "fractional",
+      "input": "endpoint.input.bin",
+      "oracle": "endpoint.sin.bin",
+      "inputSha256": "bd6d12faf6975801ac9ecaea78c3d6ebd9955a9c85ad190fe80ae5e2c6efba52",
+      "oracleSha256": "745def37af71d527b987cf41ec6d5086282e28b5ad2ecc6d2efb3a16fb840395",
+      "sinArguments": 1419,
+      "config": {
+        "initial": 59,
+        "lower": 59,
+        "upper": 59.3
+      },
+      "expected": {
+        "correlation": 0.9999546519934721,
+        "lagSamples": 59,
+        "comparisonSamples": 836,
+        "interpolationHalfSamples": 64,
+        "evaluations": 13,
+        "converged": true
+      }
+    },
+    {
+      "name": "bad-bracket",
+      "op": "fractional",
+      "input": "bad-bracket.input.bin",
+      "oracle": "bad-bracket.sin.bin",
+      "inputSha256": "bd6d12faf6975801ac9ecaea78c3d6ebd9955a9c85ad190fe80ae5e2c6efba52",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "initial": 60,
+        "lower": 60,
+        "upper": 60
+      },
+      "expected": {
+        "correlation": "NaN",
+        "converged": false
+      }
+    },
+    {
+      "name": "fractional-short",
+      "op": "fractional",
+      "input": "fractional-short.input.bin",
+      "oracle": "fractional-short.sin.bin",
+      "inputSha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "initial": 10,
+        "lower": 9,
+        "upper": 11
+      },
+      "expected": {
+        "correlation": "NaN",
+        "converged": false
+      }
+    },
+    {
+      "name": "scalar-negative",
+      "op": "scalar",
+      "input": "scalar-negative.input.bin",
+      "oracle": "scalar-negative.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "correlation": -0.1
+      },
+      "expected": null
+    },
+    {
+      "name": "scalar-zero",
+      "op": "scalar",
+      "input": "scalar-zero.input.bin",
+      "oracle": "scalar-zero.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "correlation": 0
+      },
+      "expected": null
+    },
+    {
+      "name": "scalar-small",
+      "op": "scalar",
+      "input": "scalar-small.input.bin",
+      "oracle": "scalar-small.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "correlation": 1e-12
+      },
+      "expected": -119.99999999999567
+    },
+    {
+      "name": "scalar-half",
+      "op": "scalar",
+      "input": "scalar-half.input.bin",
+      "oracle": "scalar-half.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "correlation": 0.5
+      },
+      "expected": 0
+    },
+    {
+      "name": "scalar-cap",
+      "op": "scalar",
+      "input": "scalar-cap.input.bin",
+      "oracle": "scalar-cap.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "correlation": 1
+      },
+      "expected": 59.99999565692812
+    },
+    {
+      "name": "scalar-over",
+      "op": "scalar",
+      "input": "scalar-over.input.bin",
+      "oracle": "scalar-over.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "correlation": 1.01
+      },
+      "expected": null
+    },
+    {
+      "name": "scalar-nan",
+      "op": "scalar",
+      "input": "scalar-nan.input.bin",
+      "oracle": "scalar-nan.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "correlation": "NaN"
+      },
+      "expected": null
+    },
+    {
+      "name": "scalar-inf",
+      "op": "scalar",
+      "input": "scalar-inf.input.bin",
+      "oracle": "scalar-inf.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "correlation": "+Infinity"
+      },
+      "expected": null
+    },
+    {
+      "name": "summary-empty",
+      "op": "summary",
+      "input": "summary-empty.input.bin",
+      "oracle": "summary-empty.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "track": [],
+        "hop": 0.01,
+        "min": 0.1
+      },
+      "expected": {
+        "activeFrames": 0,
+        "validFrames": 0,
+        "coverage": 0,
+        "validDurationSeconds": 0,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": null,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "summary-duration",
+      "op": "summary",
+      "input": "summary-duration.input.bin",
+      "oracle": "summary-duration.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "track": [
+          {
+            "time": 0,
+            "db": 20
+          },
+          {
+            "time": 0.01,
+            "db": 20
+          },
+          {
+            "time": 0.02,
+            "db": 20
+          },
+          {
+            "time": 0.03,
+            "db": 20
+          },
+          {
+            "time": 0.04,
+            "db": 20
+          },
+          {
+            "time": 0.05,
+            "db": 20
+          },
+          {
+            "time": 0.06,
+            "db": 20
+          },
+          {
+            "time": 0.07,
+            "db": 20
+          },
+          {
+            "time": 0.08,
+            "db": 20
+          },
+          {
+            "time": 0.09,
+            "db": 20
+          }
+        ],
+        "hop": 0.01,
+        "min": 0.1
+      },
+      "expected": {
+        "activeFrames": 10,
+        "validFrames": 10,
+        "coverage": 1,
+        "validDurationSeconds": 0.1,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 20,
+        "avgHNR": 20
+      }
+    },
+    {
+      "name": "summary-short",
+      "op": "summary",
+      "input": "summary-short.input.bin",
+      "oracle": "summary-short.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "track": [
+          {
+            "time": 0,
+            "db": 20
+          },
+          {
+            "time": 0.01,
+            "db": 20
+          },
+          {
+            "time": 0.02,
+            "db": 20
+          },
+          {
+            "time": 0.03,
+            "db": 20
+          },
+          {
+            "time": 0.04,
+            "db": 20
+          },
+          {
+            "time": 0.05,
+            "db": 20
+          },
+          {
+            "time": 0.06,
+            "db": 20
+          },
+          {
+            "time": 0.07,
+            "db": 20
+          },
+          {
+            "time": 0.08,
+            "db": 20
+          }
+        ],
+        "hop": 0.01,
+        "min": 0.1
+      },
+      "expected": {
+        "activeFrames": 9,
+        "validFrames": 9,
+        "coverage": 1,
+        "validDurationSeconds": 0.09,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 20,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "summary-coverage",
+      "op": "summary",
+      "input": "summary-coverage.input.bin",
+      "oracle": "summary-coverage.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "track": [
+          {
+            "db": 20
+          },
+          {
+            "db": null,
+            "reason": "low-periodicity"
+          },
+          {
+            "db": null,
+            "reason": "low-energy"
+          },
+          {
+            "db": null,
+            "reason": "unvoiced-or-uncertain"
+          },
+          {
+            "db": 50,
+            "reason": "capture-gap-boundary"
+          }
+        ],
+        "hop": 0.1,
+        "min": 0.1
+      },
+      "expected": {
+        "activeFrames": 2,
+        "validFrames": 1,
+        "coverage": 0.5,
+        "validDurationSeconds": 0.1,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 20,
+        "avgHNR": 20
+      }
+    },
+    {
+      "name": "summary-below-coverage",
+      "op": "summary",
+      "input": "summary-below-coverage.input.bin",
+      "oracle": "summary-below-coverage.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "track": [
+          {
+            "db": 20
+          },
+          {
+            "db": null
+          },
+          {
+            "db": null
+          }
+        ],
+        "hop": 0.1,
+        "min": 0.1
+      },
+      "expected": {
+        "activeFrames": 3,
+        "validFrames": 1,
+        "coverage": 0.3333333333333333,
+        "validDurationSeconds": 0.1,
+        "minDurationSeconds": 0.1,
+        "partialMeanHNR": 20,
+        "avgHNR": null
+      }
+    },
+    {
+      "name": "summary-partial",
+      "op": "summary",
+      "input": "summary-partial.input.bin",
+      "oracle": "summary-partial.sin.bin",
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oracleSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sinArguments": 0,
+      "config": {
+        "track": [
+          {
+            "db": 20
+          },
+          {
+            "db": 30
+          }
+        ],
+        "hop": 0.01,
+        "min": 0
+      },
+      "expected": {
+        "activeFrames": 2,
+        "validFrames": 2,
+        "coverage": 1,
+        "validDurationSeconds": 0.02,
+        "minDurationSeconds": 0,
+        "partialMeanHNR": 25,
+        "avgHNR": 25
+      }
+    }
+  ]
+}

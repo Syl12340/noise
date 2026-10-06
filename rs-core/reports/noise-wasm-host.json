@@ -2,7 +2,7 @@
   "status": "PASS",
   "tests": [
     {
-      "name": "no imports",
+      "name": "declared imports",
       "status": "PASS"
     },
     {
@@ -52,12 +52,22 @@
     {
       "name": "Node asynchronous loader",
       "status": "PASS"
+    },
+    {
+      "name": "noise never invokes the HNR scalar math dependency",
+      "status": "PASS"
     }
   ],
   "artifact": {
-    "bytes": 654106,
-    "sha256": "8c12e69ef170c104511e2bf99448b57189b07acf186cf7ff174fe545052a10f2",
-    "imports": []
+    "bytes": 677135,
+    "sha256": "c86ef54b23bdc0f45766a5b5d0c39aaf3ae96c39d43da70be9c69f490deaa187",
+    "imports": [
+      {
+        "module": "env",
+        "name": "hnr_sin",
+        "kind": "function"
+      }
+    ]
   },
   "scope": "Actual Rust WASM on Node plus WX-shaped loader simulation; no real device test."
 }

@@ -10,6 +10,7 @@ publish.workspace = true
 default = []
 acoustics = ["noise-core/acoustics"]
 speech = ["acoustics", "noise-core/speech"]
+harmonicity = ["speech", "noise-core/harmonicity"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -17,3 +18,7 @@ path = "src/lib.rs"
 
 [dependencies]
 noise-core = { path = "../noise-core" }
+
+[[example]]
+name = "harmonicity_driver"
+required-features = ["harmonicity"]

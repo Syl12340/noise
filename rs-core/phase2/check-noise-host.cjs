@@ -10,10 +10,13 @@ const bytes=fs.readFileSync(path.join(root,'target/wasm32-unknown-unknown/releas
 const tests=[];
 const check=(name,fn)=>{fn();tests.push({name,status:'PASS'});};
 const alternating = n => Int16Array.from({length:n},(_,i)=>i%2?1000:-1000);
-const raw = () => new WebAssembly.Instance(new WebAssembly.Module(bytes),{});
+const hnrMode=process.argv.includes('--harmonicity');
+let noiseMathCalls=0;
+const mathImports={env:{hnr_sin:x=>{noiseMathCalls++;return Math.sin(x);}}};
+const raw = () => new WebAssembly.Instance(new WebAssembly.Module(bytes),hnrMode?mathImports:{});
 async function main() {
   const mod=await WebAssembly.compile(bytes);
-  check('no imports',()=>assert.deepEqual(WebAssembly.Module.imports(mod),[]));
+  check('declared imports',()=>assert.deepEqual(WebAssembly.Module.imports(mod),hnrMode?[{module:'env',name:'hnr_sin',kind:'function'}]:[]));
   const instance=raw(),e=instance.exports,host=attachNoiseInstance(instance),h=host.create();
   check('status checks precede integer wrapping',()=> {
     assert.throws(()=>host.process(h,2**32,alternating(10)),TypeError);
@@ -95,8 +98,9 @@ async function main() {
     const id=wxHost.create();assert.equal(wxHost.process(id,1,alternating(10)).snapshot.total_a_samples,10);
     wxHost.destroy(id);
   });
-  const asyncHost=await instantiateNoise({api:WebAssembly,source:bytes});
+  const asyncHost=hnrMode?attachNoiseInstance((await WebAssembly.instantiate(bytes,mathImports)).instance):await instantiateNoise({api:WebAssembly,source:bytes});
   check('Node asynchronous loader',()=>assert.equal(asyncHost.create(),1));
+  if(hnrMode)check('noise never invokes the HNR scalar math dependency',()=>assert.equal(noiseMathCalls,0));
   const report={status:'PASS',tests,artifact:{bytes:bytes.length,sha256:crypto.createHash('sha256').update(bytes).digest('hex'),imports:WebAssembly.Module.imports(mod)},scope:'Actual Rust WASM on Node plus WX-shaped loader simulation; no real device test.'};
   fs.writeFileSync(path.join(root,'reports/noise-wasm-host.json'),JSON.stringify(report,null,2)+'\n');
   console.log(JSON.stringify(report,null,2));
