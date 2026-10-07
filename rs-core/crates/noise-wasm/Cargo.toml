@@ -11,6 +11,7 @@ default = []
 acoustics = ["noise-core/acoustics"]
 speech = ["acoustics", "noise-core/speech"]
 harmonicity = ["speech", "noise-core/harmonicity"]
+full-speech = ["harmonicity", "noise-core/full-speech"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -42,3 +43,11 @@ required-features = ["speech"]
 [[example]]
 name = "resample_session_driver"
 required-features = ["speech"]
+
+[[example]]
+name = "voice_metrics_driver"
+required-features = ["speech"]
+
+[[example]]
+name = "full_speech_driver"
+required-features = ["full-speech"]

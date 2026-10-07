@@ -15,7 +15,7 @@
     "PCM pipeline cancels during YIN frame scheduling and restarts"
   ],
   "manifestSha256": "92bc4bc8fe75290d048dc03460ddb924a7be71619e59d110fb5115d6d35954bb",
-  "artifactSha256": "8d2ea636a2bd8e3cce58fe7317b3e3604c5f4e3177c8802870bef6d452ec7dd3",
+  "artifactSha256": "968b70887cc68046efabe1335cfe9b14d2a3f04f9f6553e277e5f52f546150bb",
   "limits": [
     "Yields between frames only; resampling remains synchronous; no device/Worker latency qualification"
   ]

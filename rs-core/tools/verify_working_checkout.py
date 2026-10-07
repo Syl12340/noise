@@ -18,8 +18,8 @@ for name in sorted(set(n for n in listed if n)):
   if not relative.startswith('reports/'):inputs[relative]=hashlib.sha256(target.read_bytes()).hexdigest()
  elif target.is_file():target.unlink()
 print('Exact working snapshot: '+str(destination),flush=True)
-stage=11 if '--phase11' in sys.argv else 10
-run=subprocess.run(['python',f'tools/run-phase{stage}.py','--repository-clean'],cwd=destination/'rs-core',capture_output=True,text=True,encoding='utf8',errors='replace',timeout=540)
+stage=13 if '--phase13' in sys.argv else 12 if '--phase12' in sys.argv else 11 if '--phase11' in sys.argv else 10
+run=subprocess.run(['python',f'tools/run-phase{stage}.py','--repository-clean'],cwd=destination/'rs-core',capture_output=True,text=True,encoding='utf8',errors='replace',timeout=1200 if stage==13 else 540)
 report={'status':'PASS' if run.returncode==0 else 'FAIL','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'copy':str(destination),'exitCode':run.returncode,'inputIdentities':inputs,'stdout':run.stdout,'stderr':run.stderr,'scope':'Working rs-core bytes over a read-only index checkout; no git staging/commit/push'}
 if run.returncode==0:
  for name,digest in inputs.items():

@@ -1,0 +1,703 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "name": "profile-12000-4000",
+      "rate": 12000,
+      "samples": 2160,
+      "parameters": {
+        "maxFormant": 4000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "e3a2cd0d5c3e32f78e6cae81afc7b35faf0b1dec5f91153182316dc1f9cd36a0",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-12000-4500",
+      "rate": 12000,
+      "samples": 2160,
+      "parameters": {
+        "maxFormant": 4500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "3775e236e43e2883f5800481ae9cf1e455aaf469e88ce687b1d8ae03bca8871d",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-12000-5000",
+      "rate": 12000,
+      "samples": 2160,
+      "parameters": {
+        "maxFormant": 5000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "8d2653e2e915a9af04d64857f3f080a2ea00c1377d4f6bdeeff5fe4a490e929a",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-16000-4000",
+      "rate": 16000,
+      "samples": 2880,
+      "parameters": {
+        "maxFormant": 4000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "cd811586aa08596ca945fc46fb44f218895245136e2db6fee7251ca504bb5fae",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-16000-4500",
+      "rate": 16000,
+      "samples": 2880,
+      "parameters": {
+        "maxFormant": 4500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "5c4153a08081cc6b4916a0d7b6e26445ada40d555ce775750e7bb2ef46e3c40e",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-16000-5000",
+      "rate": 16000,
+      "samples": 2880,
+      "parameters": {
+        "maxFormant": 5000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "64dfcfdce8f3b2323043c3993917e2ec73af738d15d1797fe16b9aae5b8085e5",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-16000-5500",
+      "rate": 16000,
+      "samples": 2880,
+      "parameters": {
+        "maxFormant": 5500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "448bf6ac89626ac4cbecff4adf8c6bfa89978bb941b3e0314b7140fd6848561a",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-16000-6000",
+      "rate": 16000,
+      "samples": 2880,
+      "parameters": {
+        "maxFormant": 6000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "e0647d11c80777114cc0cc1ca1a5a18cb67f383cf2eb22ffe154ffb9098db7c5",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-16000-7000",
+      "rate": 16000,
+      "samples": 2880,
+      "parameters": {
+        "maxFormant": 7000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "1dde93a120ca90599e939dab5eb3fcc6e08f964497739fc3e6422f744d9e18a4",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-22050-4000",
+      "rate": 22050,
+      "samples": 3969,
+      "parameters": {
+        "maxFormant": 4000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "4b4bbbc4c3f69e13329662ebfc384353914d0e9f802f96ac543d1fc41252dac5",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-22050-4500",
+      "rate": 22050,
+      "samples": 3969,
+      "parameters": {
+        "maxFormant": 4500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "405f6abbb32fefcbe39f10a7ba654c3ec64e79964ff9c1fbb436cd8a171f03b1",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-22050-5000",
+      "rate": 22050,
+      "samples": 3969,
+      "parameters": {
+        "maxFormant": 5000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "35f53153bb4a913bdebfad58ca8888e9ddb1bf7e0351f79b5bfa5a876076375c",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-22050-5500",
+      "rate": 22050,
+      "samples": 3969,
+      "parameters": {
+        "maxFormant": 5500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "d0cb00487831d4cb0cc8275580214c3e1e9442e0bbfe200ef45b70e78e49d2c9",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-22050-6000",
+      "rate": 22050,
+      "samples": 3969,
+      "parameters": {
+        "maxFormant": 6000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "35d201deed184e2db3afc6dca965e462f7ec49e912b991320f4a56355c615b7c",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-22050-7000",
+      "rate": 22050,
+      "samples": 3969,
+      "parameters": {
+        "maxFormant": 7000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "61c30aecfa063eca07798e95c6a4328441f154cbdcb1baf1433ee4095a150a0d",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-22050-8000",
+      "rate": 22050,
+      "samples": 3969,
+      "parameters": {
+        "maxFormant": 8000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "124f6fc3ee71dbacda7c66c267e71daca727b220a61f4af29409a5b42643e5c6",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-24000-4000",
+      "rate": 24000,
+      "samples": 4320,
+      "parameters": {
+        "maxFormant": 4000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "5d542c16da3dc8c2ed835c614a0f21a8dccb37ae83ad8958db5b1327275d2a1b",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-24000-4500",
+      "rate": 24000,
+      "samples": 4320,
+      "parameters": {
+        "maxFormant": 4500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "d839cf5ad697de7f000cfa6f1ce33f8798bd1baf6a2e29b0e7c2badd875f0cdd",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-24000-5000",
+      "rate": 24000,
+      "samples": 4320,
+      "parameters": {
+        "maxFormant": 5000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "ddd0db3859c09339619619252104a03f401e116ad0523ce41f74805ce9e4c4b3",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-24000-5500",
+      "rate": 24000,
+      "samples": 4320,
+      "parameters": {
+        "maxFormant": 5500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "ce23e1b1458b5298e90e082f0d52e460d971d876f3b0f707fb7047707e111716",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-24000-6000",
+      "rate": 24000,
+      "samples": 4320,
+      "parameters": {
+        "maxFormant": 6000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "ca1d65e5f3f721d686f2e451d8e768f1337074661605c7f7ad890b1195ce1bfd",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-24000-7000",
+      "rate": 24000,
+      "samples": 4320,
+      "parameters": {
+        "maxFormant": 7000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "54054e2a4597e36151d799bfe015f37f7c5fc44f70a05d16bcdcd09097561d92",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-24000-8000",
+      "rate": 24000,
+      "samples": 4320,
+      "parameters": {
+        "maxFormant": 8000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "ba91b45aabc68dff3bb40a4e77f0ea15d895646de1ec103e85f91e0439e1a461",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-32000-4000",
+      "rate": 32000,
+      "samples": 5760,
+      "parameters": {
+        "maxFormant": 4000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "0801cbeea7911b60e4fac26d66bba4c42c8fbac5412812185e39375a3c0538c4",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-32000-4500",
+      "rate": 32000,
+      "samples": 5760,
+      "parameters": {
+        "maxFormant": 4500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "78c5c04105e13310b77a725e1c7b0c8f7d14517a83901c23804ae2e142b552db",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-32000-5000",
+      "rate": 32000,
+      "samples": 5760,
+      "parameters": {
+        "maxFormant": 5000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "a1fbc81ff1d56a4149a0505f5b0789453b7409cfef9e838fea295b733597bfdf",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-32000-5500",
+      "rate": 32000,
+      "samples": 5760,
+      "parameters": {
+        "maxFormant": 5500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "1fe84aa9dd4239c30a858bead2b9ba9004eef1e3ba9a16a2ed4640f923e14d3f",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-32000-6000",
+      "rate": 32000,
+      "samples": 5760,
+      "parameters": {
+        "maxFormant": 6000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "d1d66d05f55042d232631e2c4b2b32bac5f502b613356a9a813384b781be494b",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-32000-7000",
+      "rate": 32000,
+      "samples": 5760,
+      "parameters": {
+        "maxFormant": 7000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "798b2f876ae924415da0ef7b4a5c98d790c6fe29d0d428022b954a0e40f07579",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-32000-8000",
+      "rate": 32000,
+      "samples": 5760,
+      "parameters": {
+        "maxFormant": 8000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "b2766135a9511d6e254c76e5bbed7657d8b7b53e078d922ca97cfd367f99c18d",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-44100-4000",
+      "rate": 44100,
+      "samples": 7938,
+      "parameters": {
+        "maxFormant": 4000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "490292c4c8be01b3fe92c9470e7d943229c4074ac5f372916566a0eccffee751",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-44100-4500",
+      "rate": 44100,
+      "samples": 7938,
+      "parameters": {
+        "maxFormant": 4500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "26bebfba36c17b07b5fdf53a7db4a68e2a3afbe2816d92749c13e514683d2bf9",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-44100-5000",
+      "rate": 44100,
+      "samples": 7938,
+      "parameters": {
+        "maxFormant": 5000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "184f99f227a67e2bdfe901ac31ee83ceaa8dcf6f20f406cc91e05758b1777aa2",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-44100-5500",
+      "rate": 44100,
+      "samples": 7938,
+      "parameters": {
+        "maxFormant": 5500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "d4bc5bb9888bfa64e1521550c69e5afe5bea7a460ffea5ea50354ac4e2391b47",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-44100-6000",
+      "rate": 44100,
+      "samples": 7938,
+      "parameters": {
+        "maxFormant": 6000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "bec874c892785c6c8d8b21a5384bafad8b219b2252fdf2e179f1a1ba51b34372",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-44100-7000",
+      "rate": 44100,
+      "samples": 7938,
+      "parameters": {
+        "maxFormant": 7000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "1c3fd4f10becfb4248c1399ec1fdca691bae7958ff5196c4d8885ab09b9dff7f",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-44100-8000",
+      "rate": 44100,
+      "samples": 7938,
+      "parameters": {
+        "maxFormant": 8000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "9a85b97b25f817afca9cde8b287e19cb39058b4f651dcc2c2d84396098d21022",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-48000-4000",
+      "rate": 48000,
+      "samples": 8640,
+      "parameters": {
+        "maxFormant": 4000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "5b74899a957dacb91d0583f536c19b93b1c16b6e7a971686886d6f177662f2cf",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-48000-4500",
+      "rate": 48000,
+      "samples": 8640,
+      "parameters": {
+        "maxFormant": 4500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "91305ddb1243f11c23c0ba1027f63355feacc22057b5f50a84befa2ccc3935c1",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-48000-5000",
+      "rate": 48000,
+      "samples": 8640,
+      "parameters": {
+        "maxFormant": 5000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "fd463a8f3a46df22bfadb4a29e7ff812e0cb5d63cccd0f467b0b8a866c21202d",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-48000-5500",
+      "rate": 48000,
+      "samples": 8640,
+      "parameters": {
+        "maxFormant": 5500,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "c47e81e8bf67e4769f2ead9ecfb49962f48281829ed2f15bde3dd8d1e1f23a5c",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-48000-6000",
+      "rate": 48000,
+      "samples": 8640,
+      "parameters": {
+        "maxFormant": 6000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "7dc9b0a30e534ae1b8f16af1ca05889e6b59f0ad9c72a6aec68662b9dd122bc5",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-48000-7000",
+      "rate": 48000,
+      "samples": 8640,
+      "parameters": {
+        "maxFormant": 7000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "4459c3d78718b6b122434e1037fc47d277566b0d95d226948e67972f1647db0c",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "profile-48000-8000",
+      "rate": 48000,
+      "samples": 8640,
+      "parameters": {
+        "maxFormant": 8000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "9ebfc21ef6523018b5396dd2256fe8bf19ebe4fe16d26efdc9112e612c627a8d",
+      "columns": 88,
+      "pitchRows": 10
+    },
+    {
+      "name": "nominal-longest",
+      "rate": 48000,
+      "samples": 252000,
+      "parameters": {
+        "maxFormant": 8000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "d676c1bd9688a3c46c2c5c0e48074eebd49f49434592672c4bf81dcded163e9d",
+      "columns": 2623,
+      "pitchRows": 517
+    },
+    {
+      "name": "nominal-longest-tonal",
+      "rate": 48000,
+      "samples": 252000,
+      "parameters": {
+        "maxFormant": 8000,
+        "lpcOrder": 14,
+        "windowMs": 40
+      },
+      "cuts": [],
+      "expectedSha256": "46a8556f5256eae25b030075df09be00810c68fe82cc52b50378c638f4968270",
+      "columns": 2623,
+      "pitchRows": 517
+    },
+    {
+      "name": "one-sample",
+      "rate": 12000,
+      "samples": 1,
+      "parameters": {
+        "maxFormant": 4000
+      },
+      "cuts": [],
+      "expectedSha256": "74a19c17abd3120353b67805a19af8306f694c294ce4446a03852b0e9fc95caf",
+      "columns": 0,
+      "pitchRows": 0
+    },
+    {
+      "name": "short-pieces",
+      "rate": 22050,
+      "samples": 3308,
+      "parameters": {},
+      "cuts": [
+        0.000045351473922902495,
+        0.03,
+        0.09
+      ],
+      "expectedSha256": "d61d969518db77e3800d1dca0fb1c1766efa13c947c458568e680a98d492dc24",
+      "columns": 69,
+      "pitchRows": 0
+    },
+    {
+      "name": "clipped-and-segmented",
+      "rate": 44100,
+      "samples": 8820,
+      "parameters": {
+        "task": "connected"
+      },
+      "cuts": [
+        0.1
+      ],
+      "expectedSha256": "680ef67b11b58d36c53b428ed9741a77e29c3550da65fedbcc1c48f276adae42",
+      "columns": 96,
+      "pitchRows": 4
+    }
+  ],
+  "lifecycle": [
+    "bad options/shared memory",
+    "busy/stale/early-finish",
+    "cancel at every stage",
+    "cancel during result copying",
+    "rejected progress callback releases session",
+    "owned input/cached copied output"
+  ],
+  "artifactBytes": 4641044,
+  "artifactSha256": "23f958c2e20656da0fe46d011b7da27fe5851095ea93f2e57d262bbf0081b3a5",
+  "limits": [
+    "Additional live pinned-JS observations, not a replacement for immutable primary references",
+    "Desktop engine only; no WX/Android package/runtime or clinical qualification"
+  ]
+}

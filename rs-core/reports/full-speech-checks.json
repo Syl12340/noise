@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "completed": [
+    "burg-0",
+    "burg-1",
+    "burg-4",
+    "burg-12",
+    "burg-20",
+    "roots-quadratic",
+    "roots-degree-one",
+    "roots-repeated",
+    "roots-invalid-leading",
+    "spectrogram-12000",
+    "spectrogram-44100",
+    "spectrogram-48000",
+    "formants-12000",
+    "formants-16000",
+    "full-default",
+    "full-segmented",
+    "full-high-ceiling",
+    "full-silent"
+  ],
+  "fields": 450558,
+  "db": 176,
+  "maxDb": 0,
+  "artifactBytes": 4641044,
+  "artifactSha256": "23f958c2e20656da0fe46d011b7da27fe5851095ea93f2e57d262bbf0081b3a5",
+  "manifestSha256": "442a65cc32b6fc50cebac1fcd57660940deb9a589f6c3319c54e516c2aa5679a",
+  "limits": [
+    "Compatibility with experimental baseline, not quantitative clinical validation",
+    "Native dynamic math uses actual-JS oracle; WX/package/runtime qualification remains open"
+  ]
+}

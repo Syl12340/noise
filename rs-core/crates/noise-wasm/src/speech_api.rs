@@ -66,6 +66,10 @@ pub struct SpeechApi {
     next_pitch_handle: u64,
     resample_sessions: Vec<(u32, noise_core::speech::resample_session::ResampleSession)>,
     next_resample_handle: u64,
+    #[cfg(feature = "full-speech")]
+    full_session: Option<(u32, noise_core::speech::full::pipeline::FullSession)>,
+    #[cfg(feature = "full-speech")]
+    next_full_handle: u64,
     #[cfg(target_arch = "wasm32")]
     pcm: Vec<i16>,
     #[cfg(target_arch = "wasm32")]
@@ -102,6 +106,10 @@ impl SpeechApi {
             next_pitch_handle: 1,
             resample_sessions: Vec::new(),
             next_resample_handle: 1,
+            #[cfg(feature = "full-speech")]
+            full_session: None,
+            #[cfg(feature = "full-speech")]
+            next_full_handle: 1,
             #[cfg(target_arch = "wasm32")]
             pcm: vec![0; INPUT_CAPACITY],
             #[cfg(target_arch = "wasm32")]
@@ -353,6 +361,30 @@ impl SpeechApi {
         }
         self.floats(noise_core::acoustics::quality::centered_signal(pcm))
     }
+    pub fn intensity_track(
+        &mut self,
+        signal: &[f32],
+        opts: noise_core::speech::voice_metrics::IntensityOptions,
+    ) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        match noise_core::speech::voice_metrics::intensity(signal, opts) {
+            Ok(r) => self.json(crate::voice_metrics_api::intensity_json(&r)),
+            Err("metrics capacity exceeded") => CAPACITY,
+            Err(_) => BAD_ARGUMENT,
+        }
+    }
+    pub fn period_variability(&mut self, f0: &[f64], gaps: bool, clipped: bool) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        match noise_core::speech::voice_metrics::pitch_period_variability(f0, gaps, clipped) {
+            Ok(r) => self.json(crate::voice_metrics_api::variability_json(&r)),
+            Err("metrics capacity exceeded") => CAPACITY,
+            Err(_) => BAD_ARGUMENT,
+        }
+    }
     pub fn float_emphasis(&mut self, signal: &[f32], coef: f64) -> i32 {
         if self.kind != 0 {
             return WOULD_BLOCK;
@@ -471,6 +503,178 @@ impl SpeechApi {
         };
         self.resample_sessions.swap_remove(i);
         OK
+    }
+    #[cfg(feature = "full-speech")]
+    pub fn full_begin(
+        &mut self,
+        pcm: &[i16],
+        rate: u32,
+        params: noise_core::speech::full::pipeline::Parameters,
+        cuts: &[f64],
+    ) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        if self.full_session.is_some() || self.next_full_handle > u32::MAX as u64 {
+            return -6;
+        }
+        if pcm.len() > INPUT_CAPACITY || cuts.len() > FRAME_CAPACITY {
+            return BAD_ARGUMENT;
+        }
+        let s = match noise_core::speech::full::pipeline::FullSession::new(
+            pcm.to_vec(),
+            rate,
+            params,
+            cuts,
+        ) {
+            Ok(s) => s,
+            Err(_) => return BAD_ARGUMENT,
+        };
+        let h = self.next_full_handle as u32;
+        self.next_full_handle += 1;
+        self.full_session = Some((h, s));
+        self.json(format!("{{\"handle\":{h}}}"))
+    }
+    #[cfg(feature = "full-speech")]
+    pub fn full_next(&mut self, h: u32, math: &impl noise_core::speech::full::FullMath) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((id, s)) = &mut self.full_session else {
+            return -1;
+        };
+        if *id != h {
+            return -1;
+        }
+        let p = match s.step(math) {
+            Ok(p) => p,
+            Err(_) => return BAD_ARGUMENT,
+        };
+        let done = s.done();
+        let data = format!(
+            "{{\"stage\":\"{}\",\"segmentIndex\":{},\"completed\":{},\"total\":{},\"done\":{done}}}",
+            p.stage, p.segment, p.completed, p.total
+        );
+        self.json(data)
+    }
+    #[cfg(feature = "full-speech")]
+    pub fn full_finish(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((id, s)) = &mut self.full_session else {
+            return -1;
+        };
+        if *id != h {
+            return -1;
+        }
+        let mut meta = match s.finish() {
+            Ok(v) => v.clone(),
+            Err(_) => return -8,
+        };
+        use noise_core::speech::full::value::{num, obj};
+        meta.set(
+            "counts",
+            obj(vec![
+                ("pitch", num(s.pitch().len() as f64)),
+                ("formants", num(s.formants().len() as f64)),
+                ("intensity", num(s.intensity().len() as f64)),
+                ("hnr", num(s.hnr().len() as f64)),
+                ("spectra", num(s.spectra().len() as f64)),
+            ]),
+        );
+        self.json(meta.json())
+    }
+    #[cfg(feature = "full-speech")]
+    pub fn full_read(&mut self, h: u32, kind: u32, index: usize) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((id, s)) = &self.full_session else {
+            return -1;
+        };
+        if *id != h {
+            return -1;
+        }
+        if !s.done() {
+            return -8;
+        }
+        if kind == 0 {
+            if index != 0 {
+                return BAD_ARGUMENT;
+            }
+            return self.floats(s.signal().to_vec());
+        }
+        if kind == 5 {
+            let Some(v) = s.spectra().get(index) else {
+                return BAD_ARGUMENT;
+            };
+            return self.floats(v.clone());
+        }
+        let rows = match kind {
+            1 => s.pitch(),
+            2 => s.formants(),
+            3 => s.intensity(),
+            4 => s.hnr(),
+            _ => return BAD_ARGUMENT,
+        };
+        let Some(v) = rows.get(index) else {
+            return BAD_ARGUMENT;
+        };
+        let text = v.json();
+        self.json(text)
+    }
+    #[cfg(feature = "full-speech")]
+    pub fn full_cancel(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        if self.full_session.as_ref().is_none_or(|(id, _)| *id != h) {
+            return -1;
+        }
+        self.full_session = None;
+        OK
+    }
+    #[cfg(feature = "full-speech")]
+    pub fn full_burg(&mut self, frame: &[f64], order: usize) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let r = match noise_core::speech::full::linear::burg_lpc(frame, order) {
+            Ok(r) => r,
+            Err(_) => return BAD_ARGUMENT,
+        };
+        use noise_core::speech::full::value::{array, num, obj};
+        self.json(
+            obj(vec![
+                ("a", array(r.a.into_iter().map(num).collect())),
+                ("error", num(r.error)),
+            ])
+            .json(),
+        )
+    }
+    #[cfg(feature = "full-speech")]
+    pub fn full_roots(
+        &mut self,
+        coeff: &[f64],
+        math: &impl noise_core::speech::full::FullMath,
+    ) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let r = match noise_core::speech::full::roots::find_roots(coeff, math) {
+            Ok(r) => r,
+            Err(_) => return BAD_ARGUMENT,
+        };
+        use noise_core::speech::full::value::{array, num, obj};
+        self.json(
+            array(
+                r.into_iter()
+                    .map(|r| obj(vec![("re", num(r.re)), ("im", num(r.im))]))
+                    .collect(),
+            )
+            .json(),
+        )
     }
     #[cfg(feature = "harmonicity")]
     pub fn harmonicity_with_sin(
@@ -932,6 +1136,135 @@ mod exports {
     #[unsafe(no_mangle)]
     pub extern "C" fn speech_pcm_quality_abi_version() -> u32 {
         1
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_voice_metrics_abi_version() -> u32 {
+        1
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_intensity_track(len: u32, fs: f64, size: u32, hop: u32) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if len > INPUT_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            let signal = a.signal[..len as usize].to_vec();
+            a.intensity_track(
+                &signal,
+                noise_core::speech::voice_metrics::IntensityOptions {
+                    fs,
+                    frame_size: if size == 0 { None } else { Some(size as usize) },
+                    hop: if hop == 0 { None } else { Some(hop as usize) },
+                },
+            )
+        })
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_period_variability(len: u32, gaps: u32, clipped: u32) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if len > FRAME_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            if gaps > 1 || clipped > 1 {
+                return BAD_ARGUMENT;
+            }
+            let f0 = a.frame[..len as usize].to_vec();
+            a.period_variability(&f0, gaps == 1, clipped == 1)
+        })
+    }
+    #[cfg(feature = "full-speech")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_full_abi_version() -> u32 {
+        1
+    }
+    #[cfg(feature = "full-speech")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_full_begin(
+        len: u32,
+        rate: u32,
+        order: u32,
+        ceiling: u32,
+        window: u32,
+        connected: u32,
+        cuts: u32,
+    ) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if len > INPUT_CAPACITY as u32 || cuts > FRAME_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            if connected > 1 {
+                return BAD_ARGUMENT;
+            }
+            let pcm = a.pcm[..len as usize].to_vec();
+            let boundaries = a.frame[..cuts as usize].to_vec();
+            a.full_begin(
+                &pcm,
+                rate,
+                noise_core::speech::full::pipeline::Parameters {
+                    order: order as usize,
+                    ceiling,
+                    window_ms: window,
+                    connected: connected == 1,
+                },
+                &boundaries,
+            )
+        })
+    }
+    #[cfg(feature = "full-speech")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_full_next(h: u32) -> i32 {
+        access(|a| a.full_next(h, &crate::full_api::RuntimeMath))
+    }
+    #[cfg(feature = "full-speech")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_full_finish(h: u32) -> i32 {
+        access(|a| a.full_finish(h))
+    }
+    #[cfg(feature = "full-speech")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_full_read(h: u32, kind: u32, index: u32) -> i32 {
+        access(|a| a.full_read(h, kind, index as usize))
+    }
+    #[cfg(feature = "full-speech")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_full_cancel(h: u32) -> i32 {
+        access(|a| a.full_cancel(h))
+    }
+    #[cfg(feature = "full-speech")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_full_burg(len: u32, order: u32) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if len > FRAME_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            let frame = a.frame[..len as usize].to_vec();
+            a.full_burg(&frame, order as usize)
+        })
+    }
+    #[cfg(feature = "full-speech")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_full_roots(len: u32) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if len > 33 {
+                return CAPACITY;
+            }
+            let c = a.frame[..len as usize].to_vec();
+            a.full_roots(&c, &crate::full_api::RuntimeMath)
+        })
     }
     #[unsafe(no_mangle)]
     pub extern "C" fn speech_inspect_pcm(len: u32, rate: u32) -> i32 {

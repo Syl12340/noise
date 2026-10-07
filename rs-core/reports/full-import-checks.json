@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "imports": [
+    {
+      "module": "env",
+      "name": "hnr_sin",
+      "kind": "function"
+    },
+    {
+      "module": "env",
+      "name": "math_hypot",
+      "kind": "function"
+    },
+    {
+      "module": "env",
+      "name": "math_log",
+      "kind": "function"
+    },
+    {
+      "module": "env",
+      "name": "math_atan2",
+      "kind": "function"
+    },
+    {
+      "module": "env",
+      "name": "math_log10",
+      "kind": "function"
+    }
+  ],
+  "artifactBytes": 4641044,
+  "oldWorkerLimitBytes": 4194304,
+  "exceedsOldWorkerLimit": true,
+  "unsharedMemory": true,
+  "memoryGrowthDuringSession": true
+}

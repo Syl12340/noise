@@ -12,6 +12,8 @@
 
 #[cfg(feature = "acoustics")]
 pub mod acoustics_api;
+#[cfg(feature = "full-speech")]
+pub mod full_api;
 #[cfg(feature = "harmonicity")]
 pub mod harmonicity_api;
 #[cfg(feature = "speech")]
@@ -20,6 +22,8 @@ pub mod pcm_api;
 pub mod segments_api;
 #[cfg(feature = "speech")]
 pub mod speech_api;
+#[cfg(feature = "speech")]
+pub mod voice_metrics_api;
 
 // Compile error if WebAssembly atomics or shared memory is enabled
 #[cfg(all(target_arch = "wasm32", target_feature = "atomics"))]

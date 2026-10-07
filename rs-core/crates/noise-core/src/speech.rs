@@ -58,6 +58,8 @@
 pub mod emphasis;
 #[cfg(feature = "harmonicity")]
 pub mod fractional;
+#[cfg(feature = "full-speech")]
+pub mod full;
 #[cfg(feature = "harmonicity")]
 mod generic_fft;
 #[cfg(feature = "harmonicity")]
@@ -73,6 +75,7 @@ mod resample_tables;
 #[cfg(feature = "harmonicity")]
 pub mod segments;
 pub mod time_support;
+pub mod voice_metrics;
 pub mod yin;
 
 pub use emphasis::{emphasize_float, pre_emphasis};

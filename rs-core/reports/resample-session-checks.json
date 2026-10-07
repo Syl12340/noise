@@ -14,7 +14,7 @@
     "PCM pipeline cancellation during resampling and restart; final exact comparison remains in phase8"
   ],
   "manifestSha256": "4af3fe3d906a17f257bfd82f4a35be60cfa08df188ce8bad3c8d6a4ede2bce21",
-  "artifactSha256": "8d2ea636a2bd8e3cce58fe7317b3e3604c5f4e3177c8802870bef6d452ec7dd3",
+  "artifactSha256": "968b70887cc68046efabe1335cfe9b14d2a3f04f9f6553e277e5f52f546150bb",
   "limits": [
     "Batch yields only; no actual Worker/device latency qualification",
     "Working tree round; no local commit or push"

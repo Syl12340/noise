@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "stats": {
+    "intensityCases": 14,
+    "variabilityCases": 11,
+    "exactFields": 1232,
+    "dbFields": 1186,
+    "maxDbError": 3.552713678800501e-15
+  },
+  "checks": [
+    "14 native/WASM intensity cases and11 exact variability cases; explicit unit/reference definitions",
+    "pause reset; gap/clipping suppression; nonfinite reciprocal/reduction/time and capacity rejection; positive db preserved",
+    "shared pending gate, raw flags/capacity, memory growth and unrelated pitch session"
+  ],
+  "manifestSha256": "888c5b87fdd545349b600a0dd0cdfaebff869c32676c0b4ab5083a172d30aa07",
+  "artifactSha256": "968b70887cc68046efabe1335cfe9b14d2a3f04f9f6553e277e5f52f546150bb",
+  "limits": [
+    "Standalone digital intensity/voiced-frame period statistic; no physical SPL or cycle jitter",
+    "Current PCM-HNR/Worker schema and mainline unchanged; no device/clinical qualification",
+    "New batch round1; no staging/commit/push"
+  ]
+}

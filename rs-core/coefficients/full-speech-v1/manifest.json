@@ -1,0 +1,367 @@
+{
+  "baseline": "3a0d6765147c56d2a73e1cec78f6106ae2e681ab",
+  "rates": [
+    12000,
+    16000,
+    22050,
+    24000,
+    32000,
+    44100,
+    48000
+  ],
+  "ceilings": [
+    4000,
+    4500,
+    5000,
+    5500,
+    6000,
+    7000,
+    8000
+  ],
+  "outputs": [
+    10000,
+    11000,
+    12000,
+    13000,
+    14000,
+    16000,
+    18000
+  ],
+  "windows": [
+    250,
+    275,
+    300,
+    325,
+    350,
+    400,
+    440,
+    450,
+    480,
+    520,
+    560,
+    640,
+    720
+  ],
+  "profiles": [
+    {
+      "input": 12000,
+      "output": 10000,
+      "cutoff": 4500,
+      "file": "resample-12000-10000.bin",
+      "phases": 5
+    },
+    {
+      "input": 12000,
+      "output": 11000,
+      "cutoff": 5000,
+      "file": "resample-12000-11000.bin",
+      "phases": 11
+    },
+    {
+      "input": 16000,
+      "output": 10000,
+      "cutoff": 4500,
+      "file": "resample-16000-10000.bin",
+      "phases": 5
+    },
+    {
+      "input": 16000,
+      "output": 11000,
+      "cutoff": 5000,
+      "file": "resample-16000-11000.bin",
+      "phases": 11
+    },
+    {
+      "input": 16000,
+      "output": 13000,
+      "cutoff": 6000,
+      "file": "resample-16000-13000.bin",
+      "phases": 13
+    },
+    {
+      "input": 16000,
+      "output": 14000,
+      "cutoff": 6500,
+      "file": "resample-16000-14000.bin",
+      "phases": 7
+    },
+    {
+      "input": 16000,
+      "output": 16000,
+      "cutoff": 7500,
+      "file": "resample-16000-16000.bin",
+      "phases": 1
+    },
+    {
+      "input": 22050,
+      "output": 10000,
+      "cutoff": 4500,
+      "file": "resample-22050-10000.bin",
+      "phases": 200
+    },
+    {
+      "input": 22050,
+      "output": 11000,
+      "cutoff": 5000,
+      "file": "resample-22050-11000.bin",
+      "phases": 220
+    },
+    {
+      "input": 22050,
+      "output": 13000,
+      "cutoff": 6000,
+      "file": "resample-22050-13000.bin",
+      "phases": 260
+    },
+    {
+      "input": 22050,
+      "output": 14000,
+      "cutoff": 6500,
+      "file": "resample-22050-14000.bin",
+      "phases": 40
+    },
+    {
+      "input": 22050,
+      "output": 16000,
+      "cutoff": 7500,
+      "file": "resample-22050-16000.bin",
+      "phases": 320
+    },
+    {
+      "input": 22050,
+      "output": 18000,
+      "cutoff": 8500,
+      "file": "resample-22050-18000.bin",
+      "phases": 40
+    },
+    {
+      "input": 24000,
+      "output": 10000,
+      "cutoff": 4500,
+      "file": "resample-24000-10000.bin",
+      "phases": 5
+    },
+    {
+      "input": 24000,
+      "output": 11000,
+      "cutoff": 5000,
+      "file": "resample-24000-11000.bin",
+      "phases": 11
+    },
+    {
+      "input": 24000,
+      "output": 13000,
+      "cutoff": 6000,
+      "file": "resample-24000-13000.bin",
+      "phases": 13
+    },
+    {
+      "input": 24000,
+      "output": 14000,
+      "cutoff": 6500,
+      "file": "resample-24000-14000.bin",
+      "phases": 7
+    },
+    {
+      "input": 24000,
+      "output": 16000,
+      "cutoff": 7500,
+      "file": "resample-24000-16000.bin",
+      "phases": 2
+    },
+    {
+      "input": 24000,
+      "output": 18000,
+      "cutoff": 8500,
+      "file": "resample-24000-18000.bin",
+      "phases": 3
+    },
+    {
+      "input": 32000,
+      "output": 10000,
+      "cutoff": 4500,
+      "file": "resample-32000-10000.bin",
+      "phases": 5
+    },
+    {
+      "input": 32000,
+      "output": 11000,
+      "cutoff": 5000,
+      "file": "resample-32000-11000.bin",
+      "phases": 11
+    },
+    {
+      "input": 32000,
+      "output": 13000,
+      "cutoff": 6000,
+      "file": "resample-32000-13000.bin",
+      "phases": 13
+    },
+    {
+      "input": 32000,
+      "output": 14000,
+      "cutoff": 6500,
+      "file": "resample-32000-14000.bin",
+      "phases": 7
+    },
+    {
+      "input": 32000,
+      "output": 16000,
+      "cutoff": 7500,
+      "file": "resample-32000-16000.bin",
+      "phases": 1
+    },
+    {
+      "input": 32000,
+      "output": 18000,
+      "cutoff": 8500,
+      "file": "resample-32000-18000.bin",
+      "phases": 9
+    },
+    {
+      "input": 44100,
+      "output": 10000,
+      "cutoff": 4500,
+      "file": "resample-44100-10000.bin",
+      "phases": 100
+    },
+    {
+      "input": 44100,
+      "output": 11000,
+      "cutoff": 5000,
+      "file": "resample-44100-11000.bin",
+      "phases": 110
+    },
+    {
+      "input": 44100,
+      "output": 13000,
+      "cutoff": 6000,
+      "file": "resample-44100-13000.bin",
+      "phases": 130
+    },
+    {
+      "input": 44100,
+      "output": 14000,
+      "cutoff": 6500,
+      "file": "resample-44100-14000.bin",
+      "phases": 20
+    },
+    {
+      "input": 44100,
+      "output": 16000,
+      "cutoff": 7500,
+      "file": "resample-44100-16000.bin",
+      "phases": 160
+    },
+    {
+      "input": 44100,
+      "output": 18000,
+      "cutoff": 8500,
+      "file": "resample-44100-18000.bin",
+      "phases": 20
+    },
+    {
+      "input": 48000,
+      "output": 10000,
+      "cutoff": 4500,
+      "file": "resample-48000-10000.bin",
+      "phases": 5
+    },
+    {
+      "input": 48000,
+      "output": 11000,
+      "cutoff": 5000,
+      "file": "resample-48000-11000.bin",
+      "phases": 11
+    },
+    {
+      "input": 48000,
+      "output": 13000,
+      "cutoff": 6000,
+      "file": "resample-48000-13000.bin",
+      "phases": 13
+    },
+    {
+      "input": 48000,
+      "output": 14000,
+      "cutoff": 6500,
+      "file": "resample-48000-14000.bin",
+      "phases": 7
+    },
+    {
+      "input": 48000,
+      "output": 16000,
+      "cutoff": 7500,
+      "file": "resample-48000-16000.bin",
+      "phases": 1
+    },
+    {
+      "input": 48000,
+      "output": 18000,
+      "cutoff": 8500,
+      "file": "resample-48000-18000.bin",
+      "phases": 3
+    }
+  ],
+  "files": {
+    "hamming-250.bin": "7683d7d5dc1415c7dcef9d2b9661f48ce8591b5f4b5b5ba973a483a3e6ddfee4",
+    "hamming-275.bin": "0f131f454fa421cac73cc0f5acfd454296acc71e92686286d12f3ee748035f2d",
+    "hamming-300.bin": "18cc639d4d633df097696d02942c7eb770a8092b0703c6f1b1d72ed9c33b1166",
+    "hamming-325.bin": "97c0bbc37357fbc9be450a078ebedeb12b81c341f1ea32229526ff1753e389bb",
+    "hamming-350.bin": "6af152b56629ee9b0d6ac4b0888688d143a63a336f2a954b5d28cb073e4ad749",
+    "hamming-400.bin": "96c92caf48bc01e8633cc2f8ef9d0ed14620550bac445cc6bd859a3779672a74",
+    "hamming-440.bin": "4f21d0fc9d9e0ce61318f60f37461d67261a318926b464101375dc8f01562bf9",
+    "hamming-450.bin": "5525b8619e5f979d9c2372f18f890c2af20fb2c3374b7f8b8fd5e994db56ff08",
+    "hamming-480.bin": "fd7cec4913f8e638a1257eae5e61dd2f774bdc20a1030714c4a15bf33f29487c",
+    "hamming-520.bin": "e64d2dfd69ee39c0a4d339442b8764d87d08d379fa3de55241857d772d7cfa7b",
+    "hamming-560.bin": "8d431d48acb5fc1b63368b8945964055bcdeedabd4ab97ff17ca289b7c73269d",
+    "hamming-640.bin": "3a202500f439d5c8fd8b0c43a4c8b88e5502fb7d0b8a4a70e252bafcdf932e13",
+    "hamming-720.bin": "3559ed23a2331d019212d49d503aa7abc04eeafaa0f97def2c0df3d93ece814b",
+    "hann-12000.bin": "a333cc0e34a3c241a346c8b55678c67f64ef7feff61af16c03aef33d702ab1cd",
+    "hann-16000.bin": "4e8db78c7e93bccda6db15746373fd887a2169e950b5877f3cca8af73ad10ba5",
+    "hann-22050.bin": "1bd8ed19163df7d7644bcf066bca837e5120c10bcdbd5190820380b29dc6fa9c",
+    "hann-24000.bin": "533f30db216ffc2c6f35a75c9ec20063af0f2636963dc5d829826290d9979b6c",
+    "hann-32000.bin": "dda047b32e0eae43d837b98f8d760a782f7cb4eedf7fd0c8bb59f36cdacd7773",
+    "hann-44100.bin": "9c13d2afc2fe27ce636265f242021f255cc9f1bd2171b20ea74d84c941b8e091",
+    "hann-48000.bin": "0c5a4f19678adf5bdd691d5dc6b81ccc1f467e8d09631486071ab03bb8f42ae7",
+    "root-seeds.bin": "2cb5ba96fa816d6bc4f751b79a65d0e18a30f746300c3777b77adff86ef39883",
+    "emphasis.bin": "e1f3f9aac3a92d9d54d34a61716504eb0d5768a659c829c951b73fbe03cee20e",
+    "resample-12000-10000.bin": "c65dcd389e5eff203f0b655e79a6042ee847df6f38a6e8f1f5238c54a3011735",
+    "resample-12000-11000.bin": "c6078ca35a642eb8b3c29ee6a3142d2fe389c1ec93875bdce23ea30704cf1d01",
+    "resample-16000-10000.bin": "64700f800ef8405aac5bb56dd02d01765a388985869b730d165c729568d14bb8",
+    "resample-16000-11000.bin": "a1b7f1470bcb0ee2a1e1feb8c69e9845de6b4c8f6a38dce3d394a8217dbef653",
+    "resample-16000-13000.bin": "86fb913de28674cb9c883f59ce4a7a694ac024fa8908cff396058f11acbcc226",
+    "resample-16000-14000.bin": "c761f5bf5f5dc464ec3ff577d97ad19021f05e71dfabe90a7af1eba48879c5ac",
+    "resample-16000-16000.bin": "f9578a58e91c708bea3d549039abfb45cc88d61b8a1077da333c620b6634b61c",
+    "resample-22050-10000.bin": "b65fb851a0d2fa7aa1d154bcf79e9df88d729bf893487b6a2786f9f1ff378641",
+    "resample-22050-11000.bin": "abe3241b82c28dd16929457c43d1e2f57048e5047d79e4ffb5bc5a2446f0b640",
+    "resample-22050-13000.bin": "7dec206cd44243d708b9db29b48208331076f6f3de3a392f70bba80b97bdfaed",
+    "resample-22050-14000.bin": "7217beb1e698e05bbe94ec4d8cf82952824da82d6d9a9df0350d1c08c8cc7275",
+    "resample-22050-16000.bin": "8c4fe368931a62d1363fd33b8bca63746d377b22e2903b6b37201e1e7de01633",
+    "resample-22050-18000.bin": "44b08048b706b634fa5ca2b989f2dc3eb5b682d2a1b7b67c0e6587fd9384a72d",
+    "resample-24000-10000.bin": "963af4f013d72a752c11f4f49eb54bff30054ec85925dceff9e0e798032d604d",
+    "resample-24000-11000.bin": "14938d0cf744ce2ed077b2d11a62e8a07d7d3efcef7571f7bf4c2a6d009a03fa",
+    "resample-24000-13000.bin": "ab8b2d0eb5a74d24cb1e111a520b4ba8658d4517c42fc2b67692be756a156469",
+    "resample-24000-14000.bin": "885d812327f92c9714d43380a91b97343110341656fc392a4e64e3478cd8aa2a",
+    "resample-24000-16000.bin": "6badcb60ba3676878cf699cf35f2d9f9768a07c80d9c0822a8a5a364c7ac7ab7",
+    "resample-24000-18000.bin": "a390b187b44e076b66f1dfab4233172a1946d27b83f0cb6ac024c9c063dadee6",
+    "resample-32000-10000.bin": "3abe83de30c283b93457d5fc1602d789b92ebbecdffd553652b6565cb77d1592",
+    "resample-32000-11000.bin": "09ad7e40cbba26cb1acc9a791fac1108c56e177e53eb24c25a45333f969e275d",
+    "resample-32000-13000.bin": "eb61fd83233436a5ef7d33c36646bf015378cfa1ac660a8776a7614a036cb829",
+    "resample-32000-14000.bin": "c24761c9b6f1fdefd4b3e8da51a9c1a6dc0020489b0798517e855390da448317",
+    "resample-32000-16000.bin": "6628546dcfdf595774af9f0d4748d05c896c6f620eeda2ddeca1d1e3622fe70c",
+    "resample-32000-18000.bin": "db141ff67158bdcd2664cb92bc65708397210524de812bb0d4fe316fe26c7b26",
+    "resample-44100-10000.bin": "bf1c19872acdd8b39856cc2fc1baf699f4b51d973283e60b6eb783713e7dd422",
+    "resample-44100-11000.bin": "8b98ad20b6779167ccac083faf760b0a824c7c62303edf59e89b3dfcdd3b7798",
+    "resample-44100-13000.bin": "c6f39582aefa63dbb3f07a492de4d39f872b738901ffba0e81417b7e071ff0a7",
+    "resample-44100-14000.bin": "519b82c617e0942d58e9c6b43dbec4b0852611e64fe93abb7f113a637598dd70",
+    "resample-44100-16000.bin": "9c1b1050732dd59c75863a7e2ab9b4d90ea99aed5fb312b8d571eeb7b3a1af16",
+    "resample-44100-18000.bin": "30d4b3bc706321dd626531d24862d65c15aca47d59d834193a8f649a9cf9fb19",
+    "resample-48000-10000.bin": "9f477a6ad44c7efab9df6880c5e1aa63e6154da1c394bf59beed311071888789",
+    "resample-48000-11000.bin": "a347e6ae1f1941b0f6e1a0f18a0f3a5e52a1b2b790eb619a0fcc77ab2da88890",
+    "resample-48000-13000.bin": "21b3ac608f15f48c1f060857e508e7fe4ec3bc8f7fae43b7ee77a9d9fad45a38",
+    "resample-48000-14000.bin": "e9e8daa10cfbb604675782661f10fbda65bf994db2226421eaed85fadc5901e1",
+    "resample-48000-16000.bin": "320e31eaa846997990e56d549ee9d4963357a17f19b37bdbba2472c59618edca",
+    "resample-48000-18000.bin": "c9a73b04111e1ef9a8dde34911d18b9f2a7b51c583a6f8bde92912eb5a840291"
+  }
+}

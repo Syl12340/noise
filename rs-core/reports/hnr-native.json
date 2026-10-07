@@ -3,7 +3,7 @@
   "profile": "legacy-hnr-js-sin-v1",
   "manifestSha256": "57f98723dab3807de382e06cfe715d378b114a57629fb30adf7de260e51c6263",
   "stateCases": 6,
-  "driverSha256": "00538183c2bb895e69ef135f15a7c3681635fc1bc8180a2a6275c5ae6a4949d0",
+  "driverSha256": "be3810f93ccf60d6299aad0ca7f3716ec695c32949c95423a88f14f16c7c7110",
   "stats": {
     "cases": 50,
     "exactNumbers": 69007,

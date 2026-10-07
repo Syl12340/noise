@@ -23,6 +23,34 @@ pub struct ResampleSession {
     failed: Option<&'static str>,
 }
 impl ResampleSession {
+    #[cfg(feature = "full-speech")]
+    pub(crate) fn with_bank(
+        signal: Vec<f32>,
+        input: u32,
+        output: u32,
+        bank: KernelBank,
+    ) -> Result<Self, &'static str> {
+        if input == 0
+            || output == 0
+            || output > input
+            || signal.len() > 262144
+            || !signal.iter().all(|v| v.is_finite())
+        {
+            return Err("invalid full resample domain");
+        }
+        let total = (signal.len() as f64 * output as f64 / input as f64).floor() as usize;
+        Ok(Self {
+            signal,
+            bank: if total == 0 { None } else { Some(bank) },
+            input,
+            output,
+            total,
+            completed: 0,
+            last_start: 0,
+            values: Vec::with_capacity(total),
+            failed: None,
+        })
+    }
     pub fn new(
         signal: Vec<f32>,
         input: u32,

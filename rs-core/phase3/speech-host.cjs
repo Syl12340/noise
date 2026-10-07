@@ -102,15 +102,17 @@ function attachSpeechInstance(instance) {
     discarded:value=>{if(value===true)discarded=true;return discarded;}}));
   if(typeof require==='function')Object.assign(host,require('../phase10/resample-host.cjs').attachResample({e,call,input,result,
     discarded:value=>{if(value===true)discarded=true;return discarded;}}));
+  if(typeof require==='function')Object.assign(host,require('../phase12/metrics-host.cjs').attachVoiceMetrics({e,call,input,result}));
+  if(typeof require==='function')Object.assign(host,require('../phase13/full-host.cjs').attachFull({e,call,input,range,result,discarded:value=>{if(value===true)discarded=true;return discarded;}}));
   return host;
 }
 async function instantiateSpeech({api,source}) {
   if(!api||typeof api.instantiate!=='function')throw new TypeError('Supply WASM API');
   if(typeof api.compile==='function'&&api.Module&&typeof api.Module.imports==='function'&&typeof source!=='string') {
     const module=await api.compile(source);const imports=api.Module.imports(module);
-    if(imports.length>1||imports.some(i=>i.module!=='env'||i.name!=='hnr_sin'||i.kind!=='function'))throw new Error('Speech imports unauthorized');
-    const loaded=await api.instantiate(module,{env:{hnr_sin:Math.sin}});return attachSpeechInstance(loaded.instance||loaded);
+    const allowed=['hnr_sin','math_hypot','math_atan2','math_log','math_log10'];if(imports.length>5||imports.some(i=>i.module!=='env'||!allowed.includes(i.name)||i.kind!=='function')||new Set(imports.map(i=>i.name)).size!==imports.length)throw new Error('Speech imports unauthorized');
+    const loaded=await api.instantiate(module,{env:{hnr_sin:Math.sin,math_hypot:Math.hypot,math_atan2:Math.atan2,math_log:Math.log,math_log10:Math.log10}});return attachSpeechInstance(loaded.instance||loaded);
   }
-  const loaded=await api.instantiate(source,{env:{hnr_sin:Math.sin}});return attachSpeechInstance(loaded.instance||loaded);
+  const loaded=await api.instantiate(source,{env:{hnr_sin:Math.sin,math_hypot:Math.hypot,math_atan2:Math.atan2,math_log:Math.log,math_log10:Math.log10}});return attachSpeechInstance(loaded.instance||loaded);
 }
 module.exports={attachSpeechInstance,instantiateSpeech};

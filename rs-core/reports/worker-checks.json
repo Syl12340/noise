@@ -21,7 +21,7 @@
     "Node messageerror event rejects active job and cleans Worker",
     "invalid WASM initialization fails and cleans Worker"
   ],
-  "artifactSha256": "8d2ea636a2bd8e3cce58fe7317b3e3604c5f4e3177c8802870bef6d452ec7dd3",
+  "artifactSha256": "968b70887cc68046efabe1335cfe9b14d2a3f04f9f6553e277e5f52f546150bb",
   "referenceSha256": "ca5fe21b490389830d5b4231439d0947ab1b79f066693ced2599132b230223a3",
   "limits": [
     "Actual Node Worker and injected callback transport only; not WX/Android verification",
