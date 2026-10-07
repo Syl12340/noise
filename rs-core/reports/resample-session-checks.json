@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "stats": {
+    "cases": 70,
+    "exactSamples": 154034,
+    "batches": 19238
+  },
+  "checks": [
+    "70 frozen native/WASM outputs; global phases/edges; batch sizes1/7/256/4096; copied callback batches",
+    "owned input, staging reuse, idempotence and stale handle",
+    "interleaved distinct source-rate sessions",
+    "cancel/callback cleanup, other session and restart",
+    "pending/incomplete, invalid batch, memory growth, admission and trap discard",
+    "PCM pipeline cancellation during resampling and restart; final exact comparison remains in phase8"
+  ],
+  "manifestSha256": "4af3fe3d906a17f257bfd82f4a35be60cfa08df188ce8bad3c8d6a4ede2bce21",
+  "artifactSha256": "8d2ea636a2bd8e3cce58fe7317b3e3604c5f4e3177c8802870bef6d452ec7dd3",
+  "limits": [
+    "Batch yields only; no actual Worker/device latency qualification",
+    "Working tree round; no local commit or push"
+  ]
+}

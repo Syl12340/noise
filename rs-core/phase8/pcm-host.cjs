@@ -20,7 +20,7 @@ function attachPcm({host,e,call,input,result}){
    const quality=inspect(chunk,sampleRate),centered=center(chunk);
    segmentQuality.push({startSample:span.startSample,endSample:span.endSample,quality});
    await onProgress({stage:'centered',segmentIndex:index,segments:spans.length});check();await yieldFn();check();
-   const signal=host.resample(centered,sampleRate);
+   const signal=await host.resampleAsync(centered,sampleRate,12000,5500,{yieldFn,isCanceled,onProgress:r=>onProgress({...r,stage:'resample-batch',segmentIndex:index})});
    await onProgress({stage:'resampled',segmentIndex:index,segments:spans.length});check();await yieldFn();check();
    const pitchTrack=await host.trackAsync(signal,{}, {yieldFn,isCanceled,onProgress:r=>onProgress({...r,stage:'pitch-frame',segmentIndex:index})});
    pieces.push({startSample:span.startSample,endSample:span.endSample,signal,pitchTrack,intervals:quality.clippingEvidence.intervals});

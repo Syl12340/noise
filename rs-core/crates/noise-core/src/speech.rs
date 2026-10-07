@@ -68,6 +68,7 @@ pub mod hnr_session;
 mod hnr_tables;
 pub mod pitch_session;
 pub mod resample;
+pub mod resample_session;
 mod resample_tables;
 #[cfg(feature = "harmonicity")]
 pub mod segments;

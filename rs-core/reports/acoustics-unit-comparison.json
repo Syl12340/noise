@@ -8,6 +8,6 @@
   "rmsFields": 6,
   "maxDbError": 5.684341886080802e-14,
   "maxRmsError": 0,
-  "driverSha256": "fd5edfd42cd3ee108606ed924e849aa8c72bcf5305f85228e5cfcb8c4b0a13c2",
+  "driverSha256": "de8f7ea8f13eff616c56d67f47d936f2317baffa22981c7abeb4469159f39b60",
   "scope": "Actual baseline functions vs native Rust; neither device verification nor independent physical truth"
 }

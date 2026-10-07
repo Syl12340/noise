@@ -13,8 +13,8 @@ assert destination.is_relative_to((ROOT/'_work').resolve())
 prefix=destination.as_posix()+'/'
 subprocess.run(['git','checkout-index','--all','--force','--prefix='+prefix],cwd=PROJECT,check=True)
 print('Fresh staged checkout: '+str(destination),flush=True)
-stage=9 if '--phase9' in sys.argv else 8 if '--phase8' in sys.argv else 7 if '--phase7' in sys.argv else 6 if '--phase6' in sys.argv else 5 if '--phase5' in sys.argv else 4 if '--phase4' in sys.argv else 3
-run=subprocess.run(['python',f'tools/run-phase{stage}.py','--repository-clean'],cwd=destination/'rs-core',capture_output=True,text=True,encoding='utf8',errors='replace',timeout=420)
+stage=11 if '--phase11' in sys.argv else 10 if '--phase10' in sys.argv else 9 if '--phase9' in sys.argv else 8 if '--phase8' in sys.argv else 7 if '--phase7' in sys.argv else 6 if '--phase6' in sys.argv else 5 if '--phase5' in sys.argv else 4 if '--phase4' in sys.argv else 3
+run=subprocess.run(['python',f'tools/run-phase{stage}.py','--repository-clean'],cwd=destination/'rs-core',capture_output=True,text=True,encoding='utf8',errors='replace',timeout=540)
 report={'status':'PASS' if run.returncode==0 else 'FAIL','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'copy':str(destination),'exitCode':run.returncode,'stdout':run.stdout,'stderr':run.stderr}
 if run.returncode==0:
     report['verification']=json.loads((destination/f'rs-core/reports/phase{stage}-verification.json').read_text(encoding='utf8'))

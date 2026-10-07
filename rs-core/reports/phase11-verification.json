@@ -4,38 +4,20 @@
     {
       "command": [
         "python",
-        "tools/run-phase8.py",
+        "tools/run-phase10.py",
         "--repository-clean"
       ],
       "exitCode": 0,
-      "stdout": "RUN python tools/run-phase7.py --repository-clean\nPASS\nRUN cargo build -p noise-wasm --features speech --example pcm_driver --release --locked --offline\nPASS\nRUN node phase8/check-pcm.cjs\nPASS\n{\"status\": \"PASS_DESKTOP_COMPATIBILITY_ONLY\", \"topLevelCommandsPassed\": 3}\n",
+      "stdout": "RUN python tools/run-phase9.py --repository-clean\nPASS\nRUN cargo build -p noise-wasm --features speech --example resample_session_driver --release --locked --offline\nPASS\nRUN node phase10/check-resample-sessions.cjs\nPASS\n{\"status\": \"PASS_DESKTOP_COMPATIBILITY_ONLY\", \"topLevelCommandsPassed\": 3}\n",
       "stderr": ""
     },
     {
       "command": [
-        "cargo",
-        "build",
-        "-p",
-        "noise-wasm",
-        "--features",
-        "speech",
-        "--example",
-        "pitch_session_driver",
-        "--release",
-        "--locked",
-        "--offline"
-      ],
-      "exitCode": 0,
-      "stdout": "",
-      "stderr": "   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-sqyv_mmj\\rs-core\\crates\\noise-wasm)\n    Finished `release` profile [optimized] target(s) in 2.37s\n"
-    },
-    {
-      "command": [
         "node",
-        "phase9/check-pitch-sessions.cjs"
+        "phase11/check-worker.cjs"
       ],
       "exitCode": 0,
-      "stdout": "{\n  \"status\": \"PASS\",\n  \"cases\": 8,\n  \"stats\": {\n    \"exactFields\": 14079,\n    \"frames\": 652\n  },\n  \"checks\": [\n    \"8 actual-JS native/WASM session tracks, optional fields and exact global times\",\n    \"owned input/options, staging reuse, idempotence and stale handle\",\n    \"two sessions with different frame and hop; bounded registry\",\n    \"cancel/callback cleanup, unrelated session and restart\",\n    \"whole-session work budget and admission\",\n    \"pending gate, incomplete finish, memory growth and trapped-instance discard\",\n    \"PCM pipeline cancels during YIN frame scheduling and restarts\"\n  ],\n  \"manifestSha256\": \"92bc4bc8fe75290d048dc03460ddb924a7be71619e59d110fb5115d6d35954bb\",\n  \"artifactSha256\": \"8d2ea636a2bd8e3cce58fe7317b3e3604c5f4e3177c8802870bef6d452ec7dd3\",\n  \"limits\": [\n    \"Yields between frames only; resampling remains synchronous; no device/Worker latency qualification\"\n  ]\n}\n",
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"stats\": {\n    \"cases\": 8,\n    \"exactFields\": 9197,\n    \"dbFields\": 965,\n    \"maxDbError\": 0,\n    \"progress\": 2037\n  },\n  \"checks\": [\n    \"8 actual Node Worker PCM-to-HNR results match frozen baseline; bounded progress metadata\",\n    \"owned transfer copies and one-job admission\",\n    \"cancel and async hook failure clean up, then same Worker restarts\",\n    \"main event loop remains active while Worker computes default5.25s\",\n    \"injected clone transport, asynchronous ack backpressure, cancel releases stuck hook, listener cleanup\",\n    \"ready timeout, stale epoch and malformed-result termination\",\n    \"well-shaped result from a different source length is rejected\",\n    \"scientific numeric fields cannot be replaced with strings\",\n    \"actual nonresponsive Worker is terminated after deadline and missing cancel ack\",\n    \"unexpected Worker exit rejects job; explicit new Worker recovers without replay\",\n    \"Node messageerror event rejects active job and cleans Worker\",\n    \"invalid WASM initialization fails and cleans Worker\"\n  ],\n  \"artifactSha256\": \"8d2ea636a2bd8e3cce58fe7317b3e3604c5f4e3177c8802870bef6d452ec7dd3\",\n  \"referenceSha256\": \"ca5fe21b490389830d5b4231439d0947ab1b79f066693ced2599132b230223a3\",\n  \"limits\": [\n    \"Actual Node Worker and injected callback transport only; not WX/Android verification\",\n    \"No production integration, phone latency or clinical qualification\"\n  ]\n}\n",
       "stderr": ""
     }
   ],
@@ -245,12 +227,25 @@
     "phase9/pitch-host.cjs": "7685dfe5a77c234ca50542f89a5fdbe67a5748e4cec5cd076569d625b811e1a3",
     "phase9/PORT_CONTRACT.md": "7c242df1ceda5f6270cd98969005ef00fdc8746dfb798116c5b86bfc5c411e31",
     "phase9/README.md": "57e35a65a58746276c3934cbd728f79be5ae3626ef86dec77869181c1a13a72b",
-    "phase9/reference/manifest.json": "92bc4bc8fe75290d048dc03460ddb924a7be71619e59d110fb5115d6d35954bb"
+    "phase9/reference/manifest.json": "92bc4bc8fe75290d048dc03460ddb924a7be71619e59d110fb5115d6d35954bb",
+    "phase10/check-resample-sessions.cjs": "af9a469fa31ec5f2f921a9f6783f89503028ef4620c9a5f80167edb1880acf59",
+    "phase10/PORT_CONTRACT.md": "fcb217354c711fee295f94a040382bdb5ddc5c8829b7581012dddf955a8478a7",
+    "phase10/README.md": "20b7fe6e7133676312f68554b4d4dd9e3a2446581c9eb33c872dc6a702ad5b2f",
+    "phase10/resample-host.cjs": "871e2a0b5fd6a1858f9cbf2a9a1867b037911f29d3f786e8a025f0d0b6edc236",
+    "phase11/check-worker.cjs": "5ffc1c75540a0d37a1928306fa9ada4f638461473b95c7a2f26a6872dce8dc35",
+    "phase11/fixtures/nonresponsive-worker.cjs": "be7117be2808eadbc71fce633925cd172d4695ad392b9a9b7184514b4eb18001",
+    "phase11/node-client.cjs": "3d7db2625dc3fe872ef662f956a195253bd4fd366356b8c3590151ade33f3177",
+    "phase11/node-worker.cjs": "c26e5f955f0708a5a03ad70cb7536b0f55139572918051761321fedb1b2ed6e6",
+    "phase11/PORT_CONTRACT.md": "cd23bcd2ea61761a8d2ec53bd68b22d347674ef72f589091e72636351ed4fa1c",
+    "phase11/protocol.cjs": "2505bbf704a80d713caf7cfb7edc52476770073809696c44622b1e53518aa8e8",
+    "phase11/README.md": "ad7d44f727c7046f880e218affb09935bbcef7a66693e5f2fe9a3ca802cd9430",
+    "phase11/worker-client.cjs": "b8c09c6a0542051f490cb5a38b57043d5e5b628931afe36c25efbc0690e4ee1a",
+    "phase11/worker-service.cjs": "2383d1e71f150a2d16677aa093f59794373146b778dfa1447f6627e539642688"
   },
-  "finishedUtc": "2026-10-07T14:06:26.315681+00:00",
+  "finishedUtc": "2026-10-07T14:07:27.508625+00:00",
   "limits": [
-    "YIN yields between frames, not during a frame; resampling remains synchronous",
-    "No Worker/device/native-libm qualification",
-    "Local round1 since d0620e7; no remote push this round"
+    "Actual Node Worker plus injected callback transport, not WX/Android qualification",
+    "No production integration, phone latency or clinical validity claim",
+    "Batch phase10+11 with local phase9 after exact checkout verification"
   ]
 }

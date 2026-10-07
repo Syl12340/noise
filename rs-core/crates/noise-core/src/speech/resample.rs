@@ -82,7 +82,7 @@
 //! the baseline bit-for-bit is **not** new scientific validation of the resampler's
 //! anti-aliasing behaviour — upstream limitations are reproduced, not repaired.
 
-use crate::speech::resample_tables::load_bank;
+use crate::speech::resample_tables::{KernelBank, load_bank};
 
 /// Baseline `const half = 128`, i.e. 128 taps on each side of the sample position.
 pub const HALF_TAPS: usize = 128;
@@ -144,8 +144,24 @@ pub fn resample_low_pass(
     output_rate: u32,
     cutoff_hz: f64,
 ) -> Result<Vec<f32>, &'static str> {
-    // 1. Profile identity. `SUPPORTED_CUTOFF_HZ` is exactly representable and `5500.0` is the
-    //    only frozen cutoff, so an exact comparison is the correct test here.
+    let out_len = validate(signal, input_rate, output_rate, cutoff_hz)?;
+    if signal.is_empty() {
+        return Ok(Vec::new());
+    }
+    let bank = load_bank(input_rate, output_rate, cutoff_hz).ok_or(ERR_MISSING_PHASE)?;
+    let mut out = Vec::with_capacity(out_len);
+    for i in 0..out_len {
+        out.push(sample_at(signal, input_rate, output_rate, i, &bank)?);
+    }
+    Ok(out)
+}
+
+pub(crate) fn validate(
+    signal: &[f32],
+    input_rate: u32,
+    output_rate: u32,
+    cutoff_hz: f64,
+) -> Result<usize, &'static str> {
     if output_rate != SUPPORTED_OUTPUT_RATE
         || cutoff_hz != SUPPORTED_CUTOFF_HZ
         || !SUPPORTED_INPUT_RATES.contains(&input_rate)
@@ -153,84 +169,71 @@ pub fn resample_low_pass(
         return Err(ERR_UNSUPPORTED_PROFILE);
     }
 
-    // 2. Length bound, checked before anything is allocated or computed.
     let n = signal.len();
     if n > MAX_INPUT_SAMPLES {
         return Err(ERR_INPUT_TOO_LONG);
     }
 
-    // 3. Finiteness. The baseline propagates NaN/Inf through the accumulator; this port
-    //    rejects instead, so a poisoned fixture cannot look like a passing comparison.
     for &sample in signal {
         if !sample.is_finite() {
             return Err(ERR_NON_FINITE_INPUT);
         }
     }
 
-    // 4. Empty input is a valid request for a valid profile: the baseline allocates a
-    //    zero-length Float32Array and returns before touching any kernel or phase.
-    if n == 0 {
-        return Ok(Vec::new());
-    }
+    Ok(((n as f64) * (output_rate as f64) / (input_rate as f64)).floor() as usize)
+}
 
-    // 5. Frozen kernels, keyed by quantized phase. Loaded once per call; the baseline's own
-    //    cache is per generator invocation, and this port does not add a second-level cache
-    //    that could outlive a table revision.
-    let bank = load_bank(input_rate, output_rate, cutoff_hz).ok_or(ERR_MISSING_PHASE)?;
-
-    // Baseline: Math.floor(signal.length * outputRate / inputRate). The multiplication is
-    // performed before the division, in this order, on the nonnegative integer length.
-    // For every supported profile this quotient is at most `n`, because output <= input.
-    let out_len = ((n as f64) * (output_rate as f64) / (input_rate as f64)).floor() as usize;
-
+/// Shared ordered arithmetic for one global output index; source is never a batch slice.
+pub(crate) fn sample_at(
+    signal: &[f32],
+    input_rate: u32,
+    output_rate: u32,
+    i: usize,
+    bank: &KernelBank,
+) -> Result<f32, &'static str> {
     let input_rate_f = input_rate as f64;
     let output_rate_f = output_rate as f64;
-    let last_index = n - 1;
+    let last_index = signal.len() - 1;
 
-    let mut out: Vec<f32> = Vec::with_capacity(out_len);
-    for i in 0..out_len {
-        // Baseline: const position = i * inputRate / outputRate.
-        let position = (i as f64) * input_rate_f / output_rate_f;
-        // Baseline: const base = Math.floor(position).
-        let base = position.floor();
-        // Baseline: const phase = Math.round((position - base) * 1e6) / 1e6.
-        // Math.round ties go toward +Infinity; see `js_round` for why `+ 0.5` is not used.
-        let phase_key = js_round((position - base) * PHASE_QUANTIZATION) as u32;
+    // Baseline: const position = i * inputRate / outputRate.
+    let position = (i as f64) * input_rate_f / output_rate_f;
+    // Baseline: const base = Math.floor(position).
+    let base = position.floor();
+    // Baseline: const phase = Math.round((position - base) * 1e6) / 1e6.
+    // Math.round ties go toward +Infinity; see `js_round` for why `+ 0.5` is not used.
+    let phase_key = js_round((position - base) * PHASE_QUANTIZATION) as u32;
 
-        // Borrow, never clone: `kernels` is indexed in place for the whole 257-tap loop.
-        let (_, kernel) = bank
-            .kernels
-            .iter()
-            .find(|(key, _)| *key == phase_key)
-            .ok_or(ERR_MISSING_PHASE)?;
-        debug_assert_eq!(kernel.len(), KERNEL_TAPS, "frozen kernel must be 257 taps");
+    // Borrow, never clone: `kernels` is indexed in place for the whole 257-tap loop.
+    let (_, kernel) = bank
+        .kernels
+        .iter()
+        .find(|(key, _)| *key == phase_key)
+        .ok_or(ERR_MISSING_PHASE)?;
+    debug_assert_eq!(kernel.len(), KERNEL_TAPS, "frozen kernel must be 257 taps");
 
-        // Baseline: let value = 0; for (let j = -half; j <= half; j++) { ... }
-        let mut value = 0.0f64;
-        for j in -128i64..=128i64 {
-            // Baseline: Math.max(0, Math.min(signal.length - 1, base + j)).
-            let raw = base + (j as f64);
-            let clamped = if raw < 0.0 {
-                0.0
-            } else if raw > last_index as f64 {
-                last_index as f64
-            } else {
-                raw
-            };
-            // `clamped` is an integer-valued f64 in [0, n - 1] by construction; the cast is
-            // exact and cannot leave the slice bounds.
-            let index = clamped as usize;
-            let tap = kernel[(j + 128) as usize];
-            // Baseline: value += signal[index] * kernel[j + half]; ascending j, one rounding
-            // per multiply-add pair, no FMA contraction permitted on this expression.
-            value += (signal[index] as f64) * tap;
-        }
-
-        // Baseline: out[i] = value; i.e. a Float32Array store.
-        out.push(value as f32);
+    // Baseline: let value = 0; for (let j = -half; j <= half; j++) { ... }
+    let mut value = 0.0f64;
+    for j in -128i64..=128i64 {
+        // Baseline: Math.max(0, Math.min(signal.length - 1, base + j)).
+        let raw = base + (j as f64);
+        let clamped = if raw < 0.0 {
+            0.0
+        } else if raw > last_index as f64 {
+            last_index as f64
+        } else {
+            raw
+        };
+        // `clamped` is an integer-valued f64 in [0, n - 1] by construction; the cast is
+        // exact and cannot leave the slice bounds.
+        let index = clamped as usize;
+        let tap = kernel[(j + 128) as usize];
+        // Baseline: value += signal[index] * kernel[j + half]; ascending j, one rounding
+        // per multiply-add pair, no FMA contraction permitted on this expression.
+        value += (signal[index] as f64) * tap;
     }
 
-    Ok(out)
+    // Baseline's Float32Array store, before any callback can observe this sample.
+    Ok(value as f32)
 }
 
 /// `Math.round(x)` for finite `x`: nearest integer, with exact `.5` ties toward `+Infinity`.

@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "stats": {
+    "cases": 8,
+    "exactFields": 9197,
+    "dbFields": 965,
+    "maxDbError": 0,
+    "progress": 2037
+  },
+  "checks": [
+    "8 actual Node Worker PCM-to-HNR results match frozen baseline; bounded progress metadata",
+    "owned transfer copies and one-job admission",
+    "cancel and async hook failure clean up, then same Worker restarts",
+    "main event loop remains active while Worker computes default5.25s",
+    "injected clone transport, asynchronous ack backpressure, cancel releases stuck hook, listener cleanup",
+    "ready timeout, stale epoch and malformed-result termination",
+    "well-shaped result from a different source length is rejected",
+    "scientific numeric fields cannot be replaced with strings",
+    "actual nonresponsive Worker is terminated after deadline and missing cancel ack",
+    "unexpected Worker exit rejects job; explicit new Worker recovers without replay",
+    "Node messageerror event rejects active job and cleans Worker",
+    "invalid WASM initialization fails and cleans Worker"
+  ],
+  "artifactSha256": "8d2ea636a2bd8e3cce58fe7317b3e3604c5f4e3177c8802870bef6d452ec7dd3",
+  "referenceSha256": "ca5fe21b490389830d5b4231439d0947ab1b79f066693ced2599132b230223a3",
+  "limits": [
+    "Actual Node Worker and injected callback transport only; not WX/Android verification",
+    "No production integration, phone latency or clinical qualification"
+  ]
+}

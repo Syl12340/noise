@@ -4,11 +4,11 @@
     {
       "command": [
         "python",
-        "tools/run-phase8.py",
+        "tools/run-phase9.py",
         "--repository-clean"
       ],
       "exitCode": 0,
-      "stdout": "RUN python tools/run-phase7.py --repository-clean\nPASS\nRUN cargo build -p noise-wasm --features speech --example pcm_driver --release --locked --offline\nPASS\nRUN node phase8/check-pcm.cjs\nPASS\n{\"status\": \"PASS_DESKTOP_COMPATIBILITY_ONLY\", \"topLevelCommandsPassed\": 3}\n",
+      "stdout": "RUN python tools/run-phase8.py --repository-clean\nPASS\nRUN cargo build -p noise-wasm --features speech --example pitch_session_driver --release --locked --offline\nPASS\nRUN node phase9/check-pitch-sessions.cjs\nPASS\n{\"status\": \"PASS_DESKTOP_COMPATIBILITY_ONLY\", \"topLevelCommandsPassed\": 3}\n",
       "stderr": ""
     },
     {
@@ -20,22 +20,22 @@
         "--features",
         "speech",
         "--example",
-        "pitch_session_driver",
+        "resample_session_driver",
         "--release",
         "--locked",
         "--offline"
       ],
       "exitCode": 0,
       "stdout": "",
-      "stderr": "   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-sqyv_mmj\\rs-core\\crates\\noise-wasm)\n    Finished `release` profile [optimized] target(s) in 2.37s\n"
+      "stderr": "   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-sqyv_mmj\\rs-core\\crates\\noise-wasm)\n    Finished `release` profile [optimized] target(s) in 2.12s\n"
     },
     {
       "command": [
         "node",
-        "phase9/check-pitch-sessions.cjs"
+        "phase10/check-resample-sessions.cjs"
       ],
       "exitCode": 0,
-      "stdout": "{\n  \"status\": \"PASS\",\n  \"cases\": 8,\n  \"stats\": {\n    \"exactFields\": 14079,\n    \"frames\": 652\n  },\n  \"checks\": [\n    \"8 actual-JS native/WASM session tracks, optional fields and exact global times\",\n    \"owned input/options, staging reuse, idempotence and stale handle\",\n    \"two sessions with different frame and hop; bounded registry\",\n    \"cancel/callback cleanup, unrelated session and restart\",\n    \"whole-session work budget and admission\",\n    \"pending gate, incomplete finish, memory growth and trapped-instance discard\",\n    \"PCM pipeline cancels during YIN frame scheduling and restarts\"\n  ],\n  \"manifestSha256\": \"92bc4bc8fe75290d048dc03460ddb924a7be71619e59d110fb5115d6d35954bb\",\n  \"artifactSha256\": \"8d2ea636a2bd8e3cce58fe7317b3e3604c5f4e3177c8802870bef6d452ec7dd3\",\n  \"limits\": [\n    \"Yields between frames only; resampling remains synchronous; no device/Worker latency qualification\"\n  ]\n}\n",
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"stats\": {\n    \"cases\": 70,\n    \"exactSamples\": 154034,\n    \"batches\": 19238\n  },\n  \"checks\": [\n    \"70 frozen native/WASM outputs; global phases/edges; batch sizes1/7/256/4096; copied callback batches\",\n    \"owned input, staging reuse, idempotence and stale handle\",\n    \"interleaved distinct source-rate sessions\",\n    \"cancel/callback cleanup, other session and restart\",\n    \"pending/incomplete, invalid batch, memory growth, admission and trap discard\",\n    \"PCM pipeline cancellation during resampling and restart; final exact comparison remains in phase8\"\n  ],\n  \"manifestSha256\": \"4af3fe3d906a17f257bfd82f4a35be60cfa08df188ce8bad3c8d6a4ede2bce21\",\n  \"artifactSha256\": \"8d2ea636a2bd8e3cce58fe7317b3e3604c5f4e3177c8802870bef6d452ec7dd3\",\n  \"limits\": [\n    \"Batch yields only; no actual Worker/device latency qualification\",\n    \"Working tree round; no local commit or push\"\n  ]\n}\n",
       "stderr": ""
     }
   ],
@@ -245,12 +245,16 @@
     "phase9/pitch-host.cjs": "7685dfe5a77c234ca50542f89a5fdbe67a5748e4cec5cd076569d625b811e1a3",
     "phase9/PORT_CONTRACT.md": "7c242df1ceda5f6270cd98969005ef00fdc8746dfb798116c5b86bfc5c411e31",
     "phase9/README.md": "57e35a65a58746276c3934cbd728f79be5ae3626ef86dec77869181c1a13a72b",
-    "phase9/reference/manifest.json": "92bc4bc8fe75290d048dc03460ddb924a7be71619e59d110fb5115d6d35954bb"
+    "phase9/reference/manifest.json": "92bc4bc8fe75290d048dc03460ddb924a7be71619e59d110fb5115d6d35954bb",
+    "phase10/check-resample-sessions.cjs": "af9a469fa31ec5f2f921a9f6783f89503028ef4620c9a5f80167edb1880acf59",
+    "phase10/PORT_CONTRACT.md": "fcb217354c711fee295f94a040382bdb5ddc5c8829b7581012dddf955a8478a7",
+    "phase10/README.md": "20b7fe6e7133676312f68554b4d4dd9e3a2446581c9eb33c872dc6a702ad5b2f",
+    "phase10/resample-host.cjs": "871e2a0b5fd6a1858f9cbf2a9a1867b037911f29d3f786e8a025f0d0b6edc236"
   },
-  "finishedUtc": "2026-10-07T14:06:26.315681+00:00",
+  "finishedUtc": "2026-10-07T14:06:30.280689+00:00",
   "limits": [
-    "YIN yields between frames, not during a frame; resampling remains synchronous",
-    "No Worker/device/native-libm qualification",
-    "Local round1 since d0620e7; no remote push this round"
+    "Resample batch and YIN/HNR frame yields only; no real Worker/device latency qualification",
+    "PCM inspection/centering remain synchronous",
+    "Working tree round; no local commit/push"
   ]
 }

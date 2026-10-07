@@ -64,6 +64,8 @@ pub struct SpeechApi {
     kind: u32,
     pitch_sessions: Vec<(u32, noise_core::speech::pitch_session::PitchSession)>,
     next_pitch_handle: u64,
+    resample_sessions: Vec<(u32, noise_core::speech::resample_session::ResampleSession)>,
+    next_resample_handle: u64,
     #[cfg(target_arch = "wasm32")]
     pcm: Vec<i16>,
     #[cfg(target_arch = "wasm32")]
@@ -98,6 +100,8 @@ impl SpeechApi {
             kind: 0,
             pitch_sessions: Vec::new(),
             next_pitch_handle: 1,
+            resample_sessions: Vec::new(),
+            next_resample_handle: 1,
             #[cfg(target_arch = "wasm32")]
             pcm: vec![0; INPUT_CAPACITY],
             #[cfg(target_arch = "wasm32")]
@@ -381,6 +385,92 @@ impl SpeechApi {
             Ok(v) => self.floats(v),
             Err(_) => UNSUPPORTED,
         }
+    }
+    pub fn resample_begin(&mut self, signal: &[f32], input: u32, output: u32, cutoff: f64) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        if self.resample_sessions.len() >= 2 || self.next_resample_handle > u32::MAX as u64 {
+            return -6;
+        }
+        if signal.len() > INPUT_CAPACITY {
+            return CAPACITY;
+        }
+        let s = match noise_core::speech::resample_session::ResampleSession::new(
+            signal.to_vec(),
+            input,
+            output,
+            cutoff,
+        ) {
+            Ok(s) => s,
+            Err(noise_core::speech::resample::ERR_NON_FINITE_INPUT) => return BAD_ARGUMENT,
+            Err(_) => return UNSUPPORTED,
+        };
+        let h = self.next_resample_handle as u32;
+        self.next_resample_handle += 1;
+        let total = s.total();
+        self.resample_sessions.push((h, s));
+        self.json(format!(
+            "{{\"handle\":{h},\"total\":{total},\"completed\":0,\"done\":{}}}",
+            total == 0
+        ))
+    }
+    pub fn resample_next(&mut self, h: u32, limit: usize) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((_, s)) = self.resample_sessions.iter_mut().find(|(id, _)| *id == h) else {
+            return -1;
+        };
+        let batch = match s.step_batch(limit) {
+            Ok(b) => b,
+            Err("invalid resample batch size") => return BAD_ARGUMENT,
+            Err(_) => return UNSUPPORTED,
+        };
+        self.floats(batch.values)
+    }
+    pub fn resample_progress(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((_, s)) = self.resample_sessions.iter().find(|(id, _)| *id == h) else {
+            return -1;
+        };
+        if s.failed().is_some() {
+            return UNSUPPORTED;
+        }
+        let text = format!(
+            "{{\"start\":{},\"completed\":{},\"total\":{},\"done\":{}}}",
+            s.last_start(),
+            s.completed(),
+            s.total(),
+            s.done()
+        );
+        self.json(text)
+    }
+    pub fn resample_finish(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((_, s)) = self.resample_sessions.iter_mut().find(|(id, _)| *id == h) else {
+            return -1;
+        };
+        let values = match s.finish() {
+            Ok(v) => v.to_vec(),
+            Err("resample session incomplete") => return -8,
+            Err(_) => return UNSUPPORTED,
+        };
+        self.floats(values)
+    }
+    pub fn resample_cancel(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some(i) = self.resample_sessions.iter().position(|(id, _)| *id == h) else {
+            return -1;
+        };
+        self.resample_sessions.swap_remove(i);
+        OK
     }
     #[cfg(feature = "harmonicity")]
     pub fn harmonicity_with_sin(
@@ -891,6 +981,39 @@ mod exports {
             let signal = a.signal[..len as usize].to_vec();
             a.resample(&signal, input, output, cutoff)
         })
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_resample_session_abi_version() -> u32 {
+        1
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_resample_begin(len: u32, input: u32, output: u32, cutoff: f64) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if len > INPUT_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            let signal = a.signal[..len as usize].to_vec();
+            a.resample_begin(&signal, input, output, cutoff)
+        })
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_resample_next(h: u32, limit: u32) -> i32 {
+        access(|a| a.resample_next(h, limit as usize))
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_resample_progress(h: u32) -> i32 {
+        access(|a| a.resample_progress(h))
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_resample_finish(h: u32) -> i32 {
+        access(|a| a.resample_finish(h))
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_resample_cancel(h: u32) -> i32 {
+        access(|a| a.resample_cancel(h))
     }
     #[cfg(feature = "harmonicity")]
     #[unsafe(no_mangle)]
