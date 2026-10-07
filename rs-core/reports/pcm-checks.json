@@ -16,7 +16,7 @@
     "pending/capacity/memory growth and trapped-instance discard"
   ],
   "manifestSha256": "ca5fe21b490389830d5b4231439d0947ab1b79f066693ced2599132b230223a3",
-  "artifactSha256": "f5800fc25439258a3ae407cf35eb7f8f5c359b694f07458dbe845c381e27a73a",
+  "artifactSha256": "e0e33b402299e56e4c29a5c81b76eac80a371528dc76a97093c335079865705b",
   "limits": [
     "Native primitives and desktop WASM pipeline only",
     "YIN/resampling synchronous; phone/Worker latency unqualified",

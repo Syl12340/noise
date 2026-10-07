@@ -22,7 +22,7 @@ function attachPcm({host,e,call,input,result}){
    await onProgress({stage:'centered',segmentIndex:index,segments:spans.length});check();await yieldFn();check();
    const signal=host.resample(centered,sampleRate);
    await onProgress({stage:'resampled',segmentIndex:index,segments:spans.length});check();await yieldFn();check();
-   const pitchTrack=host.track(signal); // Fixed recording YIN profile; all DSP stays Rust.
+   const pitchTrack=await host.trackAsync(signal,{}, {yieldFn,isCanceled,onProgress:r=>onProgress({...r,stage:'pitch-frame',segmentIndex:index})});
    pieces.push({startSample:span.startSample,endSample:span.endSample,signal,pitchTrack,intervals:quality.clippingEvidence.intervals});
    await onProgress({stage:'pitch',segmentIndex:index,segments:spans.length});check();await yieldFn();check();
   }

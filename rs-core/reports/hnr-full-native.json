@@ -8,6 +8,6 @@
     "fields": 1397
   },
   "manifestSha256": "39bb05fd1bdfa30b420fa9f45123ac0417163e8c2145759dcfdbdd991a46a3c1",
-  "driverSha256": "303b752e83f59afda1241118a4cbc3bc1fbf31602c02bb321a57b064001f1c95",
+  "driverSha256": "0810647fa1c8df9d913b248738755395fd5619c423632d90af021c144c8ab7f1",
   "mathDependency": "Frozen actual-JS scalar sin oracle, not live native libm qualification."
 }

@@ -193,6 +193,6 @@
   "driverSha256": "a54879d134dc8f760213370d5bc791b0b58b9a6556953395bb2ab584e8788ce3",
   "scope": "Frozen core fields only; calibration/capture integrity/risk/save remain application-owned. Application invalidation text is mapped to bounded ABI codes; free-form text is not a core result.",
   "combinedHarmonicityBuild": true,
-  "wasmSha256": "f5800fc25439258a3ae407cf35eb7f8f5c359b694f07458dbe845c381e27a73a",
+  "wasmSha256": "e0e33b402299e56e4c29a5c81b76eac80a371528dc76a97093c335079865705b",
   "hostSha256": "0ad7b24b9f1855e874c9fe4b52c2db7e4a132b7273af41834d2d69cb146e2184"
 }

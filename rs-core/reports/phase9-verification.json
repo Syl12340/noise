@@ -4,11 +4,11 @@
     {
       "command": [
         "python",
-        "tools/run-phase7.py",
+        "tools/run-phase8.py",
         "--repository-clean"
       ],
       "exitCode": 0,
-      "stdout": "RUN python tools/run-phase6.py --repository-clean\nPASS\nRUN cargo build -p noise-wasm --features harmonicity --example segments_driver --release --locked --offline\nPASS\nRUN node phase7/check-segments.cjs\nPASS\n{\"status\": \"PASS_DESKTOP_COMPATIBILITY_ONLY\", \"topLevelCommandsPassed\": 3}\n",
+      "stdout": "RUN python tools/run-phase7.py --repository-clean\nPASS\nRUN cargo build -p noise-wasm --features speech --example pcm_driver --release --locked --offline\nPASS\nRUN node phase8/check-pcm.cjs\nPASS\n{\"status\": \"PASS_DESKTOP_COMPATIBILITY_ONLY\", \"topLevelCommandsPassed\": 3}\n",
       "stderr": ""
     },
     {
@@ -20,22 +20,22 @@
         "--features",
         "speech",
         "--example",
-        "pcm_driver",
+        "pitch_session_driver",
         "--release",
         "--locked",
         "--offline"
       ],
       "exitCode": 0,
       "stdout": "",
-      "stderr": "   Compiling noise-core v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-bnzap6c_\\rs-core\\crates\\noise-core)\n   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-bnzap6c_\\rs-core\\crates\\noise-wasm)\n    Finished `release` profile [optimized] target(s) in 3.30s\n"
+      "stderr": "   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-bnzap6c_\\rs-core\\crates\\noise-wasm)\n    Finished `release` profile [optimized] target(s) in 1.68s\n"
     },
     {
       "command": [
         "node",
-        "phase8/check-pcm.cjs"
+        "phase9/check-pitch-sessions.cjs"
       ],
       "exitCode": 0,
-      "stdout": "{\n  \"status\": \"PASS\",\n  \"primitiveCases\": 13,\n  \"pipelineCases\": 8,\n  \"stats\": {\n    \"exactFields\": 9463,\n    \"dbFields\": 947,\n    \"maxDbError\": 0,\n    \"centeredSamples\": 21888\n  },\n  \"checks\": [\n    \"13 native/WASM primitive fixtures; 8 actual WASM PCM-to-HNR pipelines\",\n    \"PCM and boundary ownership across awaits; unrelated HNR remains usable\",\n    \"cancellation, async callback failure and restart in preprocessing/HNR\",\n    \"input profile limits and successful quiet recording\",\n    \"pending/capacity/memory growth and trapped-instance discard\"\n  ],\n  \"manifestSha256\": \"ca5fe21b490389830d5b4231439d0947ab1b79f066693ced2599132b230223a3\",\n  \"artifactSha256\": \"e0e33b402299e56e4c29a5c81b76eac80a371528dc76a97093c335079865705b\",\n  \"limits\": [\n    \"Native primitives and desktop WASM pipeline only\",\n    \"YIN/resampling synchronous; phone/Worker latency unqualified\",\n    \"No LPC/formants/intensity/spectrogram/jitter or production integration\"\n  ]\n}\n",
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"cases\": 8,\n  \"stats\": {\n    \"exactFields\": 14079,\n    \"frames\": 652\n  },\n  \"checks\": [\n    \"8 actual-JS native/WASM session tracks, optional fields and exact global times\",\n    \"owned input/options, staging reuse, idempotence and stale handle\",\n    \"two sessions with different frame and hop; bounded registry\",\n    \"cancel/callback cleanup, unrelated session and restart\",\n    \"whole-session work budget and admission\",\n    \"pending gate, incomplete finish, memory growth and trapped-instance discard\",\n    \"PCM pipeline cancels during YIN frame scheduling and restarts\"\n  ],\n  \"manifestSha256\": \"92bc4bc8fe75290d048dc03460ddb924a7be71619e59d110fb5115d6d35954bb\",\n  \"artifactSha256\": \"e0e33b402299e56e4c29a5c81b76eac80a371528dc76a97093c335079865705b\",\n  \"limits\": [\n    \"Yields between frames only; resampling remains synchronous; no device/Worker latency qualification\"\n  ]\n}\n",
       "stderr": ""
     }
   ],
@@ -234,12 +234,17 @@
     "phase8/reference/rails-48000.f32le": "1cebc3a0deca2d5e376a9eaace835d8188838e3262ca306aa651ff6daee1e1e0",
     "phase8/reference/rails-48000.i16le": "cf6a3bbc9568ad505fa721f8c831f8f5576f647d0d657f91058133f0e66a5bfb",
     "phase8/reference/short-first.i16le": "2907e00e915bada979d7412873940bfa56b55ecc5730e3b791749e12336632ea",
-    "phase8/reference/three-clock-spans.i16le": "b7aa22f509122e70b51372e0a858e711231664c189f5956d7fda750eb3e3082d"
+    "phase8/reference/three-clock-spans.i16le": "b7aa22f509122e70b51372e0a858e711231664c189f5956d7fda750eb3e3082d",
+    "phase9/check-pitch-sessions.cjs": "4828068fc98b336470d857f4bc1d77299e3848e673b1d4545825b41e320feec0",
+    "phase9/pitch-host.cjs": "7685dfe5a77c234ca50542f89a5fdbe67a5748e4cec5cd076569d625b811e1a3",
+    "phase9/PORT_CONTRACT.md": "7c242df1ceda5f6270cd98969005ef00fdc8746dfb798116c5b86bfc5c411e31",
+    "phase9/README.md": "57e35a65a58746276c3934cbd728f79be5ae3626ef86dec77869181c1a13a72b",
+    "phase9/reference/manifest.json": "92bc4bc8fe75290d048dc03460ddb924a7be71619e59d110fb5115d6d35954bb"
   },
-  "finishedUtc": "2026-10-07T06:25:14.971957+00:00",
+  "finishedUtc": "2026-10-07T06:25:17.669125+00:00",
   "limits": [
-    "Native PCM primitives and desktop WASM HNR slice only",
-    "YIN/resampling synchronous; Worker/device latency remains unqualified",
-    "No production integration or LPC/formants/intensity/spectrogram/jitter"
+    "YIN yields between frames, not during a frame; resampling remains synchronous",
+    "No Worker/device/native-libm qualification",
+    "Local round1 since d0620e7; no remote push this round"
   ]
 }

@@ -190,6 +190,6 @@
   "dbFields": 264176,
   "maxDbError": 5.684341886080802e-14,
   "backend": "native",
-  "driverSha256": "1bccac029d2eaee3badb01cb81272b4ed77177a9bfa1172ed2822ad5e6461e7c",
+  "driverSha256": "fd5edfd42cd3ee108606ed924e849aa8c72bcf5305f85228e5cfcb8c4b0a13c2",
   "scope": "Frozen core fields only; calibration/capture integrity/risk/save remain application-owned."
 }

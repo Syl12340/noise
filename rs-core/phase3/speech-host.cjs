@@ -98,6 +98,8 @@ function attachSpeechInstance(instance) {
   if(typeof require==='function')Object.assign(host,require('../phase7/segments-host.cjs').attachSegments({host,e,call,input,range,result,
     discarded:value=>{if(value===true)discarded=true;return discarded;}}));
   if(typeof require==='function')Object.assign(host,require('../phase8/pcm-host.cjs').attachPcm({host,e,call,input,result}));
+  if(typeof require==='function')Object.assign(host,require('../phase9/pitch-host.cjs').attachPitch({e,call,input,result,
+    discarded:value=>{if(value===true)discarded=true;return discarded;}}));
   return host;
 }
 async function instantiateSpeech({api,source}) {

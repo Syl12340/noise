@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "cases": 8,
+  "stats": {
+    "exactFields": 14079,
+    "frames": 652
+  },
+  "checks": [
+    "8 actual-JS native/WASM session tracks, optional fields and exact global times",
+    "owned input/options, staging reuse, idempotence and stale handle",
+    "two sessions with different frame and hop; bounded registry",
+    "cancel/callback cleanup, unrelated session and restart",
+    "whole-session work budget and admission",
+    "pending gate, incomplete finish, memory growth and trapped-instance discard",
+    "PCM pipeline cancels during YIN frame scheduling and restarts"
+  ],
+  "manifestSha256": "92bc4bc8fe75290d048dc03460ddb924a7be71619e59d110fb5115d6d35954bb",
+  "artifactSha256": "e0e33b402299e56e4c29a5c81b76eac80a371528dc76a97093c335079865705b",
+  "limits": [
+    "Yields between frames only; resampling remains synchronous; no device/Worker latency qualification"
+  ]
+}

@@ -50,10 +50,20 @@ fn pitch_json(p: &PitchFrame) -> String {
     text.push('}');
     text
 }
+pub fn pitch_point_json(p: &noise_core::speech::PitchPoint) -> String {
+    let fields = pitch_json(&p.frame);
+    format!("{{\"time\":{},{}", number(p.time), &fields[1..])
+}
+pub fn pitch_track_json(points: &[noise_core::speech::PitchPoint]) -> String {
+    let rows: Vec<String> = points.iter().map(pitch_point_json).collect();
+    format!("[{}]", rows.join(","))
+}
 pub struct SpeechApi {
     json: Vec<u8>,
     floats: Vec<f32>,
     kind: u32,
+    pitch_sessions: Vec<(u32, noise_core::speech::pitch_session::PitchSession)>,
+    next_pitch_handle: u64,
     #[cfg(target_arch = "wasm32")]
     pcm: Vec<i16>,
     #[cfg(target_arch = "wasm32")]
@@ -86,6 +96,8 @@ impl SpeechApi {
             json: Vec::new(),
             floats: Vec::new(),
             kind: 0,
+            pitch_sessions: Vec::new(),
+            next_pitch_handle: 1,
             #[cfg(target_arch = "wasm32")]
             pcm: vec![0; INPUT_CAPACITY],
             #[cfg(target_arch = "wasm32")]
@@ -224,16 +236,83 @@ impl SpeechApi {
             Ok(p) => p,
             Err(_) => return BAD_ARGUMENT,
         };
-        let mut text = String::from("[");
-        for (i, p) in points.iter().enumerate() {
-            if i > 0 {
-                text.push(',');
-            }
-            let fields = pitch_json(&p.frame);
-            text.push_str(&format!("{{\"time\":{},{}", number(p.time), &fields[1..]));
+        self.json(pitch_track_json(&points))
+    }
+    pub fn pitch_begin(
+        &mut self,
+        signal: &[f32],
+        opts: noise_core::speech::pitch_session::PitchOptions,
+    ) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
         }
-        text.push(']');
+        if self.pitch_sessions.len() >= 2 || self.next_pitch_handle > u32::MAX as u64 {
+            return -6;
+        }
+        if signal.len() > INPUT_CAPACITY {
+            return CAPACITY;
+        }
+        let session =
+            match noise_core::speech::pitch_session::PitchSession::new(signal.to_vec(), opts) {
+                Ok(s) => s,
+                Err("pitch capacity exceeded") => return CAPACITY,
+                Err(_) => return BAD_ARGUMENT,
+            };
+        let h = self.next_pitch_handle as u32;
+        self.next_pitch_handle += 1;
+        let total = session.total_frames();
+        self.pitch_sessions.push((h, session));
+        self.json(format!(
+            "{{\"handle\":{h},\"total\":{total},\"completed\":0,\"done\":{}}}",
+            total == 0
+        ))
+    }
+    pub fn pitch_next(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((_, s)) = self.pitch_sessions.iter_mut().find(|(id, _)| *id == h) else {
+            return -1;
+        };
+        let text = match s.step_frame() {
+            Some(r) => format!(
+                "{{\"state\":\"frame\",\"index\":{},\"completed\":{},\"total\":{},\"done\":{},\"row\":{}}}",
+                r.index,
+                r.completed,
+                r.total,
+                r.done,
+                pitch_point_json(&r.row)
+            ),
+            None => format!(
+                "{{\"state\":\"complete\",\"completed\":{},\"total\":{},\"done\":true}}",
+                s.completed_frames(),
+                s.total_frames()
+            ),
+        };
         self.json(text)
+    }
+    pub fn pitch_finish(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((_, s)) = self.pitch_sessions.iter_mut().find(|(id, _)| *id == h) else {
+            return -1;
+        };
+        let text = match s.finish() {
+            Ok(p) => pitch_track_json(p),
+            Err(_) => return -8,
+        };
+        self.json(text)
+    }
+    pub fn pitch_cancel(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some(i) = self.pitch_sessions.iter().position(|(id, _)| *id == h) else {
+            return -1;
+        };
+        self.pitch_sessions.swap_remove(i);
+        OK
     }
     pub fn pcm_emphasis(&mut self, pcm: &[i16], coef: f64) -> i32 {
         if self.kind != 0 {
@@ -702,6 +781,53 @@ mod exports {
             let input = a.signal[..len as usize].to_vec();
             a.track(&input, fs, size as usize, hop as usize, threshold, min, max)
         })
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_pitch_session_abi_version() -> u32 {
+        1
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_pitch_begin(
+        len: u32,
+        fs: f64,
+        size: u32,
+        hop: u32,
+        threshold: f64,
+        min: f64,
+        max: f64,
+    ) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if len > INPUT_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            let signal = a.signal[..len as usize].to_vec();
+            a.pitch_begin(
+                &signal,
+                noise_core::speech::pitch_session::PitchOptions {
+                    fs,
+                    frame_size: size as usize,
+                    hop: hop as usize,
+                    threshold,
+                    fmin: min,
+                    fmax: max,
+                },
+            )
+        })
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_pitch_next(h: u32) -> i32 {
+        access(|a| a.pitch_next(h))
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_pitch_finish(h: u32) -> i32 {
+        access(|a| a.pitch_finish(h))
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_pitch_cancel(h: u32) -> i32 {
+        access(|a| a.pitch_cancel(h))
     }
     #[unsafe(no_mangle)]
     pub extern "C" fn speech_pcm_emphasis(len: u32, coef: f64) -> i32 {

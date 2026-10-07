@@ -34,3 +34,7 @@ required-features = ["harmonicity"]
 [[example]]
 name = "pcm_driver"
 required-features = ["speech"]
+
+[[example]]
+name = "pitch_session_driver"
+required-features = ["speech"]
