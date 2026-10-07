@@ -4,11 +4,11 @@
     {
       "command": [
         "python",
-        "tools/run-phase5.py",
+        "tools/run-phase6.py",
         "--repository-clean"
       ],
       "exitCode": 0,
-      "stdout": "RUN python tools/run-phase4.py --repository-clean\nPASS\nRUN python tools/compare_hnr_full.py\nPASS\nRUN python tools/check_hnr_full_freeze.py\nPASS\nRUN node phase5/check-hnr-full.cjs\nPASS\nRUN cargo fmt --all -- --check\nPASS\nRUN cargo clippy --workspace --all-targets --features noise-wasm/harmonicity --locked --offline -- -D warnings\nPASS\nRUN python tools/check_port_isolation.py --repository-clean\nPASS\n{\"status\": \"PASS_DESKTOP_COMPATIBILITY_ONLY\", \"topLevelCommandsPassed\": 7, \"previousStageChecks\": 41}\n",
+      "stdout": "RUN python tools/run-phase5.py --repository-clean\nPASS\nRUN cargo build -p noise-wasm --features harmonicity --example support_driver --release --locked --offline\nPASS\nRUN node phase6/check-phase6.cjs\nPASS\n{\"status\": \"PASS_DESKTOP_COMPATIBILITY_ONLY\", \"topLevelCommandsPassed\": 3}\n",
       "stderr": ""
     },
     {
@@ -20,22 +20,22 @@
         "--features",
         "harmonicity",
         "--example",
-        "support_driver",
+        "segments_driver",
         "--release",
         "--locked",
         "--offline"
       ],
       "exitCode": 0,
       "stdout": "",
-      "stderr": "   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-wlx5fk__\\rs-core\\crates\\noise-wasm)\n    Finished `release` profile [optimized] target(s) in 1.65s\n"
+      "stderr": "   Compiling noise-wasm v0.0.1 (C:\\Users\\Shaoyilei\\WeChatProjects\\noise-1\\rs-core\\_work\\staged-port-wlx5fk__\\rs-core\\crates\\noise-wasm)\n    Finished `release` profile [optimized] target(s) in 1.96s\n"
     },
     {
       "command": [
         "node",
-        "phase6/check-phase6.cjs"
+        "phase7/check-segments.cjs"
       ],
       "exitCode": 0,
-      "stdout": "{\"status\":\"PASS\",\"referenceSha256\":\"4667d4cc7a3df53c0a0df28311fc2db83e587feab7b759bbfa41a457704d5cba\",\"artifactSha256\":\"f0e24e4856fbae002dc0c1a8c69c56a3c9857a75d4383f69ae8f2ed11ccf2067\",\"supportCases\":7,\"comparedFields\":41170,\"checks\":[\"five HNR boundary repairs via short and full WASM\",\"rejection preserves handle and live session\",\"native and WASM exact baseline support evidence\",\"invalid support and overflow rejection\",\"pending gate, capacity and memory growth\"],\"limits\":[\"metadata primitive only; no segmentation/masking pipeline or real-device validation\"]}\n",
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"cases\": 6,\n  \"plans\": 4,\n  \"stats\": {\n    \"exact\": 6842,\n    \"db\": 426,\n    \"maxDbError\": 0\n  },\n  \"checks\": [\n    \"four cut plans; six native assemblies and six real WASM segment DSP/assemblies; pitch masks\",\n    \"owned future inputs and independent HNR session\",\n    \"cancel/callback cleanup and restart\",\n    \"atomic partition errors, incomplete/all-failed, copied results and idempotence\",\n    \"scientific profile mismatch rejects\",\n    \"pending gate, memory growth and raw capacity\"\n  ],\n  \"artifactSha256\": \"f0e24e4856fbae002dc0c1a8c69c56a3c9857a75d4383f69ae8f2ed11ccf2067\",\n  \"manifestSha256\": \"378c7c702d76afe81fceb632daa1ca53da444eeaee3f38f7a1919c5fc15554db\",\n  \"signalsSha256\": \"6e08ada5ec806597191bf7de8ae2e1cc1620f88118875872ea7044b25c4e2680\",\n  \"limits\": [\n    \"received-sample axis; prepared per-segment signals/evidence; no full PCM pipeline or device validation\"\n  ]\n}\n",
       "stderr": ""
     }
   ],
@@ -165,11 +165,32 @@
     "phase6/check-phase6.cjs": "4834a49fcedaf755b33928f704450394542daa3149912f7a5ac166176b50733c",
     "phase6/PORT_CONTRACT.md": "b12a410283532c7b21068ebb8ca9283f6401cd0f3cf785ce807aab08f90f6cea",
     "phase6/README.md": "10ad592550ab34bf59f41a7a23612461e1c49c149501e3c18ddc57d8c260d177",
-    "phase6/reference/manifest.json": "4667d4cc7a3df53c0a0df28311fc2db83e587feab7b759bbfa41a457704d5cba"
+    "phase6/reference/manifest.json": "4667d4cc7a3df53c0a0df28311fc2db83e587feab7b759bbfa41a457704d5cba",
+    "phase7/check-segments.cjs": "f9d2620c6582755dda29d919e3c2feb01c5e59e1f2834373e504bdda5be8043a",
+    "phase7/PORT_CONTRACT.md": "e00ff0dc38c1e637954d4a50952f94e9d27053955d17e2f4a33d9ba5aac75498",
+    "phase7/README.md": "76033812ba691cbe99e904a5af050f7d96e3e073fd35557886bcf31b7d50b87c",
+    "phase7/reference/clip-and-gap-0.f32le": "d6a46059f69f0bc8b7ae48186f0abe30e8f81522cedc41385c95ec08e8e65751",
+    "phase7/reference/clip-and-gap-1.f32le": "d6a46059f69f0bc8b7ae48186f0abe30e8f81522cedc41385c95ec08e8e65751",
+    "phase7/reference/clock-44100-0.f32le": "919293581102e525a9be5ce793c832a8280b6283f2c315c44aef149fcd1dd461",
+    "phase7/reference/clock-44100-1.f32le": "919293581102e525a9be5ce793c832a8280b6283f2c315c44aef149fcd1dd461",
+    "phase7/reference/clock-44100-2.f32le": "919293581102e525a9be5ce793c832a8280b6283f2c315c44aef149fcd1dd461",
+    "phase7/reference/failed-middle-0.f32le": "d6a46059f69f0bc8b7ae48186f0abe30e8f81522cedc41385c95ec08e8e65751",
+    "phase7/reference/failed-middle-1.f32le": "87ab6f06649c9d529aa481da0e9aea91fdf403cd344e04a1951309735e2d8edd",
+    "phase7/reference/failed-middle-2.f32le": "d6a46059f69f0bc8b7ae48186f0abe30e8f81522cedc41385c95ec08e8e65751",
+    "phase7/reference/manifest.json": "378c7c702d76afe81fceb632daa1ca53da444eeaee3f38f7a1919c5fc15554db",
+    "phase7/reference/short-piece-0.f32le": "16581fce7948804c47628d6faefb38f464d1c770f3ee665d889570762d4be51a",
+    "phase7/reference/short-piece-1.f32le": "d6a46059f69f0bc8b7ae48186f0abe30e8f81522cedc41385c95ec08e8e65751",
+    "phase7/reference/signals.json": "6e08ada5ec806597191bf7de8ae2e1cc1620f88118875872ea7044b25c4e2680",
+    "phase7/reference/touch-clips-0.f32le": "d6a46059f69f0bc8b7ae48186f0abe30e8f81522cedc41385c95ec08e8e65751",
+    "phase7/reference/touch-clips-1.f32le": "d6a46059f69f0bc8b7ae48186f0abe30e8f81522cedc41385c95ec08e8e65751",
+    "phase7/reference/two-clean-0.f32le": "d6a46059f69f0bc8b7ae48186f0abe30e8f81522cedc41385c95ec08e8e65751",
+    "phase7/reference/two-clean-1.f32le": "d6a46059f69f0bc8b7ae48186f0abe30e8f81522cedc41385c95ec08e8e65751",
+    "phase7/segments-host.cjs": "7b5fb1ba48548ae19dd7e78d1df88ec244e3ebcd1b436402a541ddcbb95b76b7"
   },
-  "finishedUtc": "2026-10-07T05:51:41.141014+00:00",
+  "finishedUtc": "2026-10-07T05:51:43.970968+00:00",
   "limits": [
-    "Support metadata only; capture splitting, masking and segment aggregation remain open",
-    "No production integration, real-device performance or native-libm qualification"
+    "Prepared independent segments/evidence; raw PCM pipeline and clipping detection not ported",
+    "Received-sample timing only; no missing-duration inference or cross-gap jitter",
+    "No real-device/Worker/native-libm qualification"
   ]
 }

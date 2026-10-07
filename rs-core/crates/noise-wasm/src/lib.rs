@@ -14,6 +14,8 @@
 pub mod acoustics_api;
 #[cfg(feature = "harmonicity")]
 pub mod harmonicity_api;
+#[cfg(feature = "harmonicity")]
+pub mod segments_api;
 #[cfg(feature = "speech")]
 pub mod speech_api;
 

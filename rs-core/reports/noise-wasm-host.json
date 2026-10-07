@@ -59,8 +59,8 @@
     }
   ],
   "artifact": {
-    "bytes": 691225,
-    "sha256": "9567a0a34b4f6e073117eb967b2b57b09052890205a362b88cd6a7d2a0646068",
+    "bytes": 723840,
+    "sha256": "f0e24e4856fbae002dc0c1a8c69c56a3c9857a75d4383f69ae8f2ed11ccf2067",
     "imports": [
       {
         "module": "env",

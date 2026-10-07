@@ -8,6 +8,7 @@ pub const MAX_FRAMES: usize = 4096;
 pub const FRAME_PAIR_BUDGET: u64 = 150_000_000;
 pub struct HnrSession {
     signal: Vec<f32>,
+    input_len: usize,
     pitch: Vec<PitchEvidence>,
     fs: f64,
     opts: HarmonicityOptions,
@@ -44,6 +45,7 @@ impl HnrSession {
             return Err("session capacity exceeded");
         }
         Ok(Self {
+            input_len: signal.len(),
             signal,
             pitch,
             fs,
@@ -60,6 +62,18 @@ impl HnrSession {
     }
     pub fn total_frames(&self) -> usize {
         self.total_frames
+    }
+    pub fn input_len(&self) -> usize {
+        self.input_len
+    }
+    pub fn sample_rate(&self) -> f64 {
+        self.fs
+    }
+    pub fn options(&self) -> HarmonicityOptions {
+        self.opts
+    }
+    pub fn finished_result(&self) -> Option<&HnrResult> {
+        self.cached.as_ref()
     }
     pub fn completed_frames(&self) -> usize {
         self.completed

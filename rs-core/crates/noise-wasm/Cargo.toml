@@ -26,3 +26,7 @@ required-features = ["harmonicity"]
 [[example]]
 name = "support_driver"
 required-features = ["speech"]
+
+[[example]]
+name = "segments_driver"
+required-features = ["harmonicity"]

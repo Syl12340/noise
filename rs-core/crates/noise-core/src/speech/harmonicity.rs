@@ -334,7 +334,7 @@ impl FrameCorrelation<'_> {
 ///
 /// Checked in the order the contract lists them. `pitch` is validated as chronological with
 /// finite `time >= 0`, finite `f0 >= 0` and `aperiodicity` in `[0, 1]`.
-pub(crate) fn validate(
+pub fn validate(
     signal: &[f32],
     fs: f64,
     options: &HarmonicityOptions,

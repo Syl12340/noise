@@ -68,6 +68,8 @@ pub mod hnr_session;
 mod hnr_tables;
 pub mod resample;
 mod resample_tables;
+#[cfg(feature = "harmonicity")]
+pub mod segments;
 pub mod time_support;
 pub mod yin;
 

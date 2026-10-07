@@ -95,6 +95,8 @@ function attachSpeechInstance(instance) {
   // while ordinary packaged CommonJS loads the independently owned session helper.
   if(typeof require==='function')Object.assign(host,require('../phase5/hnr-full.cjs').attachHnrFull({e,call,input,range,result,
     discarded:value=>{if(value===true)discarded=true;return discarded;}}));
+  if(typeof require==='function')Object.assign(host,require('../phase7/segments-host.cjs').attachSegments({host,e,call,input,range,result,
+    discarded:value=>{if(value===true)discarded=true;return discarded;}}));
   return host;
 }
 async function instantiateSpeech({api,source}) {

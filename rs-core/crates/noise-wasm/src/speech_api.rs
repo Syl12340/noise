@@ -68,6 +68,10 @@ pub struct SpeechApi {
     hnr_sessions: Vec<(u32, noise_core::speech::hnr_session::HnrSession)>,
     #[cfg(feature = "harmonicity")]
     next_hnr_handle: u64,
+    #[cfg(feature = "harmonicity")]
+    assembly: Option<(u32, crate::segments_api::Assembly)>,
+    #[cfg(feature = "harmonicity")]
+    next_assembly_handle: u64,
     #[cfg(all(target_arch = "wasm32", feature = "harmonicity"))]
     session_pitch: Vec<f64>,
 }
@@ -96,6 +100,10 @@ impl SpeechApi {
             hnr_sessions: Vec::new(),
             #[cfg(feature = "harmonicity")]
             next_hnr_handle: 1,
+            #[cfg(feature = "harmonicity")]
+            assembly: None,
+            #[cfg(feature = "harmonicity")]
+            next_assembly_handle: 1,
             #[cfg(all(target_arch = "wasm32", feature = "harmonicity"))]
             session_pitch: vec![0.0; 3 * noise_core::speech::hnr_session::MAX_PITCH_ROWS],
         }
@@ -392,6 +400,140 @@ impl SpeechApi {
             return -1;
         };
         self.hnr_sessions.swap_remove(i);
+        OK
+    }
+    #[cfg(feature = "harmonicity")]
+    pub fn plan_segments(&mut self, samples: usize, rate: u32, boundaries: &[f64]) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        match crate::segments_api::plan(samples, rate, boundaries) {
+            Ok(s) => self.json(s),
+            Err("segment capacity exceeded") => CAPACITY,
+            Err(_) => BAD_ARGUMENT,
+        }
+    }
+    #[cfg(feature = "harmonicity")]
+    pub fn prepare_pitch(
+        &mut self,
+        pitch: &[noise_core::speech::harmonicity::PitchEvidence],
+        samples: usize,
+        rate: u32,
+        frame: usize,
+        intervals: &[noise_core::speech::time_support::Interval],
+    ) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        match crate::segments_api::pitch(pitch, samples, rate, frame, intervals) {
+            Ok(s) => self.json(s),
+            Err("support capacity exceeded") => CAPACITY,
+            Err(_) => BAD_ARGUMENT,
+        }
+    }
+    #[cfg(feature = "harmonicity")]
+    pub fn assembly_begin(&mut self, samples: usize, rate: u32, frame: usize, hop: usize) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        if self.assembly.is_some() || self.next_assembly_handle > u32::MAX as u64 {
+            return -6;
+        }
+        let a = match crate::segments_api::Assembly::new(samples, rate, frame, hop) {
+            Ok(a) => a,
+            Err(_) => return BAD_ARGUMENT,
+        };
+        let h = self.next_assembly_handle as u32;
+        self.next_assembly_handle += 1;
+        self.assembly = Some((h, a));
+        self.json(format!("{{\"handle\":{h}}}"))
+    }
+    #[cfg(feature = "harmonicity")]
+    pub fn assembly_append(
+        &mut self,
+        h: u32,
+        hnr_handle: u32,
+        start: usize,
+        end: usize,
+        intervals: &[noise_core::speech::time_support::Interval],
+    ) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((id, a)) = &mut self.assembly else {
+            return -1;
+        };
+        if *id != h {
+            return -1;
+        }
+        let result = if hnr_handle == 0 {
+            None
+        } else {
+            let Some((_, s)) = self.hnr_sessions.iter().find(|(id, _)| *id == hnr_handle) else {
+                return -1;
+            };
+            let opts = s.options();
+            let expected = noise_core::speech::harmonicity::HarmonicityOptions {
+                frame_size: a.frame,
+                hop: a.hop,
+                require_pitch: true,
+                ..Default::default()
+            };
+            if end <= start
+                || s.sample_rate() != 12000.0
+                || opts != expected
+                || s.input_len()
+                    != ((end - start) as f64 * 12000.0 / a.rate as f64).floor() as usize
+            {
+                return BAD_ARGUMENT;
+            }
+            let Some(r) = s.finished_result() else {
+                return -8;
+            };
+            Some(r)
+        };
+        match a.append(
+            noise_core::speech::segments::Span {
+                start_sample: start,
+                end_sample: end,
+            },
+            result,
+            intervals,
+        ) {
+            Ok(()) => {}
+            Err("segment capacity exceeded") => return CAPACITY,
+            Err(_) => return BAD_ARGUMENT,
+        }
+        let cursor = a.cursor;
+        self.json(format!("{{\"endSample\":{cursor}}}"))
+    }
+    #[cfg(feature = "harmonicity")]
+    pub fn assembly_finish(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        let Some((id, a)) = &mut self.assembly else {
+            return -1;
+        };
+        if *id != h {
+            return -1;
+        }
+        let text = match a.finish() {
+            Ok(s) => s.to_owned(),
+            Err("assembly incomplete") => return -8,
+            Err(_) => return BAD_ARGUMENT,
+        };
+        self.json(text)
+    }
+    #[cfg(feature = "harmonicity")]
+    pub fn assembly_cancel(&mut self, h: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        if self.assembly.as_ref().is_none_or(|(id, _)| *id != h) {
+            return -1;
+        }
+        self.assembly = None;
         OK
     }
 }
@@ -706,5 +848,99 @@ mod exports {
     #[unsafe(no_mangle)]
     pub extern "C" fn speech_hnr_cancel(h: u32) -> i32 {
         access(|a| a.hnr_cancel(h))
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_segments_abi_version() -> u32 {
+        1
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_plan_segments(samples: u32, rate: u32, count: u32) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if count > FRAME_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            let boundaries = a.frame[..count as usize].to_vec();
+            a.plan_segments(samples as usize, rate, &boundaries)
+        })
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_prepare_pitch(
+        samples: u32,
+        rate: u32,
+        frame: u32,
+        count: u32,
+        interval_count: u32,
+    ) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if count > FRAME_CAPACITY as u32 || interval_count > FRAME_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            let pitch = a.session_pitch[..count as usize * 3]
+                .chunks_exact(3)
+                .map(|p| noise_core::speech::harmonicity::PitchEvidence {
+                    time: p[0],
+                    f0: p[1],
+                    aperiodicity: p[2],
+                })
+                .collect::<Vec<_>>();
+            let intervals = a.support_intervals[..interval_count as usize * 2]
+                .chunks_exact(2)
+                .map(|p| noise_core::speech::time_support::Interval {
+                    start: p[0],
+                    end: p[1],
+                })
+                .collect::<Vec<_>>();
+            a.prepare_pitch(&pitch, samples as usize, rate, frame as usize, &intervals)
+        })
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_assembly_begin(samples: u32, rate: u32, frame: u32, hop: u32) -> i32 {
+        access(|a| a.assembly_begin(samples as usize, rate, frame as usize, hop as usize))
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_assembly_append(
+        h: u32,
+        hnr: u32,
+        start: u32,
+        end: u32,
+        count: u32,
+    ) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if count > FRAME_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            let intervals = a.support_intervals[..count as usize * 2]
+                .chunks_exact(2)
+                .map(|p| noise_core::speech::time_support::Interval {
+                    start: p[0],
+                    end: p[1],
+                })
+                .collect::<Vec<_>>();
+            a.assembly_append(h, hnr, start as usize, end as usize, &intervals)
+        })
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_assembly_finish(h: u32) -> i32 {
+        access(|a| a.assembly_finish(h))
+    }
+    #[cfg(feature = "harmonicity")]
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_assembly_cancel(h: u32) -> i32 {
+        access(|a| a.assembly_cancel(h))
     }
 }
