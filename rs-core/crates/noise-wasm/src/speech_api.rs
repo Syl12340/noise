@@ -247,6 +247,29 @@ impl SpeechApi {
         }
         self.floats(pre_emphasis(pcm, coef))
     }
+    pub fn inspect_pcm_offline(&mut self, pcm: &[i16], rate: u32) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        if pcm.len() > INPUT_CAPACITY {
+            return CAPACITY;
+        }
+        if !noise_core::speech::resample::SUPPORTED_INPUT_RATES.contains(&rate) {
+            return BAD_ARGUMENT;
+        }
+        use noise_core::acoustics::quality::{PcmQualityInspector, inspect_pcm};
+        let report = inspect_pcm(pcm, &mut PcmQualityInspector::new(rate));
+        self.json(crate::pcm_api::quality_json(&report))
+    }
+    pub fn center_pcm(&mut self, pcm: &[i16]) -> i32 {
+        if self.kind != 0 {
+            return WOULD_BLOCK;
+        }
+        if pcm.len() > INPUT_CAPACITY {
+            return CAPACITY;
+        }
+        self.floats(noise_core::acoustics::quality::centered_signal(pcm))
+    }
     pub fn float_emphasis(&mut self, signal: &[f32], coef: f64) -> i32 {
         if self.kind != 0 {
             return WOULD_BLOCK;
@@ -688,6 +711,39 @@ mod exports {
             }
             let input = a.pcm[..len as usize].to_vec();
             a.pcm_emphasis(&input, coef)
+        })
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_pcm_quality_abi_version() -> u32 {
+        1
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_inspect_pcm(len: u32, rate: u32) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if len > INPUT_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            if !noise_core::speech::resample::SUPPORTED_INPUT_RATES.contains(&rate) {
+                return BAD_ARGUMENT;
+            }
+            let input = a.pcm[..len as usize].to_vec();
+            a.inspect_pcm_offline(&input, rate)
+        })
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn speech_center_pcm(len: u32) -> i32 {
+        access(|a| {
+            if a.kind != 0 {
+                return WOULD_BLOCK;
+            }
+            if len > INPUT_CAPACITY as u32 {
+                return CAPACITY;
+            }
+            let input = a.pcm[..len as usize].to_vec();
+            a.center_pcm(&input)
         })
     }
     #[unsafe(no_mangle)]

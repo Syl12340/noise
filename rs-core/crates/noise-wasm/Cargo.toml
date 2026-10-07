@@ -30,3 +30,7 @@ required-features = ["speech"]
 [[example]]
 name = "segments_driver"
 required-features = ["harmonicity"]
+
+[[example]]
+name = "pcm_driver"
+required-features = ["speech"]

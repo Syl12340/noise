@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "primitiveCases": 13,
+  "pipelineCases": 8,
+  "stats": {
+    "exactFields": 9463,
+    "dbFields": 947,
+    "maxDbError": 0,
+    "centeredSamples": 21888
+  },
+  "checks": [
+    "13 native/WASM primitive fixtures; 8 actual WASM PCM-to-HNR pipelines",
+    "PCM and boundary ownership across awaits; unrelated HNR remains usable",
+    "cancellation, async callback failure and restart in preprocessing/HNR",
+    "input profile limits and successful quiet recording",
+    "pending/capacity/memory growth and trapped-instance discard"
+  ],
+  "manifestSha256": "ca5fe21b490389830d5b4231439d0947ab1b79f066693ced2599132b230223a3",
+  "artifactSha256": "f5800fc25439258a3ae407cf35eb7f8f5c359b694f07458dbe845c381e27a73a",
+  "limits": [
+    "Native primitives and desktop WASM pipeline only",
+    "YIN/resampling synchronous; phone/Worker latency unqualified",
+    "No LPC/formants/intensity/spectrogram/jitter or production integration"
+  ]
+}
